@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xc-ro
+  labels:
+    app: xc-ro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xc-ro
+  template:
+    metadata:
+      labels:
+        app: xc-ro
+    spec:
+      containers:
+        - name: xc-ro
+          image: ghcr.io/emilburzo/xc-ro:SHORT_SHA
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: xc-ro
+                  key: database_url
+                  optional: false
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: / # TODO proper health-check
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: / # TODO proper health-check
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xc-ro
+  labels:
+    run: xc-ro
+spec:
+  ports:
+    - port: 3000
+      protocol: TCP
+  selector:
+    app: xc-ro
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xc-ro
+spec:
+  rules:
+    - host: xc-ro.emilburzo.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: xc-ro
+                port:
+                  number: 3000
