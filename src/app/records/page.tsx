@@ -183,10 +183,10 @@ export default async function RecordsPage() {
             <div className="bg-yellow-50 rounded-lg border border-yellow-200 p-4">
               <h4 className="font-semibold text-yellow-800">{t("epicDay")}</h4>
               <p className="text-sm text-yellow-700 mt-1">
-                8 July 2022 &mdash; {(funStats.epicDay as any).flights_300k} pilots flew 300km+
+                {t("epicDayDesc", { count: (funStats.epicDay as any).flights_300k })}
               </p>
               <p className="text-xs text-yellow-600 mt-0.5">
-                {(funStats.epicDay as any).flight_count} total flights, {(funStats.epicDay as any).pilot_count} pilots
+                {t("epicDayDetail", { flightCount: (funStats.epicDay as any).flight_count, pilotCount: (funStats.epicDay as any).pilot_count })}
               </p>
             </div>
           )}
@@ -195,8 +195,7 @@ export default async function RecordsPage() {
               <h4 className="font-semibold text-gray-700">{t("mostFlightsDay")}</h4>
               <p className="text-sm text-gray-600 mt-1">
                 {new Date((funStats.mostFlightsDay as any).day).toLocaleDateString()} &mdash;{" "}
-                {(funStats.mostFlightsDay as any).flight_count} flights by{" "}
-                {(funStats.mostFlightsDay as any).pilot_count} pilots
+                {t("mostFlightsDayDesc", { flightCount: (funStats.mostFlightsDay as any).flight_count, pilotCount: (funStats.mostFlightsDay as any).pilot_count })}
               </p>
             </div>
           )}
@@ -207,7 +206,7 @@ export default async function RecordsPage() {
                 <Link href={pilotPath((funStats.mostSitesPilot as any).username)} className="text-blue-600 hover:underline">
                   {(funStats.mostSitesPilot as any).name}
                 </Link>{" "}
-                &mdash; {(funStats.mostSitesPilot as any).site_count} different takeoffs
+                &mdash; {t("mostSitesPilotDesc", { count: (funStats.mostSitesPilot as any).site_count })}
               </p>
             </div>
           )}
@@ -218,7 +217,7 @@ export default async function RecordsPage() {
                 <Link href={pilotPath((funStats.mostConsistent as any).username)} className="text-blue-600 hover:underline">
                   {(funStats.mostConsistent as any).name}
                 </Link>{" "}
-                &mdash; {(funStats.mostConsistent as any).years_active} years active
+                &mdash; {t("mostConsistentDesc", { count: (funStats.mostConsistent as any).years_active })}
               </p>
             </div>
           )}

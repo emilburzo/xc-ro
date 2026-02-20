@@ -146,9 +146,14 @@
     "perYear": "Recorduri anuale",
     "funStats": "Statistici Fun",
     "epicDay": "Ziua Epică",
+    "epicDayDesc": "8 iulie 2022 — {count} piloți au zburat 300km+",
+    "epicDayDetail": "{flightCount} zboruri în total, {pilotCount} piloți",
     "mostFlightsDay": "Cele mai multe zboruri într-o zi",
+    "mostFlightsDayDesc": "{flightCount} zboruri de {pilotCount} piloți",
     "mostSitesPilot": "Pilotul cu cele mai multe site-uri",
+    "mostSitesPilotDesc": "{count} decolări diferite",
     "mostConsistent": "Cel mai constant pilot",
+    "mostConsistentDesc": "{count} ani activi",
     "growth": "Creștere"
   },
   "common": {
