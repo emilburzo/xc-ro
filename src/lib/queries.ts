@@ -577,6 +577,7 @@ export async function getAllTimeRecords() {
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
       JOIN gliders g ON f.glider_id = g.id
+      WHERE f.airtime <= 600
       ORDER BY f.airtime DESC LIMIT 1
     `),
     db.execute(sql`
