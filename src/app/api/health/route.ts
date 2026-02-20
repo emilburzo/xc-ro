@@ -7,7 +7,8 @@ export async function GET() {
     try {
         await db.execute(sql`SELECT 1`);
         return Response.json({status: "ok"});
-    } catch {
+    } catch (e) {
+        console.error("Healthcheck failed:", e);
         return Response.json({status: "error"}, {status: 503});
     }
 }
