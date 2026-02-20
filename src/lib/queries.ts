@@ -6,10 +6,10 @@ import { sql } from "drizzle-orm";
 export async function getHomeStats() {
   const result = await db.execute(sql`
     SELECT
-      (SELECT count(*) FROM flights) as total_flights,
+      (SELECT count(*) FROM flights_pg) as total_flights,
       (SELECT count(*) FROM pilots) as total_pilots,
-      (SELECT count(DISTINCT takeoff_id) FROM flights WHERE start_time > now() - interval '1 year') as active_takeoffs,
-      (SELECT round(sum(distance_km)::numeric) FROM flights) as total_distance
+      (SELECT count(DISTINCT takeoff_id) FROM flights_pg WHERE start_time > now() - interval '1 year') as active_takeoffs,
+      (SELECT round(sum(distance_km)::numeric) FROM flights_pg) as total_distance
   `);
   return result[0];
 }
@@ -20,7 +20,7 @@ export async function getRecentNotableFlights(limit = 20) {
            p.name as pilot_name, p.username as pilot_username,
            t.name as takeoff_name, t.id as takeoff_id,
            g.name as glider_name, g.category as glider_category
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
@@ -38,7 +38,7 @@ export async function getSeasonHeatmap() {
       EXTRACT(MONTH FROM start_time)::int as month,
       count(*)::int as flight_count,
       round(avg(score)::numeric, 1) as avg_score
-    FROM flights
+    FROM flights_pg
     GROUP BY year, month
     ORDER BY year, month
   `);
@@ -47,7 +47,7 @@ export async function getSeasonHeatmap() {
 export async function getTopTakeoffs(limit = 5) {
   return db.execute(sql`
     SELECT t.id, t.name, count(*)::int as flight_count
-    FROM flights f
+    FROM flights_pg f
     JOIN takeoffs t ON f.takeoff_id = t.id
     GROUP BY t.id, t.name
     ORDER BY flight_count DESC
@@ -59,7 +59,7 @@ export async function getTopPilots(limit = 5) {
   return db.execute(sql`
     SELECT p.id, p.name, p.username, count(*)::int as flight_count,
            round(sum(f.distance_km)::numeric) as total_km
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     GROUP BY p.id, p.name, p.username
     ORDER BY total_km DESC
@@ -84,7 +84,7 @@ export async function getTakeoffsList() {
         round(avg(f.distance_km)::numeric, 1) as avg_distance
       FROM (
         SELECT *, row_number() OVER (PARTITION BY takeoff_id ORDER BY distance_km DESC) as rn
-        FROM flights
+        FROM flights_pg
         WHERE takeoff_id IS NOT NULL
       ) f
       GROUP BY f.takeoff_id
@@ -93,14 +93,14 @@ export async function getTakeoffsList() {
       SELECT takeoff_id,
         EXTRACT(MONTH FROM start_time)::int as month,
         count(*)::int as cnt
-      FROM flights
+      FROM flights_pg
       WHERE takeoff_id IS NOT NULL
       GROUP BY takeoff_id, month
     ),
     wing_stats AS (
       SELECT f.takeoff_id,
         round(100.0 * count(*) FILTER (WHERE g.category IN ('A', 'B')) / NULLIF(count(*), 0))::int as ab_pct
-      FROM flights f
+      FROM flights_pg f
       JOIN gliders g ON f.glider_id = g.id
       WHERE f.takeoff_id IS NOT NULL
       GROUP BY f.takeoff_id
@@ -148,7 +148,7 @@ export async function getTakeoffCalendarHeatmap(takeoffId: number) {
       EXTRACT(MONTH FROM start_time)::int as month,
       count(*)::int as flight_count,
       round(avg(score)::numeric, 1) as avg_score
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY year, month
     ORDER BY year, month
@@ -161,7 +161,7 @@ export async function getTakeoffMonthlyStats(takeoffId: number) {
       EXTRACT(MONTH FROM start_time)::int as month,
       count(*)::int as flight_count,
       round(avg(distance_km)::numeric, 1) as avg_distance
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY month
     ORDER BY month
@@ -173,7 +173,7 @@ export async function getTakeoffHourlyDistribution(takeoffId: number) {
     SELECT
       EXTRACT(HOUR FROM start_time)::int as hour,
       count(*)::int as flight_count
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId} AND distance_km > 20
     GROUP BY hour
     ORDER BY hour
@@ -185,7 +185,7 @@ export async function getTakeoffDayOfWeek(takeoffId: number) {
     SELECT
       EXTRACT(DOW FROM start_time)::int as dow,
       count(*)::int as flight_count
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY dow
     ORDER BY dow
@@ -204,7 +204,7 @@ export async function getTakeoffDistanceHistogram(takeoffId: number) {
         ELSE '100+'
       END as bucket,
       count(*)::int as cnt
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY bucket
     ORDER BY min(distance_km)
@@ -216,7 +216,7 @@ export async function getTakeoffTop10(takeoffId: number) {
     SELECT f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            p.name as pilot_name, p.username as pilot_username,
            g.name as glider_name, g.category as glider_category
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.takeoff_id = ${takeoffId}
@@ -228,7 +228,7 @@ export async function getTakeoffTop10(takeoffId: number) {
 export async function getTakeoffWingClasses(takeoffId: number) {
   return db.execute(sql`
     SELECT g.category, count(*)::int as cnt
-    FROM flights f
+    FROM flights_pg f
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.takeoff_id = ${takeoffId}
     GROUP BY g.category
@@ -239,7 +239,7 @@ export async function getTakeoffWingClasses(takeoffId: number) {
 export async function getTakeoffTopGliders(takeoffId: number) {
   return db.execute(sql`
     SELECT g.name, g.category, count(*)::int as cnt
-    FROM flights f
+    FROM flights_pg f
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.takeoff_id = ${takeoffId}
     GROUP BY g.name, g.category
@@ -254,7 +254,7 @@ export async function getTakeoffYearlyTrend(takeoffId: number) {
       EXTRACT(YEAR FROM start_time)::int as year,
       count(*)::int as flight_count,
       round(sum(distance_km)::numeric) as total_km
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY year
     ORDER BY year
@@ -268,7 +268,7 @@ export async function getTakeoffBusiestDays(takeoffId: number) {
       count(*)::int as flight_count,
       count(DISTINCT pilot_id)::int as pilot_count,
       round(max(distance_km)::numeric, 1) as max_distance
-    FROM flights
+    FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY day
     ORDER BY pilot_count DESC
@@ -290,13 +290,13 @@ export async function getPilotsList() {
         max(f.distance_km) as max_distance,
         count(DISTINCT EXTRACT(YEAR FROM f.start_time))::int as active_years,
         max(f.start_time) as last_flight
-      FROM flights f
+      FROM flights_pg f
       GROUP BY f.pilot_id
     ),
     fav_site AS (
       SELECT DISTINCT ON (f.pilot_id)
         f.pilot_id, t.id as takeoff_id, t.name as takeoff_name, count(*)::int as cnt
-      FROM flights f
+      FROM flights_pg f
       JOIN takeoffs t ON f.takeoff_id = t.id
       GROUP BY f.pilot_id, t.id, t.name
       ORDER BY f.pilot_id, cnt DESC
@@ -335,7 +335,7 @@ export async function getPilotStats(pilotId: number) {
       round(avg(distance_km)::numeric, 1) as avg_distance,
       min(EXTRACT(YEAR FROM start_time))::int as active_since,
       max(start_time) as last_flight
-    FROM flights WHERE pilot_id = ${pilotId}
+    FROM flights_pg WHERE pilot_id = ${pilotId}
   `);
   return rows[0];
 }
@@ -343,7 +343,7 @@ export async function getPilotStats(pilotId: number) {
 export async function getPilotFavoriteTakeoff(pilotId: number) {
   const rows = await db.execute(sql`
     SELECT t.id, t.name, count(*)::int as cnt
-    FROM flights f
+    FROM flights_pg f
     JOIN takeoffs t ON f.takeoff_id = t.id
     WHERE f.pilot_id = ${pilotId}
     GROUP BY t.id, t.name
@@ -360,7 +360,7 @@ export async function getPilotYearlyStats(pilotId: number) {
       count(*)::int as flight_count,
       round(avg(distance_km)::numeric, 1) as avg_distance,
       max(distance_km) as max_distance
-    FROM flights
+    FROM flights_pg
     WHERE pilot_id = ${pilotId}
     GROUP BY year
     ORDER BY year
@@ -373,7 +373,7 @@ export async function getPilotSiteMap(pilotId: number) {
            ST_Y(t.centroid::geometry) as lat,
            ST_X(t.centroid::geometry) as lng,
            count(*)::int as flight_count
-    FROM flights f
+    FROM flights_pg f
     JOIN takeoffs t ON f.takeoff_id = t.id
     WHERE f.pilot_id = ${pilotId}
     GROUP BY t.id, t.name, t.centroid
@@ -388,7 +388,7 @@ export async function getPilotEquipmentTimeline(pilotId: number) {
       count(*)::int as flight_count,
       min(f.start_time) as first_used,
       max(f.start_time) as last_used
-    FROM flights f
+    FROM flights_pg f
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.pilot_id = ${pilotId}
     GROUP BY g.name, g.category
@@ -402,7 +402,7 @@ export async function getPilotActivityHeatmap(pilotId: number) {
       EXTRACT(YEAR FROM start_time)::int as year,
       EXTRACT(MONTH FROM start_time)::int as month,
       count(*)::int as flight_count
-    FROM flights
+    FROM flights_pg
     WHERE pilot_id = ${pilotId}
     GROUP BY year, month
     ORDER BY year, month
@@ -414,7 +414,7 @@ export async function getPilotTopFlights(pilotId: number) {
     SELECT f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            t.name as takeoff_name, t.id as takeoff_id,
            g.name as glider_name, g.category as glider_category
-    FROM flights f
+    FROM flights_pg f
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.pilot_id = ${pilotId}
@@ -435,7 +435,7 @@ export async function getPilotDistanceHistogram(pilotId: number) {
         ELSE '100+'
       END as bucket,
       count(*)::int as cnt
-    FROM flights
+    FROM flights_pg
     WHERE pilot_id = ${pilotId}
     GROUP BY bucket
     ORDER BY min(distance_km)
@@ -510,7 +510,7 @@ export async function getFlightsList(filters: FlightFilters) {
 
   const countResult = await db.execute(sql`
     SELECT count(*)::int as total
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
@@ -523,7 +523,7 @@ export async function getFlightsList(filters: FlightFilters) {
                p.name as pilot_name, p.username as pilot_username,
                t.name as takeoff_name, t.id as takeoff_id,
                g.name as glider_name, g.category as glider_category
-        FROM flights f
+        FROM flights_pg f
         JOIN pilots p ON f.pilot_id = p.id
         LEFT JOIN takeoffs t ON f.takeoff_id = t.id
         JOIN gliders g ON f.glider_id = g.id
@@ -536,7 +536,7 @@ export async function getFlightsList(filters: FlightFilters) {
                p.name as pilot_name, p.username as pilot_username,
                t.name as takeoff_name, t.id as takeoff_id,
                g.name as glider_name, g.category as glider_category
-        FROM flights f
+        FROM flights_pg f
         JOIN pilots p ON f.pilot_id = p.id
         LEFT JOIN takeoffs t ON f.takeoff_id = t.id
         JOIN gliders g ON f.glider_id = g.id
@@ -562,7 +562,7 @@ export async function getAllTimeRecords() {
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
              g.name as glider_name, g.category as glider_category
-      FROM flights f
+      FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
       JOIN gliders g ON f.glider_id = g.id
@@ -573,7 +573,7 @@ export async function getAllTimeRecords() {
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
              g.name as glider_name, g.category as glider_category
-      FROM flights f
+      FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
       JOIN gliders g ON f.glider_id = g.id
@@ -584,7 +584,7 @@ export async function getAllTimeRecords() {
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
              g.name as glider_name, g.category as glider_category
-      FROM flights f
+      FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
       JOIN gliders g ON f.glider_id = g.id
@@ -606,7 +606,7 @@ export async function getCategoryRecords() {
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
       g.name as glider_name
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
@@ -621,7 +621,7 @@ export async function getSiteRecords() {
       f.distance_km, f.start_time, f.url,
       p.name as pilot_name, p.username as pilot_username,
       g.name as glider_name
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
@@ -637,7 +637,7 @@ export async function getAnnualRecords() {
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
       g.name as glider_name
-    FROM flights f
+    FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
@@ -651,21 +651,21 @@ export async function getFunStats() {
       SELECT start_time::date as day, count(*)::int as flight_count,
              count(DISTINCT pilot_id)::int as pilot_count,
              count(*) FILTER (WHERE distance_km >= 300)::int as flights_300k
-      FROM flights
+      FROM flights_pg
       WHERE start_time::date = '2022-07-08'
       GROUP BY day
     `),
     db.execute(sql`
       SELECT start_time::date as day, count(*)::int as flight_count,
              count(DISTINCT pilot_id)::int as pilot_count
-      FROM flights
+      FROM flights_pg
       GROUP BY day
       ORDER BY flight_count DESC
       LIMIT 1
     `),
     db.execute(sql`
       SELECT p.name, p.username, count(DISTINCT f.takeoff_id)::int as site_count
-      FROM flights f
+      FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       GROUP BY p.id, p.name, p.username
       ORDER BY site_count DESC
@@ -674,7 +674,7 @@ export async function getFunStats() {
     db.execute(sql`
       SELECT p.name, p.username,
              count(DISTINCT EXTRACT(YEAR FROM f.start_time))::int as years_active
-      FROM flights f
+      FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       GROUP BY p.id, p.name, p.username
       ORDER BY years_active DESC

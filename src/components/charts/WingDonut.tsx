@@ -8,7 +8,6 @@ const CAT_COLORS: Record<string, string> = {
   C: "#f59e0b",
   D: "#ef4444",
   Z: "#8b5cf6",
-  HG: "#06b6d4",
   T: "#ec4899",
   RW5: "#6b7280",
   RW2: "#9ca3af",

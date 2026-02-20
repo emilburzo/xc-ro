@@ -166,7 +166,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             className="px-2 py-1.5 text-sm border border-gray-300 rounded"
           >
             <option value="">All</option>
-            {["A", "B", "C", "D", "Z", "HG", "T"].map((c) => (
+            {["A", "B", "C", "D", "Z", "T"].map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
           </select>

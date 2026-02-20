@@ -32,7 +32,12 @@ Dev server runs on port 3000 by default. Use `--port 8000` to match Vagrantfile 
 - **Local auth**: PostgreSQL pg_hba.conf was changed to `trust` for 127.0.0.1 TCP connections (no password needed locally)
 - **Driver**: `postgres` (postgres.js) — NOT `pg` (node-postgres). This matters for Drizzle config.
 
-### Schema (read-only, no migrations)
+### Data lifecycle
+- The database is **continuously updated by an external scraper** that writes to the four application tables. This is a working copy of that dataset.
+- **Do NOT rename or drop existing tables** — the scraper depends on them.
+- Creating new tables, views, indexes, etc. is fine.
+
+### Schema (read-only from app, no migrations)
 Four application tables plus PostGIS `spatial_ref_sys`:
 
 | Table | Rows | Key columns |
@@ -41,6 +46,11 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 | `pilots` | 1,131 | `id` (serial), `name`, `username` (unique) |
 | `takeoffs` | 1,220 | `id` (serial), `name` (unique), `centroid` (geography Point 4326) |
 | `gliders` | 1,421 | `id` (serial), `name` (unique), `category` (A/B/C/D/Z/HG/T/RW2/RW5) |
+
+**App view:**
+| View | Description |
+|------|-------------|
+| `flights_pg` | Paragliding-only flights — excludes HG (hang gliding) category. **All app queries should use this view**, not the `flights` table directly. Defined in `sql/001_create_flights_pg_view.sql`. |
 
 **Important schema notes:**
 - `flights.id` does NOT auto-increment — it's the xcontest flight ID

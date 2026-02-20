@@ -22,7 +22,6 @@ const CAT_COLORS: Record<string, string> = {
   C: "bg-yellow-100 text-yellow-800",
   D: "bg-red-100 text-red-800",
   Z: "bg-purple-100 text-purple-800",
-  HG: "bg-cyan-100 text-cyan-800",
   T: "bg-pink-100 text-pink-800",
 };
 
