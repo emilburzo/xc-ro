@@ -91,11 +91,16 @@ export async function getTakeoffsList() {
     ),
     monthly AS (
       SELECT takeoff_id,
-        EXTRACT(MONTH FROM start_time)::int as month,
-        count(*)::int as cnt
-      FROM flights_pg
-      WHERE takeoff_id IS NOT NULL
-      GROUP BY takeoff_id, month
+        json_agg(json_build_object('month', month, 'count', cnt) ORDER BY month) as monthly_data
+      FROM (
+        SELECT takeoff_id,
+          EXTRACT(MONTH FROM start_time)::int as month,
+          count(*)::int as cnt
+        FROM flights_pg
+        WHERE takeoff_id IS NOT NULL
+        GROUP BY takeoff_id, month
+      ) sub
+      GROUP BY takeoff_id
     ),
     wing_stats AS (
       SELECT f.takeoff_id,
@@ -118,13 +123,11 @@ export async function getTakeoffsList() {
       ts.flights_100k,
       ts.avg_distance,
       ws.ab_pct,
-      (
-        SELECT json_agg(json_build_object('month', m.month, 'count', m.cnt) ORDER BY m.month)
-        FROM monthly m WHERE m.takeoff_id = t.id
-      ) as monthly_data
+      m.monthly_data
     FROM takeoffs t
     LEFT JOIN takeoff_stats ts ON t.id = ts.takeoff_id
     LEFT JOIN wing_stats ws ON t.id = ws.takeoff_id
+    LEFT JOIN monthly m ON t.id = m.takeoff_id
     ORDER BY ts.flight_count DESC NULLS LAST
   `);
 }
