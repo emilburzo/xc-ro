@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "XC-RO - Flight Analytics",
-  description: "Analitică pentru zboruri de parapantă din România",
+  description: "Analiză zboruri parapantă din România",
 };
 
 export default async function RootLayout({
