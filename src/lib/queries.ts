@@ -693,3 +693,9 @@ export async function getFunStats() {
     mostConsistent: mostConsistent[0],
   };
 }
+
+// ============ HEALTHCHECK ============
+
+export async function healthcheck() {
+  await db.execute(sql`SELECT 1`);
+}
