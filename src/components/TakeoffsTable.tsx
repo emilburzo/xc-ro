@@ -5,6 +5,19 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { takeoffPath } from "@/lib/utils";
 
+import dynamic from "next/dynamic";
+
+const TakeoffMap = dynamic(() => import("@/components/TakeoffMap"), { ssr: false });
+
+interface TakeoffMapData {
+  id: number;
+  name: string;
+  lat: number;
+  lng: number;
+  flight_count: number;
+  last_activity: string | null;
+}
+
 interface Takeoff {
   id: number;
   name: string;
@@ -51,14 +64,14 @@ function Badge({ label, color }: { label: string; color: string }) {
   );
 }
 
-export default function TakeoffsTable({ takeoffs }: { takeoffs: Takeoff[] }) {
+export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff[]; mapData?: TakeoffMapData[] }) {
   const t = useTranslations("takeoffs");
   const [sortKey, setSortKey] = useState<SortKey>("flight_count");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [search, setSearch] = useState("");
   const [flyableNow, setFlyableNow] = useState(false);
   const [minFlights, setMinFlights] = useState(0);
-  const [activeFilter, setActiveFilter] = useState<"all" | "active" | "dormant">("all");
+  const [activeFilter, setActiveFilter] = useState<"all" | "active" | "dormant">("active");
 
   const currentMonth = new Date().getMonth() + 1;
 
@@ -89,6 +102,12 @@ export default function TakeoffsTable({ takeoffs }: { takeoffs: Takeoff[] }) {
     }
     return list;
   }, [takeoffs, search, minFlights, flyableNow, activeFilter, currentMonth]);
+
+  const filteredMapData = useMemo(() => {
+    if (!mapData) return [];
+    const ids = new Set(filtered.map((tk) => tk.id));
+    return mapData.filter((tk) => ids.has(tk.id));
+  }, [mapData, filtered]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
@@ -131,6 +150,12 @@ export default function TakeoffsTable({ takeoffs }: { takeoffs: Takeoff[] }) {
 
   return (
     <div>
+      {mapData && (
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4">
+          <TakeoffMap takeoffs={filteredMapData} />
+        </div>
+      )}
+
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-3">
         <input

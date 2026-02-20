@@ -1,11 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { getTakeoffsList } from "@/lib/queries";
-import dynamic from "next/dynamic";
 import TakeoffsTable from "@/components/TakeoffsTable";
 
 export const revalidate = 0;
-
-const TakeoffMap = dynamic(() => import("@/components/TakeoffMap"), { ssr: false });
 
 export default async function TakeoffsPage() {
   const t = await getTranslations("takeoffs");
@@ -39,12 +36,8 @@ export default async function TakeoffsPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
 
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        <TakeoffMap takeoffs={mapData} />
-      </div>
-
       <div className="bg-white rounded-lg border border-gray-200 p-4">
-        <TakeoffsTable takeoffs={tableData} />
+        <TakeoffsTable takeoffs={tableData} mapData={mapData} />
       </div>
     </div>
   );
