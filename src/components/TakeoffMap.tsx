@@ -26,9 +26,13 @@ export default function TakeoffMap({ takeoffs }: { takeoffs: TakeoffMarker[] }) 
   const mapInstanceRef = useRef<any>(null);
 
   useEffect(() => {
-    if (mapInstanceRef.current || !mapRef.current) return;
+    if (!mapRef.current) return;
+
+    let cancelled = false;
 
     import("leaflet").then((L) => {
+      if (cancelled || !mapRef.current) return;
+
       // Fix default icon
       delete (L.Icon.Default.prototype as any)._getIconUrl;
       L.Icon.Default.mergeOptions({
@@ -69,6 +73,7 @@ export default function TakeoffMap({ takeoffs }: { takeoffs: TakeoffMarker[] }) 
     });
 
     return () => {
+      cancelled = true;
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;

@@ -16,9 +16,13 @@ export default function PilotSiteMap({ sites }: { sites: SiteData[] }) {
   const mapInstanceRef = useRef<any>(null);
 
   useEffect(() => {
-    if (mapInstanceRef.current || !mapRef.current || sites.length === 0) return;
+    if (!mapRef.current || sites.length === 0) return;
+
+    let cancelled = false;
 
     import("leaflet").then((L) => {
+      if (cancelled || !mapRef.current) return;
+
       delete (L.Icon.Default.prototype as any)._getIconUrl;
       L.Icon.Default.mergeOptions({
         iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -56,6 +60,7 @@ export default function PilotSiteMap({ sites }: { sites: SiteData[] }) {
     });
 
     return () => {
+      cancelled = true;
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
