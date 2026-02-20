@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM --platform=$BUILDPLATFORM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -13,8 +13,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-# Production image
-FROM base AS runner
+# Production image, multi-platform (no $BUILDPLATFORM so it uses the target arch)
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
