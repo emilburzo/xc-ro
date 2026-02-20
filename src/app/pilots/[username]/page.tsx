@@ -17,9 +17,10 @@ import PilotDetailCharts from "@/components/PilotDetailCharts";
 
 export const dynamic = "force-dynamic";
 
-export default async function PilotDetailPage({ params }: { params: { username: string } }) {
+export default async function PilotDetailPage({ params }: { params: Promise<{ username: string }> }) {
   const t = await getTranslations("pilotDetail");
-  const pilot = await getPilotByUsername(params.username);
+  const { username } = await params;
+  const pilot = await getPilotByUsername(username);
   if (!pilot) notFound();
 
   const pilotId = (pilot as any).id;

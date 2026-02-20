@@ -19,9 +19,9 @@ import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
 
 export const dynamic = "force-dynamic";
 
-export default async function TakeoffDetailPage({ params }: { params: { id: string } }) {
+export default async function TakeoffDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations("takeoffDetail");
-  const rawId = params.id;
+  const { id: rawId } = await params;
   const id = parseInt(rawId.split("-")[0]);
   if (isNaN(id)) notFound();
 

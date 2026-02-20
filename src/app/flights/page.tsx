@@ -7,38 +7,39 @@ export const dynamic = "force-dynamic";
 export default async function FlightsPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const t = await getTranslations("flights");
+  const sp = await searchParams;
 
   const filters: FlightFilters = {
-    pilotSearch: searchParams.pilot,
-    takeoffSearch: searchParams.takeoff,
-    dateFrom: searchParams.dateFrom,
-    dateTo: searchParams.dateTo,
-    distMin: searchParams.distMin ? Number(searchParams.distMin) : undefined,
-    distMax: searchParams.distMax ? Number(searchParams.distMax) : undefined,
-    flightType: searchParams.type,
-    gliderCategory: searchParams.category,
-    sortBy: searchParams.sort || "date",
-    sortDir: (searchParams.dir as "asc" | "desc") || "desc",
-    page: searchParams.page ? Number(searchParams.page) : 1,
+    pilotSearch: sp.pilot,
+    takeoffSearch: sp.takeoff,
+    dateFrom: sp.dateFrom,
+    dateTo: sp.dateTo,
+    distMin: sp.distMin ? Number(sp.distMin) : undefined,
+    distMax: sp.distMax ? Number(sp.distMax) : undefined,
+    flightType: sp.type,
+    gliderCategory: sp.category,
+    sortBy: sp.sort || "date",
+    sortDir: (sp.dir as "asc" | "desc") || "desc",
+    page: sp.page ? Number(sp.page) : 1,
     pageSize: 50,
   };
 
   // Handle presets
-  if (searchParams.preset === "today") {
+  if (sp.preset === "today") {
     const today = new Date().toISOString().split("T")[0];
     filters.dateFrom = today;
     filters.dateTo = today;
-  } else if (searchParams.preset === "bestMonth") {
+  } else if (sp.preset === "bestMonth") {
     const now = new Date();
     filters.dateFrom = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
     filters.sortBy = "distance";
-  } else if (searchParams.preset === "top100") {
+  } else if (sp.preset === "top100") {
     filters.sortBy = "distance";
     filters.pageSize = 100;
-  } else if (searchParams.preset === "club100k") {
+  } else if (sp.preset === "club100k") {
     filters.distMin = 100;
     filters.sortBy = "distance";
   }
@@ -53,7 +54,7 @@ export default async function FlightsPage({
         total={result.total}
         page={result.page}
         pageSize={result.pageSize}
-        currentFilters={searchParams}
+        currentFilters={sp}
       />
     </div>
   );
