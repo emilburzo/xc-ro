@@ -36,27 +36,21 @@ jest.mock("next/navigation", () => ({
   usePathname: () => "/takeoffs",
 }));
 
-// Mock TakeoffMap (imported via @/components/TakeoffMap inside TakeoffsTable)
-jest.mock("@/components/TakeoffMap", () => {
-  return function MockTakeoffMap({ takeoffs }: { takeoffs: any[] }) {
-    return (
-      <div data-testid="takeoff-map">
-        {takeoffs.map((tk: any) => (
-          <div key={tk.id} data-testid="map-marker">
-            {tk.name}
-          </div>
-        ))}
-      </div>
-    );
-  };
-});
-
 // Mock next/dynamic to bypass lazy loading in tests
 jest.mock("next/dynamic", () => {
-  return (importFn: () => Promise<any>) => {
-    // Resolve the import synchronously for testing
-    const mod = require("@/components/TakeoffMap");
-    return mod.default || mod;
+  return (_importFn: () => Promise<unknown>) => {
+    // Return the mocked TakeoffMap component directly
+    return function MockTakeoffMap({ takeoffs }: { takeoffs: { id: number; name: string }[] }) {
+      return (
+        <div data-testid="takeoff-map">
+          {takeoffs.map((tk) => (
+            <div key={tk.id} data-testid="map-marker">
+              {tk.name}
+            </div>
+          ))}
+        </div>
+      );
+    };
   };
 });
 

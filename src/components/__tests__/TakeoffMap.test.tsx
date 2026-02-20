@@ -1,6 +1,7 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import TakeoffMap from "../TakeoffMap";
+import * as L from "leaflet";
 
 // Mock leaflet
 const mockMarker = {
@@ -79,8 +80,6 @@ describe("TakeoffMap", () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
     // Wait for useEffect
-    const L = require("leaflet");
-    // The map should be created
     await new Promise((r) => setTimeout(r, 0));
     expect(L.map).toHaveBeenCalled();
   });
@@ -88,7 +87,6 @@ describe("TakeoffMap", () => {
   it("creates circle markers for each takeoff with valid coordinates", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    const L = require("leaflet");
     await new Promise((r) => setTimeout(r, 0));
 
     // 3 takeoffs with valid lat/lng
@@ -121,10 +119,10 @@ describe("TakeoffMap", () => {
     ];
     render(<TakeoffMap takeoffs={takeoffsWithMissing} />);
 
-    const L = require("leaflet");
     await new Promise((r) => setTimeout(r, 0));
 
-    // lat=0, lng=0 is falsy, so should be skipped
+    // The TakeoffMap component checks `if (!tk.lat || !tk.lng) return;`
+    // so lat=0, lng=0 will be skipped since 0 is falsy in JavaScript
     expect(L.circleMarker).toHaveBeenCalledTimes(3);
   });
 
@@ -137,7 +135,6 @@ describe("TakeoffMap", () => {
   it("adds tile layer from OpenStreetMap", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    const L = require("leaflet");
     await new Promise((r) => setTimeout(r, 0));
 
     expect(L.tileLayer).toHaveBeenCalledWith(
