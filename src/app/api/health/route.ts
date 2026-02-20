@@ -1,11 +1,10 @@
-import {db} from "@/lib/db";
-import {sql} from "drizzle-orm";
+import {healthcheck} from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        await db.execute(sql`SELECT 1`);
+        await healthcheck();
         return Response.json({status: "ok"});
     } catch (e) {
         console.error("Healthcheck failed:", e);
