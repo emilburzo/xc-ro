@@ -20,8 +20,8 @@ export default async function HomePage() {
     getHomeStats(),
     getRecentNotableFlights(),
     getSeasonHeatmap(),
-    getTopTakeoffs(),
-    getTopPilots(),
+    getTopTakeoffs(10),
+    getTopPilots(10),
   ]);
 
   return (
