@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -15,13 +17,22 @@ import {
 import { takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import PilotDetailCharts from "@/components/PilotDetailCharts";
 
+const getCachedPilot = cache((username: string) => getPilotByUsername(username));
+
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }): Promise<Metadata> {
+  const { username } = await params;
+  const pilot = await getCachedPilot(username);
+  if (!pilot) return {};
+  return { title: (pilot as any).name };
+}
 
 export default async function PilotDetailPage({ params }: { params: Promise<{ username: string }> }) {
   const locale = await getLocale();
   const t = await getTranslations("pilotDetail");
   const { username } = await params;
-  const pilot = await getPilotByUsername(username);
+  const pilot = await getCachedPilot(username);
   if (!pilot) notFound();
 
   const pilotId = (pilot as any).id;

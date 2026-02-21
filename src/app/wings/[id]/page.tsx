@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -13,7 +15,18 @@ import {
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
 
+const getCachedWing = cache((id: number) => getWingById(id));
+
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id: rawId } = await params;
+  const id = parseInt(rawId.split("-")[0]);
+  if (isNaN(id)) return {};
+  const wing = await getCachedWing(id);
+  if (!wing) return {};
+  return { title: (wing as any).name };
+}
 
 const CAT_COLORS: Record<string, string> = {
   A: "bg-green-100 text-green-800",
@@ -34,7 +47,7 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
   const id = parseInt(rawId.split("-")[0]);
   if (isNaN(id)) notFound();
 
-  const wing = await getWingById(id);
+  const wing = await getCachedWing(id);
   if (!wing) notFound();
 
   const [topFlights, distHist, adoption, yearly, favoriteTakeoffs, calendar] =
