@@ -19,7 +19,7 @@ test.describe("Language toggle", () => {
     await page.goto("/");
     await expect(page.locator("nav")).toBeVisible();
 
-    const toggle = page.getByRole("button", { name: /EN/i });
+    const toggle = page.getByRole("button", { name: "EN", exact: true });
     await expect(toggle).toBeVisible();
     await toggle.click();
     await expect(page.locator("nav")).toBeVisible();
