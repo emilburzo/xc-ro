@@ -445,6 +445,54 @@ export async function getPilotDistanceHistogram(pilotId: number) {
   `);
 }
 
+export async function getPilotMonthlyStats(pilotId: number) {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(MONTH FROM start_time)::int as month,
+      count(*)::int as flight_count,
+      round(avg(distance_km)::numeric, 1) as avg_distance
+    FROM flights_pg
+    WHERE pilot_id = ${pilotId}
+    GROUP BY month
+    ORDER BY month
+  `);
+}
+
+export async function getPilotHourlyDistribution(pilotId: number) {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(HOUR FROM start_time)::int as hour,
+      count(*)::int as flight_count
+    FROM flights_pg
+    WHERE pilot_id = ${pilotId}
+    GROUP BY hour
+    ORDER BY hour
+  `);
+}
+
+export async function getPilotDayOfWeek(pilotId: number) {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(DOW FROM start_time)::int as dow,
+      count(*)::int as flight_count
+    FROM flights_pg
+    WHERE pilot_id = ${pilotId}
+    GROUP BY dow
+    ORDER BY dow
+  `);
+}
+
+export async function getPilotWingClasses(pilotId: number) {
+  return db.execute(sql`
+    SELECT g.category, count(*)::int as cnt
+    FROM flights_pg f
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE f.pilot_id = ${pilotId}
+    GROUP BY g.category
+    ORDER BY cnt DESC
+  `);
+}
+
 // ============ WINGS LIST ============
 
 export async function getWingsList() {

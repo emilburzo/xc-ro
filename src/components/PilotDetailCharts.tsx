@@ -7,6 +7,10 @@ import SeasonHeatmap from "./SeasonHeatmap";
 const DistanceHistogram = dynamic(() => import("./charts/DistanceHistogram"), { ssr: false });
 const PilotYearlyChart = dynamic(() => import("./charts/PilotYearlyChart"), { ssr: false });
 const PilotSiteMapDynamic = dynamic(() => import("./PilotSiteMap"), { ssr: false });
+const MonthlyBarChart = dynamic(() => import("./charts/MonthlyBarChart"), { ssr: false });
+const HourlyChart = dynamic(() => import("./charts/HourlyChart"), { ssr: false });
+const DowChart = dynamic(() => import("./charts/DowChart"), { ssr: false });
+const WingDonut = dynamic(() => import("./charts/WingDonut"), { ssr: false });
 
 interface Props {
   yearly: any[];
@@ -14,6 +18,10 @@ interface Props {
   equipment: any[];
   heatmap: any[];
   distHist: any[];
+  monthly: any[];
+  hourly: any[];
+  dow: any[];
+  wingClasses: any[];
 }
 
 const CAT_COLORS: Record<string, string> = {
@@ -25,7 +33,7 @@ const CAT_COLORS: Record<string, string> = {
   T: "bg-pink-100 text-pink-800",
 };
 
-export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, distHist }: Props) {
+export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, distHist, monthly, hourly, dow, wingClasses }: Props) {
   const t = useTranslations("pilotDetail");
 
   return (
@@ -35,6 +43,34 @@ export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, d
         <h2 className="text-lg font-semibold text-gray-900 mb-1">{t("evolution")}</h2>
         <p className="text-sm text-gray-500 mb-4">{t("careerTimeline")}</p>
         <PilotYearlyChart data={yearly} />
+      </div>
+
+      {/* Flying Habits */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h2 className="text-lg font-semibold text-gray-900 mb-1">{t("flyingHabits")}</h2>
+        <p className="text-sm text-gray-500 mb-4">{t("flyingHabitsDesc")}</p>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <h4 className="text-sm font-medium text-gray-700 mb-2">{t("flightsPerMonth")}</h4>
+            <MonthlyBarChart data={monthly} />
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-gray-700 mb-2">{t("hourlyDist")}</h4>
+            <HourlyChart data={hourly} />
+          </div>
+        </div>
+
+        <div className="mt-4 max-w-sm">
+          <h4 className="text-sm font-medium text-gray-700 mb-2">{t("dayOfWeek")}</h4>
+          <DowChart data={dow} />
+        </div>
+      </div>
+
+      {/* Wing Preferences */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("wingPreferences")}</h2>
+        <WingDonut data={wingClasses} />
       </div>
 
       {/* Site Map */}

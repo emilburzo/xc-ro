@@ -110,7 +110,13 @@
     "avgDistance": "Distanță medie",
     "activeSince": "Activ din",
     "favoriteTakeoff": "Decolarea favorită",
-    "flightsFromSite": "zboruri"
+    "flightsFromSite": "zboruri",
+    "flyingHabits": "Obiceiuri de zbor",
+    "flyingHabitsDesc": "Când zboară?",
+    "flightsPerMonth": "Zboruri pe lună",
+    "hourlyDist": "Distribuție orară",
+    "dayOfWeek": "Zi a săptămânii",
+    "wingPreferences": "Preferințe aripi"
   },
   "flights": {
     "title": "Explorer Zboruri",

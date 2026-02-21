@@ -110,7 +110,13 @@
     "avgDistance": "Avg distance",
     "activeSince": "Active since",
     "favoriteTakeoff": "Favorite takeoff",
-    "flightsFromSite": "flights"
+    "flightsFromSite": "flights",
+    "flyingHabits": "Flying Habits",
+    "flyingHabitsDesc": "When do they fly?",
+    "flightsPerMonth": "Flights per month",
+    "hourlyDist": "Hourly distribution",
+    "dayOfWeek": "Day of week",
+    "wingPreferences": "Wing Preferences"
   },
   "flights": {
     "title": "Flights Explorer",
