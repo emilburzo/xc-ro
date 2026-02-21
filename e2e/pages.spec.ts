@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, waitForMapTiles } from "./fixtures";
 
 test.describe("Home page", () => {
   test("matches visual snapshot", async ({ page }) => {
@@ -12,6 +12,7 @@ test.describe("Takeoffs page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/takeoffs");
     await expect(page.locator("table")).toBeVisible();
+    await waitForMapTiles(page);
     await expect(page).toHaveScreenshot("takeoffs.png", { fullPage: true });
   });
 });

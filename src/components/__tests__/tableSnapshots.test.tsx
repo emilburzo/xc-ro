@@ -77,6 +77,15 @@ jest.mock("next/dynamic", () => {
   };
 });
 
+// Pin system time so the "active" filter (365-day window) is deterministic
+beforeAll(() => {
+  jest.useFakeTimers();
+  jest.setSystemTime(new Date("2025-06-01T12:00:00Z"));
+});
+afterAll(() => {
+  jest.useRealTimers();
+});
+
 const recentDate = "2025-01-15T00:00:00.000Z";
 
 const mockTakeoffs = [

@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:visual": "playwright test",
-    "test:visual:update": "playwright test --update-snapshots"
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:seed": "psql \"${DATABASE_URL:-postgres://postgres@localhost:5432/xcontest}\" -f e2e/seed.sql"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.21",
