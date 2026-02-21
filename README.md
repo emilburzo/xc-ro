@@ -32,8 +32,8 @@ Mobile-first web application exploring ~73 000 paragliding flights scraped from 
 ## Getting Started
 
 ```bash
-# Install dependencies (--legacy-peer-deps is required)
-npm ci --legacy-peer-deps
+# Install dependencies
+npm ci
 
 # Set the database connection (optional — defaults to postgres://postgres@localhost:5432/xcontest)
 export DATABASE_URL="postgres://user:pass@host:5432/xcontest"
