@@ -6,8 +6,12 @@ import {
   getSiteRecords,
   getAnnualRecords,
   getFunStats,
+  getTopFlightsAllTime,
+  getTriangleRecords,
+  getMoreFunStats,
 } from "@/lib/queries";
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import RecordProgressionWrapper from "@/components/RecordProgressionWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -46,12 +50,15 @@ export default async function RecordsPage() {
   const locale = await getLocale();
   const t = await getTranslations("records");
 
-  const [allTime, categoryRecords, siteRecords, annualRecords, funStats] = await Promise.all([
+  const [allTime, categoryRecords, siteRecords, annualRecords, funStats, topFlights, triangleRecords, moreFunStats] = await Promise.all([
     getAllTimeRecords(),
     getCategoryRecords(),
     getSiteRecords(),
     getAnnualRecords(),
     getFunStats(),
+    getTopFlightsAllTime(),
+    getTriangleRecords(),
+    getMoreFunStats(),
   ]);
 
   return (
@@ -72,6 +79,15 @@ export default async function RecordsPage() {
             locale={locale}
           />
           <RecordCard title={t("highestScore")} record={allTime.highestScore} locale={locale} />
+        </div>
+      </section>
+
+      {/* Triangle Records */}
+      <section>
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("triangleRecords")}</h2>
+        <div className="grid md:grid-cols-2 gap-3">
+          <RecordCard title={t("bestFaiTriangle")} record={triangleRecords.bestFai} locale={locale} />
+          <RecordCard title={t("bestFlatTriangle")} record={triangleRecords.bestFlat} locale={locale} />
         </div>
       </section>
 
@@ -105,9 +121,58 @@ export default async function RecordsPage() {
         </div>
       </section>
 
+      {/* Top 10 Flights */}
+      <section>
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("top10Flights")}</h2>
+        <div className="bg-white rounded-lg border border-gray-200 overflow-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("rank")}</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 border-b border-gray-200">{t("distance")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("pilot")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("takeoff")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("glider")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("date")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {(topFlights as any[]).map((r, i) => (
+                <tr key={i} className="hover:bg-gray-50">
+                  <td className="px-3 py-2 text-gray-400 font-medium">{i + 1}</td>
+                  <td className="px-3 py-2 font-bold text-blue-600 text-right">
+                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      {formatDistance(r.distance_km)} km
+                    </a>
+                  </td>
+                  <td className="px-3 py-2">
+                    <Link href={pilotPath(r.pilot_username)} className="text-blue-600 hover:underline">
+                      {r.pilot_name}
+                    </Link>
+                  </td>
+                  <td className="px-3 py-2 text-gray-600">
+                    {r.takeoff_name ? (
+                      <Link href={takeoffPath(r.takeoff_id, r.takeoff_name)} className="hover:underline">
+                        {r.takeoff_name}
+                      </Link>
+                    ) : "-"}
+                  </td>
+                  <td className="px-3 py-2 text-gray-500">{r.glider_name}</td>
+                  <td className="px-3 py-2 text-gray-500">{formatDate(r.start_time, locale)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       {/* Annual Records */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("perYear")}</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("recordProgression")}</h2>
+        <div className="bg-white rounded-lg border border-gray-200 p-4 mb-3">
+          <RecordProgressionWrapper data={annualRecords as any[]} />
+        </div>
+        <h3 className="text-base font-semibold text-gray-900 mb-2">{t("perYear")}</h3>
         <div className="bg-white rounded-lg border border-gray-200 overflow-auto max-h-[70vh]">
           <table className="w-full text-sm">
             <thead>
@@ -233,6 +298,50 @@ export default async function RecordsPage() {
                   {(funStats.mostConsistent as any).name}
                 </Link>{" "}
                 &mdash; {t("mostConsistentDesc", { count: (funStats.mostConsistent as any).years_active })}
+              </p>
+            </div>
+          )}
+          {moreFunStats.mostTotalKm && (
+            <div className="bg-green-50 rounded-lg border border-green-200 p-4">
+              <h4 className="font-semibold text-green-800">{t("mostTotalKm")}</h4>
+              <p className="text-sm text-green-700 mt-1">
+                <Link href={pilotPath((moreFunStats.mostTotalKm as any).username)} className="text-blue-600 hover:underline">
+                  {(moreFunStats.mostTotalKm as any).name}
+                </Link>{" "}
+                &mdash; {t("mostTotalKmDesc", { totalKm: Number((moreFunStats.mostTotalKm as any).total_km).toLocaleString(), flightCount: (moreFunStats.mostTotalKm as any).flight_count })}
+              </p>
+            </div>
+          )}
+          {moreFunStats.mostFlights && (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-semibold text-gray-700">{t("mostFlightsPilot")}</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                <Link href={pilotPath((moreFunStats.mostFlights as any).username)} className="text-blue-600 hover:underline">
+                  {(moreFunStats.mostFlights as any).name}
+                </Link>{" "}
+                &mdash; {t("mostFlightsPilotDesc", { flightCount: (moreFunStats.mostFlights as any).flight_count, totalKm: Number((moreFunStats.mostFlights as any).total_km).toLocaleString() })}
+              </p>
+            </div>
+          )}
+          {moreFunStats.earliestSeason && (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-semibold text-gray-700">{t("earliestSeason")}</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                <Link href={pilotPath((moreFunStats.earliestSeason as any).pilot_username)} className="text-blue-600 hover:underline">
+                  {(moreFunStats.earliestSeason as any).pilot_name}
+                </Link>{" "}
+                &mdash; {t("earliestSeasonDesc", { date: formatDate((moreFunStats.earliestSeason as any).start_time, locale), distance: formatDistance((moreFunStats.earliestSeason as any).distance_km) })}
+              </p>
+            </div>
+          )}
+          {moreFunStats.latestSeason && (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-semibold text-gray-700">{t("latestSeason")}</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                <Link href={pilotPath((moreFunStats.latestSeason as any).pilot_username)} className="text-blue-600 hover:underline">
+                  {(moreFunStats.latestSeason as any).pilot_name}
+                </Link>{" "}
+                &mdash; {t("latestSeasonDesc", { date: formatDate((moreFunStats.latestSeason as any).start_time, locale), distance: formatDistance((moreFunStats.latestSeason as any).distance_km) })}
               </p>
             </div>
           )}

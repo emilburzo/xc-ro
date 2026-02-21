@@ -7,6 +7,7 @@ import DowChart from "../charts/DowChart";
 import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
+import RecordProgressionChart from "../charts/RecordProgressionChart";
 
 // Mock recharts to render testable HTML with chart structure info
 jest.mock("recharts", () => {
@@ -288,5 +289,44 @@ describe("PilotYearlyChart", () => {
   it("renders with empty data", () => {
     const { getByTestId } = render(<PilotYearlyChart data={[]} />);
     expect(getByTestId("composed-chart")).toHaveAttribute("data-length", "0");
+  });
+});
+
+describe("RecordProgressionChart", () => {
+  const data = [
+    { year: 2018, distance_km: 150.5 },
+    { year: 2019, distance_km: 200.3 },
+    { year: 2020, distance_km: 180.0 },
+    { year: 2021, distance_km: 250.7 },
+    { year: 2022, distance_km: 312.5 },
+  ];
+
+  it("renders a BarChart with correct data count", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={data} />);
+    expect(getByTestId("bar-chart")).toHaveAttribute("data-length", "5");
+  });
+
+  it("renders a Bar with distance dataKey", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={data} />);
+    expect(getByTestId("bar")).toHaveAttribute("data-datakey", "distance");
+    expect(getByTestId("bar")).toHaveAttribute("data-fill", "#3b82f6");
+    expect(getByTestId("bar")).toHaveAttribute("data-name", "Record km");
+  });
+
+  it("uses year on XAxis", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={data} />);
+    expect(getByTestId("xaxis")).toHaveAttribute("data-datakey", "year");
+  });
+
+  it("renders with empty data", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={[]} />);
+    expect(getByTestId("bar-chart")).toHaveAttribute("data-length", "0");
+  });
+
+  it("renders with single year", () => {
+    const { getByTestId } = render(
+      <RecordProgressionChart data={[{ year: 2022, distance_km: 312.5 }]} />
+    );
+    expect(getByTestId("bar-chart")).toHaveAttribute("data-length", "1");
   });
 });

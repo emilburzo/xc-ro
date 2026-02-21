@@ -822,6 +822,105 @@ export async function getFunStats() {
   };
 }
 
+export async function getTopFlightsAllTime(limit = 10) {
+  return db.execute(sql`
+    SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url, f.type,
+           p.name as pilot_name, p.username as pilot_username,
+           t.name as takeoff_name, t.id as takeoff_id,
+           g.name as glider_name, g.category as glider_category
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+    JOIN gliders g ON f.glider_id = g.id
+    ORDER BY f.distance_km DESC
+    LIMIT ${limit}
+  `);
+}
+
+export async function getTriangleRecords() {
+  const [bestFai, bestFlat] = await Promise.all([
+    db.execute(sql`
+      SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
+             p.name as pilot_name, p.username as pilot_username,
+             t.name as takeoff_name, t.id as takeoff_id,
+             g.name as glider_name, g.category as glider_category
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+      JOIN gliders g ON f.glider_id = g.id
+      WHERE f.type IN ('triunghi FAI', 'FAI triangle')
+      ORDER BY f.distance_km DESC LIMIT 1
+    `),
+    db.execute(sql`
+      SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
+             p.name as pilot_name, p.username as pilot_username,
+             t.name as takeoff_name, t.id as takeoff_id,
+             g.name as glider_name, g.category as glider_category
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+      JOIN gliders g ON f.glider_id = g.id
+      WHERE f.type IN ('triunghi plat', 'flat triangle')
+      ORDER BY f.distance_km DESC LIMIT 1
+    `),
+  ]);
+
+  return {
+    bestFai: bestFai[0],
+    bestFlat: bestFlat[0],
+  };
+}
+
+export async function getMoreFunStats() {
+  const [mostTotalKm, mostFlights, earliestSeason, latestSeason] = await Promise.all([
+    db.execute(sql`
+      SELECT p.name, p.username, round(sum(f.distance_km)::numeric) as total_km,
+             count(*)::int as flight_count
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      GROUP BY p.id, p.name, p.username
+      ORDER BY total_km DESC
+      LIMIT 1
+    `),
+    db.execute(sql`
+      SELECT p.name, p.username, count(*)::int as flight_count,
+             round(sum(f.distance_km)::numeric) as total_km
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      GROUP BY p.id, p.name, p.username
+      ORDER BY flight_count DESC
+      LIMIT 1
+    `),
+    db.execute(sql`
+      SELECT f.start_time, f.distance_km, f.url,
+             p.name as pilot_name, p.username as pilot_username,
+             EXTRACT(DOY FROM f.start_time)::int as day_of_year
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      WHERE f.distance_km >= 50
+      ORDER BY EXTRACT(DOY FROM f.start_time) ASC
+      LIMIT 1
+    `),
+    db.execute(sql`
+      SELECT f.start_time, f.distance_km, f.url,
+             p.name as pilot_name, p.username as pilot_username,
+             EXTRACT(DOY FROM f.start_time)::int as day_of_year
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      WHERE f.distance_km >= 50
+      ORDER BY EXTRACT(DOY FROM f.start_time) DESC
+      LIMIT 1
+    `),
+  ]);
+
+  return {
+    mostTotalKm: mostTotalKm[0],
+    mostFlights: mostFlights[0],
+    earliestSeason: earliestSeason[0],
+    latestSeason: latestSeason[0],
+  };
+}
+
 // ============ HEALTHCHECK ============
 
 export async function healthcheck() {
