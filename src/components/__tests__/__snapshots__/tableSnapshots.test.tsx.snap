@@ -1,0 +1,955 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
+<div
+  class="bg-white rounded-lg border border-gray-200 p-4 space-y-4"
+>
+  <div
+    class="flex flex-wrap gap-2"
+  >
+    <button
+      class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
+    >
+      presetToday
+    </button>
+    <button
+      class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
+    >
+      presetBestMonth
+    </button>
+    <button
+      class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
+    >
+      presetTop100
+    </button>
+    <button
+      class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
+    >
+      presetClub100k
+    </button>
+  </div>
+  <div
+    class="flex flex-wrap gap-2 items-end"
+  >
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+      >
+        Pilot
+      </label>
+      <input
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded w-32"
+        placeholder="..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+      >
+        Takeoff
+      </label>
+      <input
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded w-32"
+        placeholder="..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+      >
+        dateRange
+      </label>
+      <div
+        class="flex gap-1"
+      >
+        <input
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+          type="date"
+          value=""
+        />
+        <input
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+          type="date"
+          value=""
+        />
+      </div>
+    </div>
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+      >
+        distanceRange
+      </label>
+      <div
+        class="flex gap-1 items-center"
+      >
+        <input
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded w-20"
+          placeholder="Min"
+          type="number"
+          value=""
+        />
+        <span
+          class="text-gray-400"
+        >
+          -
+        </span>
+        <input
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded w-20"
+          placeholder="Max"
+          type="number"
+          value=""
+        />
+      </div>
+    </div>
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+      >
+        gliderCategory
+      </label>
+      <select
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+      >
+        <option
+          value=""
+        >
+          All
+        </option>
+        <option
+          value="A"
+        >
+          A
+        </option>
+        <option
+          value="B"
+        >
+          B
+        </option>
+        <option
+          value="C"
+        >
+          C
+        </option>
+        <option
+          value="D"
+        >
+          D
+        </option>
+        <option
+          value="Z"
+        >
+          Z
+        </option>
+        <option
+          value="T"
+        >
+          T
+        </option>
+      </select>
+    </div>
+    <button
+      class="px-4 py-1.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+    >
+      filters
+    </button>
+  </div>
+  <div
+    class="text-sm text-gray-500"
+  >
+    2
+     
+    title
+     · page 
+    1
+    /
+    1
+  </div>
+  <div
+    class="overflow-x-auto"
+  >
+    <table
+      class="w-full text-sm"
+    >
+      <thead
+        class="border-b border-gray-200"
+      >
+        <tr>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Date
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Pilot
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Takeoff
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Glider
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Type
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Distance
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Score
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Duration
+             
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-gray-100"
+      >
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2 text-gray-700 whitespace-nowrap"
+          >
+            <a
+              class="hover:underline"
+              href="https://xcontest.org/flight/1001"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              7/8/2025
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/pilots/ion.popescu"
+            >
+              Ion Popescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/takeoffs/2-sticlaria"
+            >
+              Sticlaria
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            Advance Omega X-Alps 4
+            <span
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+            >
+              D
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            FAI triangle
+          </td>
+          <td
+            class="px-2 py-2 font-medium"
+          >
+            312.5
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            420.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500"
+          >
+            8h 0m
+          </td>
+        </tr>
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2 text-gray-700 whitespace-nowrap"
+          >
+            <a
+              class="hover:underline"
+              href="https://xcontest.org/flight/1002"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              7/8/2025
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/pilots/maria.ionescu"
+            >
+              Maria Ionescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/takeoffs/1-bunloc"
+            >
+              Bunloc
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            Nova Mentor 7
+            <span
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+            >
+              B
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            free flight
+          </td>
+          <td
+            class="px-2 py-2 font-medium"
+          >
+            45.3
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            52.1
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500"
+          >
+            3h 0m
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Snapshot: PilotsTable matches snapshot 1`] = `
+<div>
+  <div
+    class="flex flex-wrap gap-2 mb-3"
+  >
+    <input
+      class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500"
+      placeholder="Search..."
+      type="text"
+      value=""
+    />
+    <label
+      class="flex items-center gap-1 text-sm text-gray-600"
+    >
+      Min flights
+      :
+      <input
+        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+        min="0"
+        type="number"
+        value=""
+      />
+    </label>
+  </div>
+  <div
+    class="text-sm text-gray-500 mb-2"
+  >
+    2
+     pilots
+  </div>
+  <div
+    class="overflow-x-auto"
+  >
+    <table
+      class="w-full text-sm"
+    >
+      <thead
+        class="border-b border-gray-200"
+      >
+        <tr>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Name
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Flights
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Total KM
+             
+            ↓
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Total Score
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Avg Distance
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Personal Record
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Active Years
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Favorite Site
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Last Flight
+             
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-gray-100"
+      >
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline font-medium"
+              href="/pilots/ion.popescu"
+            >
+              Ion Popescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            450
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            12,500.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            18,000.2
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            27.8
+          </td>
+          <td
+            class="px-2 py-2 font-medium"
+          >
+            312.5
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            10
+          </td>
+          <td
+            class="px-2 py-2 text-sm"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/takeoffs/1-bunloc"
+            >
+              Bunloc
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs whitespace-nowrap"
+          >
+            12/1/2025
+          </td>
+        </tr>
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline font-medium"
+              href="/pilots/maria.ionescu"
+            >
+              Maria Ionescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            120
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            3,200
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            5,600
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            26.7
+          </td>
+          <td
+            class="px-2 py-2 font-medium"
+          >
+            185.3
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            5
+          </td>
+          <td
+            class="px-2 py-2 text-sm"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/takeoffs/2-sticlaria"
+            >
+              Sticlaria
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs whitespace-nowrap"
+          >
+            11/15/2025
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
+<div>
+  <div
+    class="flex flex-wrap gap-2 mb-3"
+  >
+    <input
+      class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Search..."
+      type="text"
+      value=""
+    />
+    <label
+      class="flex items-center gap-1.5 text-sm text-gray-600"
+    >
+      <input
+        type="checkbox"
+      />
+      Flyable now
+    </label>
+    <select
+      class="px-2 py-1.5 text-sm border border-gray-300 rounded-lg"
+    >
+      <option
+        value="all"
+      >
+        All
+      </option>
+      <option
+        value="active"
+      >
+        Active only
+      </option>
+      <option
+        value="dormant"
+      >
+        Dormant only
+      </option>
+    </select>
+    <label
+      class="flex items-center gap-1 text-sm text-gray-600"
+    >
+      Min flights
+      :
+      <input
+        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+        min="0"
+        type="number"
+        value=""
+      />
+    </label>
+  </div>
+  <div
+    class="text-sm text-gray-500 mb-2"
+  >
+    2
+     takeoffs
+  </div>
+  <div
+    class="overflow-x-auto"
+  >
+    <table
+      class="w-full text-sm"
+    >
+      <thead
+        class="border-b border-gray-200"
+      >
+        <tr>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Name
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Flights
+             
+            ↓
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Pilots
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            XC Potential
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Season
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Record (km)
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Last Activity
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Weekend %
+             
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-gray-100"
+      >
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline font-medium"
+              href="/takeoffs/1-bunloc"
+            >
+              Bunloc
+            </a>
+            <div
+              class="flex flex-wrap gap-1 mt-0.5"
+            >
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-yellow-100 text-yellow-800"
+              >
+                100k Club
+              </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-800"
+              >
+                XC Engine
+              </span>
+            </div>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            500
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            80
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            90 km
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <div
+              class="flex items-end gap-[1px] h-4"
+            >
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 3.2px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 16px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+            </div>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            312.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            1/15/2025
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            60%
+          </td>
+        </tr>
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline font-medium"
+              href="/takeoffs/2-sticlaria"
+            >
+              Sticlaria
+            </a>
+            <div
+              class="flex flex-wrap gap-1 mt-0.5"
+            >
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-yellow-100 text-yellow-800"
+              >
+                100k Club
+              </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-800"
+              >
+                XC Engine
+              </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800"
+              >
+                Weekend Site
+              </span>
+            </div>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            200
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            40
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            85 km
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <div
+              class="flex items-end gap-[1px] h-4"
+            >
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 12px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 16px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+              <div
+                class="w-1.5 bg-blue-400 rounded-t-sm"
+                style="height: 1px;"
+              />
+            </div>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            350.2
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            1/15/2025
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            80%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

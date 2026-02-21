@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Chart snapshots DistanceHistogram matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="6"
+    data-testid="bar-chart"
+  >
+    <div
+      data-datakey="bucket"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="count"
+      data-testid="bar"
+    >
+      <div
+        data-fill="#d1d5db"
+        data-testid="cell"
+      />
+      <div
+        data-fill="#93c5fd"
+        data-testid="cell"
+      />
+      <div
+        data-fill="#60a5fa"
+        data-testid="cell"
+      />
+      <div
+        data-fill="#3b82f6"
+        data-testid="cell"
+      />
+      <div
+        data-fill="#2563eb"
+        data-testid="cell"
+      />
+      <div
+        data-fill="#1d4ed8"
+        data-testid="cell"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots DowChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="7"
+    data-testid="bar-chart"
+  >
+    <div
+      data-datakey="day"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#06b6d4"
+      data-testid="bar"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots HourlyChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="15"
+    data-testid="bar-chart"
+  >
+    <div
+      data-datakey="hour"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#8b5cf6"
+      data-testid="bar"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots MonthlyBarChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="12"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="name"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#3b82f6"
+      data-name="Flights"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="avgDist"
+      data-name="Avg km"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots MonthlyBarChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="12"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="name"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#3b82f6"
+      data-name="Flights"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="avgDist"
+      data-name="Avg km"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots PilotYearlyChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="2"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#3b82f6"
+      data-name="Flights"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="avgDist"
+      data-name="Avg km"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+    <div
+      data-datakey="maxDist"
+      data-name="Max km"
+      data-stroke="#ef4444"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots WingDonut matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-testid="pie-chart"
+  >
+    <div
+      data-datakey="value"
+      data-length="3"
+      data-testid="pie"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-testid="legend"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots WingDonut matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-testid="pie-chart"
+  >
+    <div
+      data-datakey="value"
+      data-length="0"
+      data-testid="pie"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-testid="legend"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots YearlyTrendChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="2"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#3b82f6"
+      data-name="Flights"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="totalKm"
+      data-name="Total km"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
