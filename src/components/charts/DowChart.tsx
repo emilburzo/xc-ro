@@ -8,13 +8,16 @@ interface DowData {
   flight_count: number;
 }
 
+// Monday-first order matching Romanian/European locale
+const DOW_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
 export default function DowChart({ data }: { data: DowData[] }) {
   const t = useTranslations("charts");
   const DOW_NAMES = [
     t("dowSun"), t("dowMon"), t("dowTue"), t("dowWed"),
     t("dowThu"), t("dowFri"), t("dowSat"),
   ];
-  const chartData = Array.from({ length: 7 }, (_, i) => {
+  const chartData = DOW_ORDER.map((i) => {
     const d = data.find((x) => x.dow === i);
     return { day: DOW_NAMES[i], flights: d?.flight_count || 0 };
   });

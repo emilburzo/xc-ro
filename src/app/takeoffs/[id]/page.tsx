@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -17,7 +19,18 @@ import {
 import { pilotPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
 
+const getCachedTakeoff = cache((id: number) => getTakeoffById(id));
+
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id: rawId } = await params;
+  const id = parseInt(rawId.split("-")[0]);
+  if (isNaN(id)) return {};
+  const takeoff = await getCachedTakeoff(id);
+  if (!takeoff) return {};
+  return { title: (takeoff as any).name };
+}
 
 export default async function TakeoffDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const locale = await getLocale();
@@ -26,7 +39,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
   const id = parseInt(rawId.split("-")[0]);
   if (isNaN(id)) notFound();
 
-  const takeoff = await getTakeoffById(id);
+  const takeoff = await getCachedTakeoff(id);
   if (!takeoff) notFound();
 
   const [calendar, monthly, hourly, dow, distHist, top10, wingClasses, topGliders, yearly, busiest] =

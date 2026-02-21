@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import {
@@ -10,6 +11,11 @@ import {
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("records");
+  return { title: t("title") };
+}
 
 function RecordCard({ title, record, locale, viewLabel }: { title: string; record: any; locale: string; viewLabel: string }) {
   if (!record) return null;

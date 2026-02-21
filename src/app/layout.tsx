@@ -5,7 +5,10 @@ import Nav from "@/components/Nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "XC-RO - Flight Analytics",
+  title: {
+    template: "%s | XC-RO",
+    default: "XC-RO - Flight Analytics",
+  },
   description: "Analiză zboruri parapantă din România",
 };
 
