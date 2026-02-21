@@ -99,46 +99,58 @@ describe("formatNumber", () => {
 });
 
 describe("relativeTime", () => {
+  // Use a fixed date to avoid flakiness from midnight/boundary crossings
+  const FIXED_NOW = new Date("2025-06-15T12:00:00Z").getTime();
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(FIXED_NOW);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it("returns 'today' for today in English", () => {
-    expect(relativeTime(new Date(), "en")).toBe("today");
+    expect(relativeTime(new Date(FIXED_NOW), "en")).toBe("today");
   });
 
   it("returns 'azi' for today in Romanian", () => {
-    expect(relativeTime(new Date(), "ro")).toBe("azi");
+    expect(relativeTime(new Date(FIXED_NOW), "ro")).toBe("azi");
   });
 
   it("returns 'yesterday' for 1 day ago in English", () => {
-    const yesterday = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+    const yesterday = new Date(FIXED_NOW - 1 * 24 * 60 * 60 * 1000);
     expect(relativeTime(yesterday, "en")).toBe("yesterday");
   });
 
   it("returns 'ieri' for 1 day ago in Romanian", () => {
-    const yesterday = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+    const yesterday = new Date(FIXED_NOW - 1 * 24 * 60 * 60 * 1000);
     expect(relativeTime(yesterday, "ro")).toBe("ieri");
   });
 
   it("returns days ago for less than 30 days", () => {
-    const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
+    const tenDaysAgo = new Date(FIXED_NOW - 10 * 24 * 60 * 60 * 1000);
     expect(relativeTime(tenDaysAgo, "en")).toBe("10 days ago");
   });
 
   it("returns months ago for less than 365 days", () => {
-    const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+    const ninetyDaysAgo = new Date(FIXED_NOW - 90 * 24 * 60 * 60 * 1000);
     expect(relativeTime(ninetyDaysAgo, "en")).toBe("3 months ago");
   });
 
   it("returns years ago for 365+ days", () => {
-    const twoYearsAgo = new Date(Date.now() - 730 * 24 * 60 * 60 * 1000);
+    const twoYearsAgo = new Date(FIXED_NOW - 730 * 24 * 60 * 60 * 1000);
     expect(relativeTime(twoYearsAgo, "en")).toBe("2 years ago");
   });
 
   it("returns Romanian months", () => {
-    const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+    const ninetyDaysAgo = new Date(FIXED_NOW - 90 * 24 * 60 * 60 * 1000);
     expect(relativeTime(ninetyDaysAgo, "ro")).toBe("acum 3 luni");
   });
 
   it("returns Romanian years", () => {
-    const twoYearsAgo = new Date(Date.now() - 730 * 24 * 60 * 60 * 1000);
+    const twoYearsAgo = new Date(FIXED_NOW - 730 * 24 * 60 * 60 * 1000);
     expect(relativeTime(twoYearsAgo, "ro")).toBe("acum 2 ani");
   });
 });

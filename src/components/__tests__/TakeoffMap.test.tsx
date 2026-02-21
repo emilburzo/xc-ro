@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import TakeoffMap from "../TakeoffMap";
 import * as L from "leaflet";
 
@@ -79,32 +79,34 @@ describe("TakeoffMap", () => {
   it("initializes the leaflet map on mount", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    // Wait for useEffect
-    await new Promise((r) => setTimeout(r, 0));
-    expect(L.map).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(L.map).toHaveBeenCalled();
+    });
   });
 
   it("creates circle markers for each takeoff with valid coordinates", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    await new Promise((r) => setTimeout(r, 0));
-
-    // 3 takeoffs with valid lat/lng
-    expect(L.circleMarker).toHaveBeenCalledTimes(3);
+    await waitFor(() => {
+      // 3 takeoffs with valid lat/lng
+      expect(L.circleMarker).toHaveBeenCalledTimes(3);
+    });
   });
 
   it("sets correct map center (Romania)", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    await new Promise((r) => setTimeout(r, 0));
-    expect(mockMap.setView).toHaveBeenCalledWith([46.0, 25.0], 7);
+    await waitFor(() => {
+      expect(mockMap.setView).toHaveBeenCalledWith([46.0, 25.0], 7);
+    });
   });
 
   it("binds popups to markers with takeoff names", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    await new Promise((r) => setTimeout(r, 0));
-    expect(mockMarker.bindPopup).toHaveBeenCalledTimes(3);
+    await waitFor(() => {
+      expect(mockMarker.bindPopup).toHaveBeenCalledTimes(3);
+    });
 
     // Check that popup HTML includes takeoff names
     const calls = mockMarker.bindPopup.mock.calls;
@@ -119,11 +121,11 @@ describe("TakeoffMap", () => {
     ];
     render(<TakeoffMap takeoffs={takeoffsWithMissing} />);
 
-    await new Promise((r) => setTimeout(r, 0));
-
-    // The TakeoffMap component checks `if (!tk.lat || !tk.lng) return;`
-    // so lat=0, lng=0 will be skipped since 0 is falsy in JavaScript
-    expect(L.circleMarker).toHaveBeenCalledTimes(3);
+    await waitFor(() => {
+      // The TakeoffMap component checks `if (!tk.lat || !tk.lng) return;`
+      // so lat=0, lng=0 will be skipped since 0 is falsy in JavaScript
+      expect(L.circleMarker).toHaveBeenCalledTimes(3);
+    });
   });
 
   it("renders with empty takeoffs array", () => {
@@ -135,11 +137,11 @@ describe("TakeoffMap", () => {
   it("adds tile layer from OpenStreetMap", async () => {
     render(<TakeoffMap takeoffs={mockTakeoffs} />);
 
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(L.tileLayer).toHaveBeenCalledWith(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      expect.objectContaining({ maxZoom: 18 })
-    );
+    await waitFor(() => {
+      expect(L.tileLayer).toHaveBeenCalledWith(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        expect.objectContaining({ maxZoom: 18 })
+      );
+    });
   });
 });
