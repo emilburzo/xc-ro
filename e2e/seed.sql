@@ -1,8 +1,42 @@
 -- Seed data for visual regression tests.
 -- Provides enough mock data for all pages to render meaningfully.
+-- Creates tables, inserts data, creates view and indexes.
 
 -- Ensure PostGIS is available
 CREATE EXTENSION IF NOT EXISTS postgis;
+
+-- ============ TABLES ============
+CREATE TABLE IF NOT EXISTS pilots (
+  id bigserial PRIMARY KEY,
+  name varchar(200) NOT NULL,
+  username varchar(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS takeoffs (
+  id bigserial PRIMARY KEY,
+  name varchar(200) NOT NULL,
+  centroid geography(Point,4326)
+);
+
+CREATE TABLE IF NOT EXISTS gliders (
+  id bigserial PRIMARY KEY,
+  name varchar(100) NOT NULL UNIQUE,
+  category varchar(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS flights (
+  id bigint PRIMARY KEY,
+  pilot_id bigint NOT NULL REFERENCES pilots(id),
+  takeoff_id bigint REFERENCES takeoffs(id),
+  start_time timestamp NOT NULL,
+  start_point geography(Point,4326),
+  type varchar(512) NOT NULL,
+  distance_km double precision NOT NULL,
+  score double precision NOT NULL,
+  airtime integer NOT NULL,
+  glider_id bigint NOT NULL REFERENCES gliders(id),
+  url varchar(512) NOT NULL
+);
 
 -- ============ PILOTS ============
 INSERT INTO pilots (id, name, username) VALUES

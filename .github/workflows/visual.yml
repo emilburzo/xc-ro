@@ -34,39 +34,8 @@ jobs:
           key: node-modules-${{ hashFiles('package-lock.json') }}
       - if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci --legacy-peer-deps
-      - name: Create tables and seed database
-        run: |
-          psql "$DATABASE_URL" -c "
-            CREATE TABLE IF NOT EXISTS pilots (
-              id bigserial PRIMARY KEY,
-              name varchar(200) NOT NULL,
-              username varchar(100) NOT NULL UNIQUE
-            );
-            CREATE TABLE IF NOT EXISTS takeoffs (
-              id bigserial PRIMARY KEY,
-              name varchar(200) NOT NULL,
-              centroid geography(Point,4326)
-            );
-            CREATE TABLE IF NOT EXISTS gliders (
-              id bigserial PRIMARY KEY,
-              name varchar(100) NOT NULL UNIQUE,
-              category varchar(20) NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS flights (
-              id bigint PRIMARY KEY,
-              pilot_id bigint NOT NULL REFERENCES pilots(id),
-              takeoff_id bigint REFERENCES takeoffs(id),
-              start_time timestamp NOT NULL,
-              start_point geography(Point,4326),
-              type varchar(512) NOT NULL,
-              distance_km double precision NOT NULL,
-              score double precision NOT NULL,
-              airtime integer NOT NULL,
-              glider_id bigint NOT NULL REFERENCES gliders(id),
-              url varchar(512) NOT NULL
-            );
-          "
-          psql "$DATABASE_URL" -f e2e/seed.sql
+      - name: Seed database
+        run: psql "$DATABASE_URL" -f e2e/seed.sql
         env:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
       - run: npx playwright install --with-deps chromium webkit
