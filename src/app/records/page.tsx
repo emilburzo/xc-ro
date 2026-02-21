@@ -86,7 +86,12 @@ export default async function RecordsPage() {
               <Link href={pilotPath(r.pilot_username)} className="text-sm text-blue-600 hover:underline">
                 {r.pilot_name}
               </Link>
-              <div className="text-xs text-gray-400">{r.glider_name}</div>
+              <div className="text-xs text-gray-400">
+                {r.glider_name} &middot;{" "}
+                <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                  view
+                </a>
+              </div>
             </div>
           ))}
         </div>
