@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import TakeoffsTable from "../TakeoffsTable";
 import PilotsTable from "../PilotsTable";
 import FlightsExplorer from "../FlightsExplorer";
+import WingsTable from "../WingsTable";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
@@ -50,6 +51,7 @@ jest.mock("next-intl", () => ({
       page: "Page",
       resetFilters: "Reset filters",
       allCategories: "All categories",
+      title: "Wings",
     };
     return map[key] || key;
   },
@@ -214,6 +216,44 @@ describe("Snapshot: FlightsExplorer", () => {
         currentFilters={{}}
       />
     );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+});
+
+const mockWings = [
+  {
+    id: 1,
+    name: "Nova Mentor 7",
+    category: "B",
+    flight_count: 500,
+    pilot_count: 80,
+    total_km: 12500,
+    avg_distance: 25.0,
+    max_distance: 312.5,
+    avg_speed: null,
+    first_year: 2018,
+    last_year: 2025,
+    last_flight: "2025-01-15T00:00:00.000Z",
+  },
+  {
+    id: 2,
+    name: "Ozone Mantra 8",
+    category: "C",
+    flight_count: 200,
+    pilot_count: 30,
+    total_km: 8000,
+    avg_distance: 40.0,
+    max_distance: 250.5,
+    avg_speed: null,
+    first_year: 2020,
+    last_year: 2024,
+    last_flight: "2024-01-15T00:00:00.000Z",
+  },
+];
+
+describe("Snapshot: WingsTable", () => {
+  it("matches snapshot", () => {
+    const { container } = render(<WingsTable wings={mockWings} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });
