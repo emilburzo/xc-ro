@@ -81,7 +81,7 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
 
   const SortHeader = ({ k, label }: { k: SortKey; label: string }) => (
     <th
-      className="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+      className="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
       onClick={() => toggleSort(k)}
     >
       {label} {sortKey === k ? (sortDir === "asc" ? "\u2191" : "\u2193") : ""}
@@ -124,9 +124,9 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
       <div className="text-sm text-gray-500 mb-2">{sorted.length} {t("title").toLowerCase()}</div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-auto max-h-[70vh]">
         <table className="w-full text-sm">
-          <thead className="border-b border-gray-200">
+          <thead>
             <tr>
               <SortHeader k="name" label={t("name")} />
               <SortHeader k="flight_count" label={t("flights")} />

@@ -88,7 +88,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
 
   const SortHeader = ({ col, label }: { col: string; label: string }) => (
     <th
-      className="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+      className="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
       onClick={() => toggleSort(col)}
     >
       {label} {currentFilters.sort === col ? (currentFilters.dir === "asc" ? "↑" : "↓") : ""}
@@ -185,15 +185,15 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-auto max-h-[70vh]">
         <table className="w-full text-sm">
-          <thead className="border-b border-gray-200">
+          <thead>
             <tr>
               <SortHeader col="date" label={t("date")} />
               <SortHeader col="pilot" label={t("pilot")} />
               <SortHeader col="takeoff" label={t("takeoff")} />
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("glider")}</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("type")}</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("glider")}</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("type")}</th>
               <SortHeader col="distance" label={t("distance")} />
               <SortHeader col="score" label={t("score")} />
               <SortHeader col="airtime" label={t("duration")} />
