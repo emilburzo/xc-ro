@@ -206,19 +206,19 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
             Type
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Distance
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Score
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Duration
              
@@ -279,18 +279,18 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
             FAI triangle
           </td>
           <td
-            class="px-2 py-2 font-medium"
+            class="px-2 py-2 font-medium text-right"
           >
             312.5
              km
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             420.5
           </td>
           <td
-            class="px-2 py-2 text-gray-500"
+            class="px-2 py-2 text-gray-500 text-right"
           >
             8h 0m
           </td>
@@ -346,18 +346,18 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
             free flight
           </td>
           <td
-            class="px-2 py-2 font-medium"
+            class="px-2 py-2 font-medium text-right"
           >
             45.3
              km
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             52.1
           </td>
           <td
-            class="px-2 py-2 text-gray-500"
+            class="px-2 py-2 text-gray-500 text-right"
           >
             3h 0m
           </td>
@@ -413,38 +413,38 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Flights
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Total KM
              
             ↓
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Total Score
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Avg Distance
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Personal Record
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Active Years
              
@@ -479,33 +479,33 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
             </a>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             450
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             12,500.5
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             18,000.2
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             27.8
           </td>
           <td
-            class="px-2 py-2 font-medium"
+            class="px-2 py-2 font-medium text-right"
           >
             312.5
              km
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             10
           </td>
@@ -539,33 +539,33 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
             </a>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             120
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             3,200
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             5,600
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             26.7
           </td>
           <td
-            class="px-2 py-2 font-medium"
+            class="px-2 py-2 font-medium text-right"
           >
             185.3
              km
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             5
           </td>
@@ -663,20 +663,20 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Flights
              
             ↓
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Pilots
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             XC Potential
              
@@ -687,7 +687,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             Season
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Record (km)
              
@@ -699,7 +699,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Weekend %
              
@@ -737,17 +737,17 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             </div>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             500
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             80
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             90 km
           </td>
@@ -808,7 +808,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             </div>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             312.5
           </td>
@@ -818,7 +818,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             15.01.2025
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             60%
           </td>
@@ -856,17 +856,17 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             </div>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             200
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             40
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             85 km
           </td>
@@ -927,7 +927,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             </div>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             350.2
           </td>
@@ -937,7 +937,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             15.01.2025
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             80%
           </td>
@@ -1013,32 +1013,32 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Flights
              
             ↓
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Pilots
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Total KM
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Avg Distance
              
           </th>
           <th
-            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Record (km)
              
@@ -1073,27 +1073,27 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
             </span>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             500
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             80
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             12.500
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             25 km
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             312.5
           </td>
@@ -1122,27 +1122,27 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
             </span>
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             200
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             30
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             8.000
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             40 km
           </td>
           <td
-            class="px-2 py-2 text-gray-700"
+            class="px-2 py-2 text-gray-700 text-right"
           >
             250.5
           </td>

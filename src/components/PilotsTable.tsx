@@ -56,9 +56,9 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
     else { setSortKey(key); setSortDir("desc"); }
   };
 
-  const SortHeader = ({ k, label }: { k: SortKey; label: string }) => (
+  const SortHeader = ({ k, label, align }: { k: SortKey; label: string; align?: "right" }) => (
     <th
-      className="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+      className={`px-2 py-2 ${align === "right" ? "text-right" : "text-left"} text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200`}
       onClick={() => toggleSort(k)}
     >
       {label} {sortKey === k ? (sortDir === "asc" ? "↑" : "↓") : ""}
@@ -94,12 +94,12 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
           <thead>
             <tr>
               <SortHeader k="name" label={t("name")} />
-              <SortHeader k="flight_count" label={t("flights")} />
-              <SortHeader k="total_km" label={t("totalKm")} />
-              <SortHeader k="total_score" label={t("totalScore")} />
-              <SortHeader k="avg_distance" label={t("avgDistance")} />
-              <SortHeader k="max_distance" label={t("personalRecord")} />
-              <SortHeader k="active_years" label={t("activeYears")} />
+              <SortHeader k="flight_count" label={t("flights")} align="right" />
+              <SortHeader k="total_km" label={t("totalKm")} align="right" />
+              <SortHeader k="total_score" label={t("totalScore")} align="right" />
+              <SortHeader k="avg_distance" label={t("avgDistance")} align="right" />
+              <SortHeader k="max_distance" label={t("personalRecord")} align="right" />
+              <SortHeader k="active_years" label={t("activeYears")} align="right" />
               <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("favoriteSite")}</th>
               <SortHeader k="last_flight" label={t("lastFlight")} />
             </tr>
@@ -112,12 +112,12 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
                     {p.name}
                   </Link>
                 </td>
-                <td className="px-2 py-2 text-gray-700">{p.flight_count}</td>
-                <td className="px-2 py-2 text-gray-700">{p.total_km.toLocaleString()}</td>
-                <td className="px-2 py-2 text-gray-700">{p.total_score.toLocaleString()}</td>
-                <td className="px-2 py-2 text-gray-700">{p.avg_distance.toFixed(1)}</td>
-                <td className="px-2 py-2 font-medium">{p.max_distance.toFixed(1)} km</td>
-                <td className="px-2 py-2 text-gray-700">{p.active_years}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{p.flight_count}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{p.total_km.toLocaleString()}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{p.total_score.toLocaleString()}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{p.avg_distance.toFixed(1)}</td>
+                <td className="px-2 py-2 font-medium text-right">{p.max_distance.toFixed(1)} km</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{p.active_years}</td>
                 <td className="px-2 py-2 text-sm">
                   {p.fav_takeoff_id && p.fav_takeoff_name ? (
                     <Link href={takeoffPath(p.fav_takeoff_id, p.fav_takeoff_name)} className="text-blue-600 hover:underline">
