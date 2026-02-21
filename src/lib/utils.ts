@@ -11,6 +11,10 @@ export function takeoffPath(id: number, name: string): string {
   return `/takeoffs/${id}-${slugify(name)}`;
 }
 
+export function wingPath(id: number, name: string): string {
+  return `/wings/${id}-${slugify(name)}`;
+}
+
 export function pilotPath(username: string): string {
   return `/pilots/${username}`;
 }
