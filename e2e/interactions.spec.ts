@@ -45,8 +45,11 @@ test.describe("Pilots table interactions", () => {
     await expect(search).toBeVisible();
     const rows = page.locator("tbody tr");
     const initialCount = await rows.count();
-    await search.fill("ion");
-    await expect(rows).not.toHaveCount(initialCount);
+    // Retry fill to handle React hydration race on WebKit
+    await expect(async () => {
+      await search.fill("ion");
+      await expect(rows).not.toHaveCount(initialCount, { timeout: 1_000 });
+    }).toPass({ timeout: 15_000 });
     await expect(rows).not.toHaveCount(0);
     await expect(page).toHaveScreenshot("pilots-search.png", {
       fullPage: true,
@@ -82,8 +85,11 @@ test.describe("Wings table interactions", () => {
     await expect(search).toBeVisible();
     const rows = page.locator("tbody tr");
     const initialCount = await rows.count();
-    await search.fill("Nova");
-    await expect(rows).not.toHaveCount(initialCount);
+    // Retry fill to handle React hydration race on WebKit
+    await expect(async () => {
+      await search.fill("Nova");
+      await expect(rows).not.toHaveCount(initialCount, { timeout: 1_000 });
+    }).toPass({ timeout: 15_000 });
     await expect(rows).not.toHaveCount(0);
     await expect(page).toHaveScreenshot("wings-search.png", {
       fullPage: true,
