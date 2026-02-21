@@ -36,7 +36,7 @@ export function formatNumber(n: number): string {
 
 export function formatDate(date: string | Date, locale: string): string {
   const d = typeof date === "string" ? new Date(date) : date;
-  return d.toLocaleDateString(locale === "ro" ? "ro-RO" : "en-GB");
+  return d.toLocaleDateString(locale === "ro" ? "ro-RO" : "en-US");
 }
 
 export function relativeTime(date: Date, locale: string): string {
