@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { takeoffPath } from "@/lib/utils";
+import { takeoffPath, formatNumber } from "@/lib/utils";
 
 import dynamic from "next/dynamic";
 
@@ -224,7 +224,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
                       </div>
                     )}
                   </td>
-                  <td className="px-2 py-2 text-gray-700">{tk.flight_count}</td>
+                  <td className="px-2 py-2 text-gray-700">{formatNumber(tk.flight_count)}</td>
                   <td className="px-2 py-2 text-gray-700">{tk.pilot_count}</td>
                   <td className="px-2 py-2 text-gray-700">{tk.xc_potential ? `${tk.xc_potential} km` : "-"}</td>
                   <td className="px-2 py-2"><MiniSparkline data={tk.monthly_data} /></td>

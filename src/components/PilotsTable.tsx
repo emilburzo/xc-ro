@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { pilotPath, takeoffPath } from "@/lib/utils";
+import { pilotPath, takeoffPath, formatNumber } from "@/lib/utils";
 
 interface Pilot {
   id: number;
@@ -111,9 +111,9 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
                     {p.name}
                   </Link>
                 </td>
-                <td className="px-2 py-2 text-gray-700">{p.flight_count}</td>
-                <td className="px-2 py-2 text-gray-700">{p.total_km.toLocaleString()}</td>
-                <td className="px-2 py-2 text-gray-700">{p.total_score.toLocaleString()}</td>
+                <td className="px-2 py-2 text-gray-700">{formatNumber(p.flight_count)}</td>
+                <td className="px-2 py-2 text-gray-700">{formatNumber(p.total_km)}</td>
+                <td className="px-2 py-2 text-gray-700">{formatNumber(p.total_score)}</td>
                 <td className="px-2 py-2 text-gray-700">{p.avg_distance.toFixed(1)}</td>
                 <td className="px-2 py-2 font-medium">{p.max_distance.toFixed(1)} km</td>
                 <td className="px-2 py-2 text-gray-700">{p.active_years}</td>

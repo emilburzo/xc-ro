@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import SeasonHeatmap from "./SeasonHeatmap";
-import { takeoffPath } from "@/lib/utils";
+import { takeoffPath, formatNumber } from "@/lib/utils";
 
 const AdoptionChart = dynamic(() => import("./charts/AdoptionChart"), { ssr: false });
 const YearlyTrendChart = dynamic(() => import("./charts/YearlyTrendChart"), { ssr: false });
@@ -60,7 +60,7 @@ export default function WingDetailCharts({
               <Link href={takeoffPath(tk.id, tk.name)} className="text-blue-600 hover:underline">
                 {tk.name}
               </Link>
-              <span className="text-gray-500">{tk.flight_count}</span>
+              <span className="text-gray-500">{formatNumber(tk.flight_count)}</span>
             </div>
           ))}
         </div>

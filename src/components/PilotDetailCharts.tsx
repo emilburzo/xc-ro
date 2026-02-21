@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { formatNumber } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import SeasonHeatmap from "./SeasonHeatmap";
 
@@ -56,7 +57,7 @@ export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, d
                 <span className="text-gray-700">{g.name}</span>
               </div>
               <div className="text-xs text-gray-500">
-                {g.flight_count} flights &middot;{" "}
+                {formatNumber(g.flight_count)} flights &middot;{" "}
                 {new Date(g.first_used).getFullYear()}-{new Date(g.last_used).getFullYear()}
               </div>
             </div>

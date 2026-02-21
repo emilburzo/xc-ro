@@ -14,7 +14,7 @@ import {
   getTakeoffYearlyTrend,
   getTakeoffBusiestDays,
 } from "@/lib/queries";
-import { pilotPath, formatDuration, formatDistance } from "@/lib/utils";
+import { pilotPath, formatDuration, formatDistance, formatNumber } from "@/lib/utils";
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
 
 export const dynamic = "force-dynamic";
@@ -145,7 +145,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
                 <tr key={i} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-700">{new Date(d.day).toLocaleDateString()}</td>
                   <td className="px-2 py-2 text-gray-700">{d.pilot_count}</td>
-                  <td className="px-2 py-2 text-gray-700">{d.flight_count}</td>
+                  <td className="px-2 py-2 text-gray-700">{formatNumber(d.flight_count)}</td>
                   <td className="px-2 py-2 font-medium">{Number(d.max_distance).toFixed(1)} km</td>
                 </tr>
               ))}

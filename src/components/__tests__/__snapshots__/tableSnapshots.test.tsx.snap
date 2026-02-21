@@ -490,12 +490,12 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-700"
           >
-            12,500.5
+            12.500,5
           </td>
           <td
             class="px-2 py-2 text-gray-700"
           >
-            18,000.2
+            18.000,2
           </td>
           <td
             class="px-2 py-2 text-gray-700"
@@ -550,12 +550,12 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-700"
           >
-            3,200
+            3.200
           </td>
           <td
             class="px-2 py-2 text-gray-700"
           >
-            5,600
+            5.600
           </td>
           <td
             class="px-2 py-2 text-gray-700"

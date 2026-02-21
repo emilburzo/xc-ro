@@ -7,7 +7,7 @@ import {
   getTopTakeoffs,
   getTopPilots,
 } from "@/lib/queries";
-import { takeoffPath, pilotPath, formatDuration, formatDistance } from "@/lib/utils";
+import { takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber } from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
 
 export const dynamic = "force-dynamic";
@@ -35,10 +35,10 @@ export default async function HomePage() {
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: t("totalFlights"), value: Number(stats.total_flights).toLocaleString() },
-          { label: t("totalPilots"), value: Number(stats.total_pilots).toLocaleString() },
-          { label: t("activeTakeoffs"), value: Number(stats.active_takeoffs).toLocaleString() },
-          { label: t("totalDistance"), value: `${Number(stats.total_distance).toLocaleString()} km` },
+          { label: t("totalFlights"), value: formatNumber(Number(stats.total_flights)) },
+          { label: t("totalPilots"), value: formatNumber(Number(stats.total_pilots)) },
+          { label: t("activeTakeoffs"), value: formatNumber(Number(stats.active_takeoffs)) },
+          { label: t("totalDistance"), value: `${formatNumber(Number(stats.total_distance))} km` },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="text-2xl font-bold text-blue-600">{s.value}</div>
@@ -103,7 +103,7 @@ export default async function HomePage() {
                 <Link href={takeoffPath(tk.id, tk.name)} className="text-sm text-blue-600 hover:underline truncate">
                   {i + 1}. {tk.name}
                 </Link>
-                <span className="text-sm text-gray-500 shrink-0 ml-2">{tk.flight_count.toLocaleString()} {tc("flights")}</span>
+                <span className="text-sm text-gray-500 shrink-0 ml-2">{formatNumber(tk.flight_count)} {tc("flights")}</span>
               </div>
             ))}
           </div>
@@ -120,7 +120,7 @@ export default async function HomePage() {
                 <Link href={pilotPath(p.username)} className="text-sm text-blue-600 hover:underline truncate">
                   {i + 1}. {p.name}
                 </Link>
-                <span className="text-sm text-gray-500 shrink-0 ml-2">{Number(p.total_km).toLocaleString()} km</span>
+                <span className="text-sm text-gray-500 shrink-0 ml-2">{formatNumber(Number(p.total_km))} km</span>
               </div>
             ))}
           </div>
