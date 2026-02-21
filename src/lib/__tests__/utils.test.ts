@@ -90,7 +90,7 @@ describe("formatNumber", () => {
   it("formats with Romanian locale separators", () => {
     const result = formatNumber(12345);
     // Romanian locale uses period as thousands separator
-    expect(result).toMatch(/12[.\s]?345/);
+    expect(result).toBe("12.345");
   });
 
   it("formats small numbers without separators", () => {
