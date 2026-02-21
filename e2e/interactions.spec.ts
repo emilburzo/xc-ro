@@ -51,7 +51,8 @@ test.describe("Pilots table interactions", () => {
     const initialCount = await rows.count();
     // Retry fill to handle React hydration race on WebKit
     await expect(async () => {
-      await search.fill("ion");
+      await search.clear();
+      await search.pressSequentially("ion", { delay: 50 });
       await expect(rows).not.toHaveCount(initialCount, { timeout: 1_000 });
     }).toPass({ timeout: 15_000 });
     await expect(rows).not.toHaveCount(0);
