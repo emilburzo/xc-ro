@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import {
   getHomeStats,
@@ -7,12 +7,13 @@ import {
   getTopTakeoffs,
   getTopPilots,
 } from "@/lib/queries";
-import {takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber} from "@/lib/utils";
+import {takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const locale = await getLocale();
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
 
@@ -71,7 +72,7 @@ export default async function HomePage() {
                     </span>
                   </div>
                   <div className="text-xs text-gray-400">
-                    {new Date(f.start_time).toLocaleDateString()} &middot; {f.glider_name}
+                    {formatDate(f.start_time, locale)} &middot; {f.glider_name}
                     <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
                   </div>
                 </div>

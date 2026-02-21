@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { wingPath } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
+import { wingPath, formatDate } from "@/lib/utils";
 
 interface Wing {
   id: number;
@@ -36,6 +36,7 @@ const CAT_COLORS: Record<string, string> = {
 
 export default function WingsTable({ wings }: { wings: Wing[] }) {
   const t = useTranslations("wings");
+  const locale = useLocale();
   const [sortKey, setSortKey] = useState<SortKey>("flight_count");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [search, setSearch] = useState("");
@@ -154,7 +155,7 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
                 <td className="px-2 py-2 text-gray-700">{w.avg_distance != null ? `${w.avg_distance} km` : "-"}</td>
                 <td className="px-2 py-2 text-gray-700">{w.max_distance != null ? Number(w.max_distance).toFixed(1) : "-"}</td>
                 <td className="px-2 py-2 text-gray-500 text-xs">
-                  {w.last_flight ? new Date(w.last_flight).toLocaleDateString() : "-"}
+                  {w.last_flight ? formatDate(w.last_flight, locale) : "-"}
                 </td>
               </tr>
             ))}

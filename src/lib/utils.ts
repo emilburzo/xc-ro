@@ -34,6 +34,11 @@ export function formatNumber(n: number): string {
   return n.toLocaleString("ro-RO");
 }
 
+export function formatDate(date: string | Date, locale: string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return d.toLocaleDateString(locale === "ro" ? "ro-RO" : "en-US");
+}
+
 export function relativeTime(date: Date, locale: string): string {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();

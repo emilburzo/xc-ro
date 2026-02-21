@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import {
   getAllTimeRecords,
@@ -7,11 +7,11 @@ import {
   getAnnualRecords,
   getFunStats,
 } from "@/lib/queries";
-import { pilotPath, takeoffPath, formatDuration, formatDistance } from "@/lib/utils";
+import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-function RecordCard({ title, record }: { title: string; record: any }) {
+function RecordCard({ title, record, locale }: { title: string; record: any; locale: string }) {
   if (!record) return null;
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -30,7 +30,7 @@ function RecordCard({ title, record }: { title: string; record: any }) {
             {record.takeoff_name}
           </Link>
         )}
-        {" "}&middot; {new Date(record.start_time).toLocaleDateString()}
+        {" "}&middot; {formatDate(record.start_time, locale)}
       </div>
       <div className="text-xs text-gray-500">
         {record.glider_name} &middot; {formatDuration(record.airtime)} &middot;{" "}
@@ -43,6 +43,7 @@ function RecordCard({ title, record }: { title: string; record: any }) {
 }
 
 export default async function RecordsPage() {
+  const locale = await getLocale();
   const t = await getTranslations("records");
 
   const [allTime, categoryRecords, siteRecords, annualRecords, funStats] = await Promise.all([
@@ -61,15 +62,16 @@ export default async function RecordsPage() {
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("allTime")}</h2>
         <div className="grid md:grid-cols-3 gap-3">
-          <RecordCard title={t("longestFlight")} record={allTime.longest} />
+          <RecordCard title={t("longestFlight")} record={allTime.longest} locale={locale} />
           <RecordCard
             title={t("longestAirtime")}
             record={allTime.longestAirtime ? {
               ...allTime.longestAirtime,
               // override display to show airtime prominently
             } : null}
+            locale={locale}
           />
-          <RecordCard title={t("highestScore")} record={allTime.highestScore} />
+          <RecordCard title={t("highestScore")} record={allTime.highestScore} locale={locale} />
         </div>
       </section>
 
@@ -167,7 +169,7 @@ export default async function RecordsPage() {
                       {r.pilot_name}
                     </Link>
                   </td>
-                  <td className="px-3 py-2 text-gray-500">{new Date(r.start_time).toLocaleDateString()}</td>
+                  <td className="px-3 py-2 text-gray-500">{formatDate(r.start_time, locale)}</td>
                 </tr>
               ))}
             </tbody>
@@ -194,7 +196,7 @@ export default async function RecordsPage() {
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <h4 className="font-semibold text-gray-700">{t("mostFlightsDay")}</h4>
               <p className="text-sm text-gray-600 mt-1">
-                {new Date((funStats.mostFlightsDay as any).day).toLocaleDateString()} &mdash;{" "}
+                {formatDate((funStats.mostFlightsDay as any).day, locale)} &mdash;{" "}
                 {t("mostFlightsDayDesc", { flightCount: (funStats.mostFlightsDay as any).flight_count, pilotCount: (funStats.mostFlightsDay as any).pilot_count })}
               </p>
             </div>

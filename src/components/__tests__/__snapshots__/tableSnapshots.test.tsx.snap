@@ -240,7 +240,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
               rel="noopener noreferrer"
               target="_blank"
             >
-              7/8/2025
+              08.07.2025
             </a>
           </td>
           <td
@@ -307,7 +307,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
               rel="noopener noreferrer"
               target="_blank"
             >
-              7/8/2025
+              08.07.2025
             </a>
           </td>
           <td
@@ -522,7 +522,7 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-500 text-xs whitespace-nowrap"
           >
-            12/1/2025
+            01.12.2025
           </td>
         </tr>
         <tr
@@ -582,7 +582,7 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-500 text-xs whitespace-nowrap"
           >
-            11/15/2025
+            15.11.2025
           </td>
         </tr>
       </tbody>
@@ -815,7 +815,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-500 text-xs"
           >
-            1/15/2025
+            15.01.2025
           </td>
           <td
             class="px-2 py-2 text-gray-700"
@@ -934,7 +934,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-500 text-xs"
           >
-            1/15/2025
+            15.01.2025
           </td>
           <td
             class="px-2 py-2 text-gray-700"
@@ -1100,7 +1100,7 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-500 text-xs"
           >
-            1/15/2025
+            15.01.2025
           </td>
         </tr>
         <tr
@@ -1149,7 +1149,7 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-500 text-xs"
           >
-            1/15/2024
+            15.01.2024
           </td>
         </tr>
       </tbody>

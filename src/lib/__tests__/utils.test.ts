@@ -5,6 +5,7 @@ import {
   formatDuration,
   formatDistance,
   formatNumber,
+  formatDate,
   relativeTime,
 } from "../utils";
 
@@ -95,6 +96,35 @@ describe("formatNumber", () => {
 
   it("formats small numbers without separators", () => {
     expect(formatNumber(42)).toBe("42");
+  });
+});
+
+describe("formatDate", () => {
+  it("formats a date string with Romanian locale", () => {
+    const result = formatDate("2022-07-08", "ro");
+    expect(result).toBe(new Date("2022-07-08").toLocaleDateString("ro-RO"));
+  });
+
+  it("formats a date string with English locale", () => {
+    const result = formatDate("2022-07-08", "en");
+    expect(result).toBe(new Date("2022-07-08").toLocaleDateString("en-US"));
+  });
+
+  it("formats a Date object with Romanian locale", () => {
+    const d = new Date("2025-01-15T10:30:00Z");
+    const result = formatDate(d, "ro");
+    expect(result).toBe(d.toLocaleDateString("ro-RO"));
+  });
+
+  it("formats a Date object with English locale", () => {
+    const d = new Date("2025-01-15T10:30:00Z");
+    const result = formatDate(d, "en");
+    expect(result).toBe(d.toLocaleDateString("en-US"));
+  });
+
+  it("defaults to en-US for unknown locales", () => {
+    const result = formatDate("2022-07-08", "fr");
+    expect(result).toBe(new Date("2022-07-08").toLocaleDateString("en-US"));
   });
 });
 
