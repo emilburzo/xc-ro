@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import SeasonHeatmap from "./SeasonHeatmap";
-import { takeoffPath, pilotPath, formatDistance } from "@/lib/utils";
+import { takeoffPath, pilotPath, formatDistance, formatNumber } from "@/lib/utils";
 
 const AdoptionChart = dynamic(() => import("./charts/AdoptionChart"), { ssr: false });
 const YearlyTrendChart = dynamic(() => import("./charts/YearlyTrendChart"), { ssr: false });
@@ -87,7 +87,7 @@ export default function WingDetailCharts({
                       </Link>
                     </td>
                     <td className="px-2 py-2 font-medium text-right">{p.flight_count}</td>
-                    <td className="px-2 py-2 text-gray-700 text-right">{Number(p.total_km).toLocaleString("ro-RO")} km</td>
+                    <td className="px-2 py-2 text-gray-700 text-right">{formatNumber(Number(p.total_km))} km</td>
                     <td className="px-2 py-2 text-gray-700 text-right">{formatDistance(Number(p.max_distance))} km</td>
                   </tr>
                 ))}
