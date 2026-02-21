@@ -1,4 +1,5 @@
 import {
+  removeDiacritics,
   slugify,
   takeoffPath,
   pilotPath,
@@ -8,6 +9,32 @@ import {
   formatDate,
   relativeTime,
 } from "../utils";
+
+describe("removeDiacritics", () => {
+  it("removes Romanian diacritics", () => {
+    expect(removeDiacritics("Brașov")).toBe("Brasov");
+  });
+
+  it("removes Hungarian accents", () => {
+    expect(removeDiacritics("Székely")).toBe("Szekely");
+  });
+
+  it("removes multiple diacritics", () => {
+    expect(removeDiacritics("Sânpetru Județul Brașov")).toBe("Sanpetru Judetul Brasov");
+  });
+
+  it("preserves plain ASCII text", () => {
+    expect(removeDiacritics("Bunloc Launch")).toBe("Bunloc Launch");
+  });
+
+  it("handles empty string", () => {
+    expect(removeDiacritics("")).toBe("");
+  });
+
+  it("preserves case", () => {
+    expect(removeDiacritics("BRAȘOV")).toBe("BRASOV");
+  });
+});
 
 describe("slugify", () => {
   it("lowercases and replaces spaces with hyphens", () => {

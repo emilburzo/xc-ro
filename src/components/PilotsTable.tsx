@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
-import { pilotPath, takeoffPath, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, formatDate, removeDiacritics } from "@/lib/utils";
 
 interface Pilot {
   id: number;
@@ -33,8 +33,8 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
   const filtered = useMemo(() => {
     let list = pilots;
     if (search) {
-      const s = search.toLowerCase();
-      list = list.filter((p) => p.name.toLowerCase().includes(s) || p.username.toLowerCase().includes(s));
+      const s = removeDiacritics(search).toLowerCase();
+      list = list.filter((p) => removeDiacritics(p.name).toLowerCase().includes(s) || removeDiacritics(p.username).toLowerCase().includes(s));
     }
     if (minFlights > 0) list = list.filter((p) => p.flight_count >= minFlights);
     return list;

@@ -598,10 +598,10 @@ export async function getFlightsList(filters: FlightFilters) {
 
   if (filters.pilotSearch) {
     const pattern = `%${filters.pilotSearch}%`;
-    conditions.push(sql`(p.name ILIKE ${pattern} OR p.username ILIKE ${pattern})`);
+    conditions.push(sql`(unaccent(p.name) ILIKE unaccent(${pattern}) OR unaccent(p.username) ILIKE unaccent(${pattern}))`);
   }
   if (filters.takeoffSearch) {
-    conditions.push(sql`t.name ILIKE ${`%${filters.takeoffSearch}%`}`);
+    conditions.push(sql`unaccent(t.name) ILIKE unaccent(${`%${filters.takeoffSearch}%`})`);
   }
   if (filters.dateFrom) {
     conditions.push(sql`f.start_time >= ${filters.dateFrom}::timestamp`);

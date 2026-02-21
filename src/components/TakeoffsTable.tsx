@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
-import { takeoffPath, formatDate } from "@/lib/utils";
+import { takeoffPath, formatDate, removeDiacritics } from "@/lib/utils";
 
 import dynamic from "next/dynamic";
 
@@ -79,8 +79,8 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
   const filtered = useMemo(() => {
     let list = takeoffs;
     if (search) {
-      const s = search.toLowerCase();
-      list = list.filter((tk) => tk.name.toLowerCase().includes(s));
+      const s = removeDiacritics(search).toLowerCase();
+      list = list.filter((tk) => removeDiacritics(tk.name).toLowerCase().includes(s));
     }
     if (minFlights > 0) {
       list = list.filter((tk) => tk.flight_count >= minFlights);

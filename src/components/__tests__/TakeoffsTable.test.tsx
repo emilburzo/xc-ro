@@ -109,12 +109,29 @@ const mockTakeoffs = [
     ab_pct: 80,
     monthly_data: null,
   },
+  {
+    id: 4,
+    name: "Székely",
+    flight_count: 100,
+    pilot_count: 15,
+    xc_potential: 70,
+    record_km: 120.0,
+    last_activity: recentDate,
+    weekend_pct: 50,
+    flights_100k: 2,
+    avg_distance: 12.0,
+    ab_pct: 40,
+    monthly_data: [
+      { month: new Date().getMonth() + 1, count: 10 },
+    ],
+  },
 ];
 
 const mockMapData = [
   { id: 1, name: "Bunloc", lat: 45.6, lng: 25.5, flight_count: 500, last_activity: recentDate },
   { id: 2, name: "Sticlaria", lat: 46.2, lng: 24.8, flight_count: 200, last_activity: recentDate },
   { id: 3, name: "Dormant Site", lat: 45.0, lng: 24.0, flight_count: 5, last_activity: oldDate },
+  { id: 4, name: "Székely", lat: 46.5, lng: 25.0, flight_count: 100, last_activity: recentDate },
 ];
 
 describe("TakeoffsTable", () => {
@@ -138,8 +155,8 @@ describe("TakeoffsTable", () => {
 
   it("shows the count of displayed takeoffs", () => {
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
-    // With default "active" filter, active takeoffs are Bunloc and Sticlaria
-    expect(screen.getByText("2 takeoffs")).toBeInTheDocument();
+    // With default "active" filter, active takeoffs are Bunloc, Sticlaria, and Székely
+    expect(screen.getByText("3 takeoffs")).toBeInTheDocument();
   });
 
   it("filters takeoffs by search input", async () => {
@@ -154,6 +171,22 @@ describe("TakeoffsTable", () => {
     expect(screen.getByText("1 takeoffs")).toBeInTheDocument();
   });
 
+  it("filters takeoffs by search input ignoring diacritics", async () => {
+    const user = userEvent.setup();
+    render(<TakeoffsTable takeoffs={mockTakeoffs} />);
+
+    // Switch to "all" filter to show Székely
+    const select = screen.getByDisplayValue("Active only");
+    await user.selectOptions(select, "all");
+
+    const searchInput = screen.getByPlaceholderText("Search by name...");
+    await user.type(searchInput, "Szekely");
+
+    expect(screen.getByText("Székely")).toBeInTheDocument();
+    expect(screen.queryByText("Bunloc")).not.toBeInTheDocument();
+    expect(screen.getByText("1 takeoffs")).toBeInTheDocument();
+  });
+
   it("filters by minimum flights", async () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
@@ -165,7 +198,7 @@ describe("TakeoffsTable", () => {
     const minFlightsInput = screen.getByRole("spinbutton");
     await user.type(minFlightsInput, "100");
 
-    // Only Bunloc (500) and Sticlaria (200) have >= 100 flights
+    // Only Bunloc (500), Sticlaria (200), and Székely (100) have >= 100 flights
     expect(screen.getByText("Bunloc")).toBeInTheDocument();
     expect(screen.getByText("Sticlaria")).toBeInTheDocument();
     expect(screen.queryByText("Dormant Site")).not.toBeInTheDocument();
@@ -189,7 +222,7 @@ describe("TakeoffsTable", () => {
     const select = screen.getByDisplayValue("Active only");
     await user.selectOptions(select, "all");
 
-    expect(screen.getByText("3 takeoffs")).toBeInTheDocument();
+    expect(screen.getByText("4 takeoffs")).toBeInTheDocument();
   });
 
   it("renders tags for qualifying takeoffs", () => {
@@ -234,9 +267,9 @@ describe("TakeoffsTable", () => {
     await user.click(flightsHeader);
 
     const rows = screen.getAllByRole("row");
-    // After toggling to ascending, Sticlaria (200) should come first
+    // After toggling to ascending, Székely (100) should come first
     const firstDataRow = rows[1];
-    expect(firstDataRow).toHaveTextContent("Sticlaria");
+    expect(firstDataRow).toHaveTextContent("Székely");
   });
 
   it("sorts by name when name header is clicked", async () => {
@@ -247,9 +280,9 @@ describe("TakeoffsTable", () => {
     await user.click(nameHeader);
 
     const rows = screen.getAllByRole("row");
-    // Default desc alphabetical: Sticlaria before Bunloc
+    // Default desc alphabetical: Székely before Sticlaria before Bunloc
     const firstDataRow = rows[1];
-    expect(firstDataRow).toHaveTextContent("Sticlaria");
+    expect(firstDataRow).toHaveTextContent("Székely");
   });
 
   it("displays takeoff links pointing to correct paths", () => {
