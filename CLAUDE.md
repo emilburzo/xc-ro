@@ -9,7 +9,7 @@ Mobile-first webapp exploring ~73k paragliding/hang-gliding flights scraped from
 - **Framework**: Next.js 14 (App Router, Server Components) — `next@14.2.35`
 - **Styling**: Tailwind CSS 3
 - **Charts**: Recharts 3 (bar, line, composed, pie)
-- **Maps**: Leaflet 1.9 (dynamic import, no SSR) — markers loaded via raw `leaflet` API, not `react-leaflet` components
+- **Maps**: react-leaflet 4 + Leaflet 1.9 (dynamic import, no SSR) — declarative MapContainer/TileLayer/CircleMarker/Popup components
 - **Database**: PostgreSQL 16 with PostGIS — accessed via `postgres` (postgres.js) + Drizzle ORM
 - **i18n**: next-intl 4 — cookie-based locale (`ro` default, `en` secondary)
 - **Deployment**: Dockerfile with `output: "standalone"`
@@ -130,7 +130,7 @@ src/
 
 ### Client components
 - Charts: all wrapped in `dynamic(() => import(...), { ssr: false })` — Recharts and Leaflet don't work with SSR
-- Leaflet maps: use raw `import("leaflet")` inside `useEffect`, fix default icons with `L.Icon.Default.mergeOptions`
+- Leaflet maps: use `react-leaflet` declarative components (`MapContainer`, `TileLayer`, `CircleMarker`, `Popup`), loaded via `dynamic(..., { ssr: false })`
 - Tables: client-side sorting/filtering with `useState`/`useMemo`, server-side data fetched in parent
 
 ### i18n
@@ -151,11 +151,9 @@ src/
 
 4. **next-intl v4 with Next.js 14**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
 
-5. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) sets `.leaflet-container { height: 100% }`. Because this `<link>` is loaded in the component body (after Tailwind CSS in `<head>`), it overrides Tailwind height classes like `h-[300px]` at equal specificity. The fix is to use Tailwind's `!important` modifier: `!h-[300px]`. **All Leaflet map container divs must use `!h-[...]` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
+5. **Leaflet CSS height conflict**: The Leaflet CSS sets `.leaflet-container { height: 100% }`, which overrides Tailwind height classes at equal specificity. The fix is to use Tailwind's `!important` modifier: `!h-[300px]`. **All Leaflet map container divs must use `!h-[...]` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0. Leaflet CSS is imported via `import "leaflet/dist/leaflet.css"` in map components.
 
-6. **Leaflet default marker icons**: Broken in bundlers by default. Must call `delete (L.Icon.Default.prototype as any)._getIconUrl` and then `L.Icon.Default.mergeOptions(...)` with unpkg URLs.
-
-7. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
+6. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
 
 ## Environment
 

@@ -1,33 +1,26 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import TakeoffMap from "../TakeoffMap";
-import * as L from "leaflet";
 
-// Mock leaflet
-const mockMarker = {
-  addTo: jest.fn().mockReturnThis(),
-  bindPopup: jest.fn().mockReturnThis(),
-};
+// Mock leaflet CSS import
+jest.mock("leaflet/dist/leaflet.css", () => ({}));
 
-const mockMap = {
-  setView: jest.fn().mockReturnThis(),
-  remove: jest.fn(),
-};
-
-const mockTileLayer = {
-  addTo: jest.fn().mockReturnThis(),
-};
-
-jest.mock("leaflet", () => ({
-  map: jest.fn(() => mockMap),
-  tileLayer: jest.fn(() => mockTileLayer),
-  circleMarker: jest.fn(() => mockMarker),
-  Icon: {
-    Default: {
-      prototype: { _getIconUrl: "" },
-      mergeOptions: jest.fn(),
-    },
-  },
+// Mock react-leaflet
+jest.mock("react-leaflet", () => ({
+  MapContainer: ({ children, center, zoom, className }: any) => (
+    <div data-testid="map-container" data-center={JSON.stringify(center)} data-zoom={zoom} className={className}>
+      {children}
+    </div>
+  ),
+  TileLayer: ({ url, maxZoom }: any) => (
+    <div data-testid="tile-layer" data-url={url} data-max-zoom={maxZoom} />
+  ),
+  CircleMarker: ({ children, center, radius, pathOptions }: any) => (
+    <div data-testid="circle-marker" data-center={JSON.stringify(center)} data-radius={radius} data-path-options={JSON.stringify(pathOptions)}>
+      {children}
+    </div>
+  ),
+  Popup: ({ children }: any) => <div data-testid="popup">{children}</div>,
 }));
 
 const mockTakeoffs = [
@@ -58,90 +51,56 @@ const mockTakeoffs = [
 ];
 
 describe("TakeoffMap", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it("renders the map container element", () => {
+  it("renders the map container with correct classes", () => {
     const { container } = render(<TakeoffMap takeoffs={mockTakeoffs} />);
-    const mapDiv = container.querySelector(".w-full");
+    const mapDiv = container.querySelector('[data-testid="map-container"]');
     expect(mapDiv).toBeInTheDocument();
     expect(mapDiv).toHaveClass("!h-[350px]");
   });
 
-  it("loads leaflet CSS stylesheet", () => {
+  it("sets correct map center (Romania) and zoom", () => {
     const { container } = render(<TakeoffMap takeoffs={mockTakeoffs} />);
-    const link = container.querySelector('link[rel="stylesheet"]');
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute("href", "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
+    const mapDiv = container.querySelector('[data-testid="map-container"]');
+    expect(mapDiv).toHaveAttribute("data-center", JSON.stringify([46.0, 25.0]));
+    expect(mapDiv).toHaveAttribute("data-zoom", "7");
   });
 
-  it("initializes the leaflet map on mount", async () => {
-    render(<TakeoffMap takeoffs={mockTakeoffs} />);
-
-    await waitFor(() => {
-      expect(L.map).toHaveBeenCalled();
-    });
+  it("creates circle markers for each takeoff with valid coordinates", () => {
+    const { container } = render(<TakeoffMap takeoffs={mockTakeoffs} />);
+    const markers = container.querySelectorAll('[data-testid="circle-marker"]');
+    expect(markers).toHaveLength(3);
   });
 
-  it("creates circle markers for each takeoff with valid coordinates", async () => {
-    render(<TakeoffMap takeoffs={mockTakeoffs} />);
-
-    await waitFor(() => {
-      // 3 takeoffs with valid lat/lng
-      expect(L.circleMarker).toHaveBeenCalledTimes(3);
-    });
+  it("renders popups with takeoff names", () => {
+    const { getByText } = render(<TakeoffMap takeoffs={mockTakeoffs} />);
+    expect(getByText("Bunloc")).toBeInTheDocument();
+    expect(getByText("Sticlaria")).toBeInTheDocument();
+    expect(getByText("Old Site")).toBeInTheDocument();
   });
 
-  it("sets correct map center (Romania)", async () => {
-    render(<TakeoffMap takeoffs={mockTakeoffs} />);
-
-    await waitFor(() => {
-      expect(mockMap.setView).toHaveBeenCalledWith([46.0, 25.0], 7);
-    });
-  });
-
-  it("binds popups to markers with takeoff names", async () => {
-    render(<TakeoffMap takeoffs={mockTakeoffs} />);
-
-    await waitFor(() => {
-      expect(mockMarker.bindPopup).toHaveBeenCalledTimes(3);
-    });
-
-    // Check that popup HTML includes takeoff names
-    const calls = mockMarker.bindPopup.mock.calls;
-    expect(calls.some((c: any[]) => c[0].includes("Bunloc"))).toBe(true);
-    expect(calls.some((c: any[]) => c[0].includes("Sticlaria"))).toBe(true);
-  });
-
-  it("skips markers for takeoffs without coordinates", async () => {
+  it("skips markers for takeoffs without coordinates", () => {
     const takeoffsWithMissing = [
       ...mockTakeoffs,
       { id: 4, name: "No coords", lat: 0, lng: 0, flight_count: 1, last_activity: null },
     ];
-    render(<TakeoffMap takeoffs={takeoffsWithMissing} />);
-
-    await waitFor(() => {
-      // The TakeoffMap component checks `if (!tk.lat || !tk.lng) return;`
-      // so lat=0, lng=0 will be skipped since 0 is falsy in JavaScript
-      expect(L.circleMarker).toHaveBeenCalledTimes(3);
-    });
+    const { container } = render(<TakeoffMap takeoffs={takeoffsWithMissing} />);
+    const markers = container.querySelectorAll('[data-testid="circle-marker"]');
+    // lat=0, lng=0 is filtered out since 0 is falsy
+    expect(markers).toHaveLength(3);
   });
 
   it("renders with empty takeoffs array", () => {
     const { container } = render(<TakeoffMap takeoffs={[]} />);
-    const mapDiv = container.querySelector(".w-full");
+    const mapDiv = container.querySelector('[data-testid="map-container"]');
     expect(mapDiv).toBeInTheDocument();
+    const markers = container.querySelectorAll('[data-testid="circle-marker"]');
+    expect(markers).toHaveLength(0);
   });
 
-  it("adds tile layer from OpenStreetMap", async () => {
-    render(<TakeoffMap takeoffs={mockTakeoffs} />);
-
-    await waitFor(() => {
-      expect(L.tileLayer).toHaveBeenCalledWith(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        expect.objectContaining({ maxZoom: 18 })
-      );
-    });
+  it("adds tile layer from OpenStreetMap", () => {
+    const { container } = render(<TakeoffMap takeoffs={mockTakeoffs} />);
+    const tileLayer = container.querySelector('[data-testid="tile-layer"]');
+    expect(tileLayer).toHaveAttribute("data-url", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+    expect(tileLayer).toHaveAttribute("data-max-zoom", "18");
   });
 });
