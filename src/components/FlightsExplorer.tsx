@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { pilotPath, takeoffPath, formatDuration, formatDistance } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
+import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 
 interface Flight {
   id: number;
@@ -39,6 +39,7 @@ const PRESETS = [
 
 export default function FlightsExplorer({ flights, total, page, pageSize, currentFilters }: Props) {
   const t = useTranslations("flights");
+  const locale = useLocale();
   const router = useRouter();
   const [pilotSearch, setPilotSearch] = useState(currentFilters.pilot || "");
   const [takeoffSearch, setTakeoffSearch] = useState(currentFilters.takeoff || "");
@@ -209,7 +210,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
               <tr key={f.id} className="hover:bg-gray-50">
                 <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
                   <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    {new Date(f.start_time).toLocaleDateString()}
+                    {formatDate(f.start_time, locale)}
                   </a>
                 </td>
                 <td className="px-2 py-2">

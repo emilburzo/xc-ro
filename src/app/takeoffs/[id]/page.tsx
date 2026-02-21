@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -14,12 +14,13 @@ import {
   getTakeoffYearlyTrend,
   getTakeoffBusiestDays,
 } from "@/lib/queries";
-import { pilotPath, formatDuration, formatDistance } from "@/lib/utils";
+import { pilotPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
 
 export const dynamic = "force-dynamic";
 
 export default async function TakeoffDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const locale = await getLocale();
   const t = await getTranslations("takeoffDetail");
   const { id: rawId } = await params;
   const id = parseInt(rawId.split("-")[0]);
@@ -105,7 +106,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
                     <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      {new Date(f.start_time).toLocaleDateString()}
+                      {formatDate(f.start_time, locale)}
                     </a>
                   </td>
                   <td className="px-2 py-2">
@@ -143,7 +144,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
             <tbody className="divide-y divide-gray-100">
               {(busiest as any[]).map((d, i) => (
                 <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-2 py-2 text-gray-700">{new Date(d.day).toLocaleDateString()}</td>
+                  <td className="px-2 py-2 text-gray-700">{formatDate(d.day, locale)}</td>
                   <td className="px-2 py-2 text-gray-700">{d.pilot_count}</td>
                   <td className="px-2 py-2 text-gray-700">{d.flight_count}</td>
                   <td className="px-2 py-2 font-medium">{Number(d.max_distance).toFixed(1)} km</td>

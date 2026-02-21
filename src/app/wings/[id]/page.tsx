@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -10,7 +10,7 @@ import {
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
 } from "@/lib/queries";
-import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber } from "@/lib/utils";
+import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +28,7 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 export default async function WingDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const locale = await getLocale();
   const t = await getTranslations("wingDetail");
   const { id: rawId } = await params;
   const id = parseInt(rawId.split("-")[0]);
@@ -133,7 +134,7 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
                     <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      {new Date(f.start_time).toLocaleDateString()}
+                      {formatDate(f.start_time, locale)}
                     </a>
                   </td>
                   <td className="px-2 py-2">

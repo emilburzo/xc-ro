@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { pilotPath, takeoffPath } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
+import { pilotPath, takeoffPath, formatDate } from "@/lib/utils";
 
 interface Pilot {
   id: number;
@@ -24,6 +24,7 @@ type SortKey = "name" | "flight_count" | "total_km" | "total_score" | "avg_dista
 
 export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
   const t = useTranslations("pilots");
+  const locale = useLocale();
   const [sortKey, setSortKey] = useState<SortKey>("total_km");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [search, setSearch] = useState("");
@@ -125,7 +126,7 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
                   ) : "-"}
                 </td>
                 <td className="px-2 py-2 text-gray-500 text-xs whitespace-nowrap">
-                  {p.last_flight ? new Date(p.last_flight).toLocaleDateString() : "-"}
+                  {p.last_flight ? formatDate(p.last_flight, locale) : "-"}
                 </td>
               </tr>
             ))}

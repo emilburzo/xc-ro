@@ -28,6 +28,7 @@ jest.mock("next-intl", () => ({
     };
     return map[key] || key;
   },
+  useLocale: () => "ro",
 }));
 
 // Mock next/navigation

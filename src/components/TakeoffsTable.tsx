@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { takeoffPath } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
+import { takeoffPath, formatDate } from "@/lib/utils";
 
 import dynamic from "next/dynamic";
 
@@ -66,6 +66,7 @@ function Badge({ label, color }: { label: string; color: string }) {
 
 export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff[]; mapData?: TakeoffMapData[] }) {
   const t = useTranslations("takeoffs");
+  const locale = useLocale();
   const [sortKey, setSortKey] = useState<SortKey>("flight_count");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [search, setSearch] = useState("");
@@ -230,7 +231,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
                   <td className="px-2 py-2"><MiniSparkline data={tk.monthly_data} /></td>
                   <td className="px-2 py-2 text-gray-700">{tk.record_km ? `${Number(tk.record_km).toFixed(1)}` : "-"}</td>
                   <td className="px-2 py-2 text-gray-500 text-xs">
-                    {tk.last_activity ? new Date(tk.last_activity).toLocaleDateString() : "-"}
+                    {tk.last_activity ? formatDate(tk.last_activity, locale) : "-"}
                   </td>
                   <td className="px-2 py-2 text-gray-700">{tk.weekend_pct != null ? `${tk.weekend_pct}%` : "-"}</td>
                 </tr>
