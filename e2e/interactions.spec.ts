@@ -10,7 +10,7 @@ test.describe("Takeoffs table interactions", () => {
     const search = page.getByPlaceholder(/search|caut/i);
     if (await search.isVisible()) {
       await search.fill("Bunloc");
-      await page.waitForTimeout(300);
+      await expect(page.locator("tbody tr")).not.toHaveCount(0);
     }
     await expect(page).toHaveScreenshot("takeoffs-search.png", {
       fullPage: true,
@@ -23,7 +23,7 @@ test.describe("Takeoffs table interactions", () => {
     });
     if (await flightsHeader.isVisible()) {
       await flightsHeader.click();
-      await page.waitForTimeout(300);
+      await expect(page.locator("tbody tr").first()).toBeVisible();
     }
     await expect(page).toHaveScreenshot("takeoffs-sorted.png", {
       fullPage: true,
@@ -40,8 +40,8 @@ test.describe("Pilots table interactions", () => {
   test("search filters pilots visually", async ({ page }) => {
     const search = page.getByPlaceholder(/search|caut/i);
     if (await search.isVisible()) {
-      await search.fill("emil");
-      await page.waitForTimeout(300);
+      await search.fill("ion");
+      await expect(page.locator("tbody tr")).not.toHaveCount(0);
     }
     await expect(page).toHaveScreenshot("pilots-search.png", {
       fullPage: true,

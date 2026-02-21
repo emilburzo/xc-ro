@@ -52,7 +52,6 @@ test.describe("Mobile navigation", () => {
     const hamburger = page.getByRole("button", { name: /menu/i });
     if (await hamburger.isVisible()) {
       await hamburger.click();
-      await page.waitForTimeout(300); // animation
     }
 
     const nav = page.locator("nav");
