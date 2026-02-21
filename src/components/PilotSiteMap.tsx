@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { takeoffPath } from "@/lib/utils";
 
 interface SiteData {
@@ -14,6 +15,7 @@ interface SiteData {
 export default function PilotSiteMap({ sites }: { sites: SiteData[] }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
+  const tc = useTranslations("common");
 
   useEffect(() => {
     if (!mapRef.current || sites.length === 0) return;
@@ -52,7 +54,7 @@ export default function PilotSiteMap({ sites }: { sites: SiteData[] }) {
         })
           .addTo(map)
           .bindPopup(
-            `<strong><a href="${takeoffPath(s.id, s.name)}">${s.name}</a></strong><br/>${s.flight_count} flights`
+            `<strong><a href="${takeoffPath(s.id, s.name)}">${s.name}</a></strong><br/>${s.flight_count} ${tc("flights")}`
           );
       });
 
@@ -66,7 +68,7 @@ export default function PilotSiteMap({ sites }: { sites: SiteData[] }) {
         mapInstanceRef.current = null;
       }
     };
-  }, [sites]);
+  }, [sites, tc]);
 
   return (
     <>

@@ -23,6 +23,7 @@ function getColor(value: number, max: number): string {
 
 export default function SeasonHeatmap({ data }: { data: HeatmapData[] }) {
   const t = useTranslations("home");
+  const tc = useTranslations("common");
   const [mode, setMode] = useState<"flights" | "score">("flights");
 
   const years = Array.from(new Set(data.map((d) => d.year))).sort();
@@ -72,7 +73,7 @@ export default function SeasonHeatmap({ data }: { data: HeatmapData[] }) {
                     key={month}
                     className="w-8 h-6 rounded-sm cursor-default"
                     style={{ backgroundColor: getColor(value, maxVal) }}
-                    title={`${year}/${String(month).padStart(2, "0")}: ${value} ${mode === "flights" ? "flights" : "avg score"}`}
+                    title={`${year}/${String(month).padStart(2, "0")}: ${value} ${mode === "flights" ? tc("flights") : tc("avgScore")}`}
                   />
                 );
               })}

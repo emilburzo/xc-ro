@@ -18,6 +18,7 @@ jest.mock("next-intl", () => ({
       activeYears: "Active Years",
       favoriteSite: "Favorite Site",
       lastFlight: "Last Flight",
+      title: "Pilots",
     };
     return map[key] || key;
   },

@@ -66,6 +66,7 @@ function Badge({ label, color }: { label: string; color: string }) {
 
 export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff[]; mapData?: TakeoffMapData[] }) {
   const t = useTranslations("takeoffs");
+  const tc = useTranslations("common");
   const locale = useLocale();
   const [sortKey, setSortKey] = useState<SortKey>("flight_count");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
@@ -175,7 +176,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
           onChange={(e) => setActiveFilter(e.target.value as "all" | "active" | "dormant")}
           className="px-2 py-1.5 text-sm border border-gray-300 rounded-lg"
         >
-          <option value="all">All</option>
+          <option value="all">{tc("all")}</option>
           <option value="active">{t("activeOnly")}</option>
           <option value="dormant">{t("dormantOnly")}</option>
         </select>
@@ -191,7 +192,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
         </label>
       </div>
 
-      <div className="text-sm text-gray-500 mb-2">{sorted.length} takeoffs</div>
+      <div className="text-sm text-gray-500 mb-2">{sorted.length} {t("title").toLowerCase()}</div>
 
       {/* Table */}
       <div className="overflow-auto max-h-[70vh]">

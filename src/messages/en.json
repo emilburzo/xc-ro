@@ -78,7 +78,10 @@
     "airtime": "Airtime",
     "pilotsCount": "Pilots",
     "openInMaps": "Open in Google Maps",
-    "viewOnXContest": "View on XContest"
+    "viewOnXContest": "View on XContest",
+    "backToTakeoffs": "Back to Takeoffs",
+    "flights": "Flights",
+    "maxKm": "Max km"
   },
   "pilots": {
     "title": "Pilots",
@@ -110,7 +113,14 @@
     "avgDistance": "Avg distance",
     "activeSince": "Active since",
     "favoriteTakeoff": "Favorite takeoff",
-    "flightsFromSite": "flights"
+    "flightsFromSite": "flights",
+    "backToPilots": "Back to Pilots",
+    "date": "Date",
+    "takeoff": "Takeoff",
+    "glider": "Glider",
+    "distance": "Distance",
+    "score": "Score",
+    "airtime": "Airtime"
   },
   "flights": {
     "title": "Flights Explorer",
@@ -134,7 +144,11 @@
     "noFlights": "No flights found",
     "freeFlightLabel": "free flight",
     "faiTriangleLabel": "FAI triangle",
-    "flatTriangleLabel": "flat triangle"
+    "flatTriangleLabel": "flat triangle",
+    "min": "Min",
+    "max": "Max",
+    "allCategories": "All",
+    "page": "page"
   },
   "records": {
     "title": "Records & Stats",
@@ -155,7 +169,15 @@
     "mostSitesPilotDesc": "{count} different takeoffs",
     "mostConsistent": "Most consistent pilot",
     "mostConsistentDesc": "{count} years active",
-    "growth": "Growth"
+    "growth": "Growth",
+    "view": "view",
+    "year": "Year",
+    "distance": "Distance",
+    "pilot": "Pilot",
+    "takeoff": "Takeoff",
+    "glider": "Glider",
+    "record": "Record",
+    "date": "Date"
   },
   "wings": {
     "title": "Wings",
@@ -208,6 +230,35 @@
     "pilots": "pilots",
     "back": "Back",
     "showMore": "Show more",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "switchToEnglish": "Switch to English",
+    "switchToRomanian": "Switch to Romanian",
+    "avgScore": "avg score",
+    "all": "All"
+  },
+  "charts": {
+    "flights": "Flights",
+    "avgKm": "Avg km",
+    "maxKm": "Max km",
+    "totalKm": "Total km",
+    "monthJan": "Jan",
+    "monthFeb": "Feb",
+    "monthMar": "Mar",
+    "monthApr": "Apr",
+    "monthMay": "May",
+    "monthJun": "Jun",
+    "monthJul": "Jul",
+    "monthAug": "Aug",
+    "monthSep": "Sep",
+    "monthOct": "Oct",
+    "monthNov": "Nov",
+    "monthDec": "Dec",
+    "dowSun": "Sun",
+    "dowMon": "Mon",
+    "dowTue": "Tue",
+    "dowWed": "Wed",
+    "dowThu": "Thu",
+    "dowFri": "Fri",
+    "dowSat": "Sat"
   }
 }

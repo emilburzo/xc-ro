@@ -53,7 +53,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
       {/* Header */}
       <div>
         <Link href="/takeoffs" className="text-sm text-blue-600 hover:underline mb-2 inline-block">
-          &larr; {t("viewOnXContest")}
+          &larr; {t("backToTakeoffs")}
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">{(takeoff as any).name}</h1>
         <div className="flex gap-3 text-sm text-gray-500 mt-1">
@@ -137,8 +137,8 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
               <tr>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("date")}</th>
                 <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("pilotsCount")}</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Flights</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Max km</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("flights")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("maxKm")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

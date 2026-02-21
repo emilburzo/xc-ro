@@ -78,7 +78,10 @@
     "airtime": "Durată",
     "pilotsCount": "Piloți",
     "openInMaps": "Deschide în Google Maps",
-    "viewOnXContest": "Vezi pe XContest"
+    "viewOnXContest": "Vezi pe XContest",
+    "backToTakeoffs": "Înapoi la Decolări",
+    "flights": "Zboruri",
+    "maxKm": "Max km"
   },
   "pilots": {
     "title": "Piloți",
@@ -110,7 +113,14 @@
     "avgDistance": "Distanță medie",
     "activeSince": "Activ din",
     "favoriteTakeoff": "Decolarea favorită",
-    "flightsFromSite": "zboruri"
+    "flightsFromSite": "zboruri",
+    "backToPilots": "Înapoi la Piloți",
+    "date": "Data",
+    "takeoff": "Decolare",
+    "glider": "Aripă",
+    "distance": "Distanță",
+    "score": "Scor",
+    "airtime": "Durată"
   },
   "flights": {
     "title": "Explorer Zboruri",
@@ -134,7 +144,11 @@
     "noFlights": "Niciun zbor găsit",
     "freeFlightLabel": "zbor liber",
     "faiTriangleLabel": "triunghi FAI",
-    "flatTriangleLabel": "triunghi plat"
+    "flatTriangleLabel": "triunghi plat",
+    "min": "Min",
+    "max": "Max",
+    "allCategories": "Toate",
+    "page": "pagina"
   },
   "records": {
     "title": "Recorduri & Statistici",
@@ -155,7 +169,15 @@
     "mostSitesPilotDesc": "{count} decolări diferite",
     "mostConsistent": "Cel mai constant pilot",
     "mostConsistentDesc": "{count} ani activi",
-    "growth": "Creștere"
+    "growth": "Creștere",
+    "view": "vezi",
+    "year": "An",
+    "distance": "Distanță",
+    "pilot": "Pilot",
+    "takeoff": "Decolare",
+    "glider": "Aripă",
+    "record": "Record",
+    "date": "Data"
   },
   "wings": {
     "title": "Aripi",
@@ -208,6 +230,35 @@
     "pilots": "piloți",
     "back": "Înapoi",
     "showMore": "Arată mai mult",
-    "showLess": "Arată mai puțin"
+    "showLess": "Arată mai puțin",
+    "switchToEnglish": "Schimbă în Engleză",
+    "switchToRomanian": "Schimbă în Română",
+    "avgScore": "scor mediu",
+    "all": "Toate"
+  },
+  "charts": {
+    "flights": "Zboruri",
+    "avgKm": "Km mediu",
+    "maxKm": "Max km",
+    "totalKm": "Total km",
+    "monthJan": "Ian",
+    "monthFeb": "Feb",
+    "monthMar": "Mar",
+    "monthApr": "Apr",
+    "monthMay": "Mai",
+    "monthJun": "Iun",
+    "monthJul": "Iul",
+    "monthAug": "Aug",
+    "monthSep": "Sep",
+    "monthOct": "Oct",
+    "monthNov": "Nov",
+    "monthDec": "Dec",
+    "dowSun": "Dum",
+    "dowMon": "Lun",
+    "dowTue": "Mar",
+    "dowWed": "Mie",
+    "dowThu": "Joi",
+    "dowFri": "Vin",
+    "dowSat": "Sâm"
   }
 }

@@ -5,28 +5,37 @@ import FlightsExplorer from "../FlightsExplorer";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
-  useTranslations: () => (key: string) => {
-    const map: Record<string, string> = {
-      title: "Flights Explorer",
-      date: "Date",
-      pilot: "Pilot",
-      takeoff: "Takeoff",
-      glider: "Glider",
-      type: "Type",
-      distance: "Distance",
-      score: "Score",
-      duration: "Duration",
-      filters: "Filters",
-      dateRange: "Date range",
-      distanceRange: "Distance range",
-      gliderCategory: "Glider category",
-      presetToday: "Today's flights",
-      presetBestMonth: "Best this month",
-      presetTop100: "Top 100 all-time",
-      presetClub100k: "100km+ Club",
-      noFlights: "No flights found",
+  useTranslations: (ns?: string) => (key: string) => {
+    const translations: Record<string, Record<string, string>> = {
+      flights: {
+        title: "Flights Explorer",
+        date: "Date",
+        pilot: "Pilot",
+        takeoff: "Takeoff",
+        glider: "Glider",
+        type: "Type",
+        distance: "Distance",
+        score: "Score",
+        duration: "Duration",
+        filters: "Filters",
+        dateRange: "Date range",
+        distanceRange: "Distance range",
+        gliderCategory: "Glider category",
+        presetToday: "Today's flights",
+        presetBestMonth: "Best this month",
+        presetTop100: "Top 100 all-time",
+        presetClub100k: "100km+ Club",
+        noFlights: "No flights found",
+        min: "Min",
+        max: "Max",
+        allCategories: "All",
+        page: "page",
+      },
+      common: {
+        flights: "flights",
+      },
     };
-    return map[key] || key;
+    return translations[ns || ""]?.[key] || key;
   },
   useLocale: () => "ro",
 }));
@@ -121,7 +130,7 @@ describe("FlightsExplorer", () => {
 
   it("displays total count and pagination info", () => {
     render(<FlightsExplorer {...defaultProps} />);
-    expect(screen.getByText(/3 flights explorer/i)).toBeInTheDocument();
+    expect(screen.getByText(/3 flights/i)).toBeInTheDocument();
     expect(screen.getByText(/page 1\/1/)).toBeInTheDocument();
   });
 

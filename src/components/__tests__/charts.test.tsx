@@ -8,6 +8,24 @@ import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
 
+// Mock next-intl
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => {
+    const map: Record<string, string> = {
+      flights: "Flights",
+      avgKm: "Avg km",
+      maxKm: "Max km",
+      totalKm: "Total km",
+      monthJan: "Jan", monthFeb: "Feb", monthMar: "Mar", monthApr: "Apr",
+      monthMay: "May", monthJun: "Jun", monthJul: "Jul", monthAug: "Aug",
+      monthSep: "Sep", monthOct: "Oct", monthNov: "Nov", monthDec: "Dec",
+      dowSun: "Sun", dowMon: "Mon", dowTue: "Tue", dowWed: "Wed",
+      dowThu: "Thu", dowFri: "Fri", dowSat: "Sat",
+    };
+    return map[key] || key;
+  },
+}));
+
 // Mock recharts to render testable HTML with chart structure info
 jest.mock("recharts", () => {
   const OriginalModule = jest.requireActual("recharts");

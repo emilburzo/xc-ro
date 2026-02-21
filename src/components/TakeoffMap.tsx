@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { takeoffPath } from "@/lib/utils";
 
 interface TakeoffMarker {
@@ -24,6 +25,7 @@ function getMarkerColor(lastActivity: string | null): string {
 export default function TakeoffMap({ takeoffs }: { takeoffs: TakeoffMarker[] }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
+  const tc = useTranslations("common");
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -64,7 +66,7 @@ export default function TakeoffMap({ takeoffs }: { takeoffs: TakeoffMarker[] }) 
         marker.bindPopup(
           `<div style="min-width:120px">
             <strong><a href="${takeoffPath(tk.id, tk.name)}">${tk.name}</a></strong><br/>
-            <small>${tk.flight_count} flights</small>
+            <small>${tk.flight_count} ${tc("flights")}</small>
           </div>`
         );
       });
@@ -79,7 +81,7 @@ export default function TakeoffMap({ takeoffs }: { takeoffs: TakeoffMarker[] }) 
         mapInstanceRef.current = null;
       }
     };
-  }, [takeoffs]);
+  }, [takeoffs, tc]);
 
   return (
     <>

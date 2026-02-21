@@ -3,6 +3,16 @@ import { render, waitFor } from "@testing-library/react";
 import PilotSiteMap from "../PilotSiteMap";
 import * as L from "leaflet";
 
+// Mock next-intl
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => {
+    const map: Record<string, string> = {
+      flights: "flights",
+    };
+    return map[key] || key;
+  },
+}));
+
 // Mock leaflet
 const mockMarker = {
   addTo: jest.fn().mockReturnThis(),

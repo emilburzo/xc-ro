@@ -7,6 +7,13 @@ import LanguageToggle from "../LanguageToggle";
 const mockLocale = jest.fn().mockReturnValue("ro");
 jest.mock("next-intl", () => ({
   useLocale: () => mockLocale(),
+  useTranslations: () => (key: string) => {
+    const map: Record<string, string> = {
+      switchToEnglish: "Switch to English",
+      switchToRomanian: "Switch to Romanian",
+    };
+    return map[key] || key;
+  },
 }));
 
 // Mock next/navigation
@@ -46,7 +53,7 @@ describe("LanguageToggle", () => {
   it("has correct title for English locale", () => {
     mockLocale.mockReturnValue("en");
     render(<LanguageToggle />);
-    expect(screen.getByTitle("Schimbă în Română")).toBeInTheDocument();
+    expect(screen.getByTitle("Switch to Romanian")).toBeInTheDocument();
   });
 
   it("calls setLocale with 'en' when switching from Romanian", async () => {

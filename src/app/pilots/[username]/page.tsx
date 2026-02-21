@@ -46,7 +46,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
       {/* Header */}
       <div>
         <Link href="/pilots" className="text-sm text-blue-600 hover:underline mb-2 inline-block">
-          &larr; Pilots
+          &larr; {t("backToPilots")}
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">{(pilot as any).name}</h1>
         <p className="text-sm text-gray-500">@{(pilot as any).username}</p>
@@ -96,12 +96,12 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
             <thead className="border-b border-gray-200">
               <tr>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">#</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Date</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Takeoff</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Glider</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Distance</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Score</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Airtime</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("date")}</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("takeoff")}</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("glider")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("distance")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("score")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("airtime")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

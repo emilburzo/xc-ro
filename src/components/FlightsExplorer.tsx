@@ -39,6 +39,7 @@ const PRESETS = [
 
 export default function FlightsExplorer({ flights, total, page, pageSize, currentFilters }: Props) {
   const t = useTranslations("flights");
+  const tc = useTranslations("common");
   const locale = useLocale();
   const router = useRouter();
   const [pilotSearch, setPilotSearch] = useState(currentFilters.pilot || "");
@@ -154,9 +155,9 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
         <div>
           <label className="block text-xs text-gray-500 mb-1">{t("distanceRange")}</label>
           <div className="flex gap-1 items-center">
-            <input type="number" value={distMin} onChange={(e) => setDistMin(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded w-20" placeholder="Min" />
+            <input type="number" value={distMin} onChange={(e) => setDistMin(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded w-20" placeholder={t("min")} />
             <span className="text-gray-400">-</span>
-            <input type="number" value={distMax} onChange={(e) => setDistMax(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded w-20" placeholder="Max" />
+            <input type="number" value={distMax} onChange={(e) => setDistMax(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded w-20" placeholder={t("max")} />
           </div>
         </div>
         <div>
@@ -166,7 +167,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             onChange={(e) => setCategory(e.target.value)}
             className="px-2 py-1.5 text-sm border border-gray-300 rounded"
           >
-            <option value="">All</option>
+            <option value="">{t("allCategories")}</option>
             {["A", "B", "C", "D", "Z", "T"].map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
@@ -182,7 +183,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
 
       {/* Results count */}
       <div className="text-sm text-gray-500">
-        {total} {t("title").toLowerCase()} &middot; page {page}/{totalPages || 1}
+        {total} {tc("flights")} &middot; {t("page")} {page}/{totalPages || 1}
       </div>
 
       {/* Table */}

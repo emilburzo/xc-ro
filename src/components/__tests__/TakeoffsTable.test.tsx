@@ -5,28 +5,34 @@ import TakeoffsTable from "../TakeoffsTable";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
-  useTranslations: () => (key: string) => {
-    const map: Record<string, string> = {
-      search: "Search by name...",
-      flyableNow: "Flyable now",
-      activeOnly: "Active only",
-      dormantOnly: "Dormant only",
-      minFlights: "Min flights",
-      name: "Name",
-      flights: "Flights",
-      pilots: "Pilots",
-      xcPotential: "XC Potential",
-      season: "Season",
-      record: "Record (km)",
-      lastActivity: "Last Activity",
-      weekendPct: "Weekend %",
-      club100k: "100k Club",
-      beginnerFriendly: "Beginner Friendly",
-      xcEngine: "XC Engine",
-      weekendSite: "Weekend Site",
-      inactive: "Inactive",
+  useTranslations: (ns?: string) => (key: string) => {
+    const translations: Record<string, Record<string, string>> = {
+      takeoffs: {
+        search: "Search by name...",
+        flyableNow: "Flyable now",
+        activeOnly: "Active only",
+        dormantOnly: "Dormant only",
+        minFlights: "Min flights",
+        name: "Name",
+        flights: "Flights",
+        pilots: "Pilots",
+        xcPotential: "XC Potential",
+        season: "Season",
+        record: "Record (km)",
+        lastActivity: "Last Activity",
+        weekendPct: "Weekend %",
+        club100k: "100k Club",
+        beginnerFriendly: "Beginner Friendly",
+        xcEngine: "XC Engine",
+        weekendSite: "Weekend Site",
+        inactive: "Inactive",
+        title: "Takeoffs",
+      },
+      common: {
+        all: "All",
+      },
     };
-    return map[key] || key;
+    return translations[ns || ""]?.[key] || key;
   },
   useLocale: () => "ro",
 }));

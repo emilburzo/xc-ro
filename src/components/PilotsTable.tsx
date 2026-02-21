@@ -87,7 +87,7 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
         </label>
       </div>
 
-      <div className="text-sm text-gray-500 mb-2">{sorted.length} pilots</div>
+      <div className="text-sm text-gray-500 mb-2">{sorted.length} {t("title").toLowerCase()}</div>
 
       <div className="overflow-auto max-h-[70vh]">
         <table className="w-full text-sm">
