@@ -8,7 +8,7 @@ import {
   getAnnualRecords,
   getFunStats,
 } from "@/lib/queries";
-import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +39,10 @@ function RecordCard({ title, record, locale }: { title: string; record: any; loc
         {" "}&middot; {formatDate(record.start_time, locale)}
       </div>
       <div className="text-xs text-gray-500">
-        {record.glider_name} &middot; {formatDuration(record.airtime)} &middot;{" "}
+        <Link href={wingPath(record.glider_id, record.glider_name)} className="hover:underline">
+          {record.glider_name}
+        </Link>
+        {" "}&middot; {formatDuration(record.airtime)} &middot;{" "}
         <a href={record.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
           view
         </a>
@@ -101,7 +104,10 @@ export default async function RecordsPage() {
                 {" "}&middot; {formatDate(r.start_time, locale)}
               </div>
               <div className="text-xs text-gray-500">
-                {r.glider_name} &middot; {formatDuration(r.airtime)} &middot;{" "}
+                <Link href={wingPath(r.glider_id, r.glider_name)} className="hover:underline">
+                  {r.glider_name}
+                </Link>
+                {" "}&middot; {formatDuration(r.airtime)} &middot;{" "}
                 <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                   view
                 </a>
@@ -120,6 +126,7 @@ export default async function RecordsPage() {
               <tr>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Year</th>
                 <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Distance</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Airtime</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Glider</th>
@@ -134,6 +141,7 @@ export default async function RecordsPage() {
                       {formatDistance(r.distance_km)} km
                     </a>
                   </td>
+                  <td className="px-3 py-2 text-right text-gray-600">{formatDuration(r.airtime)}</td>
                   <td className="px-3 py-2">
                     <Link href={pilotPath(r.pilot_username)} className="text-blue-600 hover:underline">
                       {r.pilot_name}
@@ -141,12 +149,16 @@ export default async function RecordsPage() {
                   </td>
                   <td className="px-3 py-2 text-gray-600">
                     {r.takeoff_name ? (
-                      <Link href={takeoffPath(r.takeoff_id, r.takeoff_name)} className="hover:underline">
+                      <Link href={takeoffPath(r.takeoff_id, r.takeoff_name)} className="text-blue-600 hover:underline">
                         {r.takeoff_name}
                       </Link>
                     ) : "-"}
                   </td>
-                  <td className="px-3 py-2 text-gray-500">{r.glider_name}</td>
+                  <td className="px-3 py-2">
+                    <Link href={wingPath(r.glider_id, r.glider_name)} className="text-blue-600 hover:underline">
+                      {r.glider_name}
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
