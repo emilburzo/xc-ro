@@ -5,6 +5,9 @@
 -- Ensure PostGIS is available
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+-- Enable unaccent for accent-insensitive search
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
 -- ============ TABLES ============
 CREATE TABLE IF NOT EXISTS pilots (
   id bigserial PRIMARY KEY,

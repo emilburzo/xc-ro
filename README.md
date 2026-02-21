@@ -42,6 +42,7 @@ export DATABASE_URL="postgres://user:pass@host:5432/xcontest"
 # Apply the helper view & indexes (one-time, requires psql)
 psql "$DATABASE_URL" -f sql/001_create_flights_pg_view.sql
 psql "$DATABASE_URL" -f sql/002_add_flights_fk_indexes.sql
+psql "$DATABASE_URL" -f sql/003_add_unaccent_extension.sql
 
 # Start the dev server
 npm run dev
