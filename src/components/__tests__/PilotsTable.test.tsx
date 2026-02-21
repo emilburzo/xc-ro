@@ -73,6 +73,20 @@ const mockPilots = [
     fav_takeoff_id: null,
     fav_takeoff_name: null,
   },
+  {
+    id: 4,
+    name: "György Székely",
+    username: "gyorgy.szekely",
+    flight_count: 200,
+    total_km: 5000.0,
+    total_score: 8000.0,
+    avg_distance: 25.0,
+    max_distance: 150.0,
+    active_years: 7,
+    last_flight: "2025-10-01",
+    fav_takeoff_id: 1,
+    fav_takeoff_name: "Bunloc",
+  },
 ];
 
 describe("PilotsTable", () => {
@@ -81,6 +95,7 @@ describe("PilotsTable", () => {
     expect(screen.getByText("Ion Popescu")).toBeInTheDocument();
     expect(screen.getByText("Maria Ionescu")).toBeInTheDocument();
     expect(screen.getByText("Alex Novice")).toBeInTheDocument();
+    expect(screen.getByText("György Székely")).toBeInTheDocument();
   });
 
   it("renders all table headers", () => {
@@ -98,7 +113,7 @@ describe("PilotsTable", () => {
 
   it("shows the count of displayed pilots", () => {
     render(<PilotsTable pilots={mockPilots} />);
-    expect(screen.getByText("3 pilots")).toBeInTheDocument();
+    expect(screen.getByText("4 pilots")).toBeInTheDocument();
   });
 
   it("filters pilots by name search", async () => {
@@ -124,6 +139,18 @@ describe("PilotsTable", () => {
     expect(screen.queryByText("Ion Popescu")).not.toBeInTheDocument();
   });
 
+  it("filters pilots by name ignoring diacritics", async () => {
+    const user = userEvent.setup();
+    render(<PilotsTable pilots={mockPilots} />);
+
+    const searchInput = screen.getByPlaceholderText("Search pilot...");
+    await user.type(searchInput, "Szekely");
+
+    expect(screen.getByText("György Székely")).toBeInTheDocument();
+    expect(screen.queryByText("Ion Popescu")).not.toBeInTheDocument();
+    expect(screen.queryByText("Maria Ionescu")).not.toBeInTheDocument();
+  });
+
   it("filters by minimum flights", async () => {
     const user = userEvent.setup();
     render(<PilotsTable pilots={mockPilots} />);
@@ -134,7 +161,7 @@ describe("PilotsTable", () => {
     expect(screen.getByText("Ion Popescu")).toBeInTheDocument();
     expect(screen.getByText("Maria Ionescu")).toBeInTheDocument();
     expect(screen.queryByText("Alex Novice")).not.toBeInTheDocument();
-    expect(screen.getByText("2 pilots")).toBeInTheDocument();
+    expect(screen.getByText("3 pilots")).toBeInTheDocument();
   });
 
   it("sorts by total_km by default (descending)", () => {
@@ -178,8 +205,8 @@ describe("PilotsTable", () => {
 
   it("renders favorite takeoff links", () => {
     render(<PilotsTable pilots={mockPilots} />);
-    const bunlocLink = screen.getByText("Bunloc").closest("a");
-    expect(bunlocLink).toHaveAttribute("href", "/takeoffs/1-bunloc");
+    const bunlocLinks = screen.getAllByText("Bunloc");
+    expect(bunlocLinks[0].closest("a")).toHaveAttribute("href", "/takeoffs/1-bunloc");
   });
 
   it("shows dash for pilot without favorite takeoff", () => {
@@ -197,7 +224,7 @@ describe("PilotsTable", () => {
   it("table is not empty when pilots are provided", () => {
     render(<PilotsTable pilots={mockPilots} />);
     const rows = screen.getAllByRole("row");
-    // header + 3 data rows
-    expect(rows.length).toBe(4);
+    // header + 4 data rows
+    expect(rows.length).toBe(5);
   });
 });

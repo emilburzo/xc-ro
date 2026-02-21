@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
-import { wingPath, formatDate } from "@/lib/utils";
+import { wingPath, formatDate, removeDiacritics } from "@/lib/utils";
 
 interface Wing {
   id: number;
@@ -51,8 +51,8 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
   const filtered = useMemo(() => {
     let list = wings;
     if (search) {
-      const s = search.toLowerCase();
-      list = list.filter((w) => w.name.toLowerCase().includes(s));
+      const s = removeDiacritics(search).toLowerCase();
+      list = list.filter((w) => removeDiacritics(w.name).toLowerCase().includes(s));
     }
     if (category !== "all") {
       list = list.filter((w) => w.category === category);
