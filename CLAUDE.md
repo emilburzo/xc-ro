@@ -170,21 +170,19 @@ playwright.config.ts         # Playwright configuration
 
 ## Gotchas & Lessons Learned
 
-1. **`--legacy-peer-deps` required**: `react-leaflet@5` has peer dep conflicts with React 18 in this Next.js 15 setup. Always use `npm install --legacy-peer-deps` or `npm ci --legacy-peer-deps`.
+1. **Set iteration in strict TS**: `[...new Set(arr)]` fails with `"can only be iterated with --downlevelIteration"`. Use `Array.from(new Set(arr))` instead.
 
-2. **Set iteration in strict TS**: `[...new Set(arr)]` fails with `"can only be iterated with --downlevelIteration"`. Use `Array.from(new Set(arr))` instead.
+2. **PostGIS geography columns**: Can't be represented in Drizzle schema directly. Omit them from the schema and read via `ST_X(col::geometry)` / `ST_Y(col::geometry)` in raw SQL queries.
 
-3. **PostGIS geography columns**: Can't be represented in Drizzle schema directly. Omit them from the schema and read via `ST_X(col::geometry)` / `ST_Y(col::geometry)` in raw SQL queries.
+3. **PostgreSQL local auth**: The VM's pg_hba.conf defaults to `scram-sha-256` for TCP (127.0.0.1). Changed to `trust` for local dev. For production, use a proper `DATABASE_URL` with credentials.
 
-4. **PostgreSQL local auth**: The VM's pg_hba.conf defaults to `scram-sha-256` for TCP (127.0.0.1). Changed to `trust` for local dev. For production, use a proper `DATABASE_URL` with credentials.
+4. **next-intl v4 with Next.js 15**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
 
-5. **next-intl v4 with Next.js 15**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
+5. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) sets `.leaflet-container { height: 100% }`. Because this `<link>` is loaded in the component body (after Tailwind CSS in `<head>`), it overrides Tailwind height classes like `h-[300px]` at equal specificity. The fix is to use Tailwind's `!important` modifier: `!h-[300px]`. **All Leaflet map container divs must use `!h-[...]` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
 
-6. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) sets `.leaflet-container { height: 100% }`. Because this `<link>` is loaded in the component body (after Tailwind CSS in `<head>`), it overrides Tailwind height classes like `h-[300px]` at equal specificity. The fix is to use Tailwind's `!important` modifier: `!h-[300px]`. **All Leaflet map container divs must use `!h-[...]` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
+6. **Leaflet default marker icons**: Broken in bundlers by default. Must call `delete (L.Icon.Default.prototype as any)._getIconUrl` and then `L.Icon.Default.mergeOptions(...)` with unpkg URLs.
 
-7. **Leaflet default marker icons**: Broken in bundlers by default. Must call `delete (L.Icon.Default.prototype as any)._getIconUrl` and then `L.Icon.Default.mergeOptions(...)` with unpkg URLs.
-
-8. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
+7. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
 
 ## Environment
 
