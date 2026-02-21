@@ -1,7 +1,7 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from "react-leaflet";
 import type { LatLngBoundsExpression } from "leaflet";
 import { takeoffPath } from "@/lib/utils";
@@ -16,7 +16,7 @@ interface SiteData {
 
 function FitBounds({ bounds }: { bounds: LatLngBoundsExpression }) {
   const map = useMap();
-  useMemo(() => {
+  useEffect(() => {
     map.fitBounds(bounds, { padding: [30, 30] });
   }, [map, bounds]);
   return null;
