@@ -162,7 +162,7 @@
     "mostAirtime": "Cel mai mult timp în aer",
     "mostAirtimeDesc": "{duration} în {flightCount} zboruri",
     "mostTriangles": "Specialist triunghiuri",
-    "mostTrianglesDesc": "{count} zboruri triunghi"
+    "mostTrianglesDesc": "{count} zboruri triunghiuri"
   },
   "wings": {
     "title": "Aripi",
