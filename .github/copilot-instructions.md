@@ -6,21 +6,27 @@ Mobile-first webapp exploring ~73k paragliding/hang-gliding flights scraped from
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router, Server Components) — `next@14.2.35`
+- **Framework**: Next.js 15 (App Router, Server Components) — `next@^15.5.12`
 - **Styling**: Tailwind CSS 3
 - **Charts**: Recharts 3 (bar, line, composed, pie)
 - **Maps**: Leaflet 1.9 (dynamic import, no SSR) — markers loaded via raw `leaflet` API, not `react-leaflet` components
 - **Database**: PostgreSQL 16 with PostGIS — accessed via `postgres` (postgres.js) + Drizzle ORM
 - **i18n**: next-intl 4 — cookie-based locale (`ro` default, `en` secondary)
 - **Deployment**: Dockerfile with `output: "standalone"`
+- **Testing**: Jest 30 + Testing Library (unit), Playwright (visual/e2e)
 
 ## Commands
 
 ```bash
-npm run dev          # Start dev server (reads .env.local)
-npm run build        # Production build
-npm run start        # Start production server
-npm run lint         # ESLint
+npm run dev              # Start dev server (reads .env.local)
+npm run build            # Production build
+npm run start            # Start production server
+npm run lint             # ESLint
+npm run test             # Jest unit tests
+npm run test:watch       # Jest in watch mode
+npm run test:visual      # Playwright visual/e2e tests
+npm run test:visual:update   # Update Playwright snapshots
+npm run test:visual:seed     # Seed DB for visual tests
 ```
 
 Dev server runs on port 3000 by default. Use `--port 8000` to match Vagrantfile forwarding.
@@ -52,6 +58,12 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 |------|-------------|
 | `flights_pg` | Paragliding-only flights — excludes HG (hang gliding) category. **All app queries should use this view**, not the `flights` table directly. Defined in `sql/001_create_flights_pg_view.sql`. |
 
+**SQL scripts:**
+| Script | Description |
+|--------|-------------|
+| `sql/001_create_flights_pg_view.sql` | Creates the `flights_pg` view |
+| `sql/002_add_flights_fk_indexes.sql` | Adds indexes on `flights(takeoff_id)`, `flights(pilot_id)`, `flights(glider_id)` — critical for join performance |
+
 **Important schema notes:**
 - `flights.id` does NOT auto-increment — it's the xcontest flight ID
 - `flights.takeoff_id` is the only nullable FK
@@ -74,6 +86,8 @@ src/
 │   ├── page.tsx            # Home dashboard
 │   ├── actions.ts          # Server action: setLocale cookie
 │   ├── globals.css         # Tailwind + leaflet fix
+│   ├── api/
+│   │   └── health/route.ts # Health check endpoint (GET /api/health)
 │   ├── takeoffs/
 │   │   ├── page.tsx        # Takeoffs list + map
 │   │   └── [id]/page.tsx   # Takeoff detail
@@ -93,6 +107,7 @@ src/
 │   ├── PilotDetailCharts.tsx    # Orchestrator for pilot charts
 │   ├── PilotSiteMap.tsx    # Leaflet map for pilot's takeoffs
 │   ├── FlightsExplorer.tsx # Client-side filters/pagination/sorting
+│   ├── __tests__/          # Jest unit tests for components
 │   └── charts/
 │       ├── MonthlyBarChart.tsx
 │       ├── HourlyChart.tsx
@@ -104,13 +119,25 @@ src/
 ├── lib/
 │   ├── db.ts               # Drizzle + postgres client singleton
 │   ├── schema.ts           # Drizzle table definitions (no geography columns)
-│   ├── queries.ts          # 25+ SQL queries (all use drizzle sql`` tagged templates)
-│   └── utils.ts            # slugify, takeoffPath, pilotPath, formatDuration, relativeTime
+│   ├── queries.ts           # ~30 SQL queries (all use drizzle sql`` tagged templates)
+│   ├── utils.ts             # slugify, takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber, relativeTime
+│   └── __tests__/           # Jest unit tests (e.g. utils.test.ts)
 ├── i18n/
 │   └── request.ts          # next-intl config (cookie-based locale)
 └── messages/
     ├── ro.json              # Romanian translations (default)
     └── en.json              # English translations
+
+e2e/                         # Playwright visual/e2e tests
+├── fixtures.ts              # Test fixtures and helpers
+├── seed.sql                 # DB seed for deterministic test data
+├── navigation.spec.ts       # Navigation tests
+├── pages.spec.ts            # Page rendering tests
+└── interactions.spec.ts     # User interaction tests
+
+jest.config.ts               # Jest configuration
+jest.setup.ts                # Jest setup (@testing-library/jest-dom)
+playwright.config.ts         # Playwright configuration
 ```
 
 ## URL Strategy
@@ -143,21 +170,19 @@ src/
 
 ## Gotchas & Lessons Learned
 
-1. **`--legacy-peer-deps` required**: `react-leaflet@5` has peer dep conflicts with React 18 in this Next.js 14 setup. Always use `npm install --legacy-peer-deps` or `npm ci --legacy-peer-deps`.
+1. **Set iteration in strict TS**: `[...new Set(arr)]` fails with `"can only be iterated with --downlevelIteration"`. Use `Array.from(new Set(arr))` instead.
 
-2. **Set iteration in strict TS**: `[...new Set(arr)]` fails with `"can only be iterated with --downlevelIteration"`. Use `Array.from(new Set(arr))` instead.
+2. **PostGIS geography columns**: Can't be represented in Drizzle schema directly. Omit them from the schema and read via `ST_X(col::geometry)` / `ST_Y(col::geometry)` in raw SQL queries.
 
-3. **PostGIS geography columns**: Can't be represented in Drizzle schema directly. Omit them from the schema and read via `ST_X(col::geometry)` / `ST_Y(col::geometry)` in raw SQL queries.
+3. **PostgreSQL local auth**: The VM's pg_hba.conf defaults to `scram-sha-256` for TCP (127.0.0.1). Changed to `trust` for local dev. For production, use a proper `DATABASE_URL` with credentials.
 
-4. **PostgreSQL local auth**: The VM's pg_hba.conf defaults to `scram-sha-256` for TCP (127.0.0.1). Changed to `trust` for local dev. For production, use a proper `DATABASE_URL` with credentials.
+4. **next-intl v4 with Next.js 15**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
 
-5. **next-intl v4 with Next.js 14**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
+5. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) sets `.leaflet-container { height: 100% }`. Because this `<link>` is loaded in the component body (after Tailwind CSS in `<head>`), it overrides Tailwind height classes like `h-[300px]` at equal specificity. The fix is to use Tailwind's `!important` modifier: `!h-[300px]`. **All Leaflet map container divs must use `!h-[...]` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
 
-6. **Leaflet CSS**: Must be loaded client-side. Currently loaded via `<link>` tag in each map component. The CSS URL is `https://unpkg.com/leaflet@1.9.4/dist/leaflet.css`.
+6. **Leaflet default marker icons**: Broken in bundlers by default. Must call `delete (L.Icon.Default.prototype as any)._getIconUrl` and then `L.Icon.Default.mergeOptions(...)` with unpkg URLs.
 
-7. **Leaflet default marker icons**: Broken in bundlers by default. Must call `delete (L.Icon.Default.prototype as any)._getIconUrl` and then `L.Icon.Default.mergeOptions(...)` with unpkg URLs.
-
-8. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
+7. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
 
 ## Environment
 
