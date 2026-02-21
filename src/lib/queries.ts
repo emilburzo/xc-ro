@@ -732,7 +732,7 @@ export async function getAllTimeRecords() {
 export async function getCategoryRecords() {
   return db.execute(sql`
     SELECT DISTINCT ON (g.category)
-      g.category, f.distance_km, f.score, f.start_time, f.url,
+      g.category, f.distance_km, f.score, f.start_time, f.airtime, f.url,
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
       g.name as glider_name
