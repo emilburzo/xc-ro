@@ -9,8 +9,11 @@ test.describe("Takeoffs table interactions", () => {
   test("search filters table visually", async ({ page }) => {
     const search = page.getByPlaceholder(/search|caut/i);
     await expect(search).toBeVisible();
+    const rows = page.locator("tbody tr");
+    const initialCount = await rows.count();
     await search.fill("Bunloc");
-    await expect(page.locator("tbody tr")).not.toHaveCount(0);
+    await expect(rows).not.toHaveCount(initialCount);
+    await expect(rows).not.toHaveCount(0);
     await waitForMapTiles(page);
     await expect(page).toHaveScreenshot("takeoffs-search.png", {
       fullPage: true,
@@ -40,8 +43,11 @@ test.describe("Pilots table interactions", () => {
   test("search filters pilots visually", async ({ page }) => {
     const search = page.getByPlaceholder(/search|caut/i);
     await expect(search).toBeVisible();
+    const rows = page.locator("tbody tr");
+    const initialCount = await rows.count();
     await search.fill("ion");
-    await expect(page.locator("tbody tr")).not.toHaveCount(0);
+    await expect(rows).not.toHaveCount(initialCount);
+    await expect(rows).not.toHaveCount(0);
     await expect(page).toHaveScreenshot("pilots-search.png", {
       fullPage: true,
     });
@@ -74,8 +80,11 @@ test.describe("Wings table interactions", () => {
   test("search filters wings table visually", async ({ page }) => {
     const search = page.getByPlaceholder(/search|caut/i);
     await expect(search).toBeVisible();
+    const rows = page.locator("tbody tr");
+    const initialCount = await rows.count();
     await search.fill("Nova");
-    await expect(page.locator("tbody tr")).not.toHaveCount(0);
+    await expect(rows).not.toHaveCount(initialCount);
+    await expect(rows).not.toHaveCount(0);
     await expect(page).toHaveScreenshot("wings-search.png", {
       fullPage: true,
     });
