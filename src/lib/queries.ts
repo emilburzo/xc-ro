@@ -571,6 +571,47 @@ export async function getWingCalendarHeatmap(wingId: number) {
   `);
 }
 
+export async function getWingTopPilots(wingId: number) {
+  return db.execute(sql`
+    SELECT p.name, p.username,
+           count(*)::int as flight_count,
+           round(sum(f.distance_km)::numeric) as total_km,
+           max(f.distance_km) as max_distance
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    WHERE f.glider_id = ${wingId}
+    GROUP BY p.id, p.name, p.username
+    ORDER BY flight_count DESC
+    LIMIT 5
+  `);
+}
+
+export async function getWingHourlyDistribution(wingId: number) {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(HOUR FROM start_time)::int as hour,
+      count(*)::int as flight_count
+    FROM flights_pg
+    WHERE glider_id = ${wingId}
+    GROUP BY hour
+    ORDER BY hour
+  `);
+}
+
+export async function getWingCategoryTrends() {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(YEAR FROM f.start_time)::int as year,
+      g.category,
+      count(*)::int as flight_count
+    FROM flights_pg f
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE g.category IN ('A', 'B', 'C', 'D')
+    GROUP BY year, g.category
+    ORDER BY year, g.category
+  `);
+}
+
 // ============ FLIGHTS EXPLORER ============
 
 export interface FlightFilters {

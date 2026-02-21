@@ -1,12 +1,16 @@
 import { getTranslations } from "next-intl/server";
-import { getWingsList } from "@/lib/queries";
+import { getWingsList, getWingCategoryTrends } from "@/lib/queries";
 import WingsTable from "@/components/WingsTable";
+import WingsCategoryTrends from "@/components/WingsCategoryTrends";
 
 export const revalidate = 0;
 
 export default async function WingsPage() {
   const t = await getTranslations("wings");
-  const wings = await getWingsList();
+  const [wings, categoryTrends] = await Promise.all([
+    getWingsList(),
+    getWingCategoryTrends(),
+  ]);
 
   const tableData = (wings as any[]).map((w) => ({
     id: w.id,
@@ -26,6 +30,8 @@ export default async function WingsPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+
+      <WingsCategoryTrends data={categoryTrends as any[]} />
 
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <WingsTable wings={tableData} />

@@ -169,7 +169,9 @@
     "search": "Search wing...",
     "minFlights": "Min flights",
     "allCategories": "All categories",
-    "lastFlight": "Last Flight"
+    "lastFlight": "Last Flight",
+    "categoryTrends": "Category Trends",
+    "categoryTrendsDesc": "How wing category popularity has evolved over the years"
   },
   "wingDetail": {
     "popularity": "Popularity",
@@ -179,9 +181,12 @@
     "avgSpeed": "Avg speed",
     "vsCategoryAvg": "vs category avg",
     "distHistogram": "Distance distribution",
+    "hourlyDistribution": "Launch time distribution",
     "whereFlown": "Where it's flown",
     "topTakeoffs": "Top takeoffs",
     "topFlights": "Top 10 Flights",
+    "topPilotsTitle": "Top Pilots",
+    "topPilotsDesc": "Most active pilots on this wing",
     "seasonality": "Seasonality",
     "date": "Date",
     "pilot": "Pilot",

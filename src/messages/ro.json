@@ -169,7 +169,9 @@
     "search": "Caută aripă...",
     "minFlights": "Min zboruri",
     "allCategories": "Toate categoriile",
-    "lastFlight": "Ultimul Zbor"
+    "lastFlight": "Ultimul Zbor",
+    "categoryTrends": "Tendințe Categorii",
+    "categoryTrendsDesc": "Cum a evoluat popularitatea categoriilor de aripi de-a lungul anilor"
   },
   "wingDetail": {
     "popularity": "Popularitate",
@@ -179,9 +181,12 @@
     "avgSpeed": "Viteză medie",
     "vsCategoryAvg": "vs media categoriei",
     "distHistogram": "Distribuție distanțe",
+    "hourlyDistribution": "Distribuție ore de decolare",
     "whereFlown": "Unde se zboară",
     "topTakeoffs": "Top decolări",
     "topFlights": "Top 10 Zboruri",
+    "topPilotsTitle": "Top Piloți",
+    "topPilotsDesc": "Cei mai activi piloți pe această aripă",
     "seasonality": "Sezonalitate",
     "date": "Data",
     "pilot": "Pilot",

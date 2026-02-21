@@ -9,6 +9,8 @@ import {
   getWingYearlyStats,
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
+  getWingTopPilots,
+  getWingHourlyDistribution,
 } from "@/lib/queries";
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
@@ -37,7 +39,7 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
   const wing = await getWingById(id);
   if (!wing) notFound();
 
-  const [topFlights, distHist, adoption, yearly, favoriteTakeoffs, calendar] =
+  const [topFlights, distHist, adoption, yearly, favoriteTakeoffs, calendar, topPilots, hourly] =
     await Promise.all([
       getWingTopFlights(id),
       getWingDistanceHistogram(id),
@@ -45,6 +47,8 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
       getWingYearlyStats(id),
       getWingFavoriteTakeoffs(id),
       getWingCalendarHeatmap(id),
+      getWingTopPilots(id),
+      getWingHourlyDistribution(id),
     ]);
 
   const totalFlights = (yearly as any[]).reduce((s: number, y: any) => s + y.flight_count, 0);
@@ -110,6 +114,8 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
         yearly={yearly as any}
         distHist={distHist as any}
         favoriteTakeoffs={favoriteTakeoffs as any}
+        topPilots={topPilots as any}
+        hourly={hourly as any}
       />
 
       {/* Top 10 Flights */}

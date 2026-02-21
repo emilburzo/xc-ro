@@ -7,6 +7,7 @@ import DowChart from "../charts/DowChart";
 import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
+import CategoryTrendsChart from "../charts/CategoryTrendsChart";
 
 // Mock recharts to render testable HTML with chart structure info
 jest.mock("recharts", () => {
@@ -22,6 +23,9 @@ jest.mock("recharts", () => {
     BarChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
       <div data-testid="bar-chart" data-length={data.length}>{children}</div>
     ),
+    AreaChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
+      <div data-testid="area-chart" data-length={data.length}>{children}</div>
+    ),
     PieChart: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="pie-chart">{children}</div>
     ),
@@ -30,6 +34,9 @@ jest.mock("recharts", () => {
     ),
     Bar: ({ dataKey, fill, name, children }: { dataKey: string; fill?: string; name?: string; children?: React.ReactNode }) => (
       <div data-testid="bar" data-datakey={dataKey} data-fill={fill} data-name={name}>{children}</div>
+    ),
+    Area: ({ dataKey, stackId, fill, name }: { dataKey: string; stackId?: string; fill?: string; name?: string }) => (
+      <div data-testid="area" data-datakey={dataKey} data-stackid={stackId} data-fill={fill} data-name={name} />
     ),
     Line: ({ dataKey, stroke, name }: { dataKey: string; stroke?: string; name?: string }) => (
       <div data-testid="line" data-datakey={dataKey} data-stroke={stroke} data-name={name} />
@@ -288,5 +295,66 @@ describe("PilotYearlyChart", () => {
   it("renders with empty data", () => {
     const { getByTestId } = render(<PilotYearlyChart data={[]} />);
     expect(getByTestId("composed-chart")).toHaveAttribute("data-length", "0");
+  });
+});
+
+describe("CategoryTrendsChart", () => {
+  const data = [
+    { year: 2020, category: "A", flight_count: 50 },
+    { year: 2020, category: "B", flight_count: 200 },
+    { year: 2020, category: "C", flight_count: 100 },
+    { year: 2020, category: "D", flight_count: 30 },
+    { year: 2021, category: "A", flight_count: 60 },
+    { year: 2021, category: "B", flight_count: 250 },
+    { year: 2021, category: "C", flight_count: 130 },
+    { year: 2021, category: "D", flight_count: 40 },
+  ];
+
+  it("renders an AreaChart with correct year count", () => {
+    const { getByTestId } = render(<CategoryTrendsChart data={data} />);
+    expect(getByTestId("area-chart")).toHaveAttribute("data-length", "2");
+  });
+
+  it("renders 4 stacked Area elements for A/B/C/D categories", () => {
+    const { getAllByTestId } = render(<CategoryTrendsChart data={data} />);
+    const areas = getAllByTestId("area");
+    expect(areas).toHaveLength(4);
+    const dataKeys = areas.map((a) => a.getAttribute("data-datakey"));
+    expect(dataKeys).toContain("A");
+    expect(dataKeys).toContain("B");
+    expect(dataKeys).toContain("C");
+    expect(dataKeys).toContain("D");
+  });
+
+  it("uses stacked areas with same stackId", () => {
+    const { getAllByTestId } = render(<CategoryTrendsChart data={data} />);
+    const areas = getAllByTestId("area");
+    areas.forEach((area) => {
+      expect(area).toHaveAttribute("data-stackid", "1");
+    });
+  });
+
+  it("uses year on XAxis", () => {
+    const { getByTestId } = render(<CategoryTrendsChart data={data} />);
+    expect(getByTestId("xaxis")).toHaveAttribute("data-datakey", "year");
+  });
+
+  it("renders a Legend", () => {
+    const { getByTestId } = render(<CategoryTrendsChart data={data} />);
+    expect(getByTestId("legend")).toBeInTheDocument();
+  });
+
+  it("renders with empty data", () => {
+    const { getByTestId } = render(<CategoryTrendsChart data={[]} />);
+    expect(getByTestId("area-chart")).toHaveAttribute("data-length", "0");
+  });
+
+  it("handles data with missing categories for a year", () => {
+    const partialData = [
+      { year: 2020, category: "B", flight_count: 200 },
+      { year: 2020, category: "C", flight_count: 100 },
+    ];
+    const { getByTestId } = render(<CategoryTrendsChart data={partialData} />);
+    expect(getByTestId("area-chart")).toHaveAttribute("data-length", "1");
   });
 });
