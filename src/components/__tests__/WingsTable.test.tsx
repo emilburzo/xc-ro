@@ -64,7 +64,7 @@ const mockWings = [
     category: "A",
     flight_count: 50,
     pilot_count: 10,
-    total_km: null,
+    total_km: 0,
     avg_distance: null,
     max_distance: null,
     avg_speed: null,
@@ -183,7 +183,7 @@ describe("WingsTable", () => {
 
   it("shows dash for null numeric fields", () => {
     render(<WingsTable wings={mockWings} />);
-    // Nova Prion 5 has null total_km, avg_distance, max_distance, last_flight
+    // Nova Prion 5 has null avg_distance, max_distance, last_flight
     const rows = screen.getAllByRole("row");
     // Find the Nova Prion 5 row (sorted last by default)
     const prionRow = rows[3];

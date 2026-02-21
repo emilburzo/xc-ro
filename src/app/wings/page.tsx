@@ -14,7 +14,7 @@ export default async function WingsPage() {
     category: w.category,
     flight_count: w.flight_count,
     pilot_count: w.pilot_count,
-    total_km: w.total_km != null ? Number(w.total_km) : null,
+    total_km: w.total_km != null ? Number(w.total_km) : 0,
     avg_distance: w.avg_distance != null ? Number(w.avg_distance) : null,
     max_distance: w.max_distance != null ? Number(w.max_distance) : null,
     avg_speed: w.avg_speed != null ? Number(w.avg_speed) : null,

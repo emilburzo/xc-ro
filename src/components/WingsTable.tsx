@@ -11,7 +11,7 @@ interface Wing {
   category: string;
   flight_count: number;
   pilot_count: number;
-  total_km: number | null;
+  total_km: number;
   avg_distance: number | null;
   max_distance: number | null;
   avg_speed: number | null;
