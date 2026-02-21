@@ -690,7 +690,7 @@ export async function getAllTimeRecords() {
       SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
-             g.name as glider_name, g.category as glider_category
+             g.id as glider_id, g.name as glider_name, g.category as glider_category
       FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
@@ -701,7 +701,7 @@ export async function getAllTimeRecords() {
       SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
-             g.name as glider_name, g.category as glider_category
+             g.id as glider_id, g.name as glider_name, g.category as glider_category
       FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
@@ -713,7 +713,7 @@ export async function getAllTimeRecords() {
       SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
-             g.name as glider_name, g.category as glider_category
+             g.id as glider_id, g.name as glider_name, g.category as glider_category
       FROM flights_pg f
       JOIN pilots p ON f.pilot_id = p.id
       LEFT JOIN takeoffs t ON f.takeoff_id = t.id
@@ -735,7 +735,7 @@ export async function getCategoryRecords() {
       g.category, f.distance_km, f.score, f.start_time, f.airtime, f.url,
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
-      g.name as glider_name
+      g.id as glider_id, g.name as glider_name
     FROM flights_pg f
     JOIN pilots p ON f.pilot_id = p.id
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id

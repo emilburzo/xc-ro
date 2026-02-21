@@ -33,7 +33,10 @@ function RecordCard({ title, record, locale }: { title: string; record: any; loc
         {" "}&middot; {formatDate(record.start_time, locale)}
       </div>
       <div className="text-xs text-gray-500">
-        {record.glider_name} &middot; {formatDuration(record.airtime)} &middot;{" "}
+        <Link href={wingPath(record.glider_id, record.glider_name)} className="hover:underline">
+          {record.glider_name}
+        </Link>
+        {" "}&middot; {formatDuration(record.airtime)} &middot;{" "}
         <a href={record.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
           view
         </a>
@@ -95,7 +98,10 @@ export default async function RecordsPage() {
                 {" "}&middot; {formatDate(r.start_time, locale)}
               </div>
               <div className="text-xs text-gray-500">
-                {r.glider_name} &middot; {formatDuration(r.airtime)} &middot;{" "}
+                <Link href={wingPath(r.glider_id, r.glider_name)} className="hover:underline">
+                  {r.glider_name}
+                </Link>
+                {" "}&middot; {formatDuration(r.airtime)} &middot;{" "}
                 <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                   view
                 </a>
