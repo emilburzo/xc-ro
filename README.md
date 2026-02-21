@@ -15,13 +15,14 @@ Mobile-first web application exploring ~73 000 paragliding flights scraped from 
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 14 — App Router, Server Components |
+| Framework | Next.js 15 — App Router, Server Components |
 | Styling | Tailwind CSS 3 |
 | Charts | Recharts 3 |
 | Maps | Leaflet 1.9 |
 | Database | PostgreSQL 16 + PostGIS |
 | ORM / Driver | Drizzle ORM + postgres.js |
 | i18n | next-intl 4 |
+| Testing | Jest 30 + Testing Library (unit), Playwright (visual/e2e) |
 
 ## Prerequisites
 
@@ -56,6 +57,11 @@ Open <http://localhost:3000> to view the app.
 | `npm run build` | Production build |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
+| `npm run test` | Jest unit tests |
+| `npm run test:watch` | Jest in watch mode |
+| `npm run test:visual` | Playwright visual/e2e tests |
+| `npm run test:visual:update` | Update Playwright snapshots |
+| `npm run test:visual:seed` | Seed DB for visual tests |
 
 ## Project Structure
 
@@ -63,18 +69,22 @@ Open <http://localhost:3000> to view the app.
 src/
 ├── app/                # Next.js App Router pages
 │   ├── page.tsx        # Home dashboard
+│   ├── api/            # API routes (health check)
 │   ├── takeoffs/       # Takeoffs list & detail
 │   ├── pilots/         # Pilots list & detail
 │   ├── flights/        # Flights explorer
 │   └── records/        # Records & fun stats
 ├── components/         # React components (charts, maps, tables)
+│   └── __tests__/      # Jest unit tests for components
 ├── lib/
 │   ├── db.ts           # Database client (Drizzle + postgres.js)
 │   ├── schema.ts       # Drizzle table definitions
 │   ├── queries.ts      # SQL queries
-│   └── utils.ts        # Helpers (slugify, formatting, paths)
+│   ├── utils.ts        # Helpers (slugify, formatting, paths)
+│   └── __tests__/      # Jest unit tests for lib
 ├── i18n/               # next-intl configuration
 └── messages/           # Translation files (ro.json, en.json)
+e2e/                    # Playwright visual/e2e tests
 sql/                    # One-time SQL scripts (view, indexes)
 ```
 
