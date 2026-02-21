@@ -7,6 +7,7 @@ import DowChart from "../charts/DowChart";
 import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
+import AdoptionChart from "../charts/AdoptionChart";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -33,6 +34,9 @@ jest.mock("recharts", () => {
     ),
     Line: ({ dataKey, stroke, name }: { dataKey: string; stroke?: string; name?: string }) => (
       <div data-testid="line" data-datakey={dataKey} data-stroke={stroke} data-name={name} />
+    ),
+    LineChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
+      <div data-testid="line-chart" data-length={data.length}>{children}</div>
     ),
     XAxis: ({ dataKey }: { dataKey: string }) => (
       <div data-testid="xaxis" data-datakey={dataKey} />
@@ -130,6 +134,22 @@ describe("Chart snapshots", () => {
 
   it("WingDonut matches snapshot with empty data", () => {
     const { container } = render(<WingDonut data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("AdoptionChart matches snapshot", () => {
+    const adoptionData = [
+      { year: 2019, pilot_count: 5 },
+      { year: 2020, pilot_count: 12 },
+      { year: 2021, pilot_count: 20 },
+      { year: 2022, pilot_count: 18 },
+    ];
+    const { container } = render(<AdoptionChart data={adoptionData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("AdoptionChart matches snapshot with empty data", () => {
+    const { container } = render(<AdoptionChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

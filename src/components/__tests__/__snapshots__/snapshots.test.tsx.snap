@@ -39,6 +39,12 @@ exports[`Snapshot: Nav matches snapshot on home page 1`] = `
         </a>
         <a
           class="px-3 py-2 rounded text-sm font-medium transition-colors text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+          href="/wings"
+        >
+          Wings
+        </a>
+        <a
+          class="px-3 py-2 rounded text-sm font-medium transition-colors text-gray-600 hover:text-gray-900 hover:bg-gray-50"
           href="/flights"
         >
           Flights

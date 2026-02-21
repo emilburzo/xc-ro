@@ -163,7 +163,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
   >
     2
      
-    title
+    wings
      · page 
     1
     /
@@ -946,6 +946,218 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             class="px-2 py-2 text-gray-700"
           >
             80%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Snapshot: WingsTable matches snapshot 1`] = `
+<div>
+  <div
+    class="flex flex-wrap gap-2 mb-3"
+  >
+    <input
+      class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Search..."
+      type="text"
+      value=""
+    />
+    <select
+      class="px-2 py-1.5 text-sm border border-gray-300 rounded-lg"
+    >
+      <option
+        value="all"
+      >
+        All categories
+      </option>
+      <option
+        value="B"
+      >
+        B
+      </option>
+      <option
+        value="C"
+      >
+        C
+      </option>
+    </select>
+    <label
+      class="flex items-center gap-1 text-sm text-gray-600"
+    >
+      Min flights
+      :
+      <input
+        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+        min="0"
+        type="number"
+        value=""
+      />
+    </label>
+  </div>
+  <div
+    class="text-sm text-gray-500 mb-2"
+  >
+    2
+     
+    wings
+  </div>
+  <div
+    class="overflow-x-auto"
+  >
+    <table
+      class="w-full text-sm"
+    >
+      <thead
+        class="border-b border-gray-200"
+      >
+        <tr>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Name
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Flights
+             
+            ↓
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Pilots
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Total KM
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Avg Distance
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Record (km)
+             
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap"
+          >
+            Last Flight
+             
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-gray-100"
+      >
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline font-medium"
+              href="/wings/1-nova-mentor-7"
+            >
+              Nova Mentor 7
+            </a>
+            <span
+              class="ml-1.5 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800"
+            >
+              B
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            500
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            80
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            12.500
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            25 km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            312.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            1/15/2025
+          </td>
+        </tr>
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline font-medium"
+              href="/wings/2-ozone-mantra-8"
+            >
+              Ozone Mantra 8
+            </a>
+            <span
+              class="ml-1.5 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-yellow-100 text-yellow-800"
+            >
+              C
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            200
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            30
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            8.000
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            40 km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            250.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            1/15/2024
           </td>
         </tr>
       </tbody>

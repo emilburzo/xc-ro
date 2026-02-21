@@ -65,6 +65,45 @@ test.describe("Flights explorer interactions", () => {
   });
 });
 
+test.describe("Wings table interactions", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/wings");
+    await expect(page.locator("table")).toBeVisible();
+  });
+
+  test("search filters wings table visually", async ({ page }) => {
+    const search = page.getByPlaceholder(/search|caut/i);
+    await expect(search).toBeVisible();
+    await search.fill("Nova");
+    await expect(page.locator("tbody tr")).not.toHaveCount(0);
+    await expect(page).toHaveScreenshot("wings-search.png", {
+      fullPage: true,
+    });
+  });
+
+  test("category filter limits results visually", async ({ page }) => {
+    const categorySelect = page.getByRole("combobox").first();
+    await expect(categorySelect).toBeVisible();
+    await categorySelect.selectOption("B");
+    await expect(page.locator("tbody tr")).not.toHaveCount(0);
+    await expect(page).toHaveScreenshot("wings-category-filter.png", {
+      fullPage: true,
+    });
+  });
+
+  test("sort by flights changes order visually", async ({ page }) => {
+    const flightsHeader = page.getByRole("columnheader", {
+      name: /^flights|^zboruri/i,
+    });
+    await expect(flightsHeader).toBeVisible();
+    await flightsHeader.click();
+    await expect(page.locator("tbody tr").first()).toBeVisible();
+    await expect(page).toHaveScreenshot("wings-sorted.png", {
+      fullPage: true,
+    });
+  });
+});
+
 test.describe("Responsive layouts", () => {
   const viewports = [
     { name: "mobile", width: 375, height: 812 },
