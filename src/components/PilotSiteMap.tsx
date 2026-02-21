@@ -71,7 +71,7 @@ export default function PilotSiteMap({ sites }: { sites: SiteData[] }) {
   return (
     <>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div ref={mapRef} className="w-full h-[300px] rounded-lg" />
+      <div ref={mapRef} className="w-full !h-[300px] rounded-lg" />
     </>
   );
 }
