@@ -14,11 +14,11 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], locale: "ro-RO", timezoneId: "Europe/Bucharest" },
     },
     {
       name: "mobile",
-      use: { ...devices["iPhone 13"] },
+      use: { ...devices["iPhone 13"], locale: "en-US", timezoneId: "UTC" },
     },
   ],
   expect: {

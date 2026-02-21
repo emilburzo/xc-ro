@@ -3,15 +3,14 @@ import { test, expect } from "@playwright/test";
 test.describe("Takeoffs table interactions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/takeoffs");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("table")).toBeVisible();
   });
 
   test("search filters table visually", async ({ page }) => {
     const search = page.getByPlaceholder(/search|caut/i);
-    if (await search.isVisible()) {
-      await search.fill("Bunloc");
-      await expect(page.locator("tbody tr")).not.toHaveCount(0);
-    }
+    await expect(search).toBeVisible();
+    await search.fill("Bunloc");
+    await expect(page.locator("tbody tr")).not.toHaveCount(0);
     await expect(page).toHaveScreenshot("takeoffs-search.png", {
       fullPage: true,
     });
@@ -21,10 +20,9 @@ test.describe("Takeoffs table interactions", () => {
     const flightsHeader = page.getByRole("columnheader", {
       name: /flight|zbor/i,
     });
-    if (await flightsHeader.isVisible()) {
-      await flightsHeader.click();
-      await expect(page.locator("tbody tr").first()).toBeVisible();
-    }
+    await expect(flightsHeader).toBeVisible();
+    await flightsHeader.click();
+    await expect(page.locator("tbody tr").first()).toBeVisible();
     await expect(page).toHaveScreenshot("takeoffs-sorted.png", {
       fullPage: true,
     });
@@ -34,15 +32,14 @@ test.describe("Takeoffs table interactions", () => {
 test.describe("Pilots table interactions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/pilots");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("table")).toBeVisible();
   });
 
   test("search filters pilots visually", async ({ page }) => {
     const search = page.getByPlaceholder(/search|caut/i);
-    if (await search.isVisible()) {
-      await search.fill("ion");
-      await expect(page.locator("tbody tr")).not.toHaveCount(0);
-    }
+    await expect(search).toBeVisible();
+    await search.fill("ion");
+    await expect(page.locator("tbody tr")).not.toHaveCount(0);
     await expect(page).toHaveScreenshot("pilots-search.png", {
       fullPage: true,
     });
@@ -52,15 +49,14 @@ test.describe("Pilots table interactions", () => {
 test.describe("Flights explorer interactions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/flights");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("table")).toBeVisible();
   });
 
   test("preset filter applies visually", async ({ page }) => {
     const top100 = page.getByRole("button", { name: /top 100/i });
-    if (await top100.isVisible()) {
-      await top100.click();
-      await page.waitForLoadState("networkidle");
-    }
+    await expect(top100).toBeVisible();
+    await top100.click();
+    await expect(page.locator("table")).toBeVisible();
     await expect(page).toHaveScreenshot("flights-top100.png", {
       fullPage: true,
     });
@@ -80,7 +76,7 @@ test.describe("Responsive layouts", () => {
     }) => {
       await page.setViewportSize({ width: vp.width, height: vp.height });
       await page.goto("/");
-      await page.waitForLoadState("networkidle");
+      await expect(page.locator("nav")).toBeVisible();
       await expect(page).toHaveScreenshot(`home-${vp.name}.png`, {
         fullPage: true,
       });

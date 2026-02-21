@@ -77,8 +77,7 @@ jest.mock("next/dynamic", () => {
   };
 });
 
-const now = new Date();
-const recentDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+const recentDate = "2025-01-15T00:00:00.000Z";
 
 const mockTakeoffs = [
   {

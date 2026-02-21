@@ -3,30 +3,26 @@ import { test, expect } from "@playwright/test";
 test.describe("Navigation", () => {
   test("desktop nav matches visual snapshot", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    const nav = page.locator("nav");
-    await expect(nav).toHaveScreenshot("nav-desktop.png");
+    await expect(page.locator("nav")).toBeVisible();
+    await expect(page.locator("nav")).toHaveScreenshot("nav-desktop.png");
   });
 
   test("active link is highlighted", async ({ page }) => {
     await page.goto("/pilots");
-    await page.waitForLoadState("networkidle");
-    const nav = page.locator("nav");
-    await expect(nav).toHaveScreenshot("nav-pilots-active.png");
+    await expect(page.locator("nav")).toBeVisible();
+    await expect(page.locator("nav")).toHaveScreenshot("nav-pilots-active.png");
   });
 });
 
 test.describe("Language toggle", () => {
   test("switches to English", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("nav")).toBeVisible();
 
-    // Click English toggle
     const toggle = page.getByRole("button", { name: /EN/i });
-    if (await toggle.isVisible()) {
-      await toggle.click();
-      await page.waitForLoadState("networkidle");
-    }
+    await expect(toggle).toBeVisible();
+    await toggle.click();
+    await expect(page.locator("nav")).toBeVisible();
 
     await expect(page).toHaveScreenshot("home-english.png", {
       fullPage: true,
@@ -39,22 +35,18 @@ test.describe("Mobile navigation", () => {
 
   test("hamburger menu matches visual snapshot", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    const nav = page.locator("nav");
-    await expect(nav).toHaveScreenshot("nav-mobile-closed.png");
+    await expect(page.locator("nav")).toBeVisible();
+    await expect(page.locator("nav")).toHaveScreenshot("nav-mobile-closed.png");
   });
 
   test("open hamburger menu matches visual snapshot", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("nav")).toBeVisible();
 
-    // Open mobile menu
     const hamburger = page.getByRole("button", { name: /menu/i });
-    if (await hamburger.isVisible()) {
-      await hamburger.click();
-    }
+    await expect(hamburger).toBeVisible();
+    await hamburger.click();
 
-    const nav = page.locator("nav");
-    await expect(nav).toHaveScreenshot("nav-mobile-open.png");
+    await expect(page.locator("nav")).toHaveScreenshot("nav-mobile-open.png");
   });
 });
