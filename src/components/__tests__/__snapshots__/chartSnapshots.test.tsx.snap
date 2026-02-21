@@ -56,6 +56,98 @@ exports[`Chart snapshots AdoptionChart matches snapshot with empty data 1`] = `
 </div>
 `;
 
+exports[`Chart snapshots CommunityGrowthChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="2"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#3b82f6"
+      data-name="Flights"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="pilots"
+      data-name="Pilots"
+      data-stroke="#22c55e"
+      data-testid="line"
+    />
+    <div
+      data-datakey="totalKm"
+      data-name="Total km"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots CommunityGrowthChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="0"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="flights"
+      data-fill="#3b82f6"
+      data-name="Flights"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="pilots"
+      data-name="Pilots"
+      data-stroke="#22c55e"
+      data-testid="line"
+    />
+    <div
+      data-datakey="totalKm"
+      data-name="Total km"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots DistanceHistogram matches snapshot 1`] = `
 <div
   data-testid="responsive-container"
@@ -129,6 +221,50 @@ exports[`Chart snapshots DowChart matches snapshot 1`] = `
       data-datakey="flights"
       data-fill="#06b6d4"
       data-testid="bar"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots FlightTypeChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-testid="pie-chart"
+  >
+    <div
+      data-datakey="value"
+      data-length="3"
+      data-testid="pie"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-testid="legend"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots FlightTypeChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-testid="pie-chart"
+  >
+    <div
+      data-datakey="value"
+      data-length="0"
+      data-testid="pie"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-testid="legend"
     />
   </div>
 </div>

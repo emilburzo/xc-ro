@@ -8,6 +8,8 @@ import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
+import FlightTypeChart from "../charts/FlightTypeChart";
+import CommunityGrowthChart from "../charts/CommunityGrowthChart";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -150,6 +152,35 @@ describe("Chart snapshots", () => {
 
   it("AdoptionChart matches snapshot with empty data", () => {
     const { container } = render(<AdoptionChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("FlightTypeChart matches snapshot", () => {
+    const flightTypeData = [
+      { flight_type: "free flight", cnt: 500 },
+      { flight_type: "FAI triangle", cnt: 150 },
+      { flight_type: "flat triangle", cnt: 100 },
+    ];
+    const { container } = render(<FlightTypeChart data={flightTypeData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("FlightTypeChart matches snapshot with empty data", () => {
+    const { container } = render(<FlightTypeChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CommunityGrowthChart matches snapshot", () => {
+    const growthData = [
+      { year: 2020, flight_count: 500, pilot_count: 50, total_km: 12000 },
+      { year: 2021, flight_count: 600, pilot_count: 65, total_km: 15000 },
+    ];
+    const { container } = render(<CommunityGrowthChart data={growthData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CommunityGrowthChart matches snapshot with empty data", () => {
+    const { container } = render(<CommunityGrowthChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

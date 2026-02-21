@@ -7,6 +7,8 @@ import DowChart from "../charts/DowChart";
 import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
+import FlightTypeChart from "../charts/FlightTypeChart";
+import CommunityGrowthChart from "../charts/CommunityGrowthChart";
 
 // Mock recharts to render testable HTML with chart structure info
 jest.mock("recharts", () => {
@@ -287,6 +289,80 @@ describe("PilotYearlyChart", () => {
 
   it("renders with empty data", () => {
     const { getByTestId } = render(<PilotYearlyChart data={[]} />);
+    expect(getByTestId("composed-chart")).toHaveAttribute("data-length", "0");
+  });
+});
+
+describe("FlightTypeChart", () => {
+  const data = [
+    { flight_type: "free flight", cnt: 500 },
+    { flight_type: "FAI triangle", cnt: 150 },
+    { flight_type: "flat triangle", cnt: 100 },
+  ];
+
+  it("renders a PieChart with Pie using value dataKey", () => {
+    const { getByTestId } = render(<FlightTypeChart data={data} />);
+    expect(getByTestId("pie-chart")).toBeInTheDocument();
+    const pie = getByTestId("pie");
+    expect(pie).toHaveAttribute("data-datakey", "value");
+    expect(pie).toHaveAttribute("data-length", "3");
+  });
+
+  it("renders a Legend", () => {
+    const { getByTestId } = render(<FlightTypeChart data={data} />);
+    expect(getByTestId("legend")).toBeInTheDocument();
+  });
+
+  it("renders with empty data", () => {
+    const { getByTestId } = render(<FlightTypeChart data={[]} />);
+    expect(getByTestId("pie")).toHaveAttribute("data-length", "0");
+  });
+
+  it("renders with single flight type", () => {
+    const { getByTestId } = render(
+      <FlightTypeChart data={[{ flight_type: "free flight", cnt: 100 }]} />
+    );
+    expect(getByTestId("pie")).toHaveAttribute("data-length", "1");
+  });
+});
+
+describe("CommunityGrowthChart", () => {
+  const data = [
+    { year: 2020, flight_count: 500, pilot_count: 50, total_km: 12000 },
+    { year: 2021, flight_count: 600, pilot_count: 65, total_km: 15000 },
+    { year: 2022, flight_count: 700, pilot_count: 80, total_km: 18000 },
+  ];
+
+  it("renders a ComposedChart with correct data count", () => {
+    const { getByTestId } = render(<CommunityGrowthChart data={data} />);
+    expect(getByTestId("composed-chart")).toHaveAttribute("data-length", "3");
+  });
+
+  it("renders Bar for flights and Lines for pilots and total km", () => {
+    const { getAllByTestId } = render(<CommunityGrowthChart data={data} />);
+    const bars = getAllByTestId("bar");
+    expect(bars).toHaveLength(1);
+    expect(bars[0]).toHaveAttribute("data-datakey", "flights");
+    expect(bars[0]).toHaveAttribute("data-name", "Flights");
+    const lines = getAllByTestId("line");
+    expect(lines).toHaveLength(2);
+    expect(lines[0]).toHaveAttribute("data-datakey", "pilots");
+    expect(lines[0]).toHaveAttribute("data-name", "Pilots");
+    expect(lines[1]).toHaveAttribute("data-datakey", "totalKm");
+    expect(lines[1]).toHaveAttribute("data-name", "Total km");
+  });
+
+  it("uses year on XAxis with dual Y axes", () => {
+    const { getByTestId, getAllByTestId } = render(<CommunityGrowthChart data={data} />);
+    expect(getByTestId("xaxis")).toHaveAttribute("data-datakey", "year");
+    const yAxes = getAllByTestId("yaxis");
+    expect(yAxes).toHaveLength(2);
+    expect(yAxes[0]).toHaveAttribute("data-yaxisid", "left");
+    expect(yAxes[1]).toHaveAttribute("data-yaxisid", "right");
+  });
+
+  it("renders with empty data", () => {
+    const { getByTestId } = render(<CommunityGrowthChart data={[]} />);
     expect(getByTestId("composed-chart")).toHaveAttribute("data-length", "0");
   });
 });

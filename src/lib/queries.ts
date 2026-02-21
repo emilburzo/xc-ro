@@ -822,6 +822,77 @@ export async function getFunStats() {
   };
 }
 
+// ============ RECORDS: ADDITIONAL STATS ============
+
+export async function getFlightTypeDistribution() {
+  return db.execute(sql`
+    SELECT
+      CASE
+        WHEN type ILIKE '%FAI%' THEN 'FAI triangle'
+        WHEN type ILIKE '%plat%' OR type ILIKE '%flat%' THEN 'flat triangle'
+        ELSE 'free flight'
+      END as flight_type,
+      count(*)::int as cnt
+    FROM flights_pg
+    GROUP BY flight_type
+    ORDER BY cnt DESC
+  `);
+}
+
+export async function getCommunityGrowth() {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(YEAR FROM start_time)::int as year,
+      count(*)::int as flight_count,
+      count(DISTINCT pilot_id)::int as pilot_count,
+      round(sum(distance_km)::numeric) as total_km
+    FROM flights_pg
+    GROUP BY year
+    ORDER BY year
+  `);
+}
+
+export async function getAdditionalFunStats() {
+  const [mostKmDay, mostAirtimePilot, mostTriangles] = await Promise.all([
+    db.execute(sql`
+      SELECT start_time::date as day,
+             round(sum(distance_km)::numeric, 1) as total_km,
+             count(*)::int as flight_count,
+             count(DISTINCT pilot_id)::int as pilot_count
+      FROM flights_pg
+      GROUP BY day
+      ORDER BY total_km DESC
+      LIMIT 1
+    `),
+    db.execute(sql`
+      SELECT p.name, p.username,
+             round(sum(f.airtime)::numeric) as total_airtime,
+             count(*)::int as flight_count
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      GROUP BY p.id, p.name, p.username
+      ORDER BY total_airtime DESC
+      LIMIT 1
+    `),
+    db.execute(sql`
+      SELECT p.name, p.username,
+             count(*)::int as triangle_count
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      WHERE f.type ILIKE '%tri%' OR f.type ILIKE '%FAI%'
+      GROUP BY p.id, p.name, p.username
+      ORDER BY triangle_count DESC
+      LIMIT 1
+    `),
+  ]);
+
+  return {
+    mostKmDay: mostKmDay[0],
+    mostAirtimePilot: mostAirtimePilot[0],
+    mostTriangles: mostTriangles[0],
+  };
+}
+
 // ============ HEALTHCHECK ============
 
 export async function healthcheck() {

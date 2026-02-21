@@ -6,8 +6,12 @@ import {
   getSiteRecords,
   getAnnualRecords,
   getFunStats,
+  getFlightTypeDistribution,
+  getCommunityGrowth,
+  getAdditionalFunStats,
 } from "@/lib/queries";
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import RecordsCharts from "@/components/RecordsCharts";
 
 export const dynamic = "force-dynamic";
 
@@ -46,12 +50,15 @@ export default async function RecordsPage() {
   const locale = await getLocale();
   const t = await getTranslations("records");
 
-  const [allTime, categoryRecords, siteRecords, annualRecords, funStats] = await Promise.all([
+  const [allTime, categoryRecords, siteRecords, annualRecords, funStats, flightTypes, communityGrowth, additionalFunStats] = await Promise.all([
     getAllTimeRecords(),
     getCategoryRecords(),
     getSiteRecords(),
     getAnnualRecords(),
     getFunStats(),
+    getFlightTypeDistribution(),
+    getCommunityGrowth(),
+    getAdditionalFunStats(),
   ]);
 
   return (
@@ -190,6 +197,9 @@ export default async function RecordsPage() {
         </div>
       </section>
 
+      {/* Community Growth & Flight Types (charts) */}
+      <RecordsCharts flightTypes={flightTypes as any} communityGrowth={communityGrowth as any} />
+
       {/* Fun Stats */}
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("funStats")}</h2>
@@ -233,6 +243,44 @@ export default async function RecordsPage() {
                   {(funStats.mostConsistent as any).name}
                 </Link>{" "}
                 &mdash; {t("mostConsistentDesc", { count: (funStats.mostConsistent as any).years_active })}
+              </p>
+            </div>
+          )}
+          {additionalFunStats.mostKmDay && (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-semibold text-gray-700">{t("mostKmDay")}</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                {t("mostKmDayDesc", {
+                  date: formatDate((additionalFunStats.mostKmDay as any).day, locale),
+                  totalKm: formatDistance((additionalFunStats.mostKmDay as any).total_km),
+                  flightCount: (additionalFunStats.mostKmDay as any).flight_count,
+                  pilotCount: (additionalFunStats.mostKmDay as any).pilot_count,
+                })}
+              </p>
+            </div>
+          )}
+          {additionalFunStats.mostAirtimePilot && (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-semibold text-gray-700">{t("mostAirtime")}</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                <Link href={pilotPath((additionalFunStats.mostAirtimePilot as any).username)} className="text-blue-600 hover:underline">
+                  {(additionalFunStats.mostAirtimePilot as any).name}
+                </Link>{" "}
+                &mdash; {t("mostAirtimeDesc", {
+                  duration: formatDuration((additionalFunStats.mostAirtimePilot as any).total_airtime),
+                  flightCount: (additionalFunStats.mostAirtimePilot as any).flight_count,
+                })}
+              </p>
+            </div>
+          )}
+          {additionalFunStats.mostTriangles && (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-semibold text-gray-700">{t("mostTriangles")}</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                <Link href={pilotPath((additionalFunStats.mostTriangles as any).username)} className="text-blue-600 hover:underline">
+                  {(additionalFunStats.mostTriangles as any).name}
+                </Link>{" "}
+                &mdash; {t("mostTrianglesDesc", { count: (additionalFunStats.mostTriangles as any).triangle_count })}
               </p>
             </div>
           )}

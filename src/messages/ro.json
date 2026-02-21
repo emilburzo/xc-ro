@@ -155,7 +155,14 @@
     "mostSitesPilotDesc": "{count} decolări diferite",
     "mostConsistent": "Cel mai constant pilot",
     "mostConsistentDesc": "{count} ani activi",
-    "growth": "Creștere"
+    "growth": "Creștere",
+    "flightTypes": "Tipuri de zbor",
+    "mostKmDay": "Cei mai mulți km într-o zi",
+    "mostKmDayDesc": "{date} — {totalKm} km în {flightCount} zboruri de {pilotCount} piloți",
+    "mostAirtime": "Cel mai mult timp în aer",
+    "mostAirtimeDesc": "{duration} în {flightCount} zboruri",
+    "mostTriangles": "Specialist triunghiuri",
+    "mostTrianglesDesc": "{count} zboruri triunghi"
   },
   "wings": {
     "title": "Aripi",

@@ -155,7 +155,14 @@
     "mostSitesPilotDesc": "{count} different takeoffs",
     "mostConsistent": "Most consistent pilot",
     "mostConsistentDesc": "{count} years active",
-    "growth": "Growth"
+    "growth": "Growth",
+    "flightTypes": "Flight Types",
+    "mostKmDay": "Most km in a day",
+    "mostKmDayDesc": "{date} — {totalKm} km across {flightCount} flights by {pilotCount} pilots",
+    "mostAirtime": "Most total airtime",
+    "mostAirtimeDesc": "{duration} across {flightCount} flights",
+    "mostTriangles": "Triangle specialist",
+    "mostTrianglesDesc": "{count} triangle flights"
   },
   "wings": {
     "title": "Wings",
