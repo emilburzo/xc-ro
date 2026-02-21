@@ -532,6 +532,15 @@ export async function getWingAdoptionCurve(wingId: number) {
   `);
 }
 
+export async function getWingDistinctPilotCount(wingId: number) {
+  const rows = await db.execute(sql`
+    SELECT count(DISTINCT pilot_id)::int as pilot_count
+    FROM flights_pg
+    WHERE glider_id = ${wingId}
+  `);
+  return (rows as any[])[0]?.pilot_count ?? 0;
+}
+
 export async function getWingYearlyStats(wingId: number) {
   return db.execute(sql`
     SELECT
