@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, waitForMapTiles } from "./fixtures";
 
 test.describe("Takeoffs table interactions", () => {
   test.beforeEach(async ({ page }) => {
@@ -11,6 +11,7 @@ test.describe("Takeoffs table interactions", () => {
     await expect(search).toBeVisible();
     await search.fill("Bunloc");
     await expect(page.locator("tbody tr")).not.toHaveCount(0);
+    await waitForMapTiles(page);
     await expect(page).toHaveScreenshot("takeoffs-search.png", {
       fullPage: true,
     });
@@ -23,6 +24,7 @@ test.describe("Takeoffs table interactions", () => {
     await expect(flightsHeader).toBeVisible();
     await flightsHeader.click();
     await expect(page.locator("tbody tr").first()).toBeVisible();
+    await waitForMapTiles(page);
     await expect(page).toHaveScreenshot("takeoffs-sorted.png", {
       fullPage: true,
     });

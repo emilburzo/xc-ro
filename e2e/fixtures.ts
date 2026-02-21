@@ -33,12 +33,19 @@ export const test = base.extend({
 export async function waitForMapTiles(page: import("@playwright/test").Page) {
   // Wait for the Leaflet container to appear
   await expect(page.locator(".leaflet-container")).toBeVisible();
-  // Wait for at least one tile image to be loaded
+  // Wait for at least one tile to be loaded
   await expect(page.locator(".leaflet-tile-loaded").first()).toBeVisible({
     timeout: 15_000,
   });
-  // Give a short buffer for remaining tiles to settle
-  await page.waitForTimeout(500);
+  // Wait until ALL tiles have finished loading (no tiles without .leaflet-tile-loaded)
+  await page.waitForFunction(
+    () => {
+      const allTiles = document.querySelectorAll(".leaflet-tile");
+      const loadedTiles = document.querySelectorAll(".leaflet-tile-loaded");
+      return allTiles.length > 0 && allTiles.length === loadedTiles.length;
+    },
+    { timeout: 15_000 },
+  );
 }
 
 export { expect };
