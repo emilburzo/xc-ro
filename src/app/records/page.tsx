@@ -198,7 +198,7 @@ export default async function RecordsPage() {
             <div className="bg-yellow-50 rounded-lg border border-yellow-200 p-4">
               <h4 className="font-semibold text-yellow-800">{t("epicDay")}</h4>
               <p className="text-sm text-yellow-700 mt-1">
-                {t("epicDayDesc", { date: formatDate((funStats.epicDay as any).day, locale), count: (funStats.epicDay as any).flights_300k })}
+                {t("epicDayDesc", { date: formatDate((funStats.epicDay as any).day, locale), count: (funStats.epicDay as any).pilots_300k })}
               </p>
               <p className="text-xs text-yellow-600 mt-0.5">
                 {t("epicDayDetail", { flightCount: (funStats.epicDay as any).flight_count, pilotCount: (funStats.epicDay as any).pilot_count })}
