@@ -40,7 +40,7 @@ jobs:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
       - run: npx playwright install --with-deps chromium webkit
       - name: Run visual tests
-        run: npx playwright test --update-snapshots
+        run: npx playwright test
         env:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
       - uses: actions/upload-artifact@v4
