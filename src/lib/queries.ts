@@ -732,7 +732,7 @@ export async function getAllTimeRecords() {
 export async function getCategoryRecords() {
   return db.execute(sql`
     SELECT DISTINCT ON (g.category)
-      g.category, f.distance_km, f.score, f.start_time, f.url,
+      g.category, f.distance_km, f.score, f.start_time, f.airtime, f.url,
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
       g.name as glider_name
@@ -780,10 +780,12 @@ export async function getFunStats() {
     db.execute(sql`
       SELECT start_time::date as day, count(*)::int as flight_count,
              count(DISTINCT pilot_id)::int as pilot_count,
-             count(*) FILTER (WHERE distance_km >= 300)::int as flights_300k
+             count(DISTINCT pilot_id) FILTER (WHERE distance_km >= 300)::int as pilots_300k
       FROM flights_pg
-      WHERE start_time::date = '2022-07-08'
       GROUP BY day
+      HAVING count(DISTINCT pilot_id) FILTER (WHERE distance_km >= 300) > 0
+      ORDER BY pilots_300k DESC, flight_count DESC
+      LIMIT 1
     `),
     db.execute(sql`
       SELECT start_time::date as day, count(*)::int as flight_count,

@@ -147,7 +147,7 @@
     "perYear": "Annual Records",
     "funStats": "Fun Stats",
     "epicDay": "The Epic Day",
-    "epicDayDesc": "8 July 2022 — {count} pilots flew 300km+",
+    "epicDayDesc": "{date} — {count} pilots flew 300km+",
     "epicDayDetail": "{flightCount} total flights, {pilotCount} pilots",
     "mostFlightsDay": "Most flights in a day",
     "mostFlightsDayDesc": "{flightCount} flights by {pilotCount} pilots",
