@@ -780,12 +780,11 @@ export async function getFunStats() {
     db.execute(sql`
       SELECT start_time::date as day, count(*)::int as flight_count,
              count(DISTINCT pilot_id)::int as pilot_count,
-             count(*) FILTER (WHERE distance_km >= 300)::int as flights_300k,
              count(DISTINCT pilot_id) FILTER (WHERE distance_km >= 300)::int as pilots_300k
       FROM flights_pg
       GROUP BY day
-      HAVING count(*) FILTER (WHERE distance_km >= 300) > 0
-      ORDER BY pilots_300k DESC, flights_300k DESC, flight_count DESC
+      HAVING count(DISTINCT pilot_id) FILTER (WHERE distance_km >= 300) > 0
+      ORDER BY pilots_300k DESC, flight_count DESC
       LIMIT 1
     `),
     db.execute(sql`
