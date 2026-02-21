@@ -11,8 +11,12 @@ test.describe("Takeoffs table interactions", () => {
     await expect(search).toBeVisible();
     const rows = page.locator("tbody tr");
     const initialCount = await rows.count();
-    await search.fill("Bunloc");
-    await expect(rows).not.toHaveCount(initialCount);
+    // Retry fill to handle React hydration race on WebKit
+    await expect(async () => {
+      await search.clear();
+      await search.pressSequentially("Bunloc", { delay: 50 });
+      await expect(rows).not.toHaveCount(initialCount, { timeout: 1_000 });
+    }).toPass({ timeout: 15_000 });
     await expect(rows).not.toHaveCount(0);
     await waitForMapTiles(page);
     await expect(page).toHaveScreenshot("takeoffs-search.png", {
@@ -87,7 +91,8 @@ test.describe("Wings table interactions", () => {
     const initialCount = await rows.count();
     // Retry fill to handle React hydration race on WebKit
     await expect(async () => {
-      await search.fill("Nova");
+      await search.clear();
+      await search.pressSequentially("Nova", { delay: 50 });
       await expect(rows).not.toHaveCount(initialCount, { timeout: 1_000 });
     }).toPass({ timeout: 15_000 });
     await expect(rows).not.toHaveCount(0);
