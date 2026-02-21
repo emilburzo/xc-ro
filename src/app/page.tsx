@@ -103,7 +103,7 @@ export default async function HomePage() {
                 <Link href={takeoffPath(tk.id, tk.name)} className="text-sm text-blue-600 hover:underline truncate">
                   {i + 1}. {tk.name}
                 </Link>
-                <span className="text-sm text-gray-500 shrink-0 ml-2">{tk.flight_count} {tc("flights")}</span>
+                <span className="text-sm text-gray-500 shrink-0 ml-2">{tk.flight_count.toLocaleString()} {tc("flights")}</span>
               </div>
             ))}
           </div>
