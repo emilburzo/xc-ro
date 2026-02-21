@@ -7,7 +7,7 @@ import {
   getAnnualRecords,
   getFunStats,
 } from "@/lib/queries";
-import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -114,6 +114,7 @@ export default async function RecordsPage() {
               <tr>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Year</th>
                 <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Distance</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Airtime</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Glider</th>
@@ -128,6 +129,7 @@ export default async function RecordsPage() {
                       {formatDistance(r.distance_km)} km
                     </a>
                   </td>
+                  <td className="px-3 py-2 text-right text-gray-600">{formatDuration(r.airtime)}</td>
                   <td className="px-3 py-2">
                     <Link href={pilotPath(r.pilot_username)} className="text-blue-600 hover:underline">
                       {r.pilot_name}
@@ -135,12 +137,16 @@ export default async function RecordsPage() {
                   </td>
                   <td className="px-3 py-2 text-gray-600">
                     {r.takeoff_name ? (
-                      <Link href={takeoffPath(r.takeoff_id, r.takeoff_name)} className="hover:underline">
+                      <Link href={takeoffPath(r.takeoff_id, r.takeoff_name)} className="text-blue-600 hover:underline">
                         {r.takeoff_name}
                       </Link>
                     ) : "-"}
                   </td>
-                  <td className="px-3 py-2 text-gray-500">{r.glider_name}</td>
+                  <td className="px-3 py-2 text-gray-500">
+                    <Link href={wingPath(r.glider_id, r.glider_name)} className="text-blue-600 hover:underline">
+                      {r.glider_name}
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
