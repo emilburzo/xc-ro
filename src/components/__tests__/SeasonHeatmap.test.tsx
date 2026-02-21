@@ -5,12 +5,19 @@ import SeasonHeatmap from "../SeasonHeatmap";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
-  useTranslations: () => (key: string) => {
-    const map: Record<string, string> = {
-      seasonOverview: "Season",
-      flightCount: "Flight Count",
-      avgScore: "Avg Score",
+  useTranslations: (namespace: string) => (key: string) => {
+    const maps: Record<string, Record<string, string>> = {
+      home: {
+        seasonOverview: "Season",
+        flightCount: "Flight Count",
+        avgScore: "Avg Score",
+      },
+      common: {
+        flights: "flights",
+        avgScore: "avg score",
+      },
     };
+    const map = maps[namespace] || {};
     return map[key] || key;
   },
 }));

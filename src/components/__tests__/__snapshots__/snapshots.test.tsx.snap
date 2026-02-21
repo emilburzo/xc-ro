@@ -203,62 +203,62 @@ exports[`Snapshot: SeasonHeatmap matches snapshot with data 1`] = `
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(219, 234, 254);"
-          title="2023/01: 10 flights"
+          title="2023/01: 10 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/02: 0 flights"
+          title="2023/02: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/03: 0 flights"
+          title="2023/03: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/04: 0 flights"
+          title="2023/04: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/05: 0 flights"
+          title="2023/05: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(59, 130, 246);"
-          title="2023/06: 80 flights"
+          title="2023/06: 80 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(29, 78, 216);"
-          title="2023/07: 120 flights"
+          title="2023/07: 120 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/08: 0 flights"
+          title="2023/08: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/09: 0 flights"
+          title="2023/09: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/10: 0 flights"
+          title="2023/10: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/11: 0 flights"
+          title="2023/11: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2023/12: 0 flights"
+          title="2023/12: 0 Flights"
         />
       </div>
       <div
@@ -272,62 +272,62 @@ exports[`Snapshot: SeasonHeatmap matches snapshot with data 1`] = `
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/01: 0 flights"
+          title="2024/01: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/02: 0 flights"
+          title="2024/02: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(147, 197, 253);"
-          title="2024/03: 30 flights"
+          title="2024/03: 30 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/04: 0 flights"
+          title="2024/04: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/05: 0 flights"
+          title="2024/05: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/06: 0 flights"
+          title="2024/06: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(29, 78, 216);"
-          title="2024/07: 100 flights"
+          title="2024/07: 100 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/08: 0 flights"
+          title="2024/08: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/09: 0 flights"
+          title="2024/09: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/10: 0 flights"
+          title="2024/10: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/11: 0 flights"
+          title="2024/11: 0 Flights"
         />
         <div
           class="w-8 h-6 rounded-sm cursor-default"
           style="background-color: rgb(243, 244, 246);"
-          title="2024/12: 0 flights"
+          title="2024/12: 0 Flights"
         />
       </div>
     </div>

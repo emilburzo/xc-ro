@@ -89,7 +89,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
       >
         <input
           class="px-2 py-1.5 text-sm border border-gray-300 rounded w-20"
-          placeholder="Min"
+          placeholder="min"
           type="number"
           value=""
         />
@@ -100,7 +100,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         </span>
         <input
           class="px-2 py-1.5 text-sm border border-gray-300 rounded w-20"
-          placeholder="Max"
+          placeholder="max"
           type="number"
           value=""
         />
@@ -118,7 +118,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         <option
           value=""
         >
-          All
+          all
         </option>
         <option
           value="A"
@@ -164,7 +164,9 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
     2
      
     wings
-     · page 
+     · 
+    Page
+     
     1
     /
     1
@@ -396,7 +398,8 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
     class="text-sm text-gray-500 mb-2"
   >
     2
-     pilots
+     
+    wings
   </div>
   <div
     class="overflow-auto max-h-[70vh]"
@@ -616,7 +619,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
       <option
         value="all"
       >
-        All
+        all
       </option>
       <option
         value="active"
@@ -646,7 +649,8 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
     class="text-sm text-gray-500 mb-2"
   >
     2
-     takeoffs
+     
+    wings
   </div>
   <div
     class="overflow-auto max-h-[70vh]"

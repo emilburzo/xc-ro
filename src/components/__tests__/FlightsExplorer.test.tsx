@@ -25,6 +25,10 @@ jest.mock("next-intl", () => ({
       presetTop100: "Top 100 all-time",
       presetClub100k: "100km+ Club",
       noFlights: "No flights found",
+      min: "Min",
+      max: "Max",
+      all: "All",
+      page: "page",
     };
     return map[key] || key;
   },

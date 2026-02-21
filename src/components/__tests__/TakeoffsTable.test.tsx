@@ -12,6 +12,8 @@ jest.mock("next-intl", () => ({
       activeOnly: "Active only",
       dormantOnly: "Dormant only",
       minFlights: "Min flights",
+      title: "Takeoffs",
+      all: "All",
       name: "Name",
       flights: "Flights",
       pilots: "Pilots",
