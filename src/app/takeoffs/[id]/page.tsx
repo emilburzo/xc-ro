@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -18,6 +19,15 @@ import { pilotPath, formatDuration, formatDistance, formatDate } from "@/lib/uti
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id: rawId } = await params;
+  const id = parseInt(rawId.split("-")[0]);
+  if (isNaN(id)) return {};
+  const takeoff = await getTakeoffById(id);
+  if (!takeoff) return {};
+  return { title: (takeoff as any).name };
+}
 
 export default async function TakeoffDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const locale = await getLocale();

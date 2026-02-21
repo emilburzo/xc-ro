@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -14,6 +15,15 @@ import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber, f
 import WingDetailCharts from "@/components/WingDetailCharts";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id: rawId } = await params;
+  const id = parseInt(rawId.split("-")[0]);
+  if (isNaN(id)) return {};
+  const wing = await getWingById(id);
+  if (!wing) return {};
+  return { title: (wing as any).name };
+}
 
 const CAT_COLORS: Record<string, string> = {
   A: "bg-green-100 text-green-800",

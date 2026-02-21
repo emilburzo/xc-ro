@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getTakeoffsList } from "@/lib/queries";
 import TakeoffsTable from "@/components/TakeoffsTable";
 
 export const revalidate = 0;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("takeoffs");
+  return { title: t("title") };
+}
 
 export default async function TakeoffsPage() {
   const t = await getTranslations("takeoffs");

@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getFlightsList, FlightFilters } from "@/lib/queries";
 import FlightsExplorer from "@/components/FlightsExplorer";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("flights");
+  return { title: t("title") };
+}
 
 export default async function FlightsPage({
   searchParams,

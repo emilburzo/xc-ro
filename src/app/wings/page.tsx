@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getWingsList } from "@/lib/queries";
 import WingsTable from "@/components/WingsTable";
 
 export const revalidate = 0;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("wings");
+  return { title: t("title") };
+}
 
 export default async function WingsPage() {
   const t = await getTranslations("wings");

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -16,6 +17,13 @@ import { takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/u
 import PilotDetailCharts from "@/components/PilotDetailCharts";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }): Promise<Metadata> {
+  const { username } = await params;
+  const pilot = await getPilotByUsername(username);
+  if (!pilot) return {};
+  return { title: (pilot as any).name };
+}
 
 export default async function PilotDetailPage({ params }: { params: Promise<{ username: string }> }) {
   const locale = await getLocale();
