@@ -69,7 +69,7 @@ jobs:
           psql "$DATABASE_URL" -f e2e/seed.sql
         env:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: npx playwright test
         env:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
