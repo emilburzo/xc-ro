@@ -70,12 +70,8 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
       - run: npx playwright install --with-deps chromium webkit
-      - name: Generate baseline screenshots
+      - name: Run visual tests
         run: npx playwright test --update-snapshots
-        env:
-          DATABASE_URL: postgres://postgres@localhost:5432/xcontest
-      - name: Re-run tests against baselines
-        run: npx playwright test
         env:
           DATABASE_URL: postgres://postgres@localhost:5432/xcontest
       - uses: actions/upload-artifact@v4
