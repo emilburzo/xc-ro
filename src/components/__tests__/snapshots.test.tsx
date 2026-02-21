@@ -11,6 +11,7 @@ jest.mock("next-intl", () => ({
       takeoffs: "Takeoffs",
       pilots: "Pilots",
       flights: "Flights",
+      wings: "Wings",
       records: "Records",
       seasonOverview: "Season",
       flightCount: "Flight Count",

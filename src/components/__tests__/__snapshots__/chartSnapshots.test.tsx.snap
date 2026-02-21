@@ -1,5 +1,61 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`Chart snapshots AdoptionChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="4"
+    data-testid="line-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="pilots"
+      data-name="Pilots"
+      data-stroke="#3b82f6"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots AdoptionChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="0"
+    data-testid="line-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="pilots"
+      data-name="Pilots"
+      data-stroke="#3b82f6"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots DistanceHistogram matches snapshot 1`] = `
 <div
   data-testid="responsive-container"
