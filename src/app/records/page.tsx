@@ -93,15 +93,15 @@ export default async function RecordsPage() {
       {/* Annual Records */}
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("perYear")}</h2>
-        <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-auto max-h-[70vh]">
           <table className="w-full text-sm">
-            <thead className="border-b border-gray-200">
+            <thead>
               <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Year</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Distance</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Pilot</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Takeoff</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Glider</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Year</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Distance</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Glider</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -136,14 +136,14 @@ export default async function RecordsPage() {
       {/* Site Records (top 30 by distance) */}
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("perSite")}</h2>
-        <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-auto max-h-[70vh]">
           <table className="w-full text-sm">
-            <thead className="border-b border-gray-200">
+            <thead>
               <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Takeoff</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Record</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Pilot</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Date</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Record</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Date</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
