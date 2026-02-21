@@ -1,18 +1,16 @@
 import { test as base, expect } from "@playwright/test";
 
 /**
- * Custom test fixture that hides Next.js dev indicators before each test.
- * This prevents the floating "N" button and "X issues" toast from appearing
- * in screenshots, which would cause non-deterministic visual diffs.
+ * Custom test fixture that hides the Next.js dev indicator button before each test.
+ * Only hides the floating "N" button — the "X issues" toast is intentionally
+ * kept visible since it surfaces useful build warnings.
  */
 export const test = base.extend({
   page: async ({ page }, use) => {
-    // Hide Next.js dev indicators (floating button + issues toast)
+    // Hide only the Next.js floating dev indicator button
     const hideDevIndicators = async () => {
       await page.addStyleTag({
         content: `
-          [data-nextjs-dialog-overlay],
-          [data-nextjs-toast],
           nextjs-portal { display: none !important; }
         `,
       });
