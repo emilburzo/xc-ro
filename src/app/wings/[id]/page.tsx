@@ -61,7 +61,7 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
       {/* Header */}
       <div>
         <Link href="/wings" className="text-sm text-blue-600 hover:underline mb-2 inline-block">
-          &larr; {t("totalFlights")}
+          &larr; {t("backToWings")}
         </Link>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-gray-900">{(wing as any).name}</h1>

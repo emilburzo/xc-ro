@@ -195,7 +195,8 @@
     "activeSince": "Active since",
     "lastFlight": "Last flight",
     "pilotsCount": "Pilots",
-    "flightsPerYear": "Flights per year"
+    "flightsPerYear": "Flights per year",
+    "backToWings": "Back to Wings"
   },
   "common": {
     "km": "km",
