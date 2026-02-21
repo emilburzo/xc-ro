@@ -66,7 +66,7 @@ describe("TakeoffMap", () => {
     const { container } = render(<TakeoffMap takeoffs={mockTakeoffs} />);
     const mapDiv = container.querySelector(".w-full");
     expect(mapDiv).toBeInTheDocument();
-    expect(mapDiv).toHaveClass("h-[350px]");
+    expect(mapDiv).toHaveClass("!h-[350px]");
   });
 
   it("loads leaflet CSS stylesheet", () => {

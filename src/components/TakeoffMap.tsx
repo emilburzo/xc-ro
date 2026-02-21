@@ -87,7 +87,7 @@ export default function TakeoffMap({ takeoffs }: { takeoffs: TakeoffMarker[] }) 
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       />
-      <div ref={mapRef} className="w-full h-[350px] md:h-[450px] rounded-lg" />
+      <div ref={mapRef} className="w-full !h-[350px] md:!h-[450px] rounded-lg" />
     </>
   );
 }
