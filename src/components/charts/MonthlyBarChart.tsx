@@ -11,7 +11,11 @@ interface MonthlyData {
 
 export default function MonthlyBarChart({ data }: { data: MonthlyData[] }) {
   const t = useTranslations("charts");
-  const MONTH_NAMES = [t("monthJan"), t("monthFeb"), t("monthMar"), t("monthApr"), t("monthMay"), t("monthJun"), t("monthJul"), t("monthAug"), t("monthSep"), t("monthOct"), t("monthNov"), t("monthDec")];
+  const MONTH_NAMES = [
+    t("monthJan"), t("monthFeb"), t("monthMar"), t("monthApr"),
+    t("monthMay"), t("monthJun"), t("monthJul"), t("monthAug"),
+    t("monthSep"), t("monthOct"), t("monthNov"), t("monthDec"),
+  ];
   const chartData = Array.from({ length: 12 }, (_, i) => {
     const d = data.find((x) => x.month === i + 1);
     return {

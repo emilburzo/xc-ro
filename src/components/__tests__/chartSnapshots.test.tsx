@@ -17,11 +17,12 @@ jest.mock("next-intl", () => ({
       avgKm: "Avg km",
       maxKm: "Max km",
       totalKm: "Total km",
-      monthJan: "Jan", monthFeb: "Feb", monthMar: "Mar", monthApr: "Apr",
-      monthMay: "May", monthJun: "Jun", monthJul: "Jul", monthAug: "Aug",
-      monthSep: "Sep", monthOct: "Oct", monthNov: "Nov", monthDec: "Dec",
-      dowSun: "Sun", dowMon: "Mon", dowTue: "Tue", dowWed: "Wed",
-      dowThu: "Thu", dowFri: "Fri", dowSat: "Sat",
+      monthJan: "Jan", monthFeb: "Feb", monthMar: "Mar",
+      monthApr: "Apr", monthMay: "May", monthJun: "Jun",
+      monthJul: "Jul", monthAug: "Aug", monthSep: "Sep",
+      monthOct: "Oct", monthNov: "Nov", monthDec: "Dec",
+      dowSun: "Sun", dowMon: "Mon", dowTue: "Tue",
+      dowWed: "Wed", dowThu: "Thu", dowFri: "Fri", dowSat: "Sat",
     };
     return map[key] || key;
   },

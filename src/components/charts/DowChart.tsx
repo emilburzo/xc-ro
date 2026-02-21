@@ -10,7 +10,10 @@ interface DowData {
 
 export default function DowChart({ data }: { data: DowData[] }) {
   const t = useTranslations("charts");
-  const DOW_NAMES = [t("dowSun"), t("dowMon"), t("dowTue"), t("dowWed"), t("dowThu"), t("dowFri"), t("dowSat")];
+  const DOW_NAMES = [
+    t("dowSun"), t("dowMon"), t("dowTue"), t("dowWed"),
+    t("dowThu"), t("dowFri"), t("dowSat"),
+  ];
   const chartData = Array.from({ length: 7 }, (_, i) => {
     const d = data.find((x) => x.dow === i);
     return { day: DOW_NAMES[i], flights: d?.flight_count || 0 };
