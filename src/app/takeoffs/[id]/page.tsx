@@ -95,9 +95,9 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("date")}</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("pilot")}</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("glider")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("distance")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("score")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("airtime")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("distance")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("score")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("airtime")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -118,9 +118,9 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
                     {f.glider_name}
                     <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
                   </td>
-                  <td className="px-2 py-2 font-medium">{formatDistance(f.distance_km)} km</td>
-                  <td className="px-2 py-2 text-gray-700">{Number(f.score).toFixed(1)}</td>
-                  <td className="px-2 py-2 text-gray-500">{formatDuration(f.airtime)}</td>
+                  <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
+                  <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>
+                  <td className="px-2 py-2 text-gray-500 text-right">{formatDuration(f.airtime)}</td>
                 </tr>
               ))}
             </tbody>
@@ -136,18 +136,18 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
             <thead className="border-b border-gray-200">
               <tr>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("date")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("pilotsCount")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Flights</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Max km</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("pilotsCount")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Flights</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Max km</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {(busiest as any[]).map((d, i) => (
                 <tr key={i} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-700">{formatDate(d.day, locale)}</td>
-                  <td className="px-2 py-2 text-gray-700">{d.pilot_count}</td>
-                  <td className="px-2 py-2 text-gray-700">{d.flight_count}</td>
-                  <td className="px-2 py-2 font-medium">{Number(d.max_distance).toFixed(1)} km</td>
+                  <td className="px-2 py-2 text-gray-700 text-right">{d.pilot_count}</td>
+                  <td className="px-2 py-2 text-gray-700 text-right">{d.flight_count}</td>
+                  <td className="px-2 py-2 font-medium text-right">{Number(d.max_distance).toFixed(1)} km</td>
                 </tr>
               ))}
             </tbody>

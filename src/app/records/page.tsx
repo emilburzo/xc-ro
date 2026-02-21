@@ -100,7 +100,7 @@ export default async function RecordsPage() {
             <thead>
               <tr>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Year</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Distance</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Distance</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Glider</th>
@@ -110,7 +110,7 @@ export default async function RecordsPage() {
               {(annualRecords as any[]).map((r) => (
                 <tr key={r.year} className="hover:bg-gray-50">
                   <td className="px-3 py-2 font-medium">{r.year}</td>
-                  <td className="px-3 py-2 font-bold text-blue-600">
+                  <td className="px-3 py-2 font-bold text-blue-600 text-right">
                     <a href={r.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
                       {formatDistance(r.distance_km)} km
                     </a>
@@ -143,7 +143,7 @@ export default async function RecordsPage() {
             <thead>
               <tr>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Record</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Record</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Date</th>
               </tr>
@@ -159,7 +159,7 @@ export default async function RecordsPage() {
                       {r.takeoff_name}
                     </Link>
                   </td>
-                  <td className="px-3 py-2 font-bold">
+                  <td className="px-3 py-2 font-bold text-right">
                     <a href={r.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
                       {formatDistance(r.distance_km)} km
                     </a>

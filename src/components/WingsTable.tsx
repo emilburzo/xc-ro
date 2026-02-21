@@ -80,9 +80,9 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
     else { setSortKey(key); setSortDir("desc"); }
   };
 
-  const SortHeader = ({ k, label }: { k: SortKey; label: string }) => (
+  const SortHeader = ({ k, label, align }: { k: SortKey; label: string; align?: "right" }) => (
     <th
-      className="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+      className={`px-2 py-2 ${align === "right" ? "text-right" : "text-left"} text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200`}
       onClick={() => toggleSort(k)}
     >
       {label} {sortKey === k ? (sortDir === "asc" ? "\u2191" : "\u2193") : ""}
@@ -130,11 +130,11 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
           <thead>
             <tr>
               <SortHeader k="name" label={t("name")} />
-              <SortHeader k="flight_count" label={t("flights")} />
-              <SortHeader k="pilot_count" label={t("pilots")} />
-              <SortHeader k="total_km" label={t("totalKm")} />
-              <SortHeader k="avg_distance" label={t("avgDistance")} />
-              <SortHeader k="max_distance" label={t("record")} />
+              <SortHeader k="flight_count" label={t("flights")} align="right" />
+              <SortHeader k="pilot_count" label={t("pilots")} align="right" />
+              <SortHeader k="total_km" label={t("totalKm")} align="right" />
+              <SortHeader k="avg_distance" label={t("avgDistance")} align="right" />
+              <SortHeader k="max_distance" label={t("record")} align="right" />
               <SortHeader k="last_flight" label={t("lastFlight")} />
             </tr>
           </thead>
@@ -149,11 +149,11 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
                     {w.category}
                   </span>
                 </td>
-                <td className="px-2 py-2 text-gray-700">{w.flight_count}</td>
-                <td className="px-2 py-2 text-gray-700">{w.pilot_count}</td>
-                <td className="px-2 py-2 text-gray-700">{w.total_km != null ? w.total_km.toLocaleString("ro-RO") : "-"}</td>
-                <td className="px-2 py-2 text-gray-700">{w.avg_distance != null ? `${w.avg_distance} km` : "-"}</td>
-                <td className="px-2 py-2 text-gray-700">{w.max_distance != null ? Number(w.max_distance).toFixed(1) : "-"}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{w.flight_count}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{w.pilot_count}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{w.total_km != null ? w.total_km.toLocaleString("ro-RO") : "-"}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{w.avg_distance != null ? `${w.avg_distance} km` : "-"}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{w.max_distance != null ? Number(w.max_distance).toFixed(1) : "-"}</td>
                 <td className="px-2 py-2 text-gray-500 text-xs">
                   {w.last_flight ? formatDate(w.last_flight, locale) : "-"}
                 </td>

@@ -99,9 +99,9 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Date</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Takeoff</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Glider</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Distance</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Score</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">Airtime</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Distance</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Score</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">Airtime</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -124,9 +124,9 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
                     {f.glider_name}
                     <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
                   </td>
-                  <td className="px-2 py-2 font-medium">{formatDistance(f.distance_km)} km</td>
-                  <td className="px-2 py-2 text-gray-700">{Number(f.score).toFixed(1)}</td>
-                  <td className="px-2 py-2 text-gray-500">{formatDuration(f.airtime)}</td>
+                  <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
+                  <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>
+                  <td className="px-2 py-2 text-gray-500 text-right">{formatDuration(f.airtime)}</td>
                 </tr>
               ))}
             </tbody>
