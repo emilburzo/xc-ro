@@ -142,7 +142,7 @@ export default async function RecordsPage() {
                       </Link>
                     ) : "-"}
                   </td>
-                  <td className="px-3 py-2 text-gray-500">
+                  <td className="px-3 py-2">
                     <Link href={wingPath(r.glider_id, r.glider_name)} className="text-blue-600 hover:underline">
                       {r.glider_name}
                     </Link>
