@@ -27,6 +27,7 @@ const CAT_COLORS: Record<string, string> = {
 
 export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, distHist }: Props) {
   const t = useTranslations("pilotDetail");
+  const tc = useTranslations("common");
 
   return (
     <div className="space-y-4">
@@ -56,7 +57,7 @@ export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, d
                 <span className="text-gray-700">{g.name}</span>
               </div>
               <div className="text-xs text-gray-500">
-                {g.flight_count} flights &middot;{" "}
+                {g.flight_count} {tc("flights")} &middot;{" "}
                 {new Date(g.first_used).getFullYear()}-{new Date(g.last_used).getFullYear()}
               </div>
             </div>

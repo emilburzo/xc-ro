@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("title") };
 }
 
-function RecordCard({ title, record, locale }: { title: string; record: any; locale: string }) {
+function RecordCard({ title, record, locale, t }: { title: string; record: any; locale: string; t: (key: string) => string }) {
   if (!record) return null;
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -44,7 +44,7 @@ function RecordCard({ title, record, locale }: { title: string; record: any; loc
         </Link>
         {" "}&middot; {formatDuration(record.airtime)} &middot;{" "}
         <a href={record.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-          view
+          {t("view")}
         </a>
       </div>
     </div>
@@ -71,7 +71,7 @@ export default async function RecordsPage() {
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("allTime")}</h2>
         <div className="grid md:grid-cols-3 gap-3">
-          <RecordCard title={t("longestFlight")} record={allTime.longest} locale={locale} />
+          <RecordCard title={t("longestFlight")} record={allTime.longest} locale={locale} t={t} />
           <RecordCard
             title={t("longestAirtime")}
             record={allTime.longestAirtime ? {
@@ -79,8 +79,9 @@ export default async function RecordsPage() {
               // override display to show airtime prominently
             } : null}
             locale={locale}
+            t={t}
           />
-          <RecordCard title={t("highestScore")} record={allTime.highestScore} locale={locale} />
+          <RecordCard title={t("highestScore")} record={allTime.highestScore} locale={locale} t={t} />
         </div>
       </section>
 
@@ -109,7 +110,7 @@ export default async function RecordsPage() {
                 </Link>
                 {" "}&middot; {formatDuration(r.airtime)} &middot;{" "}
                 <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                  view
+                  {t("view")}
                 </a>
               </div>
             </div>
@@ -124,12 +125,12 @@ export default async function RecordsPage() {
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Year</th>
-                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Distance</th>
-                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Airtime</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Glider</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("year")}</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("distance")}</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("airtime")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("pilot")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("takeoff")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("glider")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -173,10 +174,10 @@ export default async function RecordsPage() {
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Takeoff</th>
-                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Record</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Pilot</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">Date</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("takeoff")}</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("record")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("pilot")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("date")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

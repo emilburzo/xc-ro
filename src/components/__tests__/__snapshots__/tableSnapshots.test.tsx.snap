@@ -10,22 +10,22 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
     <button
       class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
     >
-      presetToday
+      Today's flights
     </button>
     <button
       class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
     >
-      presetBestMonth
+      Best this month
     </button>
     <button
       class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
     >
-      presetTop100
+      Top 100 all-time
     </button>
     <button
       class="px-3 py-1.5 text-sm rounded-lg border transition-colors border-gray-300 text-gray-600 hover:bg-gray-50"
     >
-      presetClub100k
+      100km+ Club
     </button>
   </div>
   <div
@@ -61,7 +61,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
       <label
         class="block text-xs text-gray-500 mb-1"
       >
-        dateRange
+        Date range
       </label>
       <div
         class="flex gap-1"
@@ -82,7 +82,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
       <label
         class="block text-xs text-gray-500 mb-1"
       >
-        distanceRange
+        Distance range
       </label>
       <div
         class="flex gap-1 items-center"
@@ -110,7 +110,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
       <label
         class="block text-xs text-gray-500 mb-1"
       >
-        gliderCategory
+        Glider category
       </label>
       <select
         class="px-2 py-1.5 text-sm border border-gray-300 rounded"
@@ -155,7 +155,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
     <button
       class="px-4 py-1.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
     >
-      filters
+      Filters
     </button>
   </div>
   <div
@@ -163,8 +163,10 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
   >
     2
      
-    wings
-     · page 
+    flights explorer
+     · 
+    page
+     
     1
     /
     1
@@ -396,7 +398,8 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
     class="text-sm text-gray-500 mb-2"
   >
     2
-     pilots
+     
+    pilots
   </div>
   <div
     class="overflow-auto max-h-[70vh]"
@@ -646,7 +649,8 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
     class="text-sm text-gray-500 mb-2"
   >
     2
-     takeoffs
+     
+    takeoffs
   </div>
   <div
     class="overflow-auto max-h-[70vh]"
