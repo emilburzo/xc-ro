@@ -5,7 +5,7 @@
  * Runs against xcontest_test with seeded data.
  *
  * Seed data summary (PG flights only, HG excluded):
- *   Alice:   101(120km), 102(80.5km), 103(3.2km), 104(65km recent), 105(10km null takeoff)
+ *   Alice:   101(120km), 102(80.5km), 103(3.2km), 104(65km), 105(10km null takeoff)
  *   Bob:     201(250km), 202(45km), 203(310km)
  *   Charlie: 301(15km)
  *   Total PG flights = 9,  Total pilots = 3
@@ -47,7 +47,7 @@ describeIf("home queries (integration)", () => {
       expect(Number(stats.total_flights)).toBe(9);
     });
 
-    it("counts all pilots (including those with only HG flights)", async () => {
+    it("counts all pilots (based on pilots table rows)", async () => {
       const stats = await getHomeStats();
       expect(Number(stats.total_pilots)).toBe(3);
     });
@@ -62,9 +62,8 @@ describeIf("home queries (integration)", () => {
   describe("getSeasonHeatmap", () => {
     it("groups flights by year and month", async () => {
       const rows = await getSeasonHeatmap();
-      // We have flights in: 2022-06, 2022-07, 2023-06, 2023-07, 2023-08, 2023-09, 2024-03
-      // plus the recent flight (current year/month)
-      expect(rows.length).toBeGreaterThanOrEqual(7);
+      // We have flights in: 2022-06, 2022-07, 2023-06, 2023-07, 2023-08, 2023-09, 2024-03, 2024-05
+      expect(rows.length).toBe(8);
     });
 
     it("returns correct count for July 2023 (2 flights: 101, 102)", async () => {

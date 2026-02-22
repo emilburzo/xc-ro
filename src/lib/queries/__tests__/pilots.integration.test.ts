@@ -122,7 +122,7 @@ describeIf("pilot queries (integration)", () => {
   describe("getPilotActivityHeatmap", () => {
     it("returns flight counts grouped by year/month for Alice", async () => {
       const rows = await getPilotActivityHeatmap(1);
-      // Alice has flights in: 2023-06(105), 2023-07(101,102), 2023-08(103), + recent(104)
+      // Alice has flights in: 2023-06(105), 2023-07(101,102), 2023-08(103), 2024-05(104)
       const jul2023 = rows.find(
         (r: Record<string, unknown>) => Number(r.year) === 2023 && Number(r.month) === 7
       );

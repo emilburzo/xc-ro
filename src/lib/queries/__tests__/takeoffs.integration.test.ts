@@ -63,7 +63,7 @@ describeIf("takeoff queries (integration)", () => {
   describe("getTakeoffCalendarHeatmap", () => {
     it("groups Bunloc flights by year/month", async () => {
       const rows = await getTakeoffCalendarHeatmap(1);
-      // Bunloc flights: 2022-06(201), 2022-07(203), 2023-07(101,102), recent(104)
+      // Bunloc flights: 2022-06(201), 2022-07(203), 2023-07(101,102), 2024-05(104)
       const jul2023 = rows.find(
         (r: Record<string, unknown>) => Number(r.year) === 2023 && Number(r.month) === 7
       );

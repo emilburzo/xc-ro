@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "jest",
+    "test:integration": "jest --runInBand --forceExit integration.test",
     "test:watch": "jest --watch",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",

@@ -44,6 +44,7 @@ export async function closeConnection() {
 /* ------------------------------------------------------------------ */
 
 export async function seedStandardData() {
+  if (!connectionString) return;
   await truncateAll();
 
   // --- Pilots ---
@@ -89,8 +90,8 @@ export async function seedStandardData() {
       (301, 3, 3, '2023-09-05 08:00:00', 'free flight',     15.0,   10.0,  60, 1, 'https://xcontest.org/301'),
       (302, 3, 1, '2023-09-06 08:00:00', 'free flight',     30.0,   20.0,  90, 4, 'https://xcontest.org/302'),
 
-      -- Alice: a recent flight for testing "recent" queries
-      (104, 1, 1, now() - interval '5 days', 'free flight',  65.0, 55.0, 200, 2, 'https://xcontest.org/104'),
+      -- Alice: another Bunloc flight in a different month
+      (104, 1, 1, '2024-05-10 10:00:00', 'free flight',  65.0, 55.0, 200, 2, 'https://xcontest.org/104'),
 
       -- Bob: another Bunloc flight for favorite-takeoff tests
       (203, 2, 1, '2022-07-08 10:00:00', 'free flight',    310.0,  280.0, 540, 2, 'https://xcontest.org/203'),

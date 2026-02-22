@@ -83,7 +83,7 @@ describeIf("wing queries (integration)", () => {
   describe("getWingAdoptionCurve", () => {
     it("returns distinct pilot count per year for Enzo 3", async () => {
       const rows = await getWingAdoptionCurve(2);
-      // Enzo 3 flights: 201(Bob,2022), 203(Bob,2022), 101(Alice,2023), 104(Alice,recent)
+      // Enzo 3 flights: 201(Bob,2022), 203(Bob,2022), 101(Alice,2023), 104(Alice,2024)
       const y2022 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2022);
       expect(y2022).toBeDefined();
       expect(Number(y2022!.pilot_count)).toBe(1); // Only Bob in 2022
