@@ -7,6 +7,7 @@ Mobile-first web application exploring ~73 000 paragliding flights scraped from 
 - **Home dashboard** — aggregate stats, recent notable flights, season heatmap, top takeoffs & pilots
 - **Takeoffs** — sortable/filterable list with smart tags, interactive Leaflet map, per-takeoff detail pages with charts (monthly, hourly, day-of-week, distance histogram, wing donut, yearly trend)
 - **Pilots** — searchable list, per-pilot detail pages with career timeline, site map, equipment progression, and top flights
+- **Wings** — searchable/sortable wing database with category filters, per-wing detail pages with adoption curve, distance histogram, yearly stats, favorite takeoffs, and top flights
 - **Flights explorer** — full-text filters, date/distance ranges, flight type & glider category selectors, preset views (today, best this month, top 100, 100 km+ club), server-side pagination
 - **Records & fun stats** — all-time records, per-category/site/year records, growth chart, fun facts (epic day, most sites, most consistent pilot)
 - **Internationalization** — Romanian (default) / English, cookie-based locale toggle
@@ -42,7 +43,7 @@ export DATABASE_URL="postgres://user:pass@host:5432/xcontest"
 # Apply the helper view & indexes (one-time, requires psql)
 psql "$DATABASE_URL" -f sql/001_create_flights_pg_view.sql
 psql "$DATABASE_URL" -f sql/002_add_flights_fk_indexes.sql
-psql "$DATABASE_URL" -f sql/003_add_unaccent_extension.sql
+psql "$DATABASE_URL" -f sql/003_add_unaccent_extension.sql    # accent-insensitive search
 
 # Start the dev server
 npm run dev
@@ -73,6 +74,7 @@ src/
 │   ├── api/            # API routes (health check)
 │   ├── takeoffs/       # Takeoffs list & detail
 │   ├── pilots/         # Pilots list & detail
+│   ├── wings/          # Wings list & detail
 │   ├── flights/        # Flights explorer
 │   └── records/        # Records & fun stats
 ├── components/         # React components (charts, maps, tables)
@@ -81,12 +83,12 @@ src/
 │   ├── db.ts           # Database client (Drizzle + postgres.js)
 │   ├── schema.ts       # Drizzle table definitions
 │   ├── queries.ts      # SQL queries
-│   ├── utils.ts        # Helpers (slugify, formatting, paths)
+│   ├── utils.ts        # Helpers (slugify, formatting, paths, removeDiacritics)
 │   └── __tests__/      # Jest unit tests for lib
 ├── i18n/               # next-intl configuration
 └── messages/           # Translation files (ro.json, en.json)
 e2e/                    # Playwright visual/e2e tests
-sql/                    # One-time SQL scripts (view, indexes)
+sql/                    # One-time SQL scripts (view, indexes, extensions)
 ```
 
 ## Docker
