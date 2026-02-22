@@ -116,8 +116,8 @@ describeIf("takeoff queries (integration)", () => {
     it("excludes HG flights from results", async () => {
       // Flight 302 (HG, Charlie, Bunloc) should not appear
       const rows = await getTakeoffTop10(1);
-      const ids = rows.map((r: Record<string, unknown>) => r.pilot_username);
-      expect(ids).not.toContain("charlie.m");
+      const usernames = rows.map((r: Record<string, unknown>) => r.pilot_username);
+      expect(usernames).not.toContain("charlie.m");
     });
   });
 
@@ -127,7 +127,7 @@ describeIf("takeoff queries (integration)", () => {
       const catMap = Object.fromEntries(
         rows.map((r: Record<string, unknown>) => [r.category, Number(r.cnt)])
       );
-      // Bunloc PG: Enzo3(D)×3(101,201,203,104=4), Sigma11(B)×1(102) → D:4, B:1
+      // Bunloc PG: Enzo3(D)×4 (101,201,203,104), Sigma11(B)×1 (102) → D:4, B:1
       expect(catMap["D"]).toBe(4);
       expect(catMap["B"]).toBe(1);
       // HG category should NOT be present
