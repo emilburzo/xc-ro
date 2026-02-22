@@ -2,7 +2,13 @@
 
 ## Project Overview
 
-Mobile-first webapp exploring ~73k paragliding/hang-gliding flights scraped from xcontest.org (Romania only). Database spans 2007–2026 with 1,131 pilots, 1,220 takeoffs, and 1,421 glider models. UI is Romanian by default with English toggle. The app is branded as **XC-RO** (not "XContest" — that's a third-party trademark).
+Mobile-first webapp exploring paragliding and hang-gliding flights scraped from xcontest.org (Romania only). Data spans from 2007 to the present. UI is Romanian by default with an English toggle. The app is branded as **XC-RO** (not "XContest" — that's a third-party trademark).
+
+**Approximate scale** (these numbers grow continuously as the scraper adds new data):
+- ~73k flights
+- ~1,100 pilots
+- ~1,200 takeoffs
+- ~1,400 glider models
 
 ## Tech Stack
 
@@ -46,12 +52,12 @@ Dev server runs on port 3000 by default. Use `--port 8000` to match Vagrantfile 
 ### Schema (read-only from app, no migrations)
 Four application tables plus PostGIS `spatial_ref_sys`:
 
-| Table | Rows | Key columns |
-|-------|------|-------------|
-| `flights` | 72,765 | `id` (bigint, externally assigned), `pilot_id`, `takeoff_id` (nullable), `start_time`, `start_point` (geography), `type`, `distance_km`, `score`, `airtime` (minutes), `glider_id`, `url` |
-| `pilots` | 1,131 | `id` (serial), `name`, `username` (unique) |
-| `takeoffs` | 1,220 | `id` (serial), `name` (unique), `centroid` (geography Point 4326) |
-| `gliders` | 1,421 | `id` (serial), `name` (unique), `category` (A/B/C/D/Z/HG/T/RW2/RW5) |
+| Table | Key columns |
+|-------|-------------|
+| `flights` | `id` (bigint, externally assigned), `pilot_id`, `takeoff_id` (nullable), `start_time`, `start_point` (geography), `type`, `distance_km`, `score`, `airtime` (minutes), `glider_id`, `url` |
+| `pilots` | `id` (serial), `name`, `username` (unique) |
+| `takeoffs` | `id` (serial), `name` (unique), `centroid` (geography Point 4326) |
+| `gliders` | `id` (serial), `name` (unique), `category` (A/B/C/D/Z/HG/T/RW2/RW5) |
 
 **App view:**
 | View | Description |
@@ -127,7 +133,7 @@ src/
 ├── lib/
 │   ├── db.ts               # Drizzle + postgres client singleton
 │   ├── schema.ts           # Drizzle table definitions (no geography columns)
-│   ├── queries.ts           # ~30 SQL queries (all use drizzle sql`` tagged templates)
+│   ├── queries.ts           # ~40 SQL queries (all use drizzle sql`` tagged templates)
 │   ├── utils.ts             # slugify, takeoffPath, wingPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate, relativeTime, removeDiacritics
 │   └── __tests__/           # Jest unit tests (e.g. utils.test.ts)
 ├── i18n/
