@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "jest",
+    "test:integration": "jest --runInBand --forceExit integration.test",
     "test:watch": "jest --watch",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
@@ -23,6 +24,9 @@
     "react": "^19",
     "react-dom": "^19",
     "recharts": "^3.7.0"
+  },
+  "overrides": {
+    "@swc/helpers": "0.5.18"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
