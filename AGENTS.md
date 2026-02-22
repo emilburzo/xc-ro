@@ -12,14 +12,14 @@ Mobile-first webapp exploring paragliding and hang-gliding flights scraped from 
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router, Server Components) — `next@^15.5.12`
-- **Styling**: Tailwind CSS 3
-- **Charts**: Recharts 3 (bar, line, composed, pie)
-- **Maps**: Leaflet 1.9 (dynamic import, no SSR) — markers loaded via raw `leaflet` API, not `react-leaflet` components
-- **Database**: PostgreSQL 16 with PostGIS — accessed via `postgres` (postgres.js) + Drizzle ORM
-- **i18n**: next-intl 4 — cookie-based locale (`ro` default, `en` secondary)
+- **Framework**: Next.js (App Router, Server Components)
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts (bar, line, composed, pie)
+- **Maps**: Leaflet (dynamic import, no SSR) — markers loaded via raw `leaflet` API, not `react-leaflet` components
+- **Database**: PostgreSQL with PostGIS — accessed via `postgres` (postgres.js) + Drizzle ORM
+- **i18n**: next-intl — cookie-based locale (`ro` default, `en` secondary)
 - **Deployment**: Dockerfile with `output: "standalone"`
-- **Testing**: Jest 30 + Testing Library (unit), Playwright (visual/e2e)
+- **Testing**: Jest + Testing Library (unit), Playwright (visual/e2e)
 
 ## Commands
 
@@ -133,7 +133,7 @@ src/
 ├── lib/
 │   ├── db.ts               # Drizzle + postgres client singleton
 │   ├── schema.ts           # Drizzle table definitions (no geography columns)
-│   ├── queries.ts           # ~40 SQL queries (all use drizzle sql`` tagged templates)
+│   ├── queries.ts           # SQL queries (all use drizzle sql`` tagged templates)
 │   ├── utils.ts             # slugify, takeoffPath, wingPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate, relativeTime, removeDiacritics
 │   └── __tests__/           # Jest unit tests (e.g. utils.test.ts)
 ├── i18n/
