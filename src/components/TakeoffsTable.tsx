@@ -64,6 +64,17 @@ function Badge({ label, color }: { label: string; color: string }) {
   );
 }
 
+function SortHeader({ k, label, align, activeSort, activeDir, onSort }: { k: string; label: string; align?: "right"; activeSort: string; activeDir: string; onSort: (key: string) => void }) {
+  return (
+    <th
+      className={`px-2 py-2 ${align === "right" ? "text-right" : "text-left"} text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200`}
+      onClick={() => onSort(k)}
+    >
+      {label} {activeSort === k ? (activeDir === "asc" ? "↑" : "↓") : ""}
+    </th>
+  );
+}
+
 export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff[]; mapData?: TakeoffMapData[] }) {
   const t = useTranslations("takeoffs");
   const tc = useTranslations("common");
@@ -75,7 +86,8 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
   const [minFlights, setMinFlights] = useState(0);
   const [activeFilter, setActiveFilter] = useState<"all" | "active" | "dormant">("active");
 
-  const currentMonth = new Date().getMonth() + 1;
+  const [now] = useState(() => Date.now());
+  const currentMonth = new Date(now).getMonth() + 1;
 
   const filtered = useMemo(() => {
     let list = takeoffs;
@@ -94,16 +106,16 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
     if (activeFilter === "active") {
       list = list.filter((tk) => {
         if (!tk.last_activity) return false;
-        return Date.now() - new Date(tk.last_activity).getTime() < 365 * 24 * 60 * 60 * 1000;
+        return now - new Date(tk.last_activity).getTime() < 365 * 24 * 60 * 60 * 1000;
       });
     } else if (activeFilter === "dormant") {
       list = list.filter((tk) => {
         if (!tk.last_activity) return true;
-        return Date.now() - new Date(tk.last_activity).getTime() >= 365 * 24 * 60 * 60 * 1000;
+        return now - new Date(tk.last_activity).getTime() >= 365 * 24 * 60 * 60 * 1000;
       });
     }
     return list;
-  }, [takeoffs, search, minFlights, flyableNow, activeFilter, currentMonth]);
+  }, [takeoffs, search, minFlights, flyableNow, activeFilter, currentMonth, now]);
 
   const filteredMapData = useMemo(() => {
     if (!mapData) return [];
@@ -128,15 +140,6 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
     else { setSortKey(key); setSortDir("desc"); }
   };
 
-  const SortHeader = ({ k, label, align }: { k: SortKey; label: string; align?: "right" }) => (
-    <th
-      className={`px-2 py-2 ${align === "right" ? "text-right" : "text-left"} text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200`}
-      onClick={() => toggleSort(k)}
-    >
-      {label} {sortKey === k ? (sortDir === "asc" ? "↑" : "↓") : ""}
-    </th>
-  );
-
   function getTags(tk: Takeoff) {
     const tags: { label: string; color: string }[] = [];
     if ((tk.flights_100k || 0) >= 5) tags.push({ label: t("club100k"), color: "bg-yellow-100 text-yellow-800" });
@@ -144,7 +147,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
     if ((tk.xc_potential || 0) > 80) tags.push({ label: t("xcEngine"), color: "bg-purple-100 text-purple-800" });
     if ((tk.weekend_pct || 0) > 75) tags.push({ label: t("weekendSite"), color: "bg-blue-100 text-blue-800" });
     if (tk.last_activity) {
-      const days = (Date.now() - new Date(tk.last_activity).getTime()) / (1000 * 60 * 60 * 24);
+      const days = (now - new Date(tk.last_activity).getTime()) / (1000 * 60 * 60 * 24);
       if (days > 365) tags.push({ label: t("inactive"), color: "bg-gray-100 text-gray-600" });
     }
     return tags;
@@ -199,14 +202,14 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
         <table className="w-full text-sm">
           <thead>
             <tr>
-              <SortHeader k="name" label={t("name")} />
-              <SortHeader k="flight_count" label={t("flights")} align="right" />
-              <SortHeader k="pilot_count" label={t("pilots")} align="right" />
-              <SortHeader k="xc_potential" label={t("xcPotential")} align="right" />
+              <SortHeader k="name" label={t("name")} activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader k="flight_count" label={t("flights")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader k="pilot_count" label={t("pilots")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader k="xc_potential" label={t("xcPotential")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("season")}</th>
-              <SortHeader k="record_km" label={t("record")} align="right" />
-              <SortHeader k="last_activity" label={t("lastActivity")} />
-              <SortHeader k="weekend_pct" label={t("weekendPct")} align="right" />
+              <SortHeader k="record_km" label={t("record")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader k="last_activity" label={t("lastActivity")} activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader k="weekend_pct" label={t("weekendPct")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
