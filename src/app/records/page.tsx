@@ -7,7 +7,7 @@ import {
   getSiteRecords,
   getAnnualRecords,
   getFunStats,
-} from "@/lib/queries";
+} from "@/lib/queries/records";
 import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";

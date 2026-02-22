@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getWingsList } from "@/lib/queries";
+import { getWingsList } from "@/lib/queries/wings";
 import WingsTable from "@/components/WingsTable";
 
 export const revalidate = 0;

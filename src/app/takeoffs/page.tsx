@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getTakeoffsList } from "@/lib/queries";
+import { getTakeoffsList } from "@/lib/queries/takeoffs";
 import TakeoffsTable from "@/components/TakeoffsTable";
 
 export const revalidate = 0;

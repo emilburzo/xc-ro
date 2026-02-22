@@ -1,4 +1,4 @@
-import {healthcheck} from "@/lib/queries";
+import {healthcheck} from "@/lib/queries/health";
 
 export const dynamic = "force-dynamic";
 

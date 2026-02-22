@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getFlightsList, FlightFilters } from "@/lib/queries";
+import { getFlightsList, FlightFilters } from "@/lib/queries/flights";
 import FlightsExplorer from "@/components/FlightsExplorer";
 
 export const dynamic = "force-dynamic";

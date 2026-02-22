@@ -6,7 +6,7 @@ import {
   getSeasonHeatmap,
   getTopTakeoffs,
   getTopPilots,
-} from "@/lib/queries";
+} from "@/lib/queries/home";
 import {takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
 

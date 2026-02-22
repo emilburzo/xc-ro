@@ -13,7 +13,7 @@ import {
   getPilotActivityHeatmap,
   getPilotTopFlights,
   getPilotDistanceHistogram,
-} from "@/lib/queries";
+} from "@/lib/queries/pilots";
 import { takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import PilotDetailCharts from "@/components/PilotDetailCharts";
 
