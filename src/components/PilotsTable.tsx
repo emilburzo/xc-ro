@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { pilotPath, takeoffPath, formatDate, removeDiacritics } from "@/lib/utils";
+import SortHeader from "@/components/SortHeader";
 
 interface Pilot {
   id: number;
@@ -56,15 +57,6 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
     else { setSortKey(key); setSortDir("desc"); }
   };
 
-  const SortHeader = ({ k, label, align }: { k: SortKey; label: string; align?: "right" }) => (
-    <th
-      className={`px-2 py-2 ${align === "right" ? "text-right" : "text-left"} text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200`}
-      onClick={() => toggleSort(k)}
-    >
-      {label} {sortKey === k ? (sortDir === "asc" ? "↑" : "↓") : ""}
-    </th>
-  );
-
   return (
     <div>
       <div className="flex flex-wrap gap-2 mb-3">
@@ -93,15 +85,15 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
         <table className="w-full text-sm">
           <thead>
             <tr>
-              <SortHeader k="name" label={t("name")} />
-              <SortHeader k="flight_count" label={t("flights")} align="right" />
-              <SortHeader k="total_km" label={t("totalKm")} align="right" />
-              <SortHeader k="total_score" label={t("totalScore")} align="right" />
-              <SortHeader k="avg_distance" label={t("avgDistance")} align="right" />
-              <SortHeader k="max_distance" label={t("personalRecord")} align="right" />
-              <SortHeader k="active_years" label={t("activeYears")} align="right" />
+              <SortHeader col="name" label={t("name")} activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="flight_count" label={t("flights")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="total_km" label={t("totalKm")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="total_score" label={t("totalScore")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="avg_distance" label={t("avgDistance")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="max_distance" label={t("personalRecord")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="active_years" label={t("activeYears")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("favoriteSite")}</th>
-              <SortHeader k="last_flight" label={t("lastFlight")} />
+              <SortHeader col="last_flight" label={t("lastFlight")} activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">

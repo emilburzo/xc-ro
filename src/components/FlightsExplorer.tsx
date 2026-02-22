@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import SortHeader from "@/components/SortHeader";
 
 interface Flight {
   id: number;
@@ -86,15 +87,6 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
     params.delete("page");
     router.push(`/flights?${params.toString()}`);
   };
-
-  const SortHeader = ({ col, label, align }: { col: string; label: string; align?: "right" }) => (
-    <th
-      className={`px-2 py-2 ${align === "right" ? "text-right" : "text-left"} text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200`}
-      onClick={() => toggleSort(col)}
-    >
-      {label} {currentFilters.sort === col ? (currentFilters.dir === "asc" ? "↑" : "↓") : ""}
-    </th>
-  );
 
   const presetKeys: Record<string, string> = {
     today: "presetToday",
@@ -190,14 +182,14 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
         <table className="w-full text-sm">
           <thead>
             <tr>
-              <SortHeader col="date" label={t("date")} />
-              <SortHeader col="pilot" label={t("pilot")} />
-              <SortHeader col="takeoff" label={t("takeoff")} />
+              <SortHeader col="date" label={t("date")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+              <SortHeader col="pilot" label={t("pilot")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+              <SortHeader col="takeoff" label={t("takeoff")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
               <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("glider")}</th>
               <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("type")}</th>
-              <SortHeader col="distance" label={t("distance")} align="right" />
-              <SortHeader col="score" label={t("score")} align="right" />
-              <SortHeader col="airtime" label={t("duration")} align="right" />
+              <SortHeader col="distance" label={t("distance")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+              <SortHeader col="score" label={t("score")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+              <SortHeader col="airtime" label={t("duration")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
