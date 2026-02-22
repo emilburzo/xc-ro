@@ -15,7 +15,7 @@ import {
   getTakeoffTopGliders,
   getTakeoffYearlyTrend,
   getTakeoffBusiestDays,
-} from "@/lib/queries";
+} from "@/lib/queries/takeoffs";
 import { pilotPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
 

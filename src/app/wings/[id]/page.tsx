@@ -11,7 +11,7 @@ import {
   getWingYearlyStats,
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
-} from "@/lib/queries";
+} from "@/lib/queries/wings";
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
 
