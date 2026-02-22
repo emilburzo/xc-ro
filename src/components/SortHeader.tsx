@@ -1,3 +1,5 @@
+"use client";
+
 interface SortHeaderProps {
   col: string;
   label: string;
