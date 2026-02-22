@@ -63,6 +63,7 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 |--------|-------------|
 | `sql/001_create_flights_pg_view.sql` | Creates the `flights_pg` view |
 | `sql/002_add_flights_fk_indexes.sql` | Adds indexes on `flights(takeoff_id)`, `flights(pilot_id)`, `flights(glider_id)` — critical for join performance |
+| `sql/003_add_unaccent_extension.sql` | Enables the `unaccent` PostgreSQL extension for accent-insensitive search |
 
 **Important schema notes:**
 - `flights.id` does NOT auto-increment — it's the xcontest flight ID
@@ -94,10 +95,14 @@ src/
 │   ├── pilots/
 │   │   ├── page.tsx        # Pilots list
 │   │   └── [username]/page.tsx  # Pilot detail
+│   ├── wings/
+│   │   ├── page.tsx        # Wings list
+│   │   └── [id]/page.tsx   # Wing detail
 │   ├── flights/page.tsx    # Flights explorer
 │   └── records/page.tsx    # Records & fun stats
 ├── components/
 │   ├── Nav.tsx             # Responsive nav with mobile hamburger
+│   ├── SortHeader.tsx      # Reusable sortable column header
 │   ├── LanguageToggle.tsx  # RO/EN cookie toggle
 │   ├── SeasonHeatmap.tsx   # Month×Year heatmap (reused on home, takeoff, pilot)
 │   ├── TakeoffMap.tsx      # Leaflet map (dynamic import, no SSR)
@@ -106,6 +111,8 @@ src/
 │   ├── PilotsTable.tsx     # Client-side sortable pilots table
 │   ├── PilotDetailCharts.tsx    # Orchestrator for pilot charts
 │   ├── PilotSiteMap.tsx    # Leaflet map for pilot's takeoffs
+│   ├── WingsTable.tsx      # Client-side sortable/filterable wings table
+│   ├── WingDetailCharts.tsx # Orchestrator for wing detail charts
 │   ├── FlightsExplorer.tsx # Client-side filters/pagination/sorting
 │   ├── __tests__/          # Jest unit tests for components
 │   └── charts/
@@ -115,12 +122,13 @@ src/
 │       ├── DistanceHistogram.tsx
 │       ├── WingDonut.tsx
 │       ├── YearlyTrendChart.tsx
+│       ├── AdoptionChart.tsx
 │       └── PilotYearlyChart.tsx
 ├── lib/
 │   ├── db.ts               # Drizzle + postgres client singleton
 │   ├── schema.ts           # Drizzle table definitions (no geography columns)
 │   ├── queries.ts           # ~30 SQL queries (all use drizzle sql`` tagged templates)
-│   ├── utils.ts             # slugify, takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber, relativeTime
+│   ├── utils.ts             # slugify, takeoffPath, wingPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate, relativeTime, removeDiacritics
 │   └── __tests__/           # Jest unit tests (e.g. utils.test.ts)
 ├── i18n/
 │   └── request.ts          # next-intl config (cookie-based locale)
@@ -143,6 +151,7 @@ playwright.config.ts         # Playwright configuration
 ## URL Strategy
 
 - **Takeoffs**: `/takeoffs/[id]-[slug]` — ID prefix because 144 slug collisions exist
+- **Wings**: `/wings/[id]-[slug]` — same ID-prefix pattern as takeoffs
 - **Pilots**: `/pilots/[username]` — usernames are unique and URL-safe
 - **Flights**: `/flights` with query params for filters/presets/pagination
 - **All paths in English** regardless of UI language
@@ -167,6 +176,17 @@ playwright.config.ts         # Playwright configuration
 
 ### Recharts typing
 - Recharts 3 Tooltip `formatter` prop has strict typing — use `(val: any, _name: any, props: any)` to avoid build errors
+
+## Testing Requirements
+
+Every new feature, improvement, or bug fix **must** include tests unless the change is already covered by existing tests. Follow these guidelines:
+
+- **Unit tests** (Jest + Testing Library): Add tests in the co-located `__tests__/` directory next to the code being tested. For example, a new component in `src/components/` should have a corresponding test in `src/components/__tests__/`.
+- **Utility / library changes**: Any new or modified function in `src/lib/` must have unit tests in `src/lib/__tests__/`.
+- **Snapshot tests**: New components should be added to the relevant snapshot test file (`snapshots.test.tsx`, `chartSnapshots.test.tsx`, or `tableSnapshots.test.tsx`).
+- **E2E tests** (Playwright): If a change affects user-facing behavior (new pages, navigation changes, interactive features), add or update tests in `e2e/`.
+- **Run tests before submitting**: Always run `npm run test` (unit) and verify nothing is broken. Run `npm run lint` to check for lint errors.
+- **Don't remove or weaken existing tests** unless the underlying behavior has intentionally changed.
 
 ## Gotchas & Lessons Learned
 
