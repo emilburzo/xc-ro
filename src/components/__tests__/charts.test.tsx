@@ -7,6 +7,7 @@ import DowChart from "../charts/DowChart";
 import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
+import RecordProgressionChart, { computeRunningMax } from "../charts/RecordProgressionChart";
 
 // Mock recharts to render testable HTML with chart structure info
 jest.mock("recharts", () => {
@@ -22,11 +23,17 @@ jest.mock("recharts", () => {
     BarChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
       <div data-testid="bar-chart" data-length={data.length}>{children}</div>
     ),
+    AreaChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
+      <div data-testid="area-chart" data-length={data.length}>{children}</div>
+    ),
     PieChart: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="pie-chart">{children}</div>
     ),
     Pie: ({ data, dataKey }: { data: any[]; dataKey: string }) => (
       <div data-testid="pie" data-length={data.length} data-datakey={dataKey} />
+    ),
+    Area: ({ dataKey, type, fill, stroke }: { dataKey: string; type?: string; fill?: string; stroke?: string }) => (
+      <div data-testid="area" data-datakey={dataKey} data-type={type} data-fill={fill} data-stroke={stroke} />
     ),
     Bar: ({ dataKey, fill, name, children }: { dataKey: string; fill?: string; name?: string; children?: React.ReactNode }) => (
       <div data-testid="bar" data-datakey={dataKey} data-fill={fill} data-name={name}>{children}</div>
@@ -288,5 +295,68 @@ describe("PilotYearlyChart", () => {
   it("renders with empty data", () => {
     const { getByTestId } = render(<PilotYearlyChart data={[]} />);
     expect(getByTestId("composed-chart")).toHaveAttribute("data-length", "0");
+  });
+});
+
+describe("computeRunningMax", () => {
+  it("computes running maximum and marks new records", () => {
+    const data = [
+      { year: 2010, distance_km: 80, pilot_name: "A" },
+      { year: 2011, distance_km: 60, pilot_name: "B" },
+      { year: 2012, distance_km: 120, pilot_name: "C" },
+      { year: 2013, distance_km: 100, pilot_name: "D" },
+      { year: 2014, distance_km: 150, pilot_name: "E" },
+    ];
+    const result = computeRunningMax(data);
+    expect(result).toEqual([
+      { year: 2010, record: 80, isNewRecord: true, pilot_name: "A" },
+      { year: 2011, record: 80, isNewRecord: false, pilot_name: "B" },
+      { year: 2012, record: 120, isNewRecord: true, pilot_name: "C" },
+      { year: 2013, record: 120, isNewRecord: false, pilot_name: "D" },
+      { year: 2014, record: 150, isNewRecord: true, pilot_name: "E" },
+    ]);
+  });
+
+  it("sorts by year regardless of input order", () => {
+    const data = [
+      { year: 2015, distance_km: 200, pilot_name: "B" },
+      { year: 2010, distance_km: 100, pilot_name: "A" },
+    ];
+    const result = computeRunningMax(data);
+    expect(result[0].year).toBe(2010);
+    expect(result[1].year).toBe(2015);
+  });
+
+  it("returns empty array for empty input", () => {
+    expect(computeRunningMax([])).toEqual([]);
+  });
+});
+
+describe("RecordProgressionChart", () => {
+  const data = [
+    { year: 2010, distance_km: 80, pilot_name: "A" },
+    { year: 2011, distance_km: 60, pilot_name: "B" },
+    { year: 2012, distance_km: 120, pilot_name: "C" },
+  ];
+
+  it("renders an AreaChart with correct data count", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={data} />);
+    expect(getByTestId("area-chart")).toHaveAttribute("data-length", "3");
+  });
+
+  it("renders Area with stepAfter type and record dataKey", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={data} />);
+    expect(getByTestId("area")).toHaveAttribute("data-datakey", "record");
+    expect(getByTestId("area")).toHaveAttribute("data-type", "stepAfter");
+  });
+
+  it("uses year on XAxis", () => {
+    const { getByTestId } = render(<RecordProgressionChart data={data} />);
+    expect(getByTestId("xaxis")).toHaveAttribute("data-datakey", "year");
+  });
+
+  it("returns null for empty data", () => {
+    const { container } = render(<RecordProgressionChart data={[]} />);
+    expect(container.firstChild).toBeNull();
   });
 });

@@ -16,7 +16,7 @@ interface ChartPoint {
   pilot_name: string;
 }
 
-function computeRunningMax(data: AnnualRecord[]): ChartPoint[] {
+export function computeRunningMax(data: AnnualRecord[]): ChartPoint[] {
   const sorted = [...data].sort((a, b) => a.year - b.year);
   let max = 0;
   return sorted.map((d) => {
