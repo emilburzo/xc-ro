@@ -68,7 +68,7 @@ export default function PilotDetailCharts({ yearly, sites, equipment, heatmap, d
       {/* Activity Heatmap */}
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("activityHeatmap")}</h2>
-        <SeasonHeatmap data={heatmap.map((h: any) => ({ ...h, avg_score: 0 }))} />
+        <SeasonHeatmap data={heatmap} />
       </div>
 
       {/* Distance Distribution */}

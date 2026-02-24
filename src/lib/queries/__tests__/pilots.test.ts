@@ -146,8 +146,8 @@ describe("pilot queries", () => {
   describe("getPilotActivityHeatmap", () => {
     it("returns year/month flight counts", async () => {
       const rows = [
-        { year: 2022, month: 7, flight_count: 15 },
-        { year: 2022, month: 8, flight_count: 10 },
+        { year: 2022, month: 7, flight_count: 15, avg_score: 42.3 },
+        { year: 2022, month: 8, flight_count: 10, avg_score: 35.1 },
       ];
       mockExecute.mockResolvedValueOnce(rows);
 
