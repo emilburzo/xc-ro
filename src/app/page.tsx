@@ -36,16 +36,27 @@ export default async function HomePage() {
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: t("totalFlights"), value: Number(stats.total_flights).toLocaleString() },
-          { label: t("totalPilots"), value: Number(stats.total_pilots).toLocaleString() },
-          { label: t("activeTakeoffs"), value: Number(stats.active_takeoffs).toLocaleString() },
-          { label: t("totalDistance"), value: `${Number(stats.total_distance).toLocaleString()} km` },
-        ].map((s) => (
-          <div key={s.label} className="bg-white rounded-lg p-4 border border-gray-200">
-            <div className="text-2xl font-bold text-blue-600">{s.value}</div>
-            <div className="text-sm text-gray-500">{s.label}</div>
-          </div>
-        ))}
+          { label: t("totalFlights"), value: Number(stats.total_flights).toLocaleString(), href: "/flights" },
+          { label: t("totalPilots"), value: Number(stats.total_pilots).toLocaleString(), href: "/pilots" },
+          { label: t("activeTakeoffs"), value: Number(stats.active_takeoffs).toLocaleString(), href: "/takeoffs" },
+          { label: t("totalDistance"), value: `${Number(stats.total_distance).toLocaleString()} km`, href: null },
+        ].map((s) => {
+          const content = (
+            <>
+              <div className="text-2xl font-bold text-blue-600">{s.value}</div>
+              <div className="text-sm text-gray-500">{s.label}</div>
+            </>
+          );
+          return s.href ? (
+            <Link key={s.label} href={s.href} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all">
+              {content}
+            </Link>
+          ) : (
+            <div key={s.label} className="bg-white rounded-lg p-4 border border-gray-200">
+              {content}
+            </div>
+          );
+        })}
       </div>
 
       {/* Recent Activity */}
