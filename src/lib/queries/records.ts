@@ -61,20 +61,6 @@ export async function getCategoryRecords() {
   `);
 }
 
-export async function getSiteRecords() {
-  return db.execute(sql`
-    SELECT DISTINCT ON (t.id)
-      t.id as takeoff_id, t.name as takeoff_name,
-      f.distance_km, f.start_time, f.url,
-      p.name as pilot_name, p.username as pilot_username,
-      g.name as glider_name
-    FROM flights_pg f
-    JOIN pilots p ON f.pilot_id = p.id
-    JOIN takeoffs t ON f.takeoff_id = t.id
-    JOIN gliders g ON f.glider_id = g.id
-    ORDER BY t.id, f.distance_km DESC
-  `);
-}
 
 export async function getAnnualRecords() {
   return db.execute(sql`

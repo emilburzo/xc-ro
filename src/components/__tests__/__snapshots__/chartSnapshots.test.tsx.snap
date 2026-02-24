@@ -287,6 +287,37 @@ exports[`Chart snapshots PilotYearlyChart matches snapshot 1`] = `
 </div>
 `;
 
+exports[`Chart snapshots RecordProgressionChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="4"
+    data-testid="area-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="record"
+      data-fill="#dbeafe"
+      data-stroke="#2563eb"
+      data-testid="area"
+      data-type="stepAfter"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots RecordProgressionChart matches snapshot with empty data 1`] = `null`;
+
 exports[`Chart snapshots WingDonut matches snapshot 1`] = `
 <div
   data-testid="responsive-container"

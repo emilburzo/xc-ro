@@ -4,11 +4,11 @@ import Link from "next/link";
 import {
   getAllTimeRecords,
   getCategoryRecords,
-  getSiteRecords,
   getAnnualRecords,
   getFunStats,
 } from "@/lib/queries/records";
 import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import RecordProgressionWrapper from "@/components/RecordProgressionWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -55,10 +55,9 @@ export default async function RecordsPage() {
   const locale = await getLocale();
   const t = await getTranslations("records");
 
-  const [allTime, categoryRecords, siteRecords, annualRecords, funStats] = await Promise.all([
+  const [allTime, categoryRecords, annualRecords, funStats] = await Promise.all([
     getAllTimeRecords(),
     getCategoryRecords(),
-    getSiteRecords(),
     getAnnualRecords(),
     getFunStats(),
   ]);
@@ -70,6 +69,15 @@ export default async function RecordsPage() {
       {/* All-Time Records */}
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("allTime")}</h2>
+        <div className="bg-white rounded-lg border border-gray-200 p-4 mb-3">
+          <RecordProgressionWrapper
+            data={(annualRecords as any[]).map((r) => ({
+              year: r.year as number,
+              distance_km: r.distance_km as number,
+              pilot_name: r.pilot_name as string,
+            }))}
+          />
+        </div>
         <div className="grid md:grid-cols-3 gap-3">
           <RecordCard title={t("longestFlight")} record={allTime.longest} locale={locale} t={t} />
           <RecordCard
@@ -83,6 +91,7 @@ export default async function RecordsPage() {
           />
           <RecordCard title={t("highestScore")} record={allTime.highestScore} locale={locale} t={t} />
         </div>
+
       </section>
 
       {/* Category Records */}
@@ -121,16 +130,16 @@ export default async function RecordsPage() {
       {/* Annual Records */}
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("perYear")}</h2>
-        <div className="bg-white rounded-lg border border-gray-200 overflow-auto max-h-[70vh]">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-auto">
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("year")}</th>
-                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("distance")}</th>
-                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("airtime")}</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("pilot")}</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("takeoff")}</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("glider")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("year")}</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 border-b border-gray-200">{t("distance")}</th>
+                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 border-b border-gray-200">{t("airtime")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("pilot")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("takeoff")}</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 border-b border-gray-200">{t("glider")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -160,48 +169,6 @@ export default async function RecordsPage() {
                       {r.glider_name}
                     </Link>
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Site Records (top 30 by distance) */}
-      <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("perSite")}</h2>
-        <div className="bg-white rounded-lg border border-gray-200 overflow-auto max-h-[70vh]">
-          <table className="w-full text-sm">
-            <thead>
-              <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("takeoff")}</th>
-                <th className="px-3 py-2 text-right text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("record")}</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("pilot")}</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("date")}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {(siteRecords as any[])
-                .sort((a, b) => b.distance_km - a.distance_km)
-                .slice(0, 30)
-                .map((r) => (
-                <tr key={r.takeoff_id} className="hover:bg-gray-50">
-                  <td className="px-3 py-2">
-                    <Link href={takeoffPath(r.takeoff_id, r.takeoff_name)} className="text-blue-600 hover:underline">
-                      {r.takeoff_name}
-                    </Link>
-                  </td>
-                  <td className="px-3 py-2 font-bold text-right">
-                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      {formatDistance(r.distance_km)} km
-                    </a>
-                  </td>
-                  <td className="px-3 py-2">
-                    <Link href={pilotPath(r.pilot_username)} className="text-blue-600 hover:underline">
-                      {r.pilot_name}
-                    </Link>
-                  </td>
-                  <td className="px-3 py-2 text-gray-500">{formatDate(r.start_time, locale)}</td>
                 </tr>
               ))}
             </tbody>

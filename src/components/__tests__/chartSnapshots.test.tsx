@@ -8,6 +8,7 @@ import DistanceHistogram from "../charts/DistanceHistogram";
 import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
+import RecordProgressionChart from "../charts/RecordProgressionChart";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -37,6 +38,12 @@ jest.mock("recharts", () => {
     ),
     LineChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
       <div data-testid="line-chart" data-length={data.length}>{children}</div>
+    ),
+    AreaChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
+      <div data-testid="area-chart" data-length={data.length}>{children}</div>
+    ),
+    Area: ({ dataKey, type, fill, stroke }: { dataKey: string; type?: string; fill?: string; stroke?: string }) => (
+      <div data-testid="area" data-datakey={dataKey} data-type={type} data-fill={fill} data-stroke={stroke} />
     ),
     XAxis: ({ dataKey }: { dataKey: string }) => (
       <div data-testid="xaxis" data-datakey={dataKey} />
@@ -150,6 +157,22 @@ describe("Chart snapshots", () => {
 
   it("AdoptionChart matches snapshot with empty data", () => {
     const { container } = render(<AdoptionChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("RecordProgressionChart matches snapshot", () => {
+    const recordData = [
+      { year: 2010, distance_km: 80, pilot_name: "Pilot A" },
+      { year: 2011, distance_km: 60, pilot_name: "Pilot B" },
+      { year: 2012, distance_km: 120, pilot_name: "Pilot C" },
+      { year: 2013, distance_km: 100, pilot_name: "Pilot D" },
+    ];
+    const { container } = render(<RecordProgressionChart data={recordData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("RecordProgressionChart matches snapshot with empty data", () => {
+    const { container } = render(<RecordProgressionChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -178,7 +178,8 @@
     "takeoff": "Decolare",
     "glider": "Aripă",
     "record": "Record",
-    "date": "Data"
+    "date": "Data",
+    "recordProgression": "Evoluția recordului național"
   },
   "wings": {
     "title": "Aripi",
