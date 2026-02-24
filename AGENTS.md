@@ -84,6 +84,15 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 - 144 takeoff name slug collisions (case variants) — that's why URLs use `/takeoffs/[id]-[slug]`
 - July 8, 2022 was the epic day: 5 pilots flew 300km+ from Sticlaria
 
+### Avg speed metric (wings table)
+The `avg_speed` column in the wings list uses `distance_km / (airtime / 60)`. This metric is inherently noisy because airtime includes thermalling (climbing, not covering distance). Three filters are required to produce sensible rankings:
+
+1. **Distance >= 30 km** — flights under 30 km are not representative XC. Short flights (sled rides, local soaring) inflate speed because there's little thermalling. At 10 km threshold, B wings appeared faster than C/D wings due to short straight-line flights on strong days.
+2. **At least 5 qualifying flights** — single-flight outliers dominate without this. One lucky day (or bad airtime data, e.g. ELEMENTZ at 489 km/h) skews the average.
+3. **At least 25% of total flights must qualify** — without this, wings used mostly for local flying (e.g. NOVA Ion 4L: 6/40 qualifying = 15%) show inflated speed because their rare XC flights happened on epic conditions. Wings where XC is the norm (e.g. NIVIUK Peak 6: 46/57 = 81%) give representative averages.
+
+With all three filters, the ranking correctly shows D/Z (competition) > C > B. ~92 wings have speed data. See `getWingsList()` in `src/lib/queries/wings.ts`.
+
 ## Project Structure
 
 ```
