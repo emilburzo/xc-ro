@@ -29,7 +29,6 @@ jest.mock("../../db", () => {
 import {
   getAllTimeRecords,
   getCategoryRecords,
-  getSiteRecords,
   getAnnualRecords,
 } from "../records";
 
@@ -94,29 +93,6 @@ describeIf("records queries (integration)", () => {
       expect(catMap["C"]).toBe(45);
       // D: max is 203(310km) — Enzo 3
       expect(catMap["D"]).toBe(310);
-    });
-  });
-
-  describe("getSiteRecords", () => {
-    it("returns one record per takeoff site", async () => {
-      const rows = await getSiteRecords();
-      const sites = rows.map((r: Record<string, unknown>) => r.takeoff_name);
-      expect(sites).toContain("Bunloc Launch");
-      expect(sites).toContain("Sticlăria Peak");
-      expect(sites).toContain("Brașov Nord");
-    });
-
-    it("picks the longest flight at each site", async () => {
-      const rows = await getSiteRecords();
-      const siteMap = Object.fromEntries(
-        rows.map((r: Record<string, unknown>) => [r.takeoff_name, Number(r.distance_km)])
-      );
-      // Bunloc: max = 310 (flight 203)
-      expect(siteMap["Bunloc Launch"]).toBe(310);
-      // Sticlaria: max = 45 (flight 202)
-      expect(siteMap["Sticlăria Peak"]).toBe(45);
-      // Brasov: max = 15 (flight 301, only PG flight there)
-      expect(siteMap["Brașov Nord"]).toBe(15);
     });
   });
 

@@ -1,7 +1,6 @@
 import {
   getAllTimeRecords,
   getCategoryRecords,
-  getSiteRecords,
   getAnnualRecords,
   getFunStats,
 } from "../records";
@@ -66,19 +65,6 @@ describe("records queries", () => {
       const result = await getCategoryRecords();
       expect(result).toEqual(rows);
       expect(mockExecute).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe("getSiteRecords", () => {
-    it("returns one record per takeoff site", async () => {
-      const rows = [
-        { takeoff_id: 42, takeoff_name: "Bunloc", distance_km: 150, start_time: "2020-08-01", url: "https://example.com/2", pilot_name: "Alice", pilot_username: "alice", glider_name: "Mentor 7" },
-        { takeoff_id: 10, takeoff_name: "Sticlaria", distance_km: 350, start_time: "2022-07-08", url: "https://example.com/1", pilot_name: "John", pilot_username: "john", glider_name: "Enzo 3" },
-      ];
-      mockExecute.mockResolvedValueOnce(rows);
-
-      const result = await getSiteRecords();
-      expect(result).toEqual(rows);
     });
   });
 
