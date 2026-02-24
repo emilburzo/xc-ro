@@ -1048,6 +1048,12 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
              
           </th>
           <th
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+          >
+            avgSpeed
+             
+          </th>
+          <th
             class="px-2 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
             Last Flight
@@ -1102,6 +1108,11 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
             312.5
           </td>
           <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            -
+          </td>
+          <td
             class="px-2 py-2 text-gray-500 text-xs"
           >
             15.01.2025
@@ -1149,6 +1160,11 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
             class="px-2 py-2 text-gray-700 text-right"
           >
             250.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            -
           </td>
           <td
             class="px-2 py-2 text-gray-500 text-xs"
