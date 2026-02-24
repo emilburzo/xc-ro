@@ -11,7 +11,10 @@ export async function getWingsList() {
         round(sum(f.distance_km)::numeric) as total_km,
         round(avg(f.distance_km)::numeric, 1) as avg_distance,
         max(f.distance_km) as max_distance,
-        round(avg(CASE WHEN f.airtime > 0 THEN f.distance_km / (f.airtime / 60.0) END)::numeric, 1) as avg_speed,
+        CASE WHEN count(CASE WHEN f.airtime > 0 AND f.distance_km >= 30 THEN 1 END) >= 5
+              AND count(CASE WHEN f.airtime > 0 AND f.distance_km >= 30 THEN 1 END)::float / count(*) >= 0.25
+          THEN round(avg(CASE WHEN f.airtime > 0 AND f.distance_km >= 30 THEN f.distance_km / (f.airtime / 60.0) END)::numeric, 1)
+        END as avg_speed,
         min(EXTRACT(YEAR FROM f.start_time))::int as first_year,
         max(EXTRACT(YEAR FROM f.start_time))::int as last_year,
         max(f.start_time) as last_flight

@@ -16,6 +16,7 @@ jest.mock("next-intl", () => ({
       totalKm: "Total KM",
       avgDistance: "Avg Distance",
       record: "Record (km)",
+      avgSpeed: "Avg Speed",
       lastFlight: "Last Flight",
       title: "Wings",
     };
@@ -40,7 +41,7 @@ const mockWings = [
     total_km: 12500,
     avg_distance: 25.0,
     max_distance: 312.5,
-    avg_speed: null,
+    avg_speed: 32.5,
     first_year: 2018,
     last_year: 2025,
     last_flight: "2025-07-01T10:00:00.000Z",
@@ -54,7 +55,7 @@ const mockWings = [
     total_km: 8000,
     avg_distance: 40.0,
     max_distance: 250.5,
-    avg_speed: null,
+    avg_speed: 38.2,
     first_year: 2020,
     last_year: 2024,
     last_flight: "2024-06-15T09:00:00.000Z",
@@ -91,6 +92,7 @@ describe("WingsTable", () => {
     expect(screen.getByText("Total KM")).toBeInTheDocument();
     expect(screen.getByText("Avg Distance")).toBeInTheDocument();
     expect(screen.getByText("Record (km)")).toBeInTheDocument();
+    expect(screen.getByText("Avg Speed")).toBeInTheDocument();
     expect(screen.getByText("Last Flight")).toBeInTheDocument();
   });
 
