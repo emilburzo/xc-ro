@@ -9,6 +9,7 @@ import {
   getFunStats,
 } from "@/lib/queries/records";
 import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import RecordProgressionWrapper from "@/components/RecordProgressionWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -82,6 +83,20 @@ export default async function RecordsPage() {
             t={t}
           />
           <RecordCard title={t("highestScore")} record={allTime.highestScore} locale={locale} t={t} />
+        </div>
+      </section>
+
+      {/* Record Progression */}
+      <section>
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("recordProgression")}</h2>
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <RecordProgressionWrapper
+            data={(annualRecords as any[]).map((r) => ({
+              year: r.year as number,
+              distance_km: r.distance_km as number,
+              pilot_name: r.pilot_name as string,
+            }))}
+          />
         </div>
       </section>
 

@@ -210,6 +210,10 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 
 7. **`flights.id` is not auto-increment**: It's the external xcontest flight ID. The Drizzle schema uses `bigint` (not `bigserial`) for this column.
 
+8. **`ssr: false` not allowed in Server Components**: `next/dynamic` with `ssr: false` cannot be used directly in Server Component pages. The `dynamic()` call must live inside a `"use client"` component. For Recharts charts, use a thin client wrapper component (e.g. `RecordProgressionWrapper.tsx`) or an orchestrator component (e.g. `TakeoffDetailCharts.tsx`) that does the `dynamic(() => import(...), { ssr: false })` internally.
+
+9. **Always run `npm run build` after changes**: `npm run lint` and `npm run test` do not compile Next.js pages. Only `npm run build` catches naming collisions, Server Component constraint violations, and other compile-time errors in pages.
+
 ## Environment
 
 - **VM**: Ubuntu 24.04 (Vagrant/VirtualBox), 4GB RAM, 2 CPUs

@@ -178,7 +178,8 @@
     "takeoff": "Takeoff",
     "glider": "Glider",
     "record": "Record",
-    "date": "Date"
+    "date": "Date",
+    "recordProgression": "National Record Progression"
   },
   "wings": {
     "title": "Wings",
