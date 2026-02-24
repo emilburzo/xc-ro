@@ -122,7 +122,8 @@ export async function getPilotActivityHeatmap(pilotId: number) {
     SELECT
       EXTRACT(YEAR FROM start_time)::int as year,
       EXTRACT(MONTH FROM start_time)::int as month,
-      count(*)::int as flight_count
+      count(*)::int as flight_count,
+      round(avg(score)::numeric, 1) as avg_score
     FROM flights_pg
     WHERE pilot_id = ${pilotId}
     GROUP BY year, month
