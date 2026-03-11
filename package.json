@@ -43,5 +43,10 @@
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "test-exclude": "^8.0.0",
+    "glob": "^13.0.6",
+    "jsdom": "^28.1.0"
   }
 }
