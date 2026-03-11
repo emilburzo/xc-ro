@@ -21,6 +21,7 @@ jest.mock("../../db", () => {
 });
 
 import {
+  getPilotsList,
   getPilotByUsername,
   getPilotStats,
   getPilotFavoriteTakeoff,
@@ -46,6 +47,21 @@ afterAll(async () => {
 });
 
 describeIf("pilot queries (integration)", () => {
+  describe("getPilotsList", () => {
+    it("includes total_hours for each pilot", async () => {
+      const rows = await getPilotsList();
+      // Bob: 480+120+540 = 1140 min → round(1140/60) = 19
+      const bob = rows.find((r: Record<string, unknown>) => r.username === "bob.popescu");
+      expect(bob).toBeDefined();
+      expect(Number(bob!.total_hours)).toBe(19);
+
+      // Alice: 300+240+30+200+45 = 815 min → round(815/60) = 14
+      const alice = rows.find((r: Record<string, unknown>) => r.username === "alice.ionescu");
+      expect(alice).toBeDefined();
+      expect(Number(alice!.total_hours)).toBe(14);
+    });
+  });
+
   describe("getPilotByUsername", () => {
     it("returns the correct pilot for a known username", async () => {
       const pilot = await getPilotByUsername("alice.ionescu");
@@ -67,6 +83,15 @@ describeIf("pilot queries (integration)", () => {
       // 120 + 80.5 + 3.2 + 65 + 10 = 278.7 → rounds to 279
       expect(Number(stats.total_km)).toBe(279);
       expect(Number(stats.max_distance)).toBe(120);
+    });
+
+    it("returns airtime aggregates for Alice", async () => {
+      const stats = await getPilotStats(1);
+      // Alice airtime (min): 300+240+30+200+45 = 815
+      expect(Number(stats.total_airtime)).toBe(815);
+      expect(Number(stats.max_airtime)).toBe(300);
+      // avg: round(815/5) = round(163) = 163
+      expect(Number(stats.avg_airtime)).toBe(163);
     });
 
     it("excludes HG flights from Charlie's stats", async () => {
@@ -105,6 +130,19 @@ describeIf("pilot queries (integration)", () => {
       expect(y2022).toBeDefined();
       expect(Number(y2022!.flight_count)).toBe(2);
       expect(Number(y2022!.max_distance)).toBe(310);
+    });
+
+    it("returns correct total_airtime per year for Bob", async () => {
+      const rows = await getPilotYearlyStats(2);
+      // Bob 2022: flights 201 (480 min) + 203 (540 min) = 1020 min
+      const y2022 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2022);
+      expect(y2022).toBeDefined();
+      expect(Number(y2022!.total_airtime)).toBe(1020);
+
+      // Bob 2024: flight 202 (120 min)
+      const y2024 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2024);
+      expect(y2024).toBeDefined();
+      expect(Number(y2024!.total_airtime)).toBe(120);
     });
   });
 

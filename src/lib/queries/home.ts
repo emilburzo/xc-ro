@@ -7,7 +7,8 @@ export async function getHomeStats() {
       (SELECT count(*) FROM flights_pg) as total_flights,
       (SELECT count(*) FROM pilots) as total_pilots,
       (SELECT count(DISTINCT takeoff_id) FROM flights_pg WHERE start_time > now() - interval '1 year') as active_takeoffs,
-      (SELECT round(sum(distance_km)::numeric) FROM flights_pg) as total_distance
+      (SELECT round(sum(distance_km)::numeric) FROM flights_pg) as total_distance,
+      (SELECT round(sum(airtime) / 60.0) FROM flights_pg) as total_hours
   `);
   return result[0];
 }

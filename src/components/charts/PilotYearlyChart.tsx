@@ -7,6 +7,7 @@ interface YearlyData {
   flight_count: number;
   avg_distance: number;
   max_distance: number;
+  total_airtime?: number;
 }
 
 export default function PilotYearlyChart({ data }: { data: YearlyData[] }) {
@@ -15,6 +16,7 @@ export default function PilotYearlyChart({ data }: { data: YearlyData[] }) {
     flights: d.flight_count,
     avgDist: Number(d.avg_distance),
     maxDist: Number(d.max_distance),
+    hours: d.total_airtime ? Math.round(d.total_airtime / 60) : 0,
   }));
 
   return (
@@ -27,6 +29,7 @@ export default function PilotYearlyChart({ data }: { data: YearlyData[] }) {
         <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Flights" />
         <Line yAxisId="right" type="monotone" dataKey="avgDist" stroke="#f59e0b" strokeWidth={2} dot={{ r: 2 }} name="Avg km" />
         <Line yAxisId="right" type="monotone" dataKey="maxDist" stroke="#ef4444" strokeWidth={2} dot={{ r: 2 }} name="Max km" />
+        <Line yAxisId="left" type="monotone" dataKey="hours" stroke="#10b981" strokeWidth={2} dot={{ r: 2 }} name="Hours" />
       </ComposedChart>
     </ResponsiveContainer>
   );

@@ -25,6 +25,7 @@ export default async function PilotsPage() {
     max_distance: Number(p.max_distance),
     active_years: p.active_years,
     last_flight: p.last_flight,
+    total_hours: Number(p.total_hours) || 0,
     fav_takeoff_id: p.fav_takeoff_id,
     fav_takeoff_name: p.fav_takeoff_name,
   }));

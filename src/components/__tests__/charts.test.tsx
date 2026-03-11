@@ -276,11 +276,13 @@ describe("PilotYearlyChart", () => {
     expect(bars[0]).toHaveAttribute("data-datakey", "flights");
     expect(bars[0]).toHaveAttribute("data-name", "Flights");
     const lines = getAllByTestId("line");
-    expect(lines).toHaveLength(2);
+    expect(lines).toHaveLength(3);
     expect(lines[0]).toHaveAttribute("data-datakey", "avgDist");
     expect(lines[0]).toHaveAttribute("data-name", "Avg km");
     expect(lines[1]).toHaveAttribute("data-datakey", "maxDist");
     expect(lines[1]).toHaveAttribute("data-name", "Max km");
+    expect(lines[2]).toHaveAttribute("data-datakey", "hours");
+    expect(lines[2]).toHaveAttribute("data-name", "Hours");
   });
 
   it("uses year on XAxis with dual Y axes", () => {

@@ -314,6 +314,12 @@ exports[`Chart snapshots PilotYearlyChart matches snapshot 1`] = `
       data-stroke="#ef4444"
       data-testid="line"
     />
+    <div
+      data-datakey="hours"
+      data-name="Hours"
+      data-stroke="#10b981"
+      data-testid="line"
+    />
   </div>
 </div>
 `;

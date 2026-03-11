@@ -431,6 +431,12 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
           <th
             class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
           >
+            Total Hours
+             
+          </th>
+          <th
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 whitespace-nowrap sticky top-0 bg-white z-10 border-b border-gray-200"
+          >
             Total Score
              
           </th>
@@ -494,6 +500,11 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
           <td
             class="px-2 py-2 text-gray-700 text-right"
           >
+            850
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
             18,000.2
           </td>
           <td
@@ -550,6 +561,11 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
             class="px-2 py-2 text-gray-700 text-right"
           >
             3,200
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            220
           </td>
           <td
             class="px-2 py-2 text-gray-700 text-right"

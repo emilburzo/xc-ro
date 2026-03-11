@@ -37,6 +37,7 @@ describe("pilot queries", () => {
           max_distance: 300,
           active_years: 5,
           last_flight: "2025-06-01",
+          total_hours: 83,
           fav_takeoff_id: 42,
           fav_takeoff_name: "Bunloc",
         },
@@ -76,6 +77,9 @@ describe("pilot queries", () => {
         avg_distance: 25,
         active_since: 2018,
         last_flight: "2025-06-01",
+        total_airtime: 30000,
+        max_airtime: 480,
+        avg_airtime: 150,
       };
       mockExecute.mockResolvedValueOnce([stats]);
 

@@ -25,7 +25,8 @@
     "topFlights": "Top zboruri",
     "topWings": "Top aripi",
     "viewAll": "Vezi toate",
-    "noRecentFlights": "Niciun zbor notabil în ultimele 30 de zile"
+    "noRecentFlights": "Niciun zbor notabil în ultimele 30 de zile",
+    "totalHours": "Ore de zbor"
   },
   "takeoffs": {
     "title": "Decolări",
@@ -99,7 +100,8 @@
     "lastFlight": "Ultimul Zbor",
     "search": "Caută pilot...",
     "minFlights": "Min zboruri",
-    "activeInYear": "Activ în anul"
+    "activeInYear": "Activ în anul",
+    "totalHours": "Ore totale"
   },
   "pilotDetail": {
     "pageType": "Pilot",
@@ -135,7 +137,8 @@
     "dnaUnitKm": " km",
     "dnaUnitYrs": " ani",
     "dnaUnitFlights": " zboruri",
-    "dnaUnitSites": " locuri"
+    "dnaUnitSites": " locuri",
+    "totalAirtime": "Timp total de zbor"
   },
   "flights": {
     "title": "Explorer Zboruri",
@@ -237,7 +240,8 @@
     "lastFlight": "Ultimul zbor",
     "pilotsCount": "Piloți",
     "flightsPerYear": "Zboruri pe an",
-    "backToWings": "Înapoi la Aripi"
+    "backToWings": "Înapoi la Aripi",
+    "totalAirtime": "Timp total de zbor"
   },
   "common": {
     "km": "km",

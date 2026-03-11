@@ -103,6 +103,19 @@ describeIf("wing queries (integration)", () => {
       expect(Number(y2022!.flight_count)).toBe(2);
       expect(Number(y2022!.total_km)).toBe(560);
     });
+
+    it("includes total_airtime for each year for Enzo 3", async () => {
+      const rows = await getWingYearlyStats(2);
+      const y2022 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2022);
+      expect(y2022).toBeDefined();
+      // 2022: flight 201(480min) + flight 203(540min) = 1020 min
+      expect(Number(y2022!.total_airtime)).toBe(1020);
+
+      const y2023 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2023);
+      expect(y2023).toBeDefined();
+      // 2023: flight 101(300min) = 300 min
+      expect(Number(y2023!.total_airtime)).toBe(300);
+    });
   });
 
   describe("getWingFavoriteTakeoffs", () => {
