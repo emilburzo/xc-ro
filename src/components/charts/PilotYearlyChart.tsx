@@ -29,7 +29,7 @@ export default function PilotYearlyChart({ data }: { data: YearlyData[] }) {
         <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Flights" />
         <Line yAxisId="right" type="monotone" dataKey="avgDist" stroke="#f59e0b" strokeWidth={2} dot={{ r: 2 }} name="Avg km" />
         <Line yAxisId="right" type="monotone" dataKey="maxDist" stroke="#ef4444" strokeWidth={2} dot={{ r: 2 }} name="Max km" />
-        <Line yAxisId="right" type="monotone" dataKey="hours" stroke="#10b981" strokeWidth={2} dot={{ r: 2 }} name="Hours" />
+        <Line yAxisId="left" type="monotone" dataKey="hours" stroke="#10b981" strokeWidth={2} dot={{ r: 2 }} name="Hours" />
       </ComposedChart>
     </ResponsiveContainer>
   );
