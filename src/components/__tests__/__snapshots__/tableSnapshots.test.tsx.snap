@@ -621,7 +621,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
       <option
         value="dormant"
       >
-        No flights in 1+ year
+        No flights in over a year
       </option>
     </select>
     <label
