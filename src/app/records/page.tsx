@@ -195,6 +195,11 @@ export default async function RecordsPage() {
               pilots: r.pilots as number,
               total_km: r.total_km as number,
             }))}
+            labels={{
+              flights: t("growthFlights"),
+              pilots: t("growthPilots"),
+              totalKm: t("growthTotalKm"),
+            }}
           />
         </div>
       </section>

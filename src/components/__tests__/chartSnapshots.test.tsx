@@ -263,12 +263,14 @@ describe("Chart snapshots", () => {
       { year: 2021, flights: 600, pilots: 150, total_km: 15000 },
       { year: 2022, flights: 750, pilots: 180, total_km: 20000 },
     ];
-    const { container } = render(<YoYGrowthChart data={growthData} />);
+    const labels = { flights: "Flights", pilots: "Pilots", totalKm: "Total km" };
+    const { container } = render(<YoYGrowthChart data={growthData} labels={labels} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it("YoYGrowthChart matches snapshot with empty data", () => {
-    const { container } = render(<YoYGrowthChart data={[]} />);
+    const labels = { flights: "Flights", pilots: "Pilots", totalKm: "Total km" };
+    const { container } = render(<YoYGrowthChart data={[]} labels={labels} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });
