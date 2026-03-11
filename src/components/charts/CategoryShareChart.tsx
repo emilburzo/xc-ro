@@ -56,7 +56,7 @@ export default function CategoryShareChart({ data }: Props) {
     <ResponsiveContainer width="100%" height={300}>
       <AreaChart data={chartData}>
         <XAxis dataKey="year" />
-        <YAxis tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
+        <YAxis tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} />
         <Tooltip
           formatter={(val: any, name: any, props: any) => {
             const count = props.payload[`${name}_count`] || 0;
