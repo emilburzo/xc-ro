@@ -1,45 +1,8 @@
 -- Seed data for visual regression tests.
 -- Provides enough mock data for all pages to render meaningfully.
--- Creates tables, inserts data, creates view and indexes.
+-- Sources schema.sql for DDL, then inserts test data.
 
--- Ensure PostGIS is available
-CREATE EXTENSION IF NOT EXISTS postgis;
-
--- Enable unaccent for accent-insensitive search
-CREATE EXTENSION IF NOT EXISTS unaccent;
-
--- ============ TABLES ============
-CREATE TABLE IF NOT EXISTS pilots (
-  id bigserial PRIMARY KEY,
-  name varchar(200) NOT NULL,
-  username varchar(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS takeoffs (
-  id bigserial PRIMARY KEY,
-  name varchar(200) NOT NULL,
-  centroid geography(Point,4326)
-);
-
-CREATE TABLE IF NOT EXISTS gliders (
-  id bigserial PRIMARY KEY,
-  name varchar(100) NOT NULL UNIQUE,
-  category varchar(20) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS flights (
-  id bigint PRIMARY KEY,
-  pilot_id bigint NOT NULL REFERENCES pilots(id),
-  takeoff_id bigint REFERENCES takeoffs(id),
-  start_time timestamp NOT NULL,
-  start_point geography(Point,4326),
-  type varchar(512) NOT NULL,
-  distance_km double precision NOT NULL,
-  score double precision NOT NULL,
-  airtime integer NOT NULL,
-  glider_id bigint NOT NULL REFERENCES gliders(id),
-  url varchar(512) NOT NULL
-);
+\ir ../sql/schema.sql
 
 -- ============ PILOTS ============
 INSERT INTO pilots (id, name, username) VALUES
@@ -132,11 +95,5 @@ INSERT INTO flights (id, pilot_id, takeoff_id, start_time, type, distance_km, sc
   (41, 1, 1, '2023-08-05 10:00:00', 'free flight',    50.0,   60.0, 200, 9,  'https://xcontest.org/flight/41', ST_GeogFromText('POINT(25.5128 45.6220)')),
   (42, 5, 3, '2024-06-15 11:00:00', 'free flight',    35.0,   42.0, 160, 10, 'https://xcontest.org/flight/42', ST_GeogFromText('POINT(23.9170 46.1750)'));
 
--- ============ VIEW & INDEXES ============
-CREATE OR REPLACE VIEW flights_pg AS
-SELECT * FROM flights
-WHERE glider_id NOT IN (SELECT id FROM gliders WHERE category = 'HG');
-
-CREATE INDEX IF NOT EXISTS flights_takeoff_id ON flights(takeoff_id);
-CREATE INDEX IF NOT EXISTS flights_pilot_id ON flights(pilot_id);
-CREATE INDEX IF NOT EXISTS flights_glider_id ON flights(glider_id);
+-- ============ REFRESH MATERIALIZED VIEWS ============
+REFRESH MATERIALIZED VIEW pilot_dna_mv;

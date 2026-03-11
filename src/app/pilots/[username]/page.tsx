@@ -13,6 +13,7 @@ import {
   getPilotActivityHeatmap,
   getPilotTopFlights,
   getPilotDistanceHistogram,
+  getPilotDna,
 } from "@/lib/queries/pilots";
 import { takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import PilotDetailCharts from "@/components/PilotDetailCharts";
@@ -37,7 +38,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
 
   const pilotId = (pilot as any).id;
 
-  const [stats, favTakeoff, yearly, sites, equipment, heatmap, topFlights, distHist] =
+  const [stats, favTakeoff, yearly, sites, equipment, heatmap, topFlights, distHist, dna] =
     await Promise.all([
       getPilotStats(pilotId),
       getPilotFavoriteTakeoff(pilotId),
@@ -47,6 +48,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
       getPilotActivityHeatmap(pilotId),
       getPilotTopFlights(pilotId),
       getPilotDistanceHistogram(pilotId),
+      getPilotDna(pilotId),
     ]);
 
   const s = stats as any;
@@ -92,6 +94,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
       </div>
 
       <PilotDetailCharts
+        dna={dna as any}
         yearly={yearly as any}
         sites={sites as any}
         equipment={equipment as any}

@@ -122,7 +122,18 @@
     "glider": "Aripă",
     "distance": "Distanță",
     "score": "Scor",
-    "airtime": "Durată"
+    "airtime": "Durată",
+    "pilotDna": "ADN-ul Pilotului",
+    "pilotDnaDesc": "Amprenta ta de zbor vs. comunitate",
+    "dnaDistance": "Distanță XC",
+    "dnaConsistency": "Consistență",
+    "dnaVolume": "Volum",
+    "dnaDiversity": "Diversitate",
+    "dnaTriangle": "Triunghi %",
+    "dnaUnitKm": " km",
+    "dnaUnitYrs": " ani",
+    "dnaUnitFlights": " zboruri",
+    "dnaUnitSites": " locuri"
   },
   "flights": {
     "title": "Explorer Zboruri",

@@ -49,6 +49,24 @@ test.describe("Wings page", () => {
   });
 });
 
+test.describe("Takeoff detail page", () => {
+  test("matches visual snapshot", async ({ page }) => {
+    // Takeoff id=1 is Bunloc in seed data
+    await page.goto("/takeoffs/1-bunloc");
+    await expect(page.locator("h1")).toBeVisible();
+    await expect(page).toHaveScreenshot("takeoff-detail.png", { fullPage: true });
+  });
+});
+
+test.describe("Pilot detail page", () => {
+  test("matches visual snapshot", async ({ page }) => {
+    // Pilot id=1 is Ion Popescu in seed data
+    await page.goto("/pilots/ion.popescu");
+    await expect(page.locator("h1")).toBeVisible();
+    await expect(page).toHaveScreenshot("pilot-detail.png", { fullPage: true });
+  });
+});
+
 test.describe("Wing detail page", () => {
   test("matches visual snapshot", async ({ page }) => {
     // Wing id=3 is Nova Mentor 7 (category B) in seed data

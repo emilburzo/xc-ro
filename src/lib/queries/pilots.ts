@@ -145,6 +145,16 @@ export async function getPilotTopFlights(pilotId: number) {
   `);
 }
 
+export async function getPilotDna(pilotId: number) {
+  const rows = await db.execute(sql`
+    SELECT max_distance, active_years, flight_count, unique_sites, triangle_pct,
+           pct_distance, pct_consistency, pct_volume, pct_diversity, pct_triangle
+    FROM pilot_dna_mv
+    WHERE pilot_id = ${pilotId}
+  `);
+  return rows[0] || null;
+}
+
 export async function getPilotDistanceHistogram(pilotId: number) {
   return db.execute(sql`
     SELECT
