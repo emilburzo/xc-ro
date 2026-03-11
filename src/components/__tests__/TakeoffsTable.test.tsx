@@ -26,6 +26,10 @@ jest.mock("next-intl", () => ({
       xcEngine: "XC Engine",
       weekendSite: "Weekend Site",
       inactive: "Inactive",
+      triangleFactory: "Triangle Factory",
+      morningSite: "Morning Site",
+      afternoonThermal: "Afternoon Thermal",
+      marathonSite: "Marathon Site",
     };
     return map[key] || key;
   },
@@ -73,6 +77,9 @@ const mockTakeoffs = [
     flights_100k: 10,
     avg_distance: 15.3,
     ab_pct: 30,
+    triangle_pct: 25,
+    peak_hour: 13,
+    avg_airtime: 90,
     monthly_data: [
       { month: 1, count: 10 },
       { month: 6, count: 50 },
@@ -91,6 +98,9 @@ const mockTakeoffs = [
     flights_100k: 6,
     avg_distance: 25.7,
     ab_pct: 20,
+    triangle_pct: 30,
+    peak_hour: 15,
+    avg_airtime: 150,
     monthly_data: [
       { month: 5, count: 30 },
       { month: 7, count: 40 },
@@ -108,6 +118,9 @@ const mockTakeoffs = [
     flights_100k: 0,
     avg_distance: 3.1,
     ab_pct: 80,
+    triangle_pct: null,
+    peak_hour: null,
+    avg_airtime: null,
     monthly_data: null,
   },
   {
@@ -122,6 +135,9 @@ const mockTakeoffs = [
     flights_100k: 2,
     avg_distance: 12.0,
     ab_pct: 40,
+    triangle_pct: 10,
+    peak_hour: 10,
+    avg_airtime: 60,
     monthly_data: [
       { month: new Date().getMonth() + 1, count: 10 },
     ],
@@ -235,6 +251,30 @@ describe("TakeoffsTable", () => {
     // Both Bunloc and Sticlaria have flights_100k >= 5 and xc_potential > 80
     expect(screen.getAllByText("100k Club").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("XC Engine").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("renders Triangle Factory tag for takeoffs with >20% triangles", () => {
+    render(<TakeoffsTable takeoffs={mockTakeoffs} />);
+    // Bunloc (25%) and Sticlaria (30%) qualify; Székely (10%) does not
+    expect(screen.getAllByText("Triangle Factory").length).toBe(2);
+  });
+
+  it("renders Morning Site tag for takeoffs with peak hour < 11", () => {
+    render(<TakeoffsTable takeoffs={mockTakeoffs} />);
+    // Székely has peak_hour=10
+    expect(screen.getAllByText("Morning Site").length).toBe(1);
+  });
+
+  it("renders Afternoon Thermal tag for takeoffs with peak hour > 14", () => {
+    render(<TakeoffsTable takeoffs={mockTakeoffs} />);
+    // Sticlaria has peak_hour=15
+    expect(screen.getAllByText("Afternoon Thermal").length).toBe(1);
+  });
+
+  it("renders Marathon Site tag for takeoffs with avg airtime > 2h", () => {
+    render(<TakeoffsTable takeoffs={mockTakeoffs} />);
+    // Sticlaria has avg_airtime=150 (> 120)
+    expect(screen.getAllByText("Marathon Site").length).toBe(1);
   });
 
   it("renders the map when mapData is provided", () => {

@@ -781,6 +781,11 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
               >
                 XC Engine
               </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-orange-100 text-orange-800"
+              >
+                Triangle Factory
+              </span>
             </div>
           </td>
           <td
@@ -899,6 +904,21 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
                 class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800"
               >
                 Weekend Site
+              </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-orange-100 text-orange-800"
+              >
+                Triangle Factory
+              </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800"
+              >
+                Afternoon Thermal
+              </span>
+              <span
+                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-indigo-100 text-indigo-800"
+              >
+                Marathon Site
               </span>
             </div>
           </td>
