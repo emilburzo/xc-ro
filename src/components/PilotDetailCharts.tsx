@@ -33,6 +33,13 @@ export default function PilotDetailCharts({ dna, yearly, sites, equipment, heatm
 
   return (
     <div className="space-y-4">
+      {/* Evolution */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h2 className="text-lg font-semibold text-gray-900 mb-1">{t("evolution")}</h2>
+        <p className="text-sm text-gray-500 mb-4">{t("careerTimeline")}</p>
+        <PilotYearlyChart data={yearly} />
+      </div>
+
       {/* Pilot DNA */}
       {dna && (
         <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -51,13 +58,6 @@ export default function PilotDetailCharts({ dna, yearly, sites, equipment, heatm
           }} />
         </div>
       )}
-
-      {/* Evolution */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">{t("evolution")}</h2>
-        <p className="text-sm text-gray-500 mb-4">{t("careerTimeline")}</p>
-        <PilotYearlyChart data={yearly} />
-      </div>
 
       {/* Site Map */}
       <div className="bg-white rounded-lg border border-gray-200 p-4">
