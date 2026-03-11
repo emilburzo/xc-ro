@@ -10,10 +10,12 @@ import {
   getTopFlights,
   getTopWings,
   getFlyabilityCalendar,
+  getCommunityGrowth,
 } from "@/lib/queries/home";
 import {takeoffPath, pilotPath, wingPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
 import FlyabilityChartWrapper from "@/components/FlyabilityChartWrapper";
+import CommunityGrowthWrapper from "@/components/CommunityGrowthWrapper";
 import { JsonLd } from "@/components/JsonLd";
 import { getBaseUrl } from "@/lib/seo";
 
@@ -33,7 +35,7 @@ export default async function HomePage() {
   const tc = await getTranslations("common");
   const ts = await getTranslations("seo");
 
-  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData] = await Promise.all([
+  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData, communityGrowthData] = await Promise.all([
     getHomeStats(),
     getRecentNotableFlights(),
     getSeasonHeatmap(),
@@ -42,6 +44,7 @@ export default async function HomePage() {
     getTopFlights(10),
     getTopWings(10),
     getFlyabilityCalendar(),
+    getCommunityGrowth(),
   ]);
 
   return (
@@ -137,6 +140,18 @@ export default async function HomePage() {
         <h3 className="font-semibold text-gray-900 mb-1">{t("flyabilityCalendar")}</h3>
         <p className="text-xs text-gray-500 mb-3">{t("flyabilityDesc")}</p>
         <FlyabilityChartWrapper data={flyabilityData as any} daysLabel={t("flyabilityDays")} />
+      </div>
+
+      {/* Community Growth */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h3 className="font-semibold text-gray-900 mb-1">{t("communityGrowth")}</h3>
+        <p className="text-xs text-gray-500 mb-3">{t("communityGrowthDesc")}</p>
+        <CommunityGrowthWrapper
+          data={communityGrowthData as any}
+          newPilotsLabel={t("newPilots")}
+          cumulativePilotsLabel={t("cumulativePilots")}
+          flightsLabel={t("flights")}
+        />
       </div>
 
       {/* Quick Links */}
