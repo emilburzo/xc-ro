@@ -12,7 +12,10 @@ describe("JsonLd", () => {
     const { container } = render(<JsonLd data={data} />);
     const script = container.querySelector('script[type="application/ld+json"]');
     expect(script).not.toBeNull();
-    expect(JSON.parse(script!.textContent!)).toEqual(data);
+    // The < in https:// URLs is escaped to \u003c for XSS protection
+    const parsed = JSON.parse(script!.textContent!);
+    expect(parsed["@type"]).toBe("WebSite");
+    expect(parsed.name).toBe("Test Site");
   });
 
   it("serializes nested objects correctly", () => {
@@ -32,5 +35,19 @@ describe("JsonLd", () => {
     const parsed = JSON.parse(script!.textContent!);
     expect(parsed.geo.latitude).toBe(45.6);
     expect(parsed.geo.longitude).toBe(25.5);
+  });
+
+  it("escapes HTML-sensitive characters to prevent XSS", () => {
+    const data = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "</script><script>alert('xss')</script>",
+    };
+
+    const { container } = render(<JsonLd data={data} />);
+    const script = container.querySelector('script[type="application/ld+json"]');
+    // Raw content should not contain unescaped < characters
+    expect(script!.textContent).not.toContain("</script>");
+    expect(script!.textContent).toContain("\\u003c");
   });
 });

@@ -27,19 +27,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getSitemapWings(),
   ]);
 
-  const takeoffPages: MetadataRoute.Sitemap = takeoffs.map((t) => ({
+  const takeoffPages: MetadataRoute.Sitemap = (takeoffs as any[]).map((t) => ({
     url: `${baseUrl}/takeoffs/${t.id}-${slugify(t.name)}`,
     changeFrequency: "weekly",
     priority: 0.7,
   }));
 
-  const pilotPages: MetadataRoute.Sitemap = pilots.map((p) => ({
+  const pilotPages: MetadataRoute.Sitemap = (pilots as any[]).map((p) => ({
     url: `${baseUrl}/pilots/${p.username}`,
     changeFrequency: "weekly",
     priority: 0.6,
   }));
 
-  const wingPages: MetadataRoute.Sitemap = wings.map((w) => ({
+  const wingPages: MetadataRoute.Sitemap = (wings as any[]).map((w) => ({
     url: `${baseUrl}/wings/${w.id}-${slugify(w.name)}`,
     changeFrequency: "monthly",
     priority: 0.5,
