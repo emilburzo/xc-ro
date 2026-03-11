@@ -136,7 +136,7 @@ export default async function HomePage() {
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <h3 className="font-semibold text-gray-900 mb-1">{t("flyabilityCalendar")}</h3>
         <p className="text-xs text-gray-500 mb-3">{t("flyabilityDesc")}</p>
-        <FlyabilityChartWrapper data={flyabilityData as any} />
+        <FlyabilityChartWrapper data={flyabilityData as any} daysLabel={t("flyabilityDays")} />
       </div>
 
       {/* Quick Links */}

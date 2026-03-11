@@ -28,7 +28,8 @@
     "noRecentFlights": "Niciun zbor notabil în ultimele 30 de zile",
     "totalHours": "Ore de zbor",
     "flyabilityCalendar": "Calendar de zburabilitate",
-    "flyabilityDesc": "Zile medii zburabile pe lună (zile cu ≥1 zbor)"
+    "flyabilityDesc": "Zile medii zburabile pe lună (zile cu ≥1 zbor)",
+    "flyabilityDays": "zile"
   },
   "takeoffs": {
     "title": "Decolări",

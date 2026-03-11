@@ -9,6 +9,11 @@ interface FlyabilityData {
   avg_flyable_days: number;
 }
 
-export default function FlyabilityChartWrapper({ data }: { data: FlyabilityData[] }) {
-  return <FlyabilityChart data={data} />;
+interface FlyabilityChartWrapperProps {
+  data: FlyabilityData[];
+  daysLabel?: string;
+}
+
+export default function FlyabilityChartWrapper({ data, daysLabel }: FlyabilityChartWrapperProps) {
+  return <FlyabilityChart data={data} daysLabel={daysLabel} />;
 }
