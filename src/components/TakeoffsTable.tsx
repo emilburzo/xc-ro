@@ -72,8 +72,8 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
   const [sortKey, setSortKey] = useState<SortKey>("flight_count");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [search, setSearch] = useState("");
-  const [minFlights, setMinFlights] = useState(0);
-  const [activeFilter, setActiveFilter] = useState<"all" | "active" | "dormant">("active");
+  const [minFlights, setMinFlights] = useState(10);
+  const [activeFilter, setActiveFilter] = useState<"all" | "active" | "dormant">("all");
 
   const [now] = useState(() => Date.now());
 

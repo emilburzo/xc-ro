@@ -633,7 +633,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
         class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
         min="0"
         type="number"
-        value=""
+        value="10"
       />
     </label>
   </div>

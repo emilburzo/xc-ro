@@ -136,11 +136,12 @@ const mockMapData = [
 ];
 
 describe("TakeoffsTable", () => {
-  it("renders the table with all takeoff rows (active filter default)", () => {
+  it("renders the table with takeoffs meeting min flights default (10)", () => {
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
-    // Default filter is "active" which filters to takeoffs active in last year
+    // Default filter is "all" with minFlights=10, so Dormant Site (5) is excluded
     expect(screen.getByText("Bunloc")).toBeInTheDocument();
     expect(screen.getByText("Sticlaria")).toBeInTheDocument();
+    expect(screen.queryByText("Dormant Site")).not.toBeInTheDocument();
   });
 
   it("renders table headers", () => {
@@ -156,7 +157,7 @@ describe("TakeoffsTable", () => {
 
   it("shows the count of displayed takeoffs", () => {
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
-    // With default "active" filter, active takeoffs are Bunloc, Sticlaria, and Székely
+    // Default "all" filter with minFlights=10: Bunloc (500), Sticlaria (200), Székely (100)
     expect(screen.getByText("3 takeoffs")).toBeInTheDocument();
   });
 
@@ -176,9 +177,9 @@ describe("TakeoffsTable", () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
-    // Switch to "all" filter to show Székely
-    const select = screen.getByDisplayValue("Flown in last year");
-    await user.selectOptions(select, "all");
+    // Default is "all", clear minFlights to show all including Székely
+    const minFlightsInput = screen.getByRole("spinbutton");
+    await user.clear(minFlightsInput);
 
     const searchInput = screen.getByPlaceholderText("Search by name...");
     await user.type(searchInput, "Szekely");
@@ -192,11 +193,9 @@ describe("TakeoffsTable", () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
-    // Switch to "all" filter first
-    const select = screen.getByDisplayValue("Flown in last year");
-    await user.selectOptions(select, "all");
-
+    // Default is "all" with minFlights=10, clear and type 100
     const minFlightsInput = screen.getByRole("spinbutton");
+    await user.clear(minFlightsInput);
     await user.type(minFlightsInput, "100");
 
     // Only Bunloc (500), Sticlaria (200), and Székely (100) have >= 100 flights
@@ -209,19 +208,24 @@ describe("TakeoffsTable", () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
-    const select = screen.getByDisplayValue("Flown in last year");
+    // Clear minFlights so Dormant Site (5 flights) isn't excluded
+    const minFlightsInput = screen.getByRole("spinbutton");
+    await user.clear(minFlightsInput);
+
+    const select = screen.getByDisplayValue("All");
     await user.selectOptions(select, "dormant");
 
     expect(screen.getByText("Dormant Site")).toBeInTheDocument();
     expect(screen.queryByText("Bunloc")).not.toBeInTheDocument();
   });
 
-  it("shows all takeoffs with 'all' filter", async () => {
+  it("shows all takeoffs when minFlights is cleared", async () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
-    const select = screen.getByDisplayValue("Flown in last year");
-    await user.selectOptions(select, "all");
+    // Default is "all" already, just clear minFlights
+    const minFlightsInput = screen.getByRole("spinbutton");
+    await user.clear(minFlightsInput);
 
     expect(screen.getByText("4 takeoffs")).toBeInTheDocument();
   });
