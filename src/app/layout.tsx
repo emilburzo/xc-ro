@@ -5,8 +5,16 @@ import Nav from "@/components/Nav";
 import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
 
+function getSafeMetadataBase(): URL | undefined {
+  try {
+    return new URL(getBaseUrl());
+  } catch {
+    return undefined;
+  }
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(getBaseUrl()),
+  metadataBase: getSafeMetadataBase(),
   title: {
     template: "%s | XC-RO",
     default: "XC-RO - Paragliding Flight Analytics Romania",

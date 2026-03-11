@@ -29,6 +29,7 @@ export default async function HomePage() {
   const locale = await getLocale();
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
+  const ts = await getTranslations("seo");
 
   const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings] = await Promise.all([
     getHomeStats(),
@@ -48,8 +49,8 @@ export default async function HomePage() {
           "@type": "WebSite",
           name: "XC-RO",
           url: getBaseUrl(),
-          description:
-            "Paragliding flight analytics for Romania — takeoffs, pilots, wings, and records since 2007.",
+          description: ts("homeDescription"),
+          inLanguage: locale,
         }}
       />
       {/* Title */}

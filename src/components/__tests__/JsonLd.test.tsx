@@ -12,7 +12,7 @@ describe("JsonLd", () => {
     const { container } = render(<JsonLd data={data} />);
     const script = container.querySelector('script[type="application/ld+json"]');
     expect(script).not.toBeNull();
-    // The < in https:// URLs is escaped to \u003c for XSS protection
+    // JSON is serialized with '<' characters escaped as \u003c to prevent </script> injection (XSS protection)
     const parsed = JSON.parse(script!.textContent!);
     expect(parsed["@type"]).toBe("WebSite");
     expect(parsed.name).toBe("Test Site");

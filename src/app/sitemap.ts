@@ -7,7 +7,7 @@ import {
   getSitemapWings,
 } from "@/lib/queries/sitemap";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // seconds (1 hour)
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
@@ -21,11 +21,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/records`, changeFrequency: "weekly", priority: 0.7 },
   ];
 
-  const [takeoffs, pilots, wings] = await Promise.all([
-    getSitemapTakeoffs(),
-    getSitemapPilots(),
-    getSitemapWings(),
-  ]);
+  let takeoffs: any[] = [];
+  let pilots: any[] = [];
+  let wings: any[] = [];
+
+  try {
+    [takeoffs, pilots, wings] = await Promise.all([
+      getSitemapTakeoffs() as Promise<any[]>,
+      getSitemapPilots() as Promise<any[]>,
+      getSitemapWings() as Promise<any[]>,
+    ]);
+  } catch {
+    // Database unavailable (e.g. during build) — return static pages only
+    return staticPages;
+  }
 
   const takeoffPages: MetadataRoute.Sitemap = (takeoffs as any[]).map((t) => ({
     url: `${baseUrl}/takeoffs/${t.id}-${slugify(t.name)}`,
