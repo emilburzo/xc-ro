@@ -65,6 +65,8 @@ function Badge({ label, color }: { label: string; color: string }) {
   );
 }
 
+const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+
 export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff[]; mapData?: TakeoffMapData[] }) {
   const t = useTranslations("takeoffs");
   const tc = useTranslations("common");
@@ -89,12 +91,12 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
     if (activeFilter === "active") {
       list = list.filter((tk) => {
         if (!tk.last_activity) return false;
-        return now - new Date(tk.last_activity).getTime() < 365 * 24 * 60 * 60 * 1000;
+        return now - new Date(tk.last_activity).getTime() < YEAR_MS;
       });
     } else if (activeFilter === "dormant") {
       list = list.filter((tk) => {
         if (!tk.last_activity) return true;
-        return now - new Date(tk.last_activity).getTime() >= 365 * 24 * 60 * 60 * 1000;
+        return now - new Date(tk.last_activity).getTime() >= YEAR_MS;
       });
     }
     return list;
