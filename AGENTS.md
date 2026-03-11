@@ -69,7 +69,21 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 |------|-------------|
 | `pilot_dna_mv` | Pre-computed pilot DNA metrics (5 raw values + 5 PERCENT_RANK percentiles). Refreshed on app startup via `src/instrumentation.ts`. Defined in `sql/004_create_pilot_dna_mv.sql`. |
 
-**SQL scripts:**
+**SQL file structure:**
+
+| File | Role | Used by |
+|------|------|---------|
+| `sql/schema.sql` | **Canonical DDL** — all extensions, tables, views, indexes, materialized views. Single source of truth for building a fresh database. | CI unit tests (`test.yml`), sourced by `e2e/seed.sql` |
+| `e2e/seed.sql` | **Test data only** — sources `schema.sql` via `\ir ../sql/schema.sql`, then INSERTs seed data and refreshes materialized views. | CI visual tests (`visual.yml`), local `npm run test:visual:seed` |
+| `sql/001_*.sql` – `sql/004_*.sql` | **Incremental patches** — for applying individual changes to an existing production/dev database. Not used by CI. | Manual application to existing DBs |
+
+When adding new database objects (tables, views, indexes, materialized views):
+1. Add the DDL to `sql/schema.sql` (canonical source)
+2. If the object needs a refresh after data insertion, add the refresh to the end of `e2e/seed.sql`
+3. If the object needs a refresh in integration tests, add it to `seedStandardData()` in `src/lib/queries/test-utils.ts`
+4. Optionally create a numbered `sql/NNN_*.sql` script for incremental application to existing databases
+
+**Incremental scripts:**
 | Script | Description |
 |--------|-------------|
 | `sql/001_create_flights_pg_view.sql` | Creates the `flights_pg` view |
@@ -144,7 +158,9 @@ src/
 │       ├── WingDonut.tsx
 │       ├── YearlyTrendChart.tsx
 │       ├── AdoptionChart.tsx
-│       └── PilotYearlyChart.tsx
+│       ├── PilotYearlyChart.tsx
+│       └── PilotDnaChart.tsx
+├── instrumentation.ts       # Next.js register() hook — refreshes materialized views on startup
 ├── lib/
 │   ├── db.ts               # Drizzle + postgres client singleton
 │   ├── schema.ts           # Drizzle table definitions (no geography columns)
@@ -159,7 +175,7 @@ src/
 
 e2e/                         # Playwright visual/e2e tests
 ├── fixtures.ts              # Test fixtures and helpers
-├── seed.sql                 # DB seed for deterministic test data
+├── seed.sql                 # Sources sql/schema.sql + inserts test data
 ├── navigation.spec.ts       # Navigation tests
 ├── pages.spec.ts            # Page rendering tests
 └── interactions.spec.ts     # User interaction tests
