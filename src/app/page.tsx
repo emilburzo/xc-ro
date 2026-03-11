@@ -145,7 +145,7 @@ export default async function HomePage() {
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-gray-900">{t("topFlights")}</h3>
-            <Link href="/flights?sort=distance_km&dir=desc" className="text-sm text-blue-600 hover:underline">{t("viewAll")}</Link>
+            <Link href="/flights?sort=distance&dir=desc" className="text-sm text-blue-600 hover:underline">{t("viewAll")}</Link>
           </div>
           <div className="space-y-2">
             {topFlights.map((f: any, i: number) => (
