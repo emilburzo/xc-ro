@@ -1,6 +1,12 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
 
+const FLIGHT_TYPE_MAPPING: Record<string, string[]> = {
+  free: ["free flight", "zbor liber"],
+  fai: ["FAI triangle", "triunghi FAI"],
+  flat: ["flat triangle", "triunghi plat"],
+};
+
 export interface FlightFilters {
   pilotSearch?: string;
   takeoffSearch?: string;
@@ -44,12 +50,7 @@ export async function getFlightsList(filters: FlightFilters) {
     conditions.push(sql`f.distance_km <= ${filters.distMax}`);
   }
   if (filters.flightType) {
-    const typeMapping: Record<string, string[]> = {
-      free: ["free flight", "zbor liber"],
-      fai: ["FAI triangle", "triunghi FAI"],
-      flat: ["flat triangle", "triunghi plat"],
-    };
-    const variants = typeMapping[filters.flightType];
+    const variants = FLIGHT_TYPE_MAPPING[filters.flightType];
     if (variants) {
       conditions.push(sql`(f.type = ${variants[0]} OR f.type = ${variants[1]})`);
     } else {
