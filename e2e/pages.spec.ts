@@ -54,6 +54,7 @@ test.describe("Takeoff detail page", () => {
     // Takeoff id=1 is Bunloc in seed data
     await page.goto("/takeoffs/1-bunloc");
     await expect(page.locator("h1")).toBeVisible();
+    await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
     await expect(page).toHaveScreenshot("takeoff-detail.png", { fullPage: true });
   });
 });
@@ -69,6 +70,7 @@ test.describe("Pilot detail page", () => {
     ).toBeVisible({ timeout: 10_000 });
     // Wait for the pilot site map tiles to fully load
     await waitForMapTiles(page);
+    await expect(page).toHaveTitle("Ion Popescu | Pilot | XC-RO");
     await expect(page).toHaveScreenshot("pilot-detail.png", { fullPage: true });
   });
 });
@@ -78,6 +80,7 @@ test.describe("Wing detail page", () => {
     // Wing id=3 is Nova Mentor 7 (category B) in seed data
     await page.goto("/wings/3-nova-mentor-7");
     await expect(page.locator("h1")).toBeVisible();
+    await expect(page).toHaveTitle("Nova Mentor 7 | Aripă | XC-RO");
     await expect(page).toHaveScreenshot("wing-detail.png", { fullPage: true });
   });
 });

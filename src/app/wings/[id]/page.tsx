@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (isNaN(id)) return {};
   const wing = await getCachedWing(id);
   if (!wing) return {};
-  return { title: (wing as any).name };
+  const t = await getTranslations("wingDetail");
+  return { title: `${(wing as any).name} | ${t("pageType")}` };
 }
 
 const CAT_COLORS: Record<string, string> = {

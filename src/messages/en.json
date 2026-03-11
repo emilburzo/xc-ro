@@ -51,6 +51,7 @@
     "inactive": "Inactive"
   },
   "takeoffDetail": {
+    "pageType": "Takeoff",
     "seasonality": "Seasonality",
     "whenToFly": "When to fly?",
     "potential": "Potential",
@@ -101,6 +102,7 @@
     "activeInYear": "Active in year"
   },
   "pilotDetail": {
+    "pageType": "Pilot",
     "evolution": "Evolution",
     "careerTimeline": "Career Timeline",
     "siteMap": "Site Map",
@@ -210,6 +212,7 @@
     "lastFlight": "Last Flight"
   },
   "wingDetail": {
+    "pageType": "Wing",
     "popularity": "Popularity",
     "adoption": "Pilot adoption",
     "performance": "XC Performance",

@@ -51,6 +51,7 @@
     "inactive": "Inactiv"
   },
   "takeoffDetail": {
+    "pageType": "Decolare",
     "seasonality": "Sezonalitate",
     "whenToFly": "Când să zbor?",
     "potential": "Potențial",
@@ -101,6 +102,7 @@
     "activeInYear": "Activ în anul"
   },
   "pilotDetail": {
+    "pageType": "Pilot",
     "evolution": "Evoluție",
     "careerTimeline": "Cronologie Carieră",
     "siteMap": "Harta Site-urilor",
@@ -210,6 +212,7 @@
     "lastFlight": "Ultimul Zbor"
   },
   "wingDetail": {
+    "pageType": "Aripă",
     "popularity": "Popularitate",
     "adoption": "Adopție piloți",
     "performance": "Performanță XC",
