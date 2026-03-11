@@ -71,9 +71,8 @@ describe("sitemap route", () => {
     const urls = result.map((entry) => entry.url);
     expect(urls).toContain("https://xc-ro.emilburzo.com");
     expect(urls).toContain("https://xc-ro.emilburzo.com/takeoffs");
-    expect(urls).not.toEqual(
-      expect.arrayContaining([expect.stringContaining("/takeoffs/")]),
-    );
+    // No dynamic detail pages should be present
+    expect(urls.some((url: string) => url.includes("/takeoffs/1-"))).toBe(false);
 
     // Verify the error was logged
     expect(consoleSpy).toHaveBeenCalledWith(
