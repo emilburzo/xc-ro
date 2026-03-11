@@ -109,11 +109,13 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
     <div>
       <label
         class="block text-xs text-gray-500 mb-1"
+        for="glider-category"
       >
         Glider category
       </label>
       <select
         class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+        id="glider-category"
       >
         <option
           value=""
@@ -149,6 +151,39 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           value="T"
         >
           T
+        </option>
+      </select>
+    </div>
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+        for="flight-type"
+      >
+        Flight type
+      </label>
+      <select
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+        id="flight-type"
+      >
+        <option
+          value=""
+        >
+          All
+        </option>
+        <option
+          value="free"
+        >
+          free flight
+        </option>
+        <option
+          value="fai"
+        >
+          FAI triangle
+        </option>
+        <option
+          value="flat"
+        >
+          flat triangle
         </option>
       </select>
     </div>
