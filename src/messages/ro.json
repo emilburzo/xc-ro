@@ -49,7 +49,11 @@
     "beginnerFriendly": "Prietenos începători",
     "xcEngine": "Motor XC",
     "weekendSite": "Site de Weekend",
-    "inactive": "Inactiv"
+    "inactive": "Inactiv",
+    "triangleFactory": "Fabrică de Triunghiuri",
+    "morningSite": "Site de Dimineață",
+    "afternoonThermal": "Termic de Amiază",
+    "marathonSite": "Site Maraton"
   },
   "takeoffDetail": {
     "pageType": "Decolare",

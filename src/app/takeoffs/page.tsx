@@ -40,6 +40,9 @@ export default async function TakeoffsPage() {
     flights_100k: tk.flights_100k ? Number(tk.flights_100k) : null,
     avg_distance: tk.avg_distance ? Number(tk.avg_distance) : null,
     ab_pct: tk.ab_pct != null ? Number(tk.ab_pct) : null,
+    triangle_pct: tk.triangle_pct != null ? Number(tk.triangle_pct) : null,
+    peak_hour: tk.peak_hour != null ? Number(tk.peak_hour) : null,
+    avg_airtime: tk.avg_airtime != null ? Number(tk.avg_airtime) : null,
     monthly_data: tk.monthly_data,
   }));
 

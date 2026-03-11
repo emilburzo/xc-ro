@@ -31,6 +31,9 @@ interface Takeoff {
   flights_100k: number | null;
   avg_distance: number | null;
   ab_pct: number | null;
+  triangle_pct: number | null;
+  peak_hour: number | null;
+  avg_airtime: number | null;
   monthly_data: { month: number; count: number }[] | null;
 }
 
@@ -131,6 +134,10 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
     if ((tk.ab_pct || 0) > 50 && (tk.avg_distance || 0) < 10) tags.push({ label: t("beginnerFriendly"), color: "bg-green-100 text-green-800" });
     if ((tk.xc_potential || 0) > 80) tags.push({ label: t("xcEngine"), color: "bg-purple-100 text-purple-800" });
     if ((tk.weekend_pct || 0) > 75) tags.push({ label: t("weekendSite"), color: "bg-blue-100 text-blue-800" });
+    if ((tk.triangle_pct || 0) > 20) tags.push({ label: t("triangleFactory"), color: "bg-orange-100 text-orange-800" });
+    if (tk.peak_hour != null && tk.peak_hour < 11) tags.push({ label: t("morningSite"), color: "bg-amber-100 text-amber-800" });
+    if (tk.peak_hour != null && tk.peak_hour > 14) tags.push({ label: t("afternoonThermal"), color: "bg-red-100 text-red-800" });
+    if ((tk.avg_airtime || 0) > 120) tags.push({ label: t("marathonSite"), color: "bg-indigo-100 text-indigo-800" });
     if (tk.last_activity) {
       const days = (now - new Date(tk.last_activity).getTime()) / (1000 * 60 * 60 * 24);
       if (days > 365) tags.push({ label: t("inactive"), color: "bg-gray-100 text-gray-600" });

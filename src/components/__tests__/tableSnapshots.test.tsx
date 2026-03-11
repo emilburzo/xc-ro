@@ -28,6 +28,10 @@ jest.mock("next-intl", () => ({
         xcEngine: "XC Engine",
         weekendSite: "Weekend Site",
         inactive: "Inactive",
+        triangleFactory: "Triangle Factory",
+        morningSite: "Morning Site",
+        afternoonThermal: "Afternoon Thermal",
+        marathonSite: "Marathon Site",
       },
       pilots: {
         search: "Search...",
@@ -147,6 +151,9 @@ const mockTakeoffs = [
     flights_100k: 10,
     avg_distance: 15.3,
     ab_pct: 30,
+    triangle_pct: 25,
+    peak_hour: 13,
+    avg_airtime: 90,
     monthly_data: [
       { month: 1, count: 10 },
       { month: 6, count: 50 },
@@ -164,6 +171,9 @@ const mockTakeoffs = [
     flights_100k: 6,
     avg_distance: 25.7,
     ab_pct: 20,
+    triangle_pct: 30,
+    peak_hour: 15,
+    avg_airtime: 150,
     monthly_data: [
       { month: 5, count: 30 },
       { month: 7, count: 40 },

@@ -49,7 +49,11 @@
     "beginnerFriendly": "Beginner Friendly",
     "xcEngine": "XC Engine",
     "weekendSite": "Weekend Site",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "triangleFactory": "Triangle Factory",
+    "morningSite": "Morning Site",
+    "afternoonThermal": "Afternoon Thermal",
+    "marathonSite": "Marathon Site"
   },
   "takeoffDetail": {
     "pageType": "Takeoff",
