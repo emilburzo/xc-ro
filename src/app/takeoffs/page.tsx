@@ -7,7 +7,12 @@ export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("takeoffs");
-  return { title: t("title") };
+  const ts = await getTranslations("seo");
+  return {
+    title: t("title"),
+    description: ts("takeoffsDescription"),
+    alternates: { canonical: "/takeoffs" },
+  };
 }
 
 export default async function TakeoffsPage() {

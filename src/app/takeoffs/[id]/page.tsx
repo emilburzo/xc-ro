@@ -16,8 +16,10 @@ import {
   getTakeoffYearlyTrend,
   getTakeoffBusiestDays,
 } from "@/lib/queries/takeoffs";
-import { pilotPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import { pilotPath, slugify, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
+import { JsonLd } from "@/components/JsonLd";
+import { getBaseUrl } from "@/lib/seo";
 
 const getCachedTakeoff = cache((id: number) => getTakeoffById(id));
 
@@ -30,7 +32,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const takeoff = await getCachedTakeoff(id);
   if (!takeoff) return {};
   const t = await getTranslations("takeoffDetail");
-  return { title: `${(takeoff as any).name} | ${t("pageType")}` };
+  const ts = await getTranslations("seo");
+  const name = (takeoff as any).name;
+  return {
+    title: `${name} | ${t("pageType")}`,
+    description: ts("takeoffDetailDescription", { name }),
+    alternates: { canonical: `/takeoffs/${id}-${slugify(name)}` },
+  };
 }
 
 export default async function TakeoffDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -64,6 +72,19 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="space-y-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Place",
+          name: (takeoff as any).name,
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: Number((takeoff as any).lat),
+            longitude: Number((takeoff as any).lng),
+          },
+          url: `${getBaseUrl()}/takeoffs/${id}-${slugify((takeoff as any).name)}`,
+        }}
+      />
       {/* Header */}
       <div>
         <Link href="/takeoffs" className="text-sm text-blue-600 hover:underline mb-2 inline-block">

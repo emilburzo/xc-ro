@@ -12,8 +12,10 @@ import {
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
 } from "@/lib/queries/wings";
-import { pilotPath, takeoffPath, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, slugify, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
+import { JsonLd } from "@/components/JsonLd";
+import { getBaseUrl } from "@/lib/seo";
 
 const getCachedWing = cache((id: number) => getWingById(id));
 
@@ -26,7 +28,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const wing = await getCachedWing(id);
   if (!wing) return {};
   const t = await getTranslations("wingDetail");
-  return { title: `${(wing as any).name} | ${t("pageType")}` };
+  const ts = await getTranslations("seo");
+  const name = (wing as any).name;
+  const category = (wing as any).category;
+  return {
+    title: `${name} | ${t("pageType")}`,
+    description: ts("wingDetailDescription", { name, category }),
+    alternates: { canonical: `/wings/${id}-${slugify(name)}` },
+  };
 }
 
 const CAT_COLORS: Record<string, string> = {
@@ -73,6 +82,15 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: (wing as any).name,
+          category: (wing as any).category,
+          url: `${getBaseUrl()}/wings/${id}-${slugify((wing as any).name)}`,
+        }}
+      />
       {/* Header */}
       <div>
         <Link href="/wings" className="text-sm text-blue-600 hover:underline mb-2 inline-block">

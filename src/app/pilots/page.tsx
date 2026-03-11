@@ -7,7 +7,12 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("pilots");
-  return { title: t("title") };
+  const ts = await getTranslations("seo");
+  return {
+    title: t("title"),
+    description: ts("pilotsDescription"),
+    alternates: { canonical: "/pilots" },
+  };
 }
 
 export default async function PilotsPage() {
