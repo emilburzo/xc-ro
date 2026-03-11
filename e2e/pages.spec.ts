@@ -63,6 +63,12 @@ test.describe("Pilot detail page", () => {
     // Pilot id=1 is Ion Popescu in seed data
     await page.goto("/pilots/ion.popescu");
     await expect(page.locator("h1")).toBeVisible();
+    // Wait for the Pilot DNA section (ensures MV data is available and chart rendered)
+    await expect(
+      page.getByRole("heading", { name: /ADN-ul Pilotului|Pilot DNA/ }),
+    ).toBeVisible({ timeout: 10_000 });
+    // Wait for the pilot site map tiles to fully load
+    await waitForMapTiles(page);
     await expect(page).toHaveScreenshot("pilot-detail.png", { fullPage: true });
   });
 });
