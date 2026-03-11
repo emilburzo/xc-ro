@@ -9,6 +9,7 @@ import WingDonut from "../charts/WingDonut";
 import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
 import RecordProgressionChart from "../charts/RecordProgressionChart";
+import PilotDnaChart from "../charts/PilotDnaChart";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -54,6 +55,17 @@ jest.mock("recharts", () => {
     Cell: ({ fill }: { fill: string }) => <div data-testid="cell" data-fill={fill} />,
     Tooltip: () => <div data-testid="tooltip" />,
     Legend: () => <div data-testid="legend" />,
+    RadarChart: ({ data, children }: { data: any[]; children: React.ReactNode }) => (
+      <div data-testid="radar-chart" data-length={data.length}>{children}</div>
+    ),
+    Radar: ({ dataKey, fill, fillOpacity }: { dataKey: string; fill?: string; fillOpacity?: number }) => (
+      <div data-testid="radar" data-datakey={dataKey} data-fill={fill} data-fillopacity={fillOpacity} />
+    ),
+    PolarGrid: () => <div data-testid="polar-grid" />,
+    PolarAngleAxis: ({ dataKey }: { dataKey: string }) => (
+      <div data-testid="polar-angle-axis" data-datakey={dataKey} />
+    ),
+    PolarRadiusAxis: () => <div data-testid="polar-radius-axis" />,
   };
 });
 
@@ -173,6 +185,23 @@ describe("Chart snapshots", () => {
 
   it("RecordProgressionChart matches snapshot with empty data", () => {
     const { container } = render(<RecordProgressionChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("PilotDnaChart matches snapshot", () => {
+    const dnaData = {
+      max_distance: 120,
+      active_years: 2,
+      flight_count: 5,
+      unique_sites: 2,
+      triangle_pct: 20,
+      pct_distance: 0.667,
+      pct_consistency: 0.5,
+      pct_volume: 0.667,
+      pct_diversity: 0.5,
+      pct_triangle: 0.667,
+    };
+    const { container } = render(<PilotDnaChart data={dnaData} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

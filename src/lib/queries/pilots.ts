@@ -145,6 +145,44 @@ export async function getPilotTopFlights(pilotId: number) {
   `);
 }
 
+export async function getPilotDna(pilotId: number) {
+  const rows = await db.execute(sql`
+    WITH pilot_metrics AS (
+      SELECT
+        f.pilot_id,
+        max(f.distance_km) AS max_distance,
+        count(DISTINCT EXTRACT(YEAR FROM f.start_time))::int AS active_years,
+        count(*)::int AS flight_count,
+        count(DISTINCT f.takeoff_id)::int AS unique_sites,
+        CASE WHEN count(*) > 0
+          THEN round(100.0 * count(*) FILTER (
+            WHERE f.type ILIKE '%triangle%' OR f.type ILIKE '%triunghi%'
+          ) / count(*), 1)
+          ELSE 0
+        END AS triangle_pct
+      FROM flights_pg f
+      GROUP BY f.pilot_id
+    ),
+    ranked AS (
+      SELECT *,
+        PERCENT_RANK() OVER (ORDER BY max_distance)  AS pct_distance,
+        PERCENT_RANK() OVER (ORDER BY active_years)   AS pct_consistency,
+        PERCENT_RANK() OVER (ORDER BY flight_count)   AS pct_volume,
+        PERCENT_RANK() OVER (ORDER BY unique_sites)   AS pct_diversity,
+        PERCENT_RANK() OVER (ORDER BY triangle_pct)   AS pct_triangle
+      FROM pilot_metrics
+    )
+    SELECT max_distance, active_years, flight_count, unique_sites, triangle_pct,
+           round(pct_distance::numeric,3)    AS pct_distance,
+           round(pct_consistency::numeric,3) AS pct_consistency,
+           round(pct_volume::numeric,3)      AS pct_volume,
+           round(pct_diversity::numeric,3)   AS pct_diversity,
+           round(pct_triangle::numeric,3)    AS pct_triangle
+    FROM ranked WHERE pilot_id = ${pilotId}
+  `);
+  return rows[0] || null;
+}
+
 export async function getPilotDistanceHistogram(pilotId: number) {
   return db.execute(sql`
     SELECT

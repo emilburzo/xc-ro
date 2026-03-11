@@ -241,6 +241,37 @@ exports[`Chart snapshots MonthlyBarChart matches snapshot with empty data 1`] = 
 </div>
 `;
 
+exports[`Chart snapshots PilotDnaChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="5"
+    data-testid="radar-chart"
+  >
+    <div
+      data-testid="polar-grid"
+    />
+    <div
+      data-datakey="axis"
+      data-testid="polar-angle-axis"
+    />
+    <div
+      data-testid="polar-radius-axis"
+    />
+    <div
+      data-datakey="value"
+      data-fill="#3b82f6"
+      data-fillopacity="0.25"
+      data-testid="radar"
+    />
+    <div
+      data-testid="tooltip"
+    />
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots PilotYearlyChart matches snapshot 1`] = `
 <div
   data-testid="responsive-container"

@@ -122,7 +122,9 @@
     "glider": "Glider",
     "distance": "Distance",
     "score": "Score",
-    "airtime": "Airtime"
+    "airtime": "Airtime",
+    "pilotDna": "Pilot DNA",
+    "pilotDnaDesc": "Your flying fingerprint vs. the community"
   },
   "flights": {
     "title": "Flights Explorer",

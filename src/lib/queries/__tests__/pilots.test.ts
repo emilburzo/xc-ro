@@ -9,6 +9,7 @@ import {
   getPilotActivityHeatmap,
   getPilotTopFlights,
   getPilotDistanceHistogram,
+  getPilotDna,
 } from "../pilots";
 
 const mockExecute = jest.fn();
@@ -176,6 +177,34 @@ describe("pilot queries", () => {
 
       const result = await getPilotTopFlights(1);
       expect(result).toEqual(rows);
+    });
+  });
+
+  describe("getPilotDna", () => {
+    it("returns DNA data when pilot exists", async () => {
+      const dna = {
+        max_distance: 120,
+        active_years: 2,
+        flight_count: 5,
+        unique_sites: 2,
+        triangle_pct: 20,
+        pct_distance: 0.667,
+        pct_consistency: 0.5,
+        pct_volume: 0.667,
+        pct_diversity: 0.5,
+        pct_triangle: 0.667,
+      };
+      mockExecute.mockResolvedValueOnce([dna]);
+
+      const result = await getPilotDna(1);
+      expect(result).toEqual(dna);
+    });
+
+    it("returns null when pilot not found", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+
+      const result = await getPilotDna(999);
+      expect(result).toBeNull();
     });
   });
 

@@ -29,6 +29,7 @@ import {
   getPilotActivityHeatmap,
   getPilotTopFlights,
   getPilotDistanceHistogram,
+  getPilotDna,
 } from "../pilots";
 
 const describeIf = canRunIntegrationTests ? describe : describe.skip;
@@ -139,6 +140,30 @@ describeIf("pilot queries (integration)", () => {
       expect(Number(rows[0].distance_km)).toBe(310);
       expect(Number(rows[1].distance_km)).toBe(250);
       expect(Number(rows[2].distance_km)).toBe(45);
+    });
+  });
+
+  describe("getPilotDna", () => {
+    it("returns DNA metrics for Alice", async () => {
+      const dna = await getPilotDna(1);
+      expect(dna).not.toBeNull();
+      // Alice: max=120km, active_years=2 (2023,2024), flights=5, unique_sites=2 (Bunloc,Sticlaria), triangle=20% (1/5)
+      expect(Number(dna!.max_distance)).toBe(120);
+      expect(Number(dna!.active_years)).toBe(2);
+      expect(Number(dna!.flight_count)).toBe(5);
+      expect(Number(dna!.unique_sites)).toBe(2);
+      expect(Number(dna!.triangle_pct)).toBe(20);
+    });
+
+    it("Bob has higher pct_distance than Alice (310 vs 120)", async () => {
+      const alice = await getPilotDna(1);
+      const bob = await getPilotDna(2);
+      expect(Number(bob!.pct_distance)).toBeGreaterThan(Number(alice!.pct_distance));
+    });
+
+    it("returns null for a non-existent pilot", async () => {
+      const dna = await getPilotDna(9999);
+      expect(dna).toBeNull();
     });
   });
 
