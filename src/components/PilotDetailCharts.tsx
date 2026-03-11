@@ -38,7 +38,17 @@ export default function PilotDetailCharts({ dna, yearly, sites, equipment, heatm
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-1">{t("pilotDna")}</h2>
           <p className="text-sm text-gray-500 mb-4">{t("pilotDnaDesc")}</p>
-          <PilotDnaChart data={dna} />
+          <PilotDnaChart data={dna} labels={{
+            distance: t("dnaDistance"),
+            consistency: t("dnaConsistency"),
+            volume: t("dnaVolume"),
+            diversity: t("dnaDiversity"),
+            triangle: t("dnaTriangle"),
+            unitKm: t("dnaUnitKm"),
+            unitYrs: t("dnaUnitYrs"),
+            unitFlights: t("dnaUnitFlights"),
+            unitSites: t("dnaUnitSites"),
+          }} />
         </div>
       )}
 

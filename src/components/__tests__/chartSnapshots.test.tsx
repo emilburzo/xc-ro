@@ -201,7 +201,18 @@ describe("Chart snapshots", () => {
       pct_diversity: 0.5,
       pct_triangle: 0.667,
     };
-    const { container } = render(<PilotDnaChart data={dnaData} />);
+    const dnaLabels = {
+      distance: "XC Distance",
+      consistency: "Consistency",
+      volume: "Volume",
+      diversity: "Diversity",
+      triangle: "Triangle %",
+      unitKm: " km",
+      unitYrs: " yrs",
+      unitFlights: " flights",
+      unitSites: " sites",
+    };
+    const { container } = render(<PilotDnaChart data={dnaData} labels={dnaLabels} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

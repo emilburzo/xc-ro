@@ -23,20 +23,32 @@ interface DnaData {
   pct_triangle: number;
 }
 
+export interface DnaLabels {
+  distance: string;
+  consistency: string;
+  volume: string;
+  diversity: string;
+  triangle: string;
+  unitKm: string;
+  unitYrs: string;
+  unitFlights: string;
+  unitSites: string;
+}
+
 const AXES = [
-  { key: "pct_distance", label: "XC Distance", rawKey: "max_distance", unit: " km" },
-  { key: "pct_consistency", label: "Consistency", rawKey: "active_years", unit: " yrs" },
-  { key: "pct_volume", label: "Volume", rawKey: "flight_count", unit: " flights" },
-  { key: "pct_diversity", label: "Diversity", rawKey: "unique_sites", unit: " sites" },
-  { key: "pct_triangle", label: "Triangle %", rawKey: "triangle_pct", unit: "%" },
+  { key: "pct_distance", labelKey: "distance" as const, rawKey: "max_distance", unitKey: "unitKm" as const },
+  { key: "pct_consistency", labelKey: "consistency" as const, rawKey: "active_years", unitKey: "unitYrs" as const },
+  { key: "pct_volume", labelKey: "volume" as const, rawKey: "flight_count", unitKey: "unitFlights" as const },
+  { key: "pct_diversity", labelKey: "diversity" as const, rawKey: "unique_sites", unitKey: "unitSites" as const },
+  { key: "pct_triangle", labelKey: "triangle" as const, rawKey: "triangle_pct", unitKey: null },
 ] as const;
 
-export default function PilotDnaChart({ data }: { data: DnaData }) {
+export default function PilotDnaChart({ data, labels }: { data: DnaData; labels: DnaLabels }) {
   const chartData = AXES.map((a) => ({
-    axis: a.label,
+    axis: labels[a.labelKey],
     value: Number(data[a.key]),
     raw: Number(data[a.rawKey]),
-    unit: a.unit,
+    unit: a.unitKey ? labels[a.unitKey] : "%",
   }));
 
   return (
