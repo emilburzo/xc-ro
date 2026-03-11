@@ -16,7 +16,7 @@ export default function PilotYearlyChart({ data }: { data: YearlyData[] }) {
     flights: d.flight_count,
     avgDist: Number(d.avg_distance),
     maxDist: Number(d.max_distance),
-    hours: d.total_airtime ? Math.round(d.total_airtime / 60) : 0,
+    hours: d.total_airtime != null ? Math.round(d.total_airtime / 60) : null,
   }));
 
   return (

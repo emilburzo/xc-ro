@@ -131,6 +131,19 @@ describeIf("pilot queries (integration)", () => {
       expect(Number(y2022!.flight_count)).toBe(2);
       expect(Number(y2022!.max_distance)).toBe(310);
     });
+
+    it("returns correct total_airtime per year for Bob", async () => {
+      const rows = await getPilotYearlyStats(2);
+      // Bob 2022: flights 201 (480 min) + 203 (540 min) = 1020 min
+      const y2022 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2022);
+      expect(y2022).toBeDefined();
+      expect(Number(y2022!.total_airtime)).toBe(1020);
+
+      // Bob 2024: flight 202 (120 min)
+      const y2024 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2024);
+      expect(y2024).toBeDefined();
+      expect(Number(y2024!.total_airtime)).toBe(120);
+    });
   });
 
   describe("getPilotEquipmentTimeline", () => {
