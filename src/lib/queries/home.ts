@@ -93,16 +93,24 @@ export async function getTopWings(limit = 10) {
 
 export async function getCommunityGrowth() {
   return db.execute(sql`
-    WITH pilot_debut AS (
-      SELECT pilot_id, EXTRACT(YEAR FROM MIN(start_time))::int as debut_year
+    WITH flights_by_pilot_year AS (
+      SELECT
+        pilot_id,
+        EXTRACT(YEAR FROM start_time)::int as year
       FROM flights_pg
+    ),
+    pilot_debut AS (
+      SELECT
+        pilot_id,
+        MIN(year)::int as debut_year
+      FROM flights_by_pilot_year
       GROUP BY pilot_id
     ),
     yearly AS (
       SELECT
-        EXTRACT(YEAR FROM start_time)::int as year,
+        year,
         count(*)::int as flight_count
-      FROM flights_pg
+      FROM flights_by_pilot_year
       GROUP BY year
     )
     SELECT
