@@ -245,6 +245,10 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 
 9. **Always run `npm run build` after changes**: `npm run lint` and `npm run test` do not compile Next.js pages. Only `npm run build` catches naming collisions, Server Component constraint violations, and other compile-time errors in pages.
 
+## Git Hygiene
+
+- **Never commit `package-lock.json`** unless the task specifically involves adding, removing, or updating dependencies. Unrelated changes to `package-lock.json` (e.g., from incidental `npm install` runs) must not be staged or committed.
+
 ## Environment
 
 - **VM**: Ubuntu 24.04 (Vagrant/VirtualBox), 4GB RAM, 2 CPUs
