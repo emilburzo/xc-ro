@@ -90,3 +90,22 @@ export async function getTopWings(limit = 10) {
     LIMIT ${limit}
   `);
 }
+
+export async function getFlyabilityCalendar() {
+  return db.execute(sql`
+    SELECT
+      month,
+      round(avg(flyable_days), 1) as avg_flyable_days,
+      max(flyable_days)::int as max_flyable_days
+    FROM (
+      SELECT
+        EXTRACT(YEAR FROM start_time)::int as year,
+        EXTRACT(MONTH FROM start_time)::int as month,
+        count(DISTINCT start_time::date)::int as flyable_days
+      FROM flights_pg
+      GROUP BY year, month
+    ) sub
+    GROUP BY month
+    ORDER BY month
+  `);
+}

@@ -26,7 +26,11 @@
     "topWings": "Top aripi",
     "viewAll": "Vezi toate",
     "noRecentFlights": "Niciun zbor notabil în ultimele 30 de zile",
-    "totalHours": "Ore de zbor"
+    "totalHours": "Ore de zbor",
+    "flyabilityCalendar": "Calendar de zburabilitate",
+    "flyabilityDesc": "Zile medii zburabile pe lună (zile cu ≥1 zbor)",
+    "flyabilityAvg": "Medie",
+    "flyabilityBest": "Maxim"
   },
   "takeoffs": {
     "title": "Decolări",
