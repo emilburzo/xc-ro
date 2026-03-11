@@ -64,12 +64,18 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 |------|-------------|
 | `flights_pg` | Paragliding-only flights — excludes HG (hang gliding) category. **All app queries should use this view**, not the `flights` table directly. Defined in `sql/001_create_flights_pg_view.sql`. |
 
+**Materialized view:**
+| View | Description |
+|------|-------------|
+| `pilot_dna_mv` | Pre-computed pilot DNA metrics (5 raw values + 5 PERCENT_RANK percentiles). Refreshed on app startup via `src/instrumentation.ts`. Defined in `sql/004_create_pilot_dna_mv.sql`. |
+
 **SQL scripts:**
 | Script | Description |
 |--------|-------------|
 | `sql/001_create_flights_pg_view.sql` | Creates the `flights_pg` view |
 | `sql/002_add_flights_fk_indexes.sql` | Adds indexes on `flights(takeoff_id)`, `flights(pilot_id)`, `flights(glider_id)` — critical for join performance |
 | `sql/003_add_unaccent_extension.sql` | Enables the `unaccent` PostgreSQL extension for accent-insensitive search |
+| `sql/004_create_pilot_dna_mv.sql` | Creates `pilot_dna_mv` materialized view + unique index on `pilot_id` |
 
 **Important schema notes:**
 - `flights.id` does NOT auto-increment — it's the xcontest flight ID
