@@ -10,6 +10,7 @@ import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
 import RecordProgressionChart from "../charts/RecordProgressionChart";
 import PilotDnaChart from "../charts/PilotDnaChart";
+import CategoryShareChart from "../charts/CategoryShareChart";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -185,6 +186,29 @@ describe("Chart snapshots", () => {
 
   it("RecordProgressionChart matches snapshot with empty data", () => {
     const { container } = render(<RecordProgressionChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CategoryShareChart matches snapshot", () => {
+    const shareData = [
+      { year: 2020, category: "A", flight_count: 10 },
+      { year: 2020, category: "B", flight_count: 50 },
+      { year: 2020, category: "C", flight_count: 30 },
+      { year: 2021, category: "A", flight_count: 8 },
+      { year: 2021, category: "B", flight_count: 60 },
+      { year: 2021, category: "C", flight_count: 40 },
+      { year: 2021, category: "D", flight_count: 15 },
+    ];
+    const { container } = render(
+      <CategoryShareChart data={shareData} />
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CategoryShareChart matches snapshot with empty data", () => {
+    const { container } = render(
+      <CategoryShareChart data={[]} />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 

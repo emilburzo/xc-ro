@@ -113,6 +113,18 @@ export async function getWingFavoriteTakeoffs(wingId: number) {
   `);
 }
 
+export async function getCategoryMarketShare() {
+  return db.execute(sql`
+    SELECT EXTRACT(YEAR FROM f.start_time)::int as year,
+           g.category,
+           count(*)::int as flight_count
+    FROM flights_pg f
+    JOIN gliders g ON f.glider_id = g.id
+    GROUP BY 1, 2
+    ORDER BY 1, 2
+  `);
+}
+
 export async function getWingCalendarHeatmap(wingId: number) {
   return db.execute(sql`
     SELECT
