@@ -268,6 +268,60 @@ exports[`Chart snapshots DowChart matches snapshot 1`] = `
 </div>
 `;
 
+exports[`Chart snapshots FlyabilityChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="12"
+    data-testid="bar-chart"
+  >
+    <div
+      data-datakey="name"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="avg"
+      data-fill="#3b82f6"
+      data-testid="bar"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots FlyabilityChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="12"
+    data-testid="bar-chart"
+  >
+    <div
+      data-datakey="name"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="avg"
+      data-fill="#3b82f6"
+      data-testid="bar"
+    />
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots HourlyChart matches snapshot 1`] = `
 <div
   data-testid="responsive-container"

@@ -26,6 +26,7 @@ import {
   getTopPilots,
   getTopFlights,
   getTopWings,
+  getFlyabilityCalendar,
 } from "../home";
 
 const describeIf = canRunIntegrationTests ? describe : describe.skip;
@@ -179,6 +180,32 @@ describeIf("home queries (integration)", () => {
     it("respects the limit parameter", async () => {
       const rows = await getTopWings(2);
       expect(rows.length).toBe(2);
+    });
+  });
+
+  describe("getFlyabilityCalendar", () => {
+    it("returns one row per month that has flights", async () => {
+      const rows = await getFlyabilityCalendar();
+      // Seed data has flights in months: 3, 5, 6, 7, 8, 9
+      expect(rows.length).toBe(6);
+    });
+
+    it("computes correct flyable days for July (2 years: 2022, 2023)", async () => {
+      const rows = await getFlyabilityCalendar();
+      const jul = rows.find((r: Record<string, unknown>) => Number(r.month) === 7);
+      expect(jul).toBeDefined();
+      // 2022-07: 1 distinct day (flight 203 on 2022-07-08)
+      // 2023-07: 2 distinct days (flights 101 on 2023-07-15, 102 on 2023-07-16)
+      // avg = (1+2)/2 = 1.5
+      expect(Number(jul!.avg_flyable_days)).toBe(1.5);
+    });
+
+    it("months with only one year have avg equal to that year count", async () => {
+      const rows = await getFlyabilityCalendar();
+      // Month 8 (Aug): only 2023-08 with flight 103 → 1 day
+      const aug = rows.find((r: Record<string, unknown>) => Number(r.month) === 8);
+      expect(aug).toBeDefined();
+      expect(Number(aug!.avg_flyable_days)).toBe(1);
     });
   });
 });

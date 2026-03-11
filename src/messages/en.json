@@ -26,7 +26,10 @@
     "topWings": "Top Wings",
     "viewAll": "View all",
     "noRecentFlights": "No notable flights in the last 30 days",
-    "totalHours": "Flight Hours"
+    "totalHours": "Flight Hours",
+    "flyabilityCalendar": "Flyability Calendar",
+    "flyabilityDesc": "Average flyable days per month (days with ≥1 flight)",
+    "flyabilityDays": "days"
   },
   "takeoffs": {
     "title": "Takeoffs",

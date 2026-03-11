@@ -6,6 +6,7 @@ import {
   getTopPilots,
   getTopFlights,
   getTopWings,
+  getFlyabilityCalendar,
 } from "../home";
 
 const mockExecute = jest.fn();
@@ -163,6 +164,20 @@ describe("home queries", () => {
     it("accepts a custom limit parameter", async () => {
       mockExecute.mockResolvedValueOnce([]);
       await getTopWings(3);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getFlyabilityCalendar", () => {
+    it("returns monthly flyability data", async () => {
+      const rows = [
+        { month: 6, avg_flyable_days: 12.5 },
+        { month: 7, avg_flyable_days: 15.3 },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getFlyabilityCalendar();
+      expect(result).toEqual(rows);
       expect(mockExecute).toHaveBeenCalledTimes(1);
     });
   });

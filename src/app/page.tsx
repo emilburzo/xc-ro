@@ -9,9 +9,11 @@ import {
   getTopPilots,
   getTopFlights,
   getTopWings,
+  getFlyabilityCalendar,
 } from "@/lib/queries/home";
 import {takeoffPath, pilotPath, wingPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
+import FlyabilityChartWrapper from "@/components/FlyabilityChartWrapper";
 import { JsonLd } from "@/components/JsonLd";
 import { getBaseUrl } from "@/lib/seo";
 
@@ -31,7 +33,7 @@ export default async function HomePage() {
   const tc = await getTranslations("common");
   const ts = await getTranslations("seo");
 
-  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings] = await Promise.all([
+  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData] = await Promise.all([
     getHomeStats(),
     getRecentNotableFlights(),
     getSeasonHeatmap(),
@@ -39,6 +41,7 @@ export default async function HomePage() {
     getTopPilots(10),
     getTopFlights(10),
     getTopWings(10),
+    getFlyabilityCalendar(),
   ]);
 
   return (
@@ -127,6 +130,13 @@ export default async function HomePage() {
       {/* Season Heatmap */}
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <SeasonHeatmap data={heatmapData as any} />
+      </div>
+
+      {/* Flyability Calendar */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h3 className="font-semibold text-gray-900 mb-1">{t("flyabilityCalendar")}</h3>
+        <p className="text-xs text-gray-500 mb-3">{t("flyabilityDesc")}</p>
+        <FlyabilityChartWrapper data={flyabilityData as any} daysLabel={t("flyabilityDays")} />
       </div>
 
       {/* Quick Links */}
