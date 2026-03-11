@@ -56,6 +56,222 @@ exports[`Chart snapshots AdoptionChart matches snapshot with empty data 1`] = `
 </div>
 `;
 
+exports[`Chart snapshots CategoryTimeline matches snapshot with empty data 1`] = `
+<p
+  class="text-center text-gray-400 py-6"
+>
+  No equipment data
+</p>
+`;
+
+exports[`Chart snapshots CategoryTimeline matches snapshot with multi-glider data 1`] = `
+<div
+  class="overflow-x-auto"
+  data-testid="category-timeline"
+>
+  <div
+    class="min-w-[360px] space-y-1"
+  >
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 text-sm"
+    >
+      <div
+        class="w-24 sm:w-40 flex-shrink-0 flex items-center gap-1 sm:gap-1.5 min-w-0"
+      >
+        <span
+          class="px-1 sm:px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0 bg-green-100 text-green-800"
+        >
+          A
+        </span>
+        <span
+          class="text-gray-700 truncate text-xs sm:text-sm"
+        >
+          ADVANCE Alpha 7
+        </span>
+      </div>
+      <div
+        class="flex-1 relative h-5 sm:h-6"
+      >
+        <div
+          class="absolute top-0 h-full rounded bg-green-400 flex items-center justify-center"
+          style="left: 0%; width: 20.551601423487543%; min-width: 8px;"
+          title="ADVANCE Alpha 7 (A) — 2018–2019 — 12 flights"
+        >
+          <span
+            class="text-[9px] text-white font-medium drop-shadow-sm px-0.5 whitespace-nowrap overflow-hidden"
+          >
+            12
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 text-sm"
+    >
+      <div
+        class="w-24 sm:w-40 flex-shrink-0 flex items-center gap-1 sm:gap-1.5 min-w-0"
+      >
+        <span
+          class="px-1 sm:px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0 bg-yellow-100 text-yellow-800"
+        >
+          C
+        </span>
+        <span
+          class="text-gray-700 truncate text-xs sm:text-sm"
+        >
+          NOVA Mentor 6
+        </span>
+      </div>
+      <div
+        class="flex-1 relative h-5 sm:h-6"
+      >
+        <div
+          class="absolute top-0 h-full rounded bg-yellow-400 flex items-center justify-center"
+          style="left: 21.040925266903916%; width: 52.80249110320284%; min-width: 8px;"
+          title="NOVA Mentor 6 (C) — 2019–2022 — 45 flights"
+        >
+          <span
+            class="text-[9px] text-white font-medium drop-shadow-sm px-0.5 whitespace-nowrap overflow-hidden"
+          >
+            45
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 text-sm"
+    >
+      <div
+        class="w-24 sm:w-40 flex-shrink-0 flex items-center gap-1 sm:gap-1.5 min-w-0"
+      >
+        <span
+          class="px-1 sm:px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0 bg-red-100 text-red-800"
+        >
+          D
+        </span>
+        <span
+          class="text-gray-700 truncate text-xs sm:text-sm"
+        >
+          OZONE Enzo 3
+        </span>
+      </div>
+      <div
+        class="flex-1 relative h-5 sm:h-6"
+      >
+        <div
+          class="absolute top-0 h-full rounded bg-red-400 flex items-center justify-center"
+          style="left: 73.88790035587188%; width: 26.11209964412811%; min-width: 8px;"
+          title="OZONE Enzo 3 (D) — 2022–2024 — 80 flights"
+        >
+          <span
+            class="text-[9px] text-white font-medium drop-shadow-sm px-0.5 whitespace-nowrap overflow-hidden"
+          >
+            80
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 text-xs text-gray-400"
+    >
+      <div
+        class="w-24 sm:w-40 flex-shrink-0"
+      />
+      <div
+        class="flex-1 relative h-4"
+      >
+        <span
+          class="absolute text-[10px]"
+          style="left: 0%;"
+        >
+          2018
+        </span>
+        <span
+          class="absolute text-[10px]"
+          style="left: 29.225978647686834%;"
+        >
+          2020
+        </span>
+        <span
+          class="absolute text-[10px]"
+          style="left: 61.74377224199288%;"
+        >
+          2022
+        </span>
+        <span
+          class="absolute text-[10px]"
+          style="left: 94.21708185053382%;"
+        >
+          2024
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots CategoryTimeline matches snapshot with single-day usage 1`] = `
+<div
+  class="overflow-x-auto"
+  data-testid="category-timeline"
+>
+  <div
+    class="min-w-[360px] space-y-1"
+  >
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 text-sm"
+    >
+      <div
+        class="w-24 sm:w-40 flex-shrink-0 flex items-center gap-1 sm:gap-1.5 min-w-0"
+      >
+        <span
+          class="px-1 sm:px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0 bg-blue-100 text-blue-800"
+        >
+          B
+        </span>
+        <span
+          class="text-gray-700 truncate text-xs sm:text-sm"
+        >
+          OZONE Rush 5
+        </span>
+      </div>
+      <div
+        class="flex-1 relative h-5 sm:h-6"
+      >
+        <div
+          class="absolute top-0 h-full rounded bg-blue-400 flex items-center justify-center"
+          style="left: 0%; width: 0%; min-width: 8px;"
+          title="OZONE Rush 5 (B) — 2023–2023 — 1 flights"
+        >
+          <span
+            class="text-[9px] text-white font-medium drop-shadow-sm px-0.5 whitespace-nowrap overflow-hidden"
+          >
+            1
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 text-xs text-gray-400"
+    >
+      <div
+        class="w-24 sm:w-40 flex-shrink-0"
+      />
+      <div
+        class="flex-1 relative h-4"
+      >
+        <span
+          class="absolute text-[10px]"
+          style="left: 0%;"
+        >
+          2023
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots DistanceHistogram matches snapshot 1`] = `
 <div
   data-testid="responsive-container"

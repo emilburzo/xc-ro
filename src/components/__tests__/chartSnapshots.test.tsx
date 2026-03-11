@@ -10,6 +10,7 @@ import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
 import RecordProgressionChart from "../charts/RecordProgressionChart";
 import PilotDnaChart from "../charts/PilotDnaChart";
+import CategoryTimeline from "../charts/CategoryTimeline";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -185,6 +186,29 @@ describe("Chart snapshots", () => {
 
   it("RecordProgressionChart matches snapshot with empty data", () => {
     const { container } = render(<RecordProgressionChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CategoryTimeline matches snapshot with multi-glider data", () => {
+    const timelineData = [
+      { name: "ADVANCE Alpha 7", category: "A", flight_count: 12, first_used: "2018-03-15", last_used: "2019-06-20" },
+      { name: "NOVA Mentor 6", category: "C", flight_count: 45, first_used: "2019-07-01", last_used: "2022-09-30" },
+      { name: "OZONE Enzo 3", category: "D", flight_count: 80, first_used: "2022-10-01", last_used: "2024-05-10" },
+    ];
+    const { container } = render(<CategoryTimeline data={timelineData} flightsLabel="flights" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CategoryTimeline matches snapshot with empty data", () => {
+    const { container } = render(<CategoryTimeline data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("CategoryTimeline matches snapshot with single-day usage", () => {
+    const singleDayData = [
+      { name: "OZONE Rush 5", category: "B", flight_count: 1, first_used: "2023-06-15", last_used: "2023-06-15" },
+    ];
+    const { container } = render(<CategoryTimeline data={singleDayData} flightsLabel="flights" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
