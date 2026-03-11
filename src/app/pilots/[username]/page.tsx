@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
   const { username } = await params;
   const pilot = await getCachedPilot(username);
   if (!pilot) return {};
-  return { title: (pilot as any).name };
+  const t = await getTranslations("pilotDetail");
+  return { title: `${(pilot as any).name} | ${t("pageType")}` };
 }
 
 export default async function PilotDetailPage({ params }: { params: Promise<{ username: string }> }) {

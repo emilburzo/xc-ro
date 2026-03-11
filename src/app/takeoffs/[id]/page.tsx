@@ -29,7 +29,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (isNaN(id)) return {};
   const takeoff = await getCachedTakeoff(id);
   if (!takeoff) return {};
-  return { title: (takeoff as any).name };
+  const t = await getTranslations("takeoffDetail");
+  return { title: `${(takeoff as any).name} | ${t("pageType")}` };
 }
 
 export default async function TakeoffDetailPage({ params }: { params: Promise<{ id: string }> }) {
