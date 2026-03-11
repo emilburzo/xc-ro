@@ -26,7 +26,7 @@ test.describe("Takeoffs table interactions", () => {
 
   test("sort by flights changes order visually", async ({ page }) => {
     const flightsHeader = page.getByRole("columnheader", {
-      name: /flight|zbor/i,
+      name: /^flight|^zbor/i,
     });
     await expect(flightsHeader).toBeVisible();
     await flightsHeader.click();
