@@ -106,8 +106,8 @@ const wingData = [
 ];
 
 const pilotYearlyData = [
-  { year: 2020, flight_count: 50, avg_distance: 12.5, max_distance: 85.3 },
-  { year: 2021, flight_count: 80, avg_distance: 18.2, max_distance: 120.5 },
+  { year: 2020, flight_count: 50, avg_distance: 12.5, max_distance: 85.3, total_airtime: 3000 },
+  { year: 2021, flight_count: 80, avg_distance: 18.2, max_distance: 120.5, total_airtime: 5400 },
 ];
 
 describe("Chart snapshots", () => {

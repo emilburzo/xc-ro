@@ -25,7 +25,8 @@
     "topFlights": "Top Flights",
     "topWings": "Top Wings",
     "viewAll": "View all",
-    "noRecentFlights": "No notable flights in the last 30 days"
+    "noRecentFlights": "No notable flights in the last 30 days",
+    "totalHours": "Flight Hours"
   },
   "takeoffs": {
     "title": "Takeoffs",
@@ -98,7 +99,8 @@
     "lastFlight": "Last Flight",
     "search": "Search pilot...",
     "minFlights": "Min flights",
-    "activeInYear": "Active in year"
+    "activeInYear": "Active in year",
+    "totalHours": "Total Hours"
   },
   "pilotDetail": {
     "evolution": "Evolution",
@@ -133,7 +135,8 @@
     "dnaUnitKm": " km",
     "dnaUnitYrs": " yrs",
     "dnaUnitFlights": " flights",
-    "dnaUnitSites": " sites"
+    "dnaUnitSites": " sites",
+    "totalAirtime": "Total Airtime"
   },
   "flights": {
     "title": "Flights Explorer",
@@ -234,7 +237,8 @@
     "lastFlight": "Last flight",
     "pilotsCount": "Pilots",
     "flightsPerYear": "Flights per year",
-    "backToWings": "Back to Wings"
+    "backToWings": "Back to Wings",
+    "totalAirtime": "Total Airtime"
   },
   "common": {
     "km": "km",

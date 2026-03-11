@@ -62,6 +62,7 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
 
   const totalFlights = (yearly as any[]).reduce((s: number, y: any) => s + y.flight_count, 0);
   const totalKm = (yearly as any[]).reduce((s: number, y: any) => s + Number(y.total_km || 0), 0);
+  const totalAirtime = (yearly as any[]).reduce((s: number, y: any) => s + Number(y.total_airtime || 0), 0);
   const pilotCount = (adoption as any[]).reduce((max: number, y: any) => Math.max(max, y.pilot_count), 0);
   const xcPotential = topFlights.length > 0
     ? (topFlights as any[]).reduce((s: number, f: any) => s + Number(f.distance_km), 0) / topFlights.length
@@ -98,6 +99,10 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
         <div className="bg-white rounded-lg border border-gray-200 p-3 text-center">
           <div className="text-2xl font-bold text-gray-900">{formatNumber(Math.round(totalKm))}</div>
           <div className="text-xs text-gray-500">{t("totalKm")}</div>
+        </div>
+        <div className="bg-white rounded-lg border border-gray-200 p-3 text-center">
+          <div className="text-2xl font-bold text-gray-900">{formatDuration(totalAirtime)}</div>
+          <div className="text-xs text-gray-500">{t("totalAirtime")}</div>
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-3 text-center">
           <div className="text-2xl font-bold text-gray-900">{formatDistance(xcPotential)}</div>

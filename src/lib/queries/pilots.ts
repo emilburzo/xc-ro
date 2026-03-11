@@ -12,7 +12,8 @@ export async function getPilotsList() {
         round(avg(f.distance_km)::numeric, 1) as avg_distance,
         max(f.distance_km) as max_distance,
         count(DISTINCT EXTRACT(YEAR FROM f.start_time))::int as active_years,
-        max(f.start_time) as last_flight
+        max(f.start_time) as last_flight,
+        round(sum(f.airtime) / 60.0)::int as total_hours
       FROM flights_pg f
       GROUP BY f.pilot_id
     ),
@@ -28,7 +29,7 @@ export async function getPilotsList() {
       p.id, p.name, p.username,
       ps.flight_count, ps.total_km, ps.total_score,
       ps.avg_distance, ps.max_distance,
-      ps.active_years, ps.last_flight,
+      ps.active_years, ps.last_flight, ps.total_hours,
       fs.takeoff_id as fav_takeoff_id,
       fs.takeoff_name as fav_takeoff_name
     FROM pilots p
@@ -55,7 +56,10 @@ export async function getPilotStats(pilotId: number) {
       max(distance_km) as max_distance,
       round(avg(distance_km)::numeric, 1) as avg_distance,
       min(EXTRACT(YEAR FROM start_time))::int as active_since,
-      max(start_time) as last_flight
+      max(start_time) as last_flight,
+      sum(airtime)::int as total_airtime,
+      max(airtime)::int as max_airtime,
+      round(avg(airtime))::int as avg_airtime
     FROM flights_pg WHERE pilot_id = ${pilotId}
   `);
   return rows[0];
@@ -80,7 +84,8 @@ export async function getPilotYearlyStats(pilotId: number) {
       EXTRACT(YEAR FROM start_time)::int as year,
       count(*)::int as flight_count,
       round(avg(distance_km)::numeric, 1) as avg_distance,
-      max(distance_km) as max_distance
+      max(distance_km) as max_distance,
+      sum(airtime)::int as total_airtime
     FROM flights_pg
     WHERE pilot_id = ${pilotId}
     GROUP BY year

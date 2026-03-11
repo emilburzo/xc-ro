@@ -70,6 +70,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
         {[
           { label: t("totalFlights"), value: s.total_flights },
           { label: t("totalKm"), value: `${Number(s.total_km).toLocaleString()} km` },
+          { label: t("totalAirtime"), value: formatDuration(s.total_airtime) },
           { label: t("totalScore"), value: Number(s.total_score).toLocaleString() },
           { label: t("maxDistance"), value: `${Number(s.max_distance).toFixed(1)} km` },
           { label: t("avgDistance"), value: `${Number(s.avg_distance).toFixed(1)} km` },

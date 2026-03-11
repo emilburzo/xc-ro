@@ -38,12 +38,13 @@ export default async function HomePage() {
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
           { label: t("totalFlights"), value: Number(stats.total_flights).toLocaleString(), href: "/flights" },
           { label: t("totalPilots"), value: Number(stats.total_pilots).toLocaleString(), href: "/pilots" },
           { label: t("activeTakeoffs"), value: Number(stats.active_takeoffs).toLocaleString(), href: "/takeoffs" },
           { label: t("totalDistance"), value: `${Number(stats.total_distance).toLocaleString()} km`, href: null },
+          { label: t("totalHours"), value: `${Number(stats.total_hours).toLocaleString()} h`, href: null },
         ].map((s) => {
           const content = (
             <>

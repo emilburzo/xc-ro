@@ -92,7 +92,8 @@ export async function getWingYearlyStats(wingId: number) {
     SELECT
       EXTRACT(YEAR FROM start_time)::int as year,
       count(*)::int as flight_count,
-      round(sum(distance_km)::numeric) as total_km
+      round(sum(distance_km)::numeric) as total_km,
+      sum(airtime)::int as total_airtime
     FROM flights_pg
     WHERE glider_id = ${wingId}
     GROUP BY year

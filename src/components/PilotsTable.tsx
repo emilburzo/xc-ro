@@ -17,11 +17,12 @@ interface Pilot {
   max_distance: number;
   active_years: number;
   last_flight: string;
+  total_hours: number;
   fav_takeoff_id: number | null;
   fav_takeoff_name: string | null;
 }
 
-type SortKey = "name" | "flight_count" | "total_km" | "total_score" | "avg_distance" | "max_distance" | "active_years" | "last_flight";
+type SortKey = "name" | "flight_count" | "total_km" | "total_hours" | "total_score" | "avg_distance" | "max_distance" | "active_years" | "last_flight";
 
 export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
   const t = useTranslations("pilots");
@@ -88,6 +89,7 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
               <SortHeader col="name" label={t("name")} activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <SortHeader col="flight_count" label={t("flights")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <SortHeader col="total_km" label={t("totalKm")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
+              <SortHeader col="total_hours" label={t("totalHours")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <SortHeader col="total_score" label={t("totalScore")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <SortHeader col="avg_distance" label={t("avgDistance")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
               <SortHeader col="max_distance" label={t("personalRecord")} align="right" activeSort={sortKey} activeDir={sortDir} onSort={(key) => toggleSort(key as SortKey)} />
@@ -106,6 +108,7 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
                 </td>
                 <td className="px-2 py-2 text-gray-700 text-right">{p.flight_count}</td>
                 <td className="px-2 py-2 text-gray-700 text-right">{p.total_km.toLocaleString()}</td>
+                <td className="px-2 py-2 text-gray-700 text-right">{p.total_hours.toLocaleString()}</td>
                 <td className="px-2 py-2 text-gray-700 text-right">{p.total_score.toLocaleString()}</td>
                 <td className="px-2 py-2 text-gray-700 text-right">{p.avg_distance.toFixed(1)}</td>
                 <td className="px-2 py-2 font-medium text-right">{p.max_distance.toFixed(1)} km</td>
