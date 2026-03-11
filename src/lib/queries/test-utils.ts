@@ -105,6 +105,6 @@ export async function seedStandardData() {
   await testDb.execute(sql`SELECT setval('takeoffs_id_seq', 100)`);
   await testDb.execute(sql`SELECT setval('gliders_id_seq', 100)`);
 
-  // Refresh materialized views after seeding (created by e2e/seed.sql)
+  // Refresh materialized views after seeding (view DDL defined in sql/schema.sql)
   await testDb.execute(sql`REFRESH MATERIALIZED VIEW pilot_dna_mv`);
 }
