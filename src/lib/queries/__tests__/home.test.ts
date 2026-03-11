@@ -26,6 +26,7 @@ describe("home queries", () => {
         total_pilots: 1100,
         active_takeoffs: 200,
         total_distance: 500000,
+        total_hours: 12000,
       };
       mockExecute.mockResolvedValueOnce([row]);
 

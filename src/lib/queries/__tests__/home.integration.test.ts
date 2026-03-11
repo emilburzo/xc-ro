@@ -59,6 +59,12 @@ describeIf("home queries (integration)", () => {
       // 120 + 80.5 + 3.2 + 250 + 45 + 310 + 15 + 65 + 10 = 898.7 → rounds to 899
       expect(Number(stats.total_distance)).toBe(899);
     });
+
+    it("computes total_hours from airtime across PG flights", async () => {
+      const stats = await getHomeStats();
+      // airtime (min): 300+240+30+480+120+60+200+540+45 = 2015 → round(2015/60) = 34
+      expect(Number(stats.total_hours)).toBe(34);
+    });
   });
 
   describe("getSeasonHeatmap", () => {
