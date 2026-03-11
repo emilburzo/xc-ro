@@ -207,18 +207,7 @@ export async function getTakeoffYearlyTrend(takeoffId: number) {
     SELECT
       EXTRACT(YEAR FROM start_time)::int as year,
       count(*)::int as flight_count,
-      round(sum(distance_km)::numeric) as total_km
-    FROM flights_pg
-    WHERE takeoff_id = ${takeoffId}
-    GROUP BY year
-    ORDER BY year
-  `);
-}
-
-export async function getTakeoffDistanceTrend(takeoffId: number) {
-  return db.execute(sql`
-    SELECT
-      EXTRACT(YEAR FROM start_time)::int as year,
+      round(sum(distance_km)::numeric) as total_km,
       round(avg(distance_km)::numeric, 1) as avg_distance
     FROM flights_pg
     WHERE takeoff_id = ${takeoffId}

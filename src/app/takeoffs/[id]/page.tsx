@@ -14,7 +14,6 @@ import {
   getTakeoffWingClasses,
   getTakeoffTopGliders,
   getTakeoffYearlyTrend,
-  getTakeoffDistanceTrend,
   getTakeoffBusiestDays,
 } from "@/lib/queries/takeoffs";
 import { pilotPath, slugify, formatDuration, formatDistance, formatDate } from "@/lib/utils";
@@ -52,7 +51,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
   const takeoff = await getCachedTakeoff(id);
   if (!takeoff) notFound();
 
-  const [calendar, monthly, hourly, dow, distHist, top10, wingClasses, topGliders, yearly, distanceTrend, busiest] =
+  const [calendar, monthly, hourly, dow, distHist, top10, wingClasses, topGliders, yearly, busiest] =
     await Promise.all([
       getTakeoffCalendarHeatmap(id),
       getTakeoffMonthlyStats(id),
@@ -63,7 +62,6 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
       getTakeoffWingClasses(id),
       getTakeoffTopGliders(id),
       getTakeoffYearlyTrend(id),
-      getTakeoffDistanceTrend(id),
       getTakeoffBusiestDays(id),
     ]);
 
@@ -118,7 +116,6 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
         wingClasses={wingClasses as any}
         topGliders={topGliders as any}
         yearly={yearly as any}
-        distanceTrend={distanceTrend as any}
         xcPotential={xcPotential}
       />
 

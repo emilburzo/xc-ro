@@ -21,12 +21,11 @@ interface Props {
   wingClasses: any[];
   topGliders: any[];
   yearly: any[];
-  distanceTrend: any[];
   xcPotential: number;
 }
 
 export default function TakeoffDetailCharts({
-  calendar, monthly, hourly, dow, distHist, wingClasses, topGliders, yearly, distanceTrend, xcPotential,
+  calendar, monthly, hourly, dow, distHist, wingClasses, topGliders, yearly, xcPotential,
 }: Props) {
   const t = useTranslations("takeoffDetail");
 
@@ -72,7 +71,7 @@ export default function TakeoffDetailCharts({
         <DistanceHistogram data={distHist} />
 
         <h4 className="text-sm font-medium text-gray-700 mb-2 mt-4">{t("distanceTrend")}</h4>
-        <DistanceTrendChart data={distanceTrend} />
+        <DistanceTrendChart data={yearly} />
       </div>
 
       {/* Section C: Difficulty */}
