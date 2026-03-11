@@ -6,8 +6,10 @@ import {
   getSeasonHeatmap,
   getTopTakeoffs,
   getTopPilots,
+  getTopFlights,
+  getTopWings,
 } from "@/lib/queries/home";
-import {takeoffPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
+import {takeoffPath, pilotPath, wingPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
 
 export const dynamic = "force-dynamic";
@@ -17,12 +19,14 @@ export default async function HomePage() {
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
 
-  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots] = await Promise.all([
+  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings] = await Promise.all([
     getHomeStats(),
     getRecentNotableFlights(),
     getSeasonHeatmap(),
     getTopTakeoffs(10),
     getTopPilots(10),
+    getTopFlights(10),
+    getTopWings(10),
   ]);
 
   return (
@@ -133,6 +137,50 @@ export default async function HomePage() {
                   {i + 1}. {p.name}
                 </Link>
                 <span className="text-sm text-gray-500 shrink-0 ml-2">{Number(p.total_km).toLocaleString()} km</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-gray-900">{t("topFlights")}</h3>
+            <Link href="/flights?sort=distance&dir=desc" className="text-sm text-blue-600 hover:underline">{t("viewAll")}</Link>
+          </div>
+          <div className="space-y-2">
+            {topFlights.map((f: any, i: number) => (
+              <div key={f.id} className="flex items-center justify-between">
+                <div className="truncate">
+                  <Link href={pilotPath(f.pilot_username)} className="text-sm text-blue-600 hover:underline">
+                    {i + 1}. {f.pilot_name}
+                  </Link>
+                  {f.takeoff_name && (
+                    <span className="text-xs text-gray-400 ml-1">
+                      <Link href={takeoffPath(f.takeoff_id, f.takeoff_name)} className="hover:underline">{f.takeoff_name}</Link>
+                    </span>
+                  )}
+                </div>
+                <span className="text-sm text-gray-500 shrink-0 ml-2">{formatDistance(f.distance_km)} km</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-gray-900">{t("topWings")}</h3>
+            <Link href="/wings" className="text-sm text-blue-600 hover:underline">{t("viewAll")}</Link>
+          </div>
+          <div className="space-y-2">
+            {topWings.map((w: any, i: number) => (
+              <div key={w.id} className="flex items-center justify-between">
+                <div className="truncate">
+                  <Link href={wingPath(w.id, w.name)} className="text-sm text-blue-600 hover:underline">
+                    {i + 1}. {w.name}
+                  </Link>
+                  <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px] text-gray-500">{w.category}</span>
+                </div>
+                <span className="text-sm text-gray-500 shrink-0 ml-2">{Number(w.total_km).toLocaleString()} km</span>
               </div>
             ))}
           </div>

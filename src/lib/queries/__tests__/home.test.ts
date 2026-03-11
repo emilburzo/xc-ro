@@ -4,6 +4,8 @@ import {
   getSeasonHeatmap,
   getTopTakeoffs,
   getTopPilots,
+  getTopFlights,
+  getTopWings,
 } from "../home";
 
 const mockExecute = jest.fn();
@@ -110,6 +112,56 @@ describe("home queries", () => {
     it("accepts a custom limit parameter", async () => {
       mockExecute.mockResolvedValueOnce([]);
       await getTopPilots(10);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getTopFlights", () => {
+    it("returns flights ranked by distance", async () => {
+      const rows = [
+        {
+          id: 999,
+          distance_km: 320,
+          start_time: "2022-07-08",
+          pilot_name: "John",
+          pilot_username: "john",
+          takeoff_name: "Sticlaria",
+          takeoff_id: 10,
+        },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getTopFlights();
+      expect(result).toEqual(rows);
+    });
+
+    it("accepts a custom limit parameter", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+      await getTopFlights(5);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getTopWings", () => {
+    it("returns wings ranked by total_km", async () => {
+      const rows = [
+        {
+          id: 1,
+          name: "Enzo 3",
+          category: "D",
+          flight_count: 200,
+          total_km: 50000,
+        },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getTopWings();
+      expect(result).toEqual(rows);
+    });
+
+    it("accepts a custom limit parameter", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+      await getTopWings(3);
       expect(mockExecute).toHaveBeenCalledTimes(1);
     });
   });
