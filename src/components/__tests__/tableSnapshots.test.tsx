@@ -82,6 +82,8 @@ jest.mock("next-intl", () => ({
         freeFlightLabel: "free flight",
         faiTriangleLabel: "FAI triangle",
         flatTriangleLabel: "flat triangle",
+        viewTable: "Table",
+        viewMap: "Map",
       },
       wings: {
         search: "Search...",
@@ -233,6 +235,8 @@ const mockFlights = [
     score: 420.5,
     airtime: 480,
     url: "https://xcontest.org/flight/1001",
+    start_lat: 45.5,
+    start_lng: 25.3,
   },
   {
     id: 1002,
@@ -248,6 +252,8 @@ const mockFlights = [
     score: 52.1,
     airtime: 180,
     url: "https://xcontest.org/flight/1002",
+    start_lat: 45.6,
+    start_lng: 25.5,
   },
 ];
 

@@ -90,7 +90,9 @@ export async function getFlightsList(filters: FlightFilters) {
         SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.type, f.url,
                p.name as pilot_name, p.username as pilot_username,
                t.name as takeoff_name, t.id as takeoff_id,
-               g.name as glider_name, g.category as glider_category
+               g.name as glider_name, g.category as glider_category,
+               ST_Y(f.start_point::geometry) as start_lat,
+               ST_X(f.start_point::geometry) as start_lng
         FROM flights_pg f
         JOIN pilots p ON f.pilot_id = p.id
         LEFT JOIN takeoffs t ON f.takeoff_id = t.id
@@ -103,7 +105,9 @@ export async function getFlightsList(filters: FlightFilters) {
         SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.type, f.url,
                p.name as pilot_name, p.username as pilot_username,
                t.name as takeoff_name, t.id as takeoff_id,
-               g.name as glider_name, g.category as glider_category
+               g.name as glider_name, g.category as glider_category,
+               ST_Y(f.start_point::geometry) as start_lat,
+               ST_X(f.start_point::geometry) as start_lng
         FROM flights_pg f
         JOIN pilots p ON f.pilot_id = p.id
         LEFT JOIN takeoffs t ON f.takeoff_id = t.id

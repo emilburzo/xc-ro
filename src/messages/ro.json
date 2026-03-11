@@ -172,7 +172,9 @@
     "min": "Min",
     "max": "Max",
     "all": "Toate",
-    "page": "pagina"
+    "page": "pagina",
+    "viewTable": "Tabel",
+    "viewMap": "Hartă"
   },
   "records": {
     "title": "Recorduri & Statistici",

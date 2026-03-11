@@ -172,7 +172,9 @@
     "min": "Min",
     "max": "Max",
     "all": "All",
-    "page": "page"
+    "page": "page",
+    "viewTable": "Table",
+    "viewMap": "Map"
   },
   "records": {
     "title": "Records & Stats",
