@@ -215,6 +215,18 @@ export async function getTakeoffYearlyTrend(takeoffId: number) {
   `);
 }
 
+export async function getTakeoffDistanceTrend(takeoffId: number) {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(YEAR FROM start_time)::int as year,
+      round(avg(distance_km)::numeric, 1) as avg_distance
+    FROM flights_pg
+    WHERE takeoff_id = ${takeoffId}
+    GROUP BY year
+    ORDER BY year
+  `);
+}
+
 export async function getTakeoffBusiestDays(takeoffId: number) {
   return db.execute(sql`
     SELECT

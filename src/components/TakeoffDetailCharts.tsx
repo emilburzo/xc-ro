@@ -10,6 +10,7 @@ const DowChart = dynamic(() => import("./charts/DowChart"), { ssr: false });
 const DistanceHistogram = dynamic(() => import("./charts/DistanceHistogram"), { ssr: false });
 const WingDonut = dynamic(() => import("./charts/WingDonut"), { ssr: false });
 const YearlyTrendChart = dynamic(() => import("./charts/YearlyTrendChart"), { ssr: false });
+const DistanceTrendChart = dynamic(() => import("./charts/DistanceTrendChart"), { ssr: false });
 
 interface Props {
   calendar: any[];
@@ -20,11 +21,12 @@ interface Props {
   wingClasses: any[];
   topGliders: any[];
   yearly: any[];
+  distanceTrend: any[];
   xcPotential: number;
 }
 
 export default function TakeoffDetailCharts({
-  calendar, monthly, hourly, dow, distHist, wingClasses, topGliders, yearly, xcPotential,
+  calendar, monthly, hourly, dow, distHist, wingClasses, topGliders, yearly, distanceTrend, xcPotential,
 }: Props) {
   const t = useTranslations("takeoffDetail");
 
@@ -68,6 +70,9 @@ export default function TakeoffDetailCharts({
 
         <h4 className="text-sm font-medium text-gray-700 mb-2">{t("distHistogram")}</h4>
         <DistanceHistogram data={distHist} />
+
+        <h4 className="text-sm font-medium text-gray-700 mb-2 mt-4">{t("distanceTrend")}</h4>
+        <DistanceTrendChart data={distanceTrend} />
       </div>
 
       {/* Section C: Difficulty */}

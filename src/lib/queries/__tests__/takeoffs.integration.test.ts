@@ -28,6 +28,7 @@ import {
   getTakeoffTop10,
   getTakeoffWingClasses,
   getTakeoffYearlyTrend,
+  getTakeoffDistanceTrend,
   getTakeoffBusiestDays,
 } from "../takeoffs";
 
@@ -143,6 +144,16 @@ describeIf("takeoff queries (integration)", () => {
       // 2022 flights at Bunloc: 201(250km) + 203(310km) = 2 flights, 560km
       expect(Number(y2022!.flight_count)).toBe(2);
       expect(Number(y2022!.total_km)).toBe(560);
+    });
+  });
+
+  describe("getTakeoffDistanceTrend", () => {
+    it("returns yearly average distance for Bunloc", async () => {
+      const rows = await getTakeoffDistanceTrend(1);
+      const y2022 = rows.find((r: Record<string, unknown>) => Number(r.year) === 2022);
+      expect(y2022).toBeDefined();
+      // 2022 flights at Bunloc: 201(250km) + 203(310km) = avg 280km
+      expect(Number(y2022!.avg_distance)).toBe(280);
     });
   });
 

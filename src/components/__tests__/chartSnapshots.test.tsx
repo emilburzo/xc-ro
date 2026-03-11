@@ -10,6 +10,7 @@ import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
 import RecordProgressionChart from "../charts/RecordProgressionChart";
 import PilotDnaChart from "../charts/PilotDnaChart";
+import DistanceTrendChart from "../charts/DistanceTrendChart";
 import CategoryShareChart from "../charts/CategoryShareChart";
 import FlyabilityChart from "../charts/FlyabilityChart";
 
@@ -253,6 +254,21 @@ describe("Chart snapshots", () => {
 
   it("FlyabilityChart matches snapshot with empty data", () => {
     const { container } = render(<FlyabilityChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("DistanceTrendChart matches snapshot", () => {
+    const distanceTrendData = [
+      { year: 2020, avg_distance: 12.5 },
+      { year: 2021, avg_distance: 18.3 },
+      { year: 2022, avg_distance: 22.7 },
+    ];
+    const { container } = render(<DistanceTrendChart data={distanceTrendData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("DistanceTrendChart matches snapshot with empty data", () => {
+    const { container } = render(<DistanceTrendChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

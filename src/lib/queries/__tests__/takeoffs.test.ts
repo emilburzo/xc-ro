@@ -10,6 +10,7 @@ import {
   getTakeoffWingClasses,
   getTakeoffTopGliders,
   getTakeoffYearlyTrend,
+  getTakeoffDistanceTrend,
   getTakeoffBusiestDays,
 } from "../takeoffs";
 
@@ -194,6 +195,19 @@ describe("takeoff queries", () => {
       mockExecute.mockResolvedValueOnce(rows);
 
       const result = await getTakeoffYearlyTrend(42);
+      expect(result).toEqual(rows);
+    });
+  });
+
+  describe("getTakeoffDistanceTrend", () => {
+    it("returns yearly average distance", async () => {
+      const rows = [
+        { year: 2020, avg_distance: 12.5 },
+        { year: 2021, avg_distance: 18.3 },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getTakeoffDistanceTrend(42);
       expect(result).toEqual(rows);
     });
   });
