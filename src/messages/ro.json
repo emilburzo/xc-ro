@@ -136,7 +136,7 @@
     "dnaUnitYrs": " ani",
     "dnaUnitFlights": " zboruri",
     "dnaUnitSites": " locuri",
-    "totalAirtime": "Timp total zbor"
+    "totalAirtime": "Timp total de zbor"
   },
   "flights": {
     "title": "Explorer Zboruri",
@@ -238,7 +238,7 @@
     "pilotsCount": "Piloți",
     "flightsPerYear": "Zboruri pe an",
     "backToWings": "Înapoi la Aripi",
-    "totalAirtime": "Timp total zbor"
+    "totalAirtime": "Timp total de zbor"
   },
   "common": {
     "km": "km",
