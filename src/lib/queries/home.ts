@@ -64,3 +64,28 @@ export async function getTopPilots(limit = 5) {
     LIMIT ${limit}
   `);
 }
+
+export async function getTopFlights(limit = 10) {
+  return db.execute(sql`
+    SELECT f.id, f.distance_km, f.start_time,
+           p.name as pilot_name, p.username as pilot_username,
+           t.name as takeoff_name, t.id as takeoff_id
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+    ORDER BY f.distance_km DESC
+    LIMIT ${limit}
+  `);
+}
+
+export async function getTopWings(limit = 10) {
+  return db.execute(sql`
+    SELECT g.id, g.name, g.category, count(*)::int as flight_count,
+           round(sum(f.distance_km)::numeric) as total_km
+    FROM flights_pg f
+    JOIN gliders g ON f.glider_id = g.id
+    GROUP BY g.id, g.name, g.category
+    ORDER BY total_km DESC
+    LIMIT ${limit}
+  `);
+}
