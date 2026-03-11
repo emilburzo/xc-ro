@@ -15,7 +15,7 @@ export async function getTakeoffsList() {
         count(*) FILTER (WHERE f.distance_km >= 100)::int as flights_100k,
         round(avg(f.distance_km)::numeric, 1) as avg_distance,
         round(100.0 * count(*) FILTER (WHERE f.type IN ('triunghi FAI', 'triunghi plat', 'FAI triangle', 'flat triangle')) / NULLIF(count(*), 0))::int as triangle_pct,
-        round(avg(f.airtime)::numeric) as avg_airtime
+        round(avg(f.airtime)::numeric)::int as avg_airtime
       FROM (
         SELECT *, row_number() OVER (PARTITION BY takeoff_id ORDER BY distance_km DESC) as rn
         FROM flights_pg
@@ -39,14 +39,17 @@ export async function getTakeoffsList() {
     peak_hour AS (
       SELECT DISTINCT ON (takeoff_id)
         takeoff_id,
-        EXTRACT(HOUR FROM start_time)::int as peak_hour
+        hour as peak_hour
       FROM (
-        SELECT takeoff_id, start_time,
-          count(*) OVER (PARTITION BY takeoff_id, EXTRACT(HOUR FROM start_time)) as cnt
+        SELECT
+          takeoff_id,
+          EXTRACT(HOUR FROM start_time)::int as hour,
+          count(*)::int as cnt
         FROM flights_pg
         WHERE takeoff_id IS NOT NULL
+        GROUP BY takeoff_id, EXTRACT(HOUR FROM start_time)::int
       ) sub
-      ORDER BY takeoff_id, cnt DESC, EXTRACT(HOUR FROM start_time)
+      ORDER BY takeoff_id, cnt DESC, hour
     ),
     wing_stats AS (
       SELECT f.takeoff_id,
