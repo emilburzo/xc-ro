@@ -10,12 +10,9 @@ WITH pilot_metrics AS (
     count(DISTINCT EXTRACT(YEAR FROM f.start_time))::int AS active_years,
     count(*)::int AS flight_count,
     count(DISTINCT f.takeoff_id)::int AS unique_sites,
-    CASE WHEN count(*) > 0
-      THEN round(100.0 * count(*) FILTER (
-        WHERE f.type ILIKE '%triangle%' OR f.type ILIKE '%triunghi%'
-      ) / count(*), 1)
-      ELSE 0
-    END AS triangle_pct
+    round(100.0 * count(*) FILTER (
+      WHERE f.type ILIKE '%triangle%' OR f.type ILIKE '%triunghi%'
+    ) / count(*), 1) AS triangle_pct
   FROM flights_pg f
   GROUP BY f.pilot_id
 )
