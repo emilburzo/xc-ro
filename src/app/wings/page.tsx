@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getWingsList } from "@/lib/queries/wings";
+import { getWingsList, getCategoryMarketShare } from "@/lib/queries/wings";
 import WingsTable from "@/components/WingsTable";
+import CategoryShareWrapper from "@/components/CategoryShareWrapper";
 
 export const revalidate = 0;
 
@@ -17,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function WingsPage() {
   const t = await getTranslations("wings");
-  const wings = await getWingsList();
+  const [wings, marketShare] = await Promise.all([
+    getWingsList(),
+    getCategoryMarketShare(),
+  ]);
 
   const tableData = (wings as any[]).map((w) => ({
     id: w.id,
@@ -34,9 +38,22 @@ export default async function WingsPage() {
     last_flight: w.last_flight,
   }));
 
+  const shareData = (marketShare as any[]).map((r) => ({
+    year: Number(r.year),
+    category: r.category as string,
+    flight_count: Number(r.flight_count),
+  }));
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h2 className="text-lg font-semibold text-gray-800 mb-3">
+          {t("categoryShare")}
+        </h2>
+        <CategoryShareWrapper data={shareData} />
+      </div>
 
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <WingsTable wings={tableData} />

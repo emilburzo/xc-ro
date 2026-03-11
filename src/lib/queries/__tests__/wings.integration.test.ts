@@ -27,6 +27,7 @@ import {
   getWingYearlyStats,
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
+  getCategoryMarketShare,
 } from "../wings";
 
 const describeIf = canRunIntegrationTests ? describe : describe.skip;
@@ -124,6 +125,29 @@ describeIf("wing queries (integration)", () => {
       // Enzo 3 at Bunloc: 101, 201, 203, 104 = 4 flights
       expect(rows[0].name).toBe("Bunloc Launch");
       expect(Number(rows[0].flight_count)).toBe(4);
+    });
+  });
+
+  describe("getCategoryMarketShare", () => {
+    it("returns flight counts per year and category (PG only)", async () => {
+      const rows = await getCategoryMarketShare();
+      // Seed PG flights: B(id=1,3), C(id=5), D(id=2) — HG(id=4) excluded
+      // 2022: D(201,203)=2 flights
+      // 2023: B(102,301,105,103)=4, D(101)=1
+      // 2024: C(202)=1, D(104)=1
+      expect(rows.length).toBeGreaterThan(0);
+
+      const d2022 = rows.find(
+        (r: Record<string, unknown>) => Number(r.year) === 2022 && r.category === "D"
+      );
+      expect(d2022).toBeDefined();
+      expect(Number(d2022!.flight_count)).toBe(2);
+
+      // HG flights should NOT appear
+      const hg = rows.find(
+        (r: Record<string, unknown>) => r.category === "HG"
+      );
+      expect(hg).toBeUndefined();
     });
   });
 

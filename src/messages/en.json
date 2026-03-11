@@ -212,7 +212,9 @@
     "search": "Search wing...",
     "minFlights": "Min flights",
     "allCategories": "All categories",
-    "lastFlight": "Last Flight"
+    "lastFlight": "Last Flight",
+    "categoryShare": "Category Evolution",
+    "flightShare": "% of flights"
   },
   "wingDetail": {
     "pageType": "Wing",

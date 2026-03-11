@@ -212,7 +212,9 @@
     "search": "Caută aripă...",
     "minFlights": "Min zboruri",
     "allCategories": "Toate categoriile",
-    "lastFlight": "Ultimul Zbor"
+    "lastFlight": "Ultimul Zbor",
+    "categoryShare": "Evoluția categoriilor",
+    "flightShare": "% din zboruri"
   },
   "wingDetail": {
     "pageType": "Aripă",
