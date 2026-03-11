@@ -6,9 +6,11 @@ import {
   getCategoryRecords,
   getAnnualRecords,
   getFunStats,
+  getYearOverYearGrowth,
 } from "@/lib/queries/records";
 import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import RecordProgressionWrapper from "@/components/RecordProgressionWrapper";
+import YoYGrowthWrapper from "@/components/YoYGrowthWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -60,11 +62,12 @@ export default async function RecordsPage() {
   const locale = await getLocale();
   const t = await getTranslations("records");
 
-  const [allTime, categoryRecords, annualRecords, funStats] = await Promise.all([
+  const [allTime, categoryRecords, annualRecords, funStats, growthData] = await Promise.all([
     getAllTimeRecords(),
     getCategoryRecords(),
     getAnnualRecords(),
     getFunStats(),
+    getYearOverYearGrowth(),
   ]);
 
   return (
@@ -178,6 +181,21 @@ export default async function RecordsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      {/* Year-over-Year Growth */}
+      <section>
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("growth")}</h2>
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <YoYGrowthWrapper
+            data={(growthData as any[]).map((r) => ({
+              year: r.year as number,
+              flights: r.flights as number,
+              pilots: r.pilots as number,
+              total_km: r.total_km as number,
+            }))}
+          />
         </div>
       </section>
 
