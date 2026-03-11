@@ -49,6 +49,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
   const [distMin, setDistMin] = useState(currentFilters.distMin || "");
   const [distMax, setDistMax] = useState(currentFilters.distMax || "");
   const [category, setCategory] = useState(currentFilters.category || "");
+  const [flightType, setFlightType] = useState(currentFilters.type || "");
 
   const totalPages = Math.ceil(total / pageSize);
 
@@ -61,6 +62,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
     if (distMin) params.set("distMin", distMin);
     if (distMax) params.set("distMax", distMax);
     if (category) params.set("category", category);
+    if (flightType) params.set("type", flightType);
     if (currentFilters.sort) params.set("sort", currentFilters.sort);
     if (currentFilters.dir) params.set("dir", currentFilters.dir);
     router.push(`/flights?${params.toString()}`);
@@ -162,6 +164,19 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             {["A", "B", "C", "D", "Z", "T"].map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs text-gray-500 mb-1">{t("flightType")}</label>
+          <select
+            value={flightType}
+            onChange={(e) => setFlightType(e.target.value)}
+            className="px-2 py-1.5 text-sm border border-gray-300 rounded"
+          >
+            <option value="">{t("all")}</option>
+            <option value="free flight">{t("freeFlightLabel")}</option>
+            <option value="FAI triangle">{t("faiTriangleLabel")}</option>
+            <option value="flat triangle">{t("flatTriangleLabel")}</option>
           </select>
         </div>
         <button

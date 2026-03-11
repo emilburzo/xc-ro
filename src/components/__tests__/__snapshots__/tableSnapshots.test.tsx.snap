@@ -152,6 +152,37 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         </option>
       </select>
     </div>
+    <div>
+      <label
+        class="block text-xs text-gray-500 mb-1"
+      >
+        Flight type
+      </label>
+      <select
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+      >
+        <option
+          value=""
+        >
+          All
+        </option>
+        <option
+          value="free flight"
+        >
+          free flight
+        </option>
+        <option
+          value="FAI triangle"
+        >
+          FAI triangle
+        </option>
+        <option
+          value="flat triangle"
+        >
+          flat triangle
+        </option>
+      </select>
+    </div>
     <button
       class="px-4 py-1.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
     >

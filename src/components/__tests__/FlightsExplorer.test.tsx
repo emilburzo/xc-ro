@@ -29,6 +29,10 @@ jest.mock("next-intl", () => ({
       max: "Max",
       all: "All",
       page: "page",
+      flightType: "Flight type",
+      freeFlightLabel: "free flight",
+      faiTriangleLabel: "FAI triangle",
+      flatTriangleLabel: "flat triangle",
     };
     return map[key] || key;
   },
@@ -161,6 +165,7 @@ describe("FlightsExplorer", () => {
     expect(screen.getByText("Date range")).toBeInTheDocument();
     expect(screen.getByText("Distance range")).toBeInTheDocument();
     expect(screen.getByText("Glider category")).toBeInTheDocument();
+    expect(screen.getByText("Flight type")).toBeInTheDocument();
     expect(screen.getByText("Filters")).toBeInTheDocument();
   });
 
@@ -287,10 +292,39 @@ describe("FlightsExplorer", () => {
 
   it("renders glider category dropdown with options", () => {
     render(<FlightsExplorer {...defaultProps} />);
-    const select = screen.getByDisplayValue("All");
-    expect(select).toBeInTheDocument();
+    const selects = screen.getAllByRole("combobox");
+    const categorySelect = selects.find((s) =>
+      Array.from(s.querySelectorAll("option")).some((o) => o.textContent === "A")
+    )!;
+    expect(categorySelect).toBeInTheDocument();
     // Check category options exist
-    const options = select.querySelectorAll("option");
+    const options = categorySelect.querySelectorAll("option");
     expect(options.length).toBe(7); // All + A, B, C, D, Z, T
+  });
+
+  it("renders flight type dropdown with options", () => {
+    render(<FlightsExplorer {...defaultProps} />);
+    expect(screen.getByText("Flight type")).toBeInTheDocument();
+    const selects = screen.getAllByRole("combobox");
+    const flightTypeSelect = selects.find((s) =>
+      Array.from(s.querySelectorAll("option")).some((o) => o.textContent === "free flight")
+    )!;
+    expect(flightTypeSelect).toBeInTheDocument();
+    const options = flightTypeSelect.querySelectorAll("option");
+    expect(options.length).toBe(4); // All + free flight, FAI triangle, flat triangle
+  });
+
+  it("applies flight type filter on button click", async () => {
+    const user = userEvent.setup();
+    render(<FlightsExplorer {...defaultProps} />);
+
+    const selects = screen.getAllByRole("combobox");
+    const flightTypeSelect = selects.find((s) =>
+      Array.from(s.querySelectorAll("option")).some((o) => o.textContent === "free flight")
+    )!;
+    await user.selectOptions(flightTypeSelect, "FAI triangle");
+    await user.click(screen.getByText("Filters"));
+
+    expect(mockPush).toHaveBeenCalledWith(expect.stringContaining("type=FAI+triangle"));
   });
 });

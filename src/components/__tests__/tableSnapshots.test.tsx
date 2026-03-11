@@ -74,6 +74,10 @@ jest.mock("next-intl", () => ({
         min: "Min",
         max: "Max",
         all: "All",
+        flightType: "Flight type",
+        freeFlightLabel: "free flight",
+        faiTriangleLabel: "FAI triangle",
+        flatTriangleLabel: "flat triangle",
       },
       wings: {
         search: "Search...",
