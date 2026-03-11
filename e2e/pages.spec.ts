@@ -64,9 +64,11 @@ test.describe("Pilot detail page", () => {
     // Pilot id=1 is Ion Popescu in seed data
     await page.goto("/pilots/ion.popescu");
     await expect(page.locator("h1")).toBeVisible();
-    // Wait for the Pilot DNA section (ensures MV data is available and chart rendered)
+    // Wait for the Pilot DNA chart SVG to render (confirms dynamic import loaded)
     await expect(
-      page.getByRole("heading", { name: /ADN-ul Pilotului|Pilot DNA/ }),
+      page
+        .locator('div:has(> h2:text-matches("ADN-ul Pilotului|Pilot DNA")) svg')
+        .first(),
     ).toBeVisible({ timeout: 10_000 });
     // Wait for the pilot site map tiles to fully load
     await waitForMapTiles(page);
