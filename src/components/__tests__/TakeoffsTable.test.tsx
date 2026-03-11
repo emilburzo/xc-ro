@@ -8,9 +8,8 @@ jest.mock("next-intl", () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       search: "Search by name...",
-      flyableNow: "Flyable now",
-      activeOnly: "Active only",
-      dormantOnly: "Dormant only",
+      activeOnly: "Flown in last year",
+      dormantOnly: "No flights in 1+ year",
       minFlights: "Min flights",
       title: "Takeoffs",
       all: "All",
@@ -178,7 +177,7 @@ describe("TakeoffsTable", () => {
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
     // Switch to "all" filter to show Székely
-    const select = screen.getByDisplayValue("Active only");
+    const select = screen.getByDisplayValue("Flown in last year");
     await user.selectOptions(select, "all");
 
     const searchInput = screen.getByPlaceholderText("Search by name...");
@@ -194,7 +193,7 @@ describe("TakeoffsTable", () => {
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
     // Switch to "all" filter first
-    const select = screen.getByDisplayValue("Active only");
+    const select = screen.getByDisplayValue("Flown in last year");
     await user.selectOptions(select, "all");
 
     const minFlightsInput = screen.getByRole("spinbutton");
@@ -210,7 +209,7 @@ describe("TakeoffsTable", () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
-    const select = screen.getByDisplayValue("Active only");
+    const select = screen.getByDisplayValue("Flown in last year");
     await user.selectOptions(select, "dormant");
 
     expect(screen.getByText("Dormant Site")).toBeInTheDocument();
@@ -221,7 +220,7 @@ describe("TakeoffsTable", () => {
     const user = userEvent.setup();
     render(<TakeoffsTable takeoffs={mockTakeoffs} />);
 
-    const select = screen.getByDisplayValue("Active only");
+    const select = screen.getByDisplayValue("Flown in last year");
     await user.selectOptions(select, "all");
 
     expect(screen.getByText("4 takeoffs")).toBeInTheDocument();

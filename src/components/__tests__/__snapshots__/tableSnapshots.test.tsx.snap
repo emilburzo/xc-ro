@@ -605,14 +605,6 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
       type="text"
       value=""
     />
-    <label
-      class="flex items-center gap-1.5 text-sm text-gray-600"
-    >
-      <input
-        type="checkbox"
-      />
-      Flyable now
-    </label>
     <select
       class="px-2 py-1.5 text-sm border border-gray-300 rounded-lg"
     >
@@ -624,12 +616,12 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
       <option
         value="active"
       >
-        Active only
+        Flown in last year
       </option>
       <option
         value="dormant"
       >
-        Dormant only
+        No flights in 1+ year
       </option>
     </select>
     <label

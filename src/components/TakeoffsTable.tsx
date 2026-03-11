@@ -72,12 +72,10 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
   const [sortKey, setSortKey] = useState<SortKey>("flight_count");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [search, setSearch] = useState("");
-  const [flyableNow, setFlyableNow] = useState(false);
   const [minFlights, setMinFlights] = useState(0);
   const [activeFilter, setActiveFilter] = useState<"all" | "active" | "dormant">("active");
 
   const [now] = useState(() => Date.now());
-  const currentMonth = new Date(now).getMonth() + 1;
 
   const filtered = useMemo(() => {
     let list = takeoffs;
@@ -87,11 +85,6 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
     }
     if (minFlights > 0) {
       list = list.filter((tk) => tk.flight_count >= minFlights);
-    }
-    if (flyableNow) {
-      list = list.filter((tk) =>
-        tk.monthly_data?.some((d) => d.month === currentMonth && d.count > 0)
-      );
     }
     if (activeFilter === "active") {
       list = list.filter((tk) => {
@@ -105,7 +98,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
       });
     }
     return list;
-  }, [takeoffs, search, minFlights, flyableNow, activeFilter, currentMonth, now]);
+  }, [takeoffs, search, minFlights, activeFilter, now]);
 
   const filteredMapData = useMemo(() => {
     if (!mapData) return [];
@@ -160,10 +153,6 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
           onChange={(e) => setSearch(e.target.value)}
           className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         />
-        <label className="flex items-center gap-1.5 text-sm text-gray-600">
-          <input type="checkbox" checked={flyableNow} onChange={(e) => setFlyableNow(e.target.checked)} />
-          {t("flyableNow")}
-        </label>
         <select
           value={activeFilter}
           onChange={(e) => setActiveFilter(e.target.value as "all" | "active" | "dormant")}
