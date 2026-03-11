@@ -44,7 +44,17 @@ export async function getFlightsList(filters: FlightFilters) {
     conditions.push(sql`f.distance_km <= ${filters.distMax}`);
   }
   if (filters.flightType) {
-    conditions.push(sql`f.type ILIKE ${`%${filters.flightType}%`}`);
+    const typeMapping: Record<string, string[]> = {
+      free: ["free flight", "zbor liber"],
+      fai: ["FAI triangle", "triunghi FAI"],
+      flat: ["flat triangle", "triunghi plat"],
+    };
+    const variants = typeMapping[filters.flightType];
+    if (variants) {
+      conditions.push(sql`(f.type = ${variants[0]} OR f.type = ${variants[1]})`);
+    } else {
+      conditions.push(sql`f.type ILIKE ${`%${filters.flightType}%`}`);
+    }
   }
   if (filters.gliderCategory) {
     conditions.push(sql`g.category = ${filters.gliderCategory}`);

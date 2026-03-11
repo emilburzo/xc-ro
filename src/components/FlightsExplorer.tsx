@@ -154,8 +154,9 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
           </div>
         </div>
         <div>
-          <label className="block text-xs text-gray-500 mb-1">{t("gliderCategory")}</label>
+          <label htmlFor="glider-category" className="block text-xs text-gray-500 mb-1">{t("gliderCategory")}</label>
           <select
+            id="glider-category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="px-2 py-1.5 text-sm border border-gray-300 rounded"
@@ -167,16 +168,17 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-500 mb-1">{t("flightType")}</label>
+          <label htmlFor="flight-type" className="block text-xs text-gray-500 mb-1">{t("flightType")}</label>
           <select
+            id="flight-type"
             value={flightType}
             onChange={(e) => setFlightType(e.target.value)}
             className="px-2 py-1.5 text-sm border border-gray-300 rounded"
           >
             <option value="">{t("all")}</option>
-            <option value="free flight">{t("freeFlightLabel")}</option>
-            <option value="FAI triangle">{t("faiTriangleLabel")}</option>
-            <option value="flat triangle">{t("flatTriangleLabel")}</option>
+            <option value="free">{t("freeFlightLabel")}</option>
+            <option value="fai">{t("faiTriangleLabel")}</option>
+            <option value="flat">{t("flatTriangleLabel")}</option>
           </select>
         </div>
         <button

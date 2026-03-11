@@ -105,7 +105,7 @@ describe("flights queries", () => {
         .mockResolvedValueOnce([{ total: 8 }])
         .mockResolvedValueOnce([]);
 
-      await getFlightsList({ flightType: "FAI triangle" });
+      await getFlightsList({ flightType: "fai" });
       expect(mockExecute).toHaveBeenCalledTimes(2);
     });
 
@@ -148,7 +148,7 @@ describe("flights queries", () => {
         dateTo: "2022-12-31",
         distMin: 50,
         distMax: 200,
-        flightType: "free flight",
+        flightType: "free",
         gliderCategory: "D",
         sortBy: "distance",
         sortDir: "desc",

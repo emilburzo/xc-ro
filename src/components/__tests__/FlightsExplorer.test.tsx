@@ -292,23 +292,15 @@ describe("FlightsExplorer", () => {
 
   it("renders glider category dropdown with options", () => {
     render(<FlightsExplorer {...defaultProps} />);
-    const selects = screen.getAllByRole("combobox");
-    const categorySelect = selects.find((s) =>
-      Array.from(s.querySelectorAll("option")).some((o) => o.textContent === "A")
-    )!;
+    const categorySelect = screen.getByRole("combobox", { name: /glider category/i });
     expect(categorySelect).toBeInTheDocument();
-    // Check category options exist
     const options = categorySelect.querySelectorAll("option");
     expect(options.length).toBe(7); // All + A, B, C, D, Z, T
   });
 
   it("renders flight type dropdown with options", () => {
     render(<FlightsExplorer {...defaultProps} />);
-    expect(screen.getByText("Flight type")).toBeInTheDocument();
-    const selects = screen.getAllByRole("combobox");
-    const flightTypeSelect = selects.find((s) =>
-      Array.from(s.querySelectorAll("option")).some((o) => o.textContent === "free flight")
-    )!;
+    const flightTypeSelect = screen.getByRole("combobox", { name: /flight type/i });
     expect(flightTypeSelect).toBeInTheDocument();
     const options = flightTypeSelect.querySelectorAll("option");
     expect(options.length).toBe(4); // All + free flight, FAI triangle, flat triangle
@@ -318,13 +310,10 @@ describe("FlightsExplorer", () => {
     const user = userEvent.setup();
     render(<FlightsExplorer {...defaultProps} />);
 
-    const selects = screen.getAllByRole("combobox");
-    const flightTypeSelect = selects.find((s) =>
-      Array.from(s.querySelectorAll("option")).some((o) => o.textContent === "free flight")
-    )!;
-    await user.selectOptions(flightTypeSelect, "FAI triangle");
+    const flightTypeSelect = screen.getByRole("combobox", { name: /flight type/i });
+    await user.selectOptions(flightTypeSelect, "fai");
     await user.click(screen.getByText("Filters"));
 
-    expect(mockPush).toHaveBeenCalledWith(expect.stringContaining("type=FAI+triangle"));
+    expect(mockPush).toHaveBeenCalledWith(expect.stringContaining("type=fai"));
   });
 });
