@@ -171,8 +171,8 @@ describe("home queries", () => {
   describe("getFlyabilityCalendar", () => {
     it("returns monthly flyability data", async () => {
       const rows = [
-        { month: 6, avg_flyable_days: 12.5, max_flyable_days: 18 },
-        { month: 7, avg_flyable_days: 15.3, max_flyable_days: 22 },
+        { month: 6, avg_flyable_days: 12.5 },
+        { month: 7, avg_flyable_days: 15.3 },
       ];
       mockExecute.mockResolvedValueOnce(rows);
 

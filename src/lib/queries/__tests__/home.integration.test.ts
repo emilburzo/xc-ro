@@ -198,7 +198,6 @@ describeIf("home queries (integration)", () => {
       // 2023-07: 2 distinct days (flights 101 on 2023-07-15, 102 on 2023-07-16)
       // avg = (1+2)/2 = 1.5
       expect(Number(jul!.avg_flyable_days)).toBe(1.5);
-      expect(Number(jul!.max_flyable_days)).toBe(2);
     });
 
     it("months with only one year have avg equal to that year count", async () => {
@@ -207,7 +206,6 @@ describeIf("home queries (integration)", () => {
       const aug = rows.find((r: Record<string, unknown>) => Number(r.month) === 8);
       expect(aug).toBeDefined();
       expect(Number(aug!.avg_flyable_days)).toBe(1);
-      expect(Number(aug!.max_flyable_days)).toBe(1);
     });
   });
 });

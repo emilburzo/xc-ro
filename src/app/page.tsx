@@ -137,16 +137,6 @@ export default async function HomePage() {
         <h3 className="font-semibold text-gray-900 mb-1">{t("flyabilityCalendar")}</h3>
         <p className="text-xs text-gray-500 mb-3">{t("flyabilityDesc")}</p>
         <FlyabilityChartWrapper data={flyabilityData as any} />
-        <div className="flex gap-4 justify-center mt-2 text-xs text-gray-500">
-          <span className="flex items-center gap-1">
-            <span className="inline-block w-3 h-3 rounded-sm" style={{ backgroundColor: "#3b82f6" }} />
-            {t("flyabilityAvg")}
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="inline-block w-3 h-3 rounded-sm" style={{ backgroundColor: "#93c5fd" }} />
-            {t("flyabilityBest")}
-          </span>
-        </div>
       </div>
 
       {/* Quick Links */}

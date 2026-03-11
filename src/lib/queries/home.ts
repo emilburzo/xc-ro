@@ -95,8 +95,7 @@ export async function getFlyabilityCalendar() {
   return db.execute(sql`
     SELECT
       month,
-      round(avg(flyable_days), 1) as avg_flyable_days,
-      max(flyable_days)::int as max_flyable_days
+      round(avg(flyable_days), 1) as avg_flyable_days
     FROM (
       SELECT
         EXTRACT(YEAR FROM start_time)::int as year,

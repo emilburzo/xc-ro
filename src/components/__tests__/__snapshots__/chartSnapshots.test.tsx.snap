@@ -289,13 +289,6 @@ exports[`Chart snapshots FlyabilityChart matches snapshot 1`] = `
     <div
       data-datakey="avg"
       data-fill="#3b82f6"
-      data-name="avg"
-      data-testid="bar"
-    />
-    <div
-      data-datakey="max"
-      data-fill="#93c5fd"
-      data-name="max"
       data-testid="bar"
     />
   </div>
@@ -323,13 +316,6 @@ exports[`Chart snapshots FlyabilityChart matches snapshot with empty data 1`] = 
     <div
       data-datakey="avg"
       data-fill="#3b82f6"
-      data-name="avg"
-      data-testid="bar"
-    />
-    <div
-      data-datakey="max"
-      data-fill="#93c5fd"
-      data-name="max"
       data-testid="bar"
     />
   </div>

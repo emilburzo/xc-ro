@@ -28,9 +28,7 @@
     "noRecentFlights": "No notable flights in the last 30 days",
     "totalHours": "Flight Hours",
     "flyabilityCalendar": "Flyability Calendar",
-    "flyabilityDesc": "Average flyable days per month (days with ≥1 flight)",
-    "flyabilityAvg": "Avg",
-    "flyabilityBest": "Best"
+    "flyabilityDesc": "Average flyable days per month (days with ≥1 flight)"
   },
   "takeoffs": {
     "title": "Takeoffs",

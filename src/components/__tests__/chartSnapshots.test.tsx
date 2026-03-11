@@ -243,9 +243,9 @@ describe("Chart snapshots", () => {
 
   it("FlyabilityChart matches snapshot", () => {
     const flyabilityData = [
-      { month: 1, avg_flyable_days: 2.5, max_flyable_days: 5 },
-      { month: 6, avg_flyable_days: 15.3, max_flyable_days: 22 },
-      { month: 7, avg_flyable_days: 18.1, max_flyable_days: 25 },
+      { month: 1, avg_flyable_days: 2.5 },
+      { month: 6, avg_flyable_days: 15.3 },
+      { month: 7, avg_flyable_days: 18.1 },
     ];
     const { container } = render(<FlyabilityChart data={flyabilityData} />);
     expect(container.firstChild).toMatchSnapshot();
