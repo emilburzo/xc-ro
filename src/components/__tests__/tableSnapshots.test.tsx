@@ -11,9 +11,8 @@ jest.mock("next-intl", () => ({
     const maps: Record<string, Record<string, string>> = {
       takeoffs: {
         search: "Search...",
-        flyableNow: "Flyable now",
-        activeOnly: "Active only",
-        dormantOnly: "Dormant only",
+        activeOnly: "Flown in last year",
+        dormantOnly: "No flights in over a year",
         minFlights: "Min flights",
         title: "Takeoffs",
         name: "Name",
