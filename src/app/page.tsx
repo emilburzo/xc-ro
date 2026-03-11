@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import {
@@ -11,13 +12,24 @@ import {
 } from "@/lib/queries/home";
 import {takeoffPath, pilotPath, wingPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
+import { JsonLd } from "@/components/JsonLd";
+import { getBaseUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("seo");
+  return {
+    description: t("homeDescription"),
+    alternates: { canonical: "/" },
+  };
+}
 
 export default async function HomePage() {
   const locale = await getLocale();
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
+  const ts = await getTranslations("seo");
 
   const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings] = await Promise.all([
     getHomeStats(),
@@ -31,6 +43,16 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "XC-RO",
+          url: getBaseUrl(),
+          description: ts("homeDescription"),
+          inLanguage: locale,
+        }}
+      />
       {/* Title */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>

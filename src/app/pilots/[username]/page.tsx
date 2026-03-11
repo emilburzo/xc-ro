@@ -17,6 +17,8 @@ import {
 } from "@/lib/queries/pilots";
 import { takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import PilotDetailCharts from "@/components/PilotDetailCharts";
+import { JsonLd } from "@/components/JsonLd";
+import { getBaseUrl } from "@/lib/seo";
 
 const getCachedPilot = cache((username: string) => getPilotByUsername(username));
 
@@ -27,7 +29,13 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
   const pilot = await getCachedPilot(username);
   if (!pilot) return {};
   const t = await getTranslations("pilotDetail");
-  return { title: `${(pilot as any).name} | ${t("pageType")}` };
+  const ts = await getTranslations("seo");
+  const name = (pilot as any).name;
+  return {
+    title: `${name} | ${t("pageType")}`,
+    description: ts("pilotDetailDescription", { name }),
+    alternates: { canonical: `/pilots/${username}` },
+  };
 }
 
 export default async function PilotDetailPage({ params }: { params: Promise<{ username: string }> }) {
@@ -57,6 +65,14 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
 
   return (
     <div className="space-y-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: (pilot as any).name,
+          url: `${getBaseUrl()}/pilots/${(pilot as any).username}`,
+        }}
+      />
       {/* Header */}
       <div>
         <Link href="/pilots" className="text-sm text-blue-600 hover:underline mb-2 inline-block">

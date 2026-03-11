@@ -256,5 +256,16 @@
     "showLess": "Arată mai puțin",
     "all": "Toate",
     "avgScore": "scor mediu"
+  },
+  "seo": {
+    "homeDescription": "Explorează datele zborurilor de parapantă din România. Decolări, statistici piloți, performanțe aripi, recorduri de zbor și analize XC din 2007.",
+    "takeoffsDescription": "Descoperă toate decolările de parapantă din România. Compară numărul de zboruri, potențialul XC, sezonul și recordurile fiecărui site.",
+    "pilotsDescription": "Descoperă piloții de parapantă din România. Vezi statistici de zbor, recorduri personale, cronologia carierei și clasamente.",
+    "wingsDescription": "Compară aripile de parapantă folosite în România. Număr de zboruri, recorduri de distanță, viteză medie și performanță pe categorie.",
+    "flightsDescription": "Caută și filtrează zborurile de parapantă din România. Sortează după dată, distanță, scor sau durată. Vezi zborurile de azi, top 100 și multe altele.",
+    "recordsDescription": "Recorduri de parapantă în România. Recorduri all-time, recorduri anuale pe an, recorduri pe categorie și statistici distractive.",
+    "takeoffDetailDescription": "{name} — decolare de parapantă din România. Statistici de zbor, grafice de sezonalitate, topul zborurilor, clase de aripi și tendințe de activitate.",
+    "pilotDetailDescription": "{name} — profil pilot de parapantă. Statistici de zbor, evoluția carierei, istoricul echipamentului, harta site-urilor și analiza ADN-ului de pilot.",
+    "wingDetailDescription": "{name} (categoria {category}) — statistici aripă de parapantă. Date de zbor, adopție piloți, performanță XC, distribuție distanțe și topul zborurilor."
   }
 }

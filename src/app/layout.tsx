@@ -2,14 +2,37 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import Nav from "@/components/Nav";
+import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
 
+function getSafeMetadataBase(): URL | undefined {
+  try {
+    return new URL(getBaseUrl());
+  } catch {
+    return undefined;
+  }
+}
+
 export const metadata: Metadata = {
+  metadataBase: getSafeMetadataBase(),
   title: {
     template: "%s | XC-RO",
-    default: "XC-RO - Flight Analytics",
+    default: "XC-RO - Paragliding Flight Analytics Romania",
   },
-  description: "Analiză zboruri parapantă din România",
+  description:
+    "Explore paragliding flight data from Romania. Takeoff sites, pilot statistics, wing performance, flight records, and XC analytics since 2007.",
+  openGraph: {
+    type: "website",
+    siteName: "XC-RO",
+    locale: "ro_RO",
+    alternateLocale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+  },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default async function RootLayout({

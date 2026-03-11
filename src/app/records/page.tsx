@@ -14,7 +14,12 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("records");
-  return { title: t("title") };
+  const ts = await getTranslations("seo");
+  return {
+    title: t("title"),
+    description: ts("recordsDescription"),
+    alternates: { canonical: "/records" },
+  };
 }
 
 function RecordCard({ title, record, locale, t }: { title: string; record: any; locale: string; t: (key: string) => string }) {
