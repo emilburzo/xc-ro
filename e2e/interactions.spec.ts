@@ -119,6 +119,8 @@ test.describe("Wings table interactions", () => {
     await expect(flightsHeader).toBeVisible();
     await flightsHeader.click();
     await expect(page.locator("tbody tr").first()).toBeVisible();
+    // Move mouse away from the chart area to avoid triggering Recharts tooltip
+    await page.mouse.move(0, 0);
     await expect(page).toHaveScreenshot("wings-sorted.png", {
       fullPage: true,
     });
@@ -139,6 +141,10 @@ test.describe("Responsive layouts", () => {
       await page.setViewportSize({ width: vp.width, height: vp.height });
       await page.goto("/");
       await expect(page.locator("nav")).toBeVisible();
+      // Wait for the dynamically-imported FlyabilityChart to render
+      await expect(
+        page.locator(".recharts-responsive-container svg").first(),
+      ).toBeVisible({ timeout: 10_000 });
       await expect(page).toHaveScreenshot(`home-${vp.name}.png`, {
         fullPage: true,
       });
