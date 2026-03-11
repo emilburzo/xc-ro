@@ -31,8 +31,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       getSitemapPilots() as Promise<any[]>,
       getSitemapWings() as Promise<any[]>,
     ]);
-  } catch {
+  } catch (err) {
     // Database unavailable (e.g. during build) — return static pages only
+    console.error("Failed to build dynamic sitemap entries:", err);
     return staticPages;
   }
 
