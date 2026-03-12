@@ -156,6 +156,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             title={t("similarFlightsTitle")}
             flights={similarFlights}
             locale={locale}
+            takeoffName={f.takeoff_name || ""}
             labels={{
               date: t("date"),
               pilot: t("pilot"),
