@@ -14,6 +14,7 @@ import DistanceTrendChart from "../charts/DistanceTrendChart";
 import YoYGrowthChart from "../charts/YoYGrowthChart";
 import CategoryShareChart from "../charts/CategoryShareChart";
 import CommunityGrowthChart from "../charts/CommunityGrowthChart";
+import PilotsGrowthChart from "../charts/PilotsGrowthChart";
 import FlyabilityChart from "../charts/FlyabilityChart";
 
 // Mock recharts with deterministic output
@@ -304,6 +305,22 @@ describe("Chart snapshots", () => {
 
   it("CommunityGrowthChart matches snapshot with empty data", () => {
     const { container } = render(<CommunityGrowthChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("PilotsGrowthChart matches snapshot", () => {
+    const growthData = [
+      { year: 2018, active_pilots: 80, new_pilots: 30, cumulative_pilots: 200 },
+      { year: 2019, active_pilots: 95, new_pilots: 45, cumulative_pilots: 245 },
+      { year: 2020, active_pilots: 70, new_pilots: 25, cumulative_pilots: 270 },
+      { year: 2021, active_pilots: 110, new_pilots: 50, cumulative_pilots: 320 },
+    ];
+    const { container } = render(<PilotsGrowthChart data={growthData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("PilotsGrowthChart matches snapshot with empty data", () => {
+    const { container } = render(<PilotsGrowthChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

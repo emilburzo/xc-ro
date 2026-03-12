@@ -245,6 +245,8 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 
 9. **Always run `npm run build` after changes**: `npm run lint` and `npm run test` do not compile Next.js pages. Only `npm run build` catches naming collisions, Server Component constraint violations, and other compile-time errors in pages.
 
+10. **Chart wrapper components must use typed interfaces, not `any[]`**: When creating a `"use client"` wrapper that bridges server data to a chart component, define a typed row interface for the `data` prop (matching the SQL query's output columns). The `as any` cast at the page level (server→client boundary) is acceptable because Drizzle's `db.execute` returns `Record<string, unknown>[]`, but the wrapper's Props interface must be strongly typed so the chart component receives correct types.
+
 ## Git Hygiene
 
 - **Never commit `package-lock.json`** unless the task specifically involves adding, removing, or updating dependencies. Unrelated changes to `package-lock.json` (e.g., from incidental `npm install` runs) must not be staged or committed.

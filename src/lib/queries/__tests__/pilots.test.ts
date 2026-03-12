@@ -10,6 +10,7 @@ import {
   getPilotTopFlights,
   getPilotDistanceHistogram,
   getPilotDna,
+  getPilotsYearlyGrowth,
 } from "../pilots";
 
 const mockExecute = jest.fn();
@@ -209,6 +210,20 @@ describe("pilot queries", () => {
 
       const result = await getPilotDna(999);
       expect(result).toBeNull();
+    });
+  });
+
+  describe("getPilotsYearlyGrowth", () => {
+    it("returns yearly active, new, and cumulative pilot counts", async () => {
+      const rows = [
+        { year: 2020, active_pilots: 80, new_pilots: 30, cumulative_pilots: 200 },
+        { year: 2021, active_pilots: 100, new_pilots: 45, cumulative_pilots: 245 },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getPilotsYearlyGrowth();
+      expect(result).toEqual(rows);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
     });
   });
 

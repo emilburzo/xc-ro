@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getPilotsList } from "@/lib/queries/pilots";
+import { getPilotsList, getPilotsYearlyGrowth } from "@/lib/queries/pilots";
 import PilotsTable from "@/components/PilotsTable";
+import PilotsGrowthWrapper from "@/components/PilotsGrowthWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PilotsPage() {
   const t = await getTranslations("pilots");
-  const pilots = await getPilotsList();
+  const [pilots, growthData] = await Promise.all([
+    getPilotsList(),
+    getPilotsYearlyGrowth(),
+  ]);
 
   const tableData = (pilots as any[]).map((p) => ({
     id: p.id,
@@ -38,6 +42,16 @@ export default async function PilotsPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h3 className="font-semibold text-gray-900 mb-1">{t("communityGrowth")}</h3>
+        <p className="text-xs text-gray-500 mb-3">{t("communityGrowthDesc")}</p>
+        <PilotsGrowthWrapper
+          data={growthData as any}
+          activePilotsLabel={t("activePilots")}
+          newPilotsLabel={t("newPilots")}
+          cumulativePilotsLabel={t("cumulativePilots")}
+        />
+      </div>
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <PilotsTable pilots={tableData} />
       </div>
