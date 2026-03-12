@@ -186,7 +186,12 @@
     "all": "All",
     "page": "page",
     "viewTable": "Table",
-    "viewMap": "Map"
+    "viewMap": "Map",
+    "distanceDistribution": "Distance Distribution",
+    "timeline": "Timeline",
+    "categoryBreakdown": "Category Breakdown",
+    "hideCharts": "Hide charts",
+    "showCharts": "Show charts"
   },
   "flightDetail": {
     "pageType": "Flight",

@@ -16,6 +16,7 @@ import CategoryShareChart from "../charts/CategoryShareChart";
 import CommunityGrowthChart from "../charts/CommunityGrowthChart";
 import PilotsGrowthChart from "../charts/PilotsGrowthChart";
 import FlyabilityChart from "../charts/FlyabilityChart";
+import TimelineBarChart from "../charts/TimelineBarChart";
 
 // Mock recharts with deterministic output
 jest.mock("recharts", () => {
@@ -321,6 +322,21 @@ describe("Chart snapshots", () => {
 
   it("PilotsGrowthChart matches snapshot with empty data", () => {
     const { container } = render(<PilotsGrowthChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("TimelineBarChart matches snapshot", () => {
+    const timelineData = [
+      { label: "2020", cnt: 500 },
+      { label: "2021", cnt: 600 },
+      { label: "2022", cnt: 750 },
+    ];
+    const { container } = render(<TimelineBarChart data={timelineData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("TimelineBarChart matches snapshot with empty data", () => {
+    const { container } = render(<TimelineBarChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

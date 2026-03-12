@@ -39,12 +39,7 @@ export async function getFlightById(id: number) {
   return rows[0] || null;
 }
 
-export async function getFlightsList(filters: FlightFilters) {
-  const page = filters.page || 1;
-  const pageSize = filters.pageSize || 50;
-  const offset = (page - 1) * pageSize;
-
-  // Build WHERE conditions using sql tagged templates
+function buildFlightWhereClause(filters: FlightFilters) {
   const conditions: ReturnType<typeof sql>[] = [];
 
   if (filters.pilotSearch) {
@@ -78,9 +73,68 @@ export async function getFlightsList(filters: FlightFilters) {
     conditions.push(sql`g.category = ${filters.gliderCategory}`);
   }
 
-  const whereClause = conditions.length > 0
+  return conditions.length > 0
     ? sql.join(conditions, sql` AND `)
     : sql`1=1`;
+}
+
+export async function getFlightsChartData(filters: FlightFilters) {
+  const whereClause = buildFlightWhereClause(filters);
+
+  const fromClause = sql`
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE ${whereClause}
+  `;
+
+  const [distResult, timelineResult, categoryResult] = await Promise.all([
+    db.execute(sql`
+      SELECT
+        CASE
+          WHEN f.distance_km < 1 THEN '0-1'
+          WHEN f.distance_km < 5 THEN '1-5'
+          WHEN f.distance_km < 20 THEN '5-20'
+          WHEN f.distance_km < 50 THEN '20-50'
+          WHEN f.distance_km < 100 THEN '50-100'
+          ELSE '100+'
+        END as bucket,
+        count(*)::int as cnt
+      ${fromClause}
+      GROUP BY bucket
+      ORDER BY min(f.distance_km)
+    `),
+    db.execute(sql`
+      SELECT
+        EXTRACT(YEAR FROM f.start_time)::int as year,
+        EXTRACT(MONTH FROM f.start_time)::int as month,
+        count(*)::int as cnt
+      ${fromClause}
+      GROUP BY year, month
+      ORDER BY year, month
+    `),
+    db.execute(sql`
+      SELECT g.category, count(*)::int as cnt
+      ${fromClause}
+      GROUP BY g.category
+      ORDER BY cnt DESC
+    `),
+  ]);
+
+  return {
+    distHistogram: distResult,
+    timeline: timelineResult,
+    categoryBreakdown: categoryResult,
+  };
+}
+
+export async function getFlightsList(filters: FlightFilters) {
+  const page = filters.page || 1;
+  const pageSize = filters.pageSize || 50;
+  const offset = (page - 1) * pageSize;
+
+  const whereClause = buildFlightWhereClause(filters);
 
   // Sort column (whitelist to prevent SQL injection)
   const sortMapping: Record<string, ReturnType<typeof sql>> = {

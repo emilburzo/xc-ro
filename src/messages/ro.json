@@ -186,7 +186,12 @@
     "all": "Toate",
     "page": "pagina",
     "viewTable": "Tabel",
-    "viewMap": "Hartă"
+    "viewMap": "Hartă",
+    "distanceDistribution": "Distribuție distanțe",
+    "timeline": "Cronologie",
+    "categoryBreakdown": "Distribuție categorii",
+    "hideCharts": "Ascunde grafice",
+    "showCharts": "Arată grafice"
   },
   "flightDetail": {
     "pageType": "Zbor",

@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import Nav from "../Nav";
 import SeasonHeatmap from "../SeasonHeatmap";
+import FlightsChartStrip from "../FlightsChartStrip";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
@@ -23,6 +24,13 @@ jest.mock("next-intl", () => ({
       common: {
         flights: "flights",
         avgScore: "avg score",
+      },
+      flights: {
+        hideCharts: "Hide charts",
+        showCharts: "Show charts",
+        distanceDistribution: "Distance Distribution",
+        timeline: "Timeline",
+        categoryBreakdown: "Category Breakdown",
       },
     };
     const map = maps[namespace] || {};
@@ -73,5 +81,50 @@ describe("Snapshot: SeasonHeatmap", () => {
   it("matches snapshot with empty data", () => {
     const { container } = render(<SeasonHeatmap data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+});
+
+// Mock next/dynamic to render children directly
+jest.mock("next/dynamic", () => () => {
+  return function MockDynamicComponent(props: any) {
+    return <div data-testid="dynamic-chart" data-props={JSON.stringify(props)} />;
+  };
+});
+
+describe("Snapshot: FlightsChartStrip", () => {
+  const distHistogram = [
+    { bucket: "0-1", cnt: 100 },
+    { bucket: "1-5", cnt: 300 },
+    { bucket: "5-20", cnt: 250 },
+  ];
+  const timeline = [
+    { year: 2023, month: 6, cnt: 50 },
+    { year: 2023, month: 7, cnt: 80 },
+  ];
+  const categoryBreakdown = [
+    { category: "B", cnt: 200 },
+    { category: "C", cnt: 150 },
+  ];
+
+  it("matches snapshot with data", () => {
+    const { container } = render(
+      <FlightsChartStrip
+        distHistogram={distHistogram}
+        timeline={timeline}
+        categoryBreakdown={categoryBreakdown}
+      />
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("returns null with empty data", () => {
+    const { container } = render(
+      <FlightsChartStrip
+        distHistogram={[]}
+        timeline={[]}
+        categoryBreakdown={[]}
+      />
+    );
+    expect(container.firstChild).toBeNull();
   });
 });
