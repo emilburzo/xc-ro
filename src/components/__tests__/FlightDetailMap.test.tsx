@@ -87,9 +87,11 @@ describe("FlightDetailMap", () => {
     );
 
     await waitFor(() => {
-      expect(mockMarker.bindPopup).toHaveBeenCalledWith(
-        "<strong>Bunloc</strong>"
-      );
+      expect(mockMarker.bindPopup).toHaveBeenCalled();
+      const arg = mockMarker.bindPopup.mock.calls[0][0];
+      expect(arg).toBeInstanceOf(HTMLElement);
+      expect(arg.tagName).toBe("STRONG");
+      expect(arg.textContent).toBe("Bunloc");
     });
   });
 

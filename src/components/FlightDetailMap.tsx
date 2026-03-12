@@ -36,7 +36,9 @@ export default function FlightDetailMap({ lat, lng, label }: FlightDetailMapProp
 
       const marker = L.marker([lat, lng]).addTo(map);
       if (label) {
-        marker.bindPopup(`<strong>${label}</strong>`);
+        const popupContent = document.createElement("strong");
+        popupContent.textContent = label;
+        marker.bindPopup(popupContent);
       }
 
       mapInstanceRef.current = map;

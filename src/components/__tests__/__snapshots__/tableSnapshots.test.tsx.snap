@@ -292,7 +292,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
             class="px-2 py-2 text-gray-700 whitespace-nowrap"
           >
             <a
-              class="hover:underline"
+              class="text-blue-600 hover:underline"
               href="/flights/1001"
             >
               08.07.2025
@@ -357,7 +357,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
             class="px-2 py-2 text-gray-700 whitespace-nowrap"
           >
             <a
-              class="hover:underline"
+              class="text-blue-600 hover:underline"
               href="/flights/1002"
             >
               08.07.2025
