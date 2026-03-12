@@ -270,6 +270,9 @@ describe("Chart snapshots", () => {
 
   it("DistanceTrendChart matches snapshot with empty data", () => {
     const { container } = render(<DistanceTrendChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   it("CommunityGrowthChart matches snapshot", () => {
     const growthData = [
       { year: 2018, new_pilots: 30, cumulative_pilots: 200, flight_count: 3000 },
