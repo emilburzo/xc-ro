@@ -140,7 +140,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
             </thead>
             <tbody className="divide-y divide-gray-100">
               {(topFlights as any[]).map((f, i) => (
-                <tr key={i} className="hover:bg-gray-50">
+                <tr key={f.id} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
                     <Link href={flightPath(f.id)} className="hover:underline">
@@ -186,7 +186,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
             </thead>
             <tbody className="divide-y divide-gray-100">
               {(latestFlights as any[]).map((f, i) => (
-                <tr key={i} className="hover:bg-gray-50">
+                <tr key={f.id} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
                     <Link href={flightPath(f.id)} className="hover:underline">
