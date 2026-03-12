@@ -272,6 +272,9 @@ describe("Chart snapshots", () => {
   it("YoYGrowthChart matches snapshot with empty data", () => {
     const labels = { flights: "Flights", pilots: "Pilots", totalKm: "Total km" };
     const { container } = render(<YoYGrowthChart data={[]} labels={labels} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   it("CommunityGrowthChart matches snapshot", () => {
     const growthData = [
       { year: 2018, new_pilots: 30, cumulative_pilots: 200, flight_count: 3000 },
