@@ -113,7 +113,12 @@
     "search": "Search pilot...",
     "minFlights": "Min flights",
     "activeInYear": "Active in year",
-    "totalHours": "Total Hours"
+    "totalHours": "Total Hours",
+    "communityGrowth": "Community Growth",
+    "communityGrowthDesc": "Active pilots, new pilots, and cumulative total per year",
+    "activePilots": "Active Pilots",
+    "newPilots": "New Pilots",
+    "cumulativePilots": "Total Pilots"
   },
   "pilotDetail": {
     "pageType": "Pilot",

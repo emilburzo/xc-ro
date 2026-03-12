@@ -113,7 +113,12 @@
     "search": "Caută pilot...",
     "minFlights": "Min zboruri",
     "activeInYear": "Activ în anul",
-    "totalHours": "Ore totale"
+    "totalHours": "Ore totale",
+    "communityGrowth": "Evoluția comunității",
+    "communityGrowthDesc": "Piloți activi, piloți noi și total cumulat pe an",
+    "activePilots": "Piloți activi",
+    "newPilots": "Piloți noi",
+    "cumulativePilots": "Total piloți"
   },
   "pilotDetail": {
     "pageType": "Pilot",

@@ -160,6 +160,40 @@ export async function getPilotDna(pilotId: number) {
   return rows[0] || null;
 }
 
+export async function getPilotsYearlyGrowth() {
+  return db.execute(sql`
+    WITH flights_by_year AS (
+      SELECT
+        EXTRACT(YEAR FROM start_time)::int as year,
+        pilot_id
+      FROM flights_pg
+    ),
+    active_per_year AS (
+      SELECT year, count(DISTINCT pilot_id)::int as active_pilots
+      FROM flights_by_year
+      GROUP BY year
+    ),
+    pilot_debut AS (
+      SELECT pilot_id, min(year)::int as debut_year
+      FROM flights_by_year
+      GROUP BY pilot_id
+    ),
+    new_per_year AS (
+      SELECT debut_year as year, count(*)::int as new_pilots
+      FROM pilot_debut
+      GROUP BY debut_year
+    )
+    SELECT
+      a.year,
+      a.active_pilots,
+      COALESCE(n.new_pilots, 0)::int as new_pilots,
+      SUM(COALESCE(n.new_pilots, 0)) OVER (ORDER BY a.year)::int as cumulative_pilots
+    FROM active_per_year a
+    LEFT JOIN new_per_year n ON n.year = a.year
+    ORDER BY a.year
+  `);
+}
+
 export async function getPilotDistanceHistogram(pilotId: number) {
   return db.execute(sql`
     SELECT
