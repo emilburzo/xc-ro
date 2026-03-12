@@ -41,6 +41,10 @@ test.describe("Records page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/records");
     await expect(page.locator("nav")).toBeVisible();
+    // Wait for the dynamically-imported Recharts charts to render
+    await expect(
+      page.locator(".recharts-responsive-container svg").first(),
+    ).toBeVisible({ timeout: 10_000 });
     await expect(page).toHaveScreenshot("records.png", { fullPage: true });
   });
 });
@@ -59,6 +63,10 @@ test.describe("Takeoff detail page", () => {
     await page.goto("/takeoffs/1-bunloc");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
+    // Wait for the dynamically-imported Recharts charts to render
+    await expect(
+      page.locator(".recharts-responsive-container svg").first(),
+    ).toBeVisible({ timeout: 10_000 });
     await expect(page).toHaveScreenshot("takeoff-detail.png", { fullPage: true });
   });
 });
@@ -87,6 +95,10 @@ test.describe("Wing detail page", () => {
     await page.goto("/wings/3-nova-mentor-7");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Nova Mentor 7 | Aripă | XC-RO");
+    // Wait for the dynamically-imported Recharts charts to render
+    await expect(
+      page.locator(".recharts-responsive-container svg").first(),
+    ).toBeVisible({ timeout: 10_000 });
     await expect(page).toHaveScreenshot("wing-detail.png", { fullPage: true });
   });
 });
