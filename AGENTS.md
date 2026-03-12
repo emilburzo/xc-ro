@@ -113,6 +113,9 @@ The `avg_speed` column in the wings list uses `distance_km / (airtime / 60)`. Th
 
 With all three filters, the ranking correctly shows D/Z (competition) > C > B. ~92 wings have speed data. See `getWingsList()` in `src/lib/queries/wings.ts`.
 
+### XC-relevant averages (sled ride exclusion)
+When computing `avg_distance` or `avg_airtime` for XC statistics, flights under 20 km must be excluded — they are sled rides or local soaring, not cross-country flights. Use PostgreSQL's `FILTER (WHERE distance_km >= 20)` clause on the aggregate so that counts and totals remain unaffected. This applies to averages in takeoff stats, pilot stats, pilot yearly stats, wing stats, and takeoff monthly stats. The threshold is 20 km (not 30 km — that stricter threshold is only for the `avg_speed` metric on wings).
+
 ## Project Structure
 
 ```
