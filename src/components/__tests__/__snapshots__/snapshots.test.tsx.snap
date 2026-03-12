@@ -5,7 +5,10 @@ exports[`Snapshot: FlightsChartStrip matches snapshot with data 1`] = `
   class="bg-white rounded-lg border border-gray-200 p-4"
 >
   <button
+    aria-controls="flights-chart-panel"
+    aria-expanded="true"
     class="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+    type="button"
   >
     <span
       class="transition-transform rotate-90"
@@ -16,6 +19,7 @@ exports[`Snapshot: FlightsChartStrip matches snapshot with data 1`] = `
   </button>
   <div
     class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3"
+    id="flights-chart-panel"
   >
     <div>
       <h4
@@ -35,7 +39,7 @@ exports[`Snapshot: FlightsChartStrip matches snapshot with data 1`] = `
         Timeline
       </h4>
       <div
-        data-props="{"data":[{"label":"Jun 2023","cnt":50},{"label":"Jul 2023","cnt":80}]}"
+        data-props="{"data":[{"label":"iun. 2023","cnt":50},{"label":"iul. 2023","cnt":80}],"barLabel":"Flights Explorer"}"
         data-testid="dynamic-chart"
       />
     </div>
