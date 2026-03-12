@@ -6,14 +6,16 @@ import Link from "next/link";
 import {
   getWingById,
   getWingTopFlights,
+  getWingRecentFlights,
   getWingDistanceHistogram,
   getWingAdoptionCurve,
   getWingYearlyStats,
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
 } from "@/lib/queries/wings";
-import { pilotPath, takeoffPath, slugify, flightPath, formatDuration, formatDistance, formatNumber, formatDate, CAT_COLORS } from "@/lib/utils";
+import { slugify, formatDuration, formatDistance, formatNumber, CAT_COLORS } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
+import WingFlightsTable from "@/components/WingFlightsTable";
 import { JsonLd } from "@/components/JsonLd";
 import { getBaseUrl } from "@/lib/seo";
 
@@ -48,9 +50,10 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
   const wing = await getCachedWing(id);
   if (!wing) notFound();
 
-  const [topFlights, distHist, adoption, yearly, favoriteTakeoffs, calendar] =
+  const [topFlights, recentFlights, distHist, adoption, yearly, favoriteTakeoffs, calendar] =
     await Promise.all([
       getWingTopFlights(id),
+      getWingRecentFlights(id),
       getWingDistanceHistogram(id),
       getWingAdoptionCurve(id),
       getWingYearlyStats(id),
@@ -138,53 +141,34 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
       />
 
       {/* Top 10 Flights */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4">
-        <h3 className="font-semibold text-gray-900 mb-3">{t("topFlights")}</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="border-b border-gray-200">
-              <tr>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">#</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("date")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("pilot")}</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("takeoff")}</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("distance")}</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("score")}</th>
-                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("airtime")}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {(topFlights as any[]).map((f, i) => (
-                <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-2 py-2 text-gray-500">{i + 1}</td>
-                  <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                    <Link href={flightPath(f.id)} className="hover:underline">
-                      {formatDate(f.start_time, locale)}
-                    </Link>
-                  </td>
-                  <td className="px-2 py-2">
-                    <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">
-                      {f.pilot_name}
-                    </Link>
-                  </td>
-                  <td className="px-2 py-2">
-                    {f.takeoff_id ? (
-                      <Link href={takeoffPath(f.takeoff_id, f.takeoff_name)} className="text-blue-600 hover:underline">
-                        {f.takeoff_name}
-                      </Link>
-                    ) : (
-                      <span className="text-gray-400">-</span>
-                    )}
-                  </td>
-                  <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
-                  <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>
-                  <td className="px-2 py-2 text-gray-500 text-right">{formatDuration(f.airtime)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <WingFlightsTable
+        title={t("topFlights")}
+        flights={topFlights as any}
+        locale={locale}
+        labels={{
+          date: t("date"),
+          pilot: t("pilot"),
+          takeoff: t("takeoff"),
+          distance: t("distance"),
+          score: t("score"),
+          airtime: t("airtime"),
+        }}
+      />
+
+      {/* Recent 10 Flights */}
+      <WingFlightsTable
+        title={t("recentFlights")}
+        flights={recentFlights as any}
+        locale={locale}
+        labels={{
+          date: t("date"),
+          pilot: t("pilot"),
+          takeoff: t("takeoff"),
+          distance: t("distance"),
+          score: t("score"),
+          airtime: t("airtime"),
+        }}
+      />
     </div>
   );
 }

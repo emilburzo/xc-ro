@@ -2,6 +2,7 @@ import {
   getWingsList,
   getWingById,
   getWingTopFlights,
+  getWingRecentFlights,
   getWingDistanceHistogram,
   getWingAdoptionCurve,
   getWingYearlyStats,
@@ -85,6 +86,33 @@ describe("wing queries", () => {
 
       const result = await getWingTopFlights(1);
       expect(result).toEqual(rows);
+    });
+  });
+
+  describe("getWingRecentFlights", () => {
+    it("returns most recent 10 flights for a wing", async () => {
+      const rows = [
+        {
+          id: 100,
+          start_time: "2025-06-01",
+          distance_km: 45,
+          score: 40,
+          airtime: 180,
+          url: "https://example.com/100",
+          type: "free flight",
+          pilot_name: "Jane",
+          pilot_username: "jane",
+          takeoff_name: "Bunloc",
+          takeoff_id: 42,
+          glider_name: "Enzo 3",
+          glider_category: "D",
+        },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getWingRecentFlights(1);
+      expect(result).toEqual(rows);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
     });
   });
 
