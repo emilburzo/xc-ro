@@ -3,9 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useTranslations, useLocale } from "next-intl";
 import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import SortHeader from "@/components/SortHeader";
+
+const FlightsMap = dynamic(() => import("@/components/FlightsMap"), { ssr: false });
 
 interface Flight {
   id: number;
@@ -21,6 +24,8 @@ interface Flight {
   takeoff_id: number | null;
   glider_name: string;
   glider_category: string;
+  start_lat: number | null;
+  start_lng: number | null;
 }
 
 interface Props {
@@ -42,6 +47,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
   const t = useTranslations("flights");
   const locale = useLocale();
   const router = useRouter();
+  const [viewMode, setViewMode] = useState<"table" | "map">("table");
   const [pilotSearch, setPilotSearch] = useState(currentFilters.pilot || "");
   const [takeoffSearch, setTakeoffSearch] = useState(currentFilters.takeoff || "");
   const [dateFrom, setDateFrom] = useState(currentFilters.dateFrom || "");
@@ -189,64 +195,100 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
         </button>
       </div>
 
-      {/* Results count */}
-      <div className="text-sm text-gray-500">
-        {total} {t("title").toLowerCase()} &middot; {t("page")} {page}/{totalPages || 1}
+      {/* Results count + view toggle */}
+      <div className="flex items-center justify-between">
+        <div className="text-sm text-gray-500">
+          {total} {t("title").toLowerCase()} &middot; {t("page")} {page}/{totalPages || 1}
+        </div>
+        <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+          <button
+            onClick={() => setViewMode("table")}
+            aria-pressed={viewMode === "table"}
+            className={`px-3 py-1.5 text-sm transition-colors ${
+              viewMode === "table"
+                ? "bg-blue-50 text-blue-700"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            {t("viewTable")}
+          </button>
+          <button
+            onClick={() => setViewMode("map")}
+            aria-pressed={viewMode === "map"}
+            className={`px-3 py-1.5 text-sm transition-colors border-l border-gray-300 ${
+              viewMode === "map"
+                ? "bg-blue-50 text-blue-700"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            {t("viewMap")}
+          </button>
+        </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-auto max-h-[70vh]">
-        <table className="w-full text-sm">
-          <thead>
-            <tr>
-              <SortHeader col="date" label={t("date")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
-              <SortHeader col="pilot" label={t("pilot")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
-              <SortHeader col="takeoff" label={t("takeoff")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("glider")}</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("type")}</th>
-              <SortHeader col="distance" label={t("distance")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
-              <SortHeader col="score" label={t("score")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
-              <SortHeader col="airtime" label={t("duration")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {flights.length === 0 && (
-              <tr>
-                <td colSpan={8} className="px-2 py-8 text-center text-gray-400">{t("noFlights")}</td>
-              </tr>
-            )}
-            {flights.map((f) => (
-              <tr key={f.id} className="hover:bg-gray-50">
-                <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                  <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    {formatDate(f.start_time, locale)}
-                  </a>
-                </td>
-                <td className="px-2 py-2">
-                  <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">
-                    {f.pilot_name}
-                  </Link>
-                </td>
-                <td className="px-2 py-2">
-                  {f.takeoff_id ? (
-                    <Link href={takeoffPath(f.takeoff_id, f.takeoff_name || "")} className="text-blue-600 hover:underline">
-                      {f.takeoff_name}
-                    </Link>
-                  ) : "-"}
-                </td>
-                <td className="px-2 py-2 text-gray-700">
-                  {f.glider_name}
-                  <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
-                </td>
-                <td className="px-2 py-2 text-gray-500 text-xs">{f.type}</td>
-                <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
-                <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>
-                <td className="px-2 py-2 text-gray-500 text-right">{formatDuration(f.airtime)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Map view */}
+      {viewMode === "map" && (
+        <FlightsMap flights={flights} />
+      )}
+
+      {/* Table view */}
+      {viewMode === "table" && (
+        <>
+          <div className="overflow-auto max-h-[70vh]">
+            <table className="w-full text-sm">
+              <thead>
+                <tr>
+                  <SortHeader col="date" label={t("date")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+                  <SortHeader col="pilot" label={t("pilot")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+                  <SortHeader col="takeoff" label={t("takeoff")} activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+                  <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("glider")}</th>
+                  <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200">{t("type")}</th>
+                  <SortHeader col="distance" label={t("distance")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+                  <SortHeader col="score" label={t("score")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+                  <SortHeader col="airtime" label={t("duration")} align="right" activeSort={currentFilters.sort} activeDir={currentFilters.dir} onSort={toggleSort} />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {flights.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="px-2 py-8 text-center text-gray-400">{t("noFlights")}</td>
+                  </tr>
+                )}
+                {flights.map((f) => (
+                  <tr key={f.id} className="hover:bg-gray-50">
+                    <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
+                      <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        {formatDate(f.start_time, locale)}
+                      </a>
+                    </td>
+                    <td className="px-2 py-2">
+                      <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">
+                        {f.pilot_name}
+                      </Link>
+                    </td>
+                    <td className="px-2 py-2">
+                      {f.takeoff_id ? (
+                        <Link href={takeoffPath(f.takeoff_id, f.takeoff_name || "")} className="text-blue-600 hover:underline">
+                          {f.takeoff_name}
+                        </Link>
+                      ) : "-"}
+                    </td>
+                    <td className="px-2 py-2 text-gray-700">
+                      {f.glider_name}
+                      <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
+                    </td>
+                    <td className="px-2 py-2 text-gray-500 text-xs">{f.type}</td>
+                    <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
+                    <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>
+                    <td className="px-2 py-2 text-gray-500 text-right">{formatDuration(f.airtime)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+        </>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (

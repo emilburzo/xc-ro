@@ -33,6 +33,8 @@ jest.mock("next-intl", () => ({
       freeFlightLabel: "free flight",
       faiTriangleLabel: "FAI triangle",
       flatTriangleLabel: "flat triangle",
+      viewTable: "Table",
+      viewMap: "Map",
     };
     return map[key] || key;
   },
@@ -45,6 +47,19 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: jest.fn() }),
   usePathname: () => "/flights",
 }));
+
+// Mock next/dynamic for FlightsMap
+jest.mock("next/dynamic", () => {
+  return (_importFn: () => Promise<unknown>) => {
+    return function MockFlightsMap({ flights }: { flights: { id: number }[] }) {
+      return (
+        <div data-testid="mock-flights-map">
+          {flights.length} flights on map
+        </div>
+      );
+    };
+  };
+});
 
 const mockFlights = [
   {
@@ -61,6 +76,8 @@ const mockFlights = [
     takeoff_id: 5,
     glider_name: "Enzo 3",
     glider_category: "D",
+    start_lat: 45.5,
+    start_lng: 25.3,
   },
   {
     id: 100002,
@@ -76,6 +93,8 @@ const mockFlights = [
     takeoff_id: 1,
     glider_name: "Rush 6",
     glider_category: "B",
+    start_lat: 45.6,
+    start_lng: 25.5,
   },
   {
     id: 100003,
@@ -91,6 +110,8 @@ const mockFlights = [
     takeoff_id: null,
     glider_name: "Epsilon 10",
     glider_category: "A",
+    start_lat: null,
+    start_lng: null,
   },
 ];
 
@@ -315,5 +336,66 @@ describe("FlightsExplorer", () => {
     await user.click(screen.getByText("Filters"));
 
     expect(mockPush).toHaveBeenCalledWith(expect.stringContaining("type=fai"));
+  });
+
+  it("renders view toggle buttons", () => {
+    render(<FlightsExplorer {...defaultProps} />);
+    expect(screen.getByText("Table")).toBeInTheDocument();
+    expect(screen.getByText("Map")).toBeInTheDocument();
+  });
+
+  it("shows table view by default", () => {
+    render(<FlightsExplorer {...defaultProps} />);
+    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.queryByTestId("mock-flights-map")).not.toBeInTheDocument();
+  });
+
+  it("switches to map view when Map button is clicked", async () => {
+    const user = userEvent.setup();
+    render(<FlightsExplorer {...defaultProps} />);
+
+    await user.click(screen.getByText("Map"));
+    expect(screen.getByTestId("mock-flights-map")).toBeInTheDocument();
+    expect(screen.queryByRole("table")).not.toBeInTheDocument();
+  });
+
+  it("switches back to table view when Table button is clicked", async () => {
+    const user = userEvent.setup();
+    render(<FlightsExplorer {...defaultProps} />);
+
+    await user.click(screen.getByText("Map"));
+    expect(screen.queryByRole("table")).not.toBeInTheDocument();
+
+    await user.click(screen.getByText("Table"));
+    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.queryByTestId("mock-flights-map")).not.toBeInTheDocument();
+  });
+
+  it("highlights active view toggle button", async () => {
+    const user = userEvent.setup();
+    render(<FlightsExplorer {...defaultProps} />);
+
+    // Table is active by default
+    const tableBtn = screen.getByText("Table");
+    const mapBtn = screen.getByText("Map");
+    expect(tableBtn).toHaveClass("bg-blue-50", "text-blue-700");
+    expect(mapBtn).not.toHaveClass("bg-blue-50");
+
+    // Switch to map
+    await user.click(mapBtn);
+    expect(mapBtn).toHaveClass("bg-blue-50", "text-blue-700");
+    expect(tableBtn).not.toHaveClass("bg-blue-50");
+  });
+
+  it("shows pagination in map view", async () => {
+    const user = userEvent.setup();
+    render(<FlightsExplorer {...defaultProps} total={120} pageSize={50} />);
+
+    // Pagination visible in table view
+    expect(screen.getByText("«")).toBeInTheDocument();
+
+    // Switch to map — pagination still visible
+    await user.click(screen.getByText("Map"));
+    expect(screen.getByText("«")).toBeInTheDocument();
   });
 });
