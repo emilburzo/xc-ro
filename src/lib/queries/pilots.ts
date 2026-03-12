@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { sql } from "drizzle-orm";
+import { sql, SQL } from "drizzle-orm";
 
 export async function getPilotsList() {
   return db.execute(sql`
@@ -136,7 +136,7 @@ export async function getPilotActivityHeatmap(pilotId: number) {
   `);
 }
 
-export async function getPilotTopFlights(pilotId: number) {
+function pilotFlightsQuery(pilotId: number, orderBy: SQL) {
   return db.execute(sql`
     SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            t.name as takeoff_name, t.id as takeoff_id,
@@ -145,9 +145,17 @@ export async function getPilotTopFlights(pilotId: number) {
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.pilot_id = ${pilotId}
-    ORDER BY f.distance_km DESC
+    ORDER BY ${orderBy}
     LIMIT 10
   `);
+}
+
+export async function getPilotTopFlights(pilotId: number) {
+  return pilotFlightsQuery(pilotId, sql`f.distance_km DESC`);
+}
+
+export async function getPilotLatestFlights(pilotId: number) {
+  return pilotFlightsQuery(pilotId, sql`f.start_time DESC`);
 }
 
 export async function getPilotDna(pilotId: number) {
