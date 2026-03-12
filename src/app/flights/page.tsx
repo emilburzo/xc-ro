@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getFlightsList, FlightFilters } from "@/lib/queries/flights";
+import { getFlightsList, getFlightsChartData, FlightFilters } from "@/lib/queries/flights";
 import FlightsExplorer from "@/components/FlightsExplorer";
+import FlightsChartStrip from "@/components/FlightsChartStrip";
 
 export const dynamic = "force-dynamic";
 
@@ -55,11 +56,19 @@ export default async function FlightsPage({
     filters.sortBy = "distance";
   }
 
-  const result = await getFlightsList(filters);
+  const [result, chartData] = await Promise.all([
+    getFlightsList(filters),
+    getFlightsChartData(filters),
+  ]);
 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+      <FlightsChartStrip
+        distHistogram={chartData.distHistogram}
+        timeline={chartData.timeline}
+        categoryBreakdown={chartData.categoryBreakdown}
+      />
       <FlightsExplorer
         flights={result.flights as any}
         total={result.total}

@@ -1,5 +1,63 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`Snapshot: FlightsChartStrip matches snapshot with data 1`] = `
+<div
+  class="bg-white rounded-lg border border-gray-200 p-4"
+>
+  <button
+    aria-controls="flights-chart-panel"
+    aria-expanded="true"
+    class="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+    type="button"
+  >
+    <span
+      class="transition-transform rotate-90"
+    >
+      ▶
+    </span>
+    Hide charts
+  </button>
+  <div
+    class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3"
+    id="flights-chart-panel"
+  >
+    <div>
+      <h4
+        class="text-xs font-medium text-gray-500 mb-2"
+      >
+        Distance Distribution
+      </h4>
+      <div
+        data-props="{"data":[{"bucket":"0-1","cnt":100},{"bucket":"1-5","cnt":300},{"bucket":"5-20","cnt":250}]}"
+        data-testid="dynamic-chart"
+      />
+    </div>
+    <div>
+      <h4
+        class="text-xs font-medium text-gray-500 mb-2"
+      >
+        Timeline
+      </h4>
+      <div
+        data-props="{"data":[{"label":"iun. 2023","cnt":50},{"label":"iul. 2023","cnt":80}],"barLabel":"Flights Explorer"}"
+        data-testid="dynamic-chart"
+      />
+    </div>
+    <div>
+      <h4
+        class="text-xs font-medium text-gray-500 mb-2"
+      >
+        Category Breakdown
+      </h4>
+      <div
+        data-props="{"data":[{"category":"B","cnt":200},{"category":"C","cnt":150}]}"
+        data-testid="dynamic-chart"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Snapshot: Nav matches snapshot on home page 1`] = `
 <nav
   class="bg-white border-b border-gray-200 sticky top-0 z-50"

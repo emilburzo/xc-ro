@@ -1,4 +1,4 @@
-import { getFlightsList, type FlightFilters } from "../flights";
+import { getFlightsList, getFlightsChartData, type FlightFilters } from "../flights";
 
 const mockExecute = jest.fn();
 
@@ -168,6 +168,65 @@ describe("flights queries", () => {
 
       const result = await getFlightsList({});
       expect(result.total).toBe(0);
+    });
+  });
+
+  describe("getFlightsChartData", () => {
+    it("executes a single query (CTE) with no filters", async () => {
+      mockExecute.mockResolvedValueOnce([
+        { _type: "dist", bucket: "0-1", cnt: 50, year: null, month: null, category: null },
+        { _type: "dist", bucket: "1-5", cnt: 100, year: null, month: null, category: null },
+        { _type: "timeline", bucket: null, cnt: 80, year: 2023, month: 6, category: null },
+        { _type: "cat", bucket: null, cnt: 200, year: null, month: null, category: "B" },
+      ]);
+
+      const result = await getFlightsChartData({});
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+      expect(result.distHistogram).toEqual([
+        { bucket: "0-1", cnt: 50 },
+        { bucket: "1-5", cnt: 100 },
+      ]);
+      expect(result.timeline).toEqual([
+        { year: 2023, month: 6, cnt: 80 },
+      ]);
+      expect(result.categoryBreakdown).toEqual([
+        { category: "B", cnt: 200 },
+      ]);
+    });
+
+    it("executes a single query with filters applied", async () => {
+      mockExecute.mockResolvedValueOnce([
+        { _type: "dist", bucket: "50-100", cnt: 5, year: null, month: null, category: null },
+        { _type: "timeline", bucket: null, cnt: 5, year: 2022, month: 7, category: null },
+        { _type: "cat", bucket: null, cnt: 5, year: null, month: null, category: "D" },
+      ]);
+
+      const filters: FlightFilters = {
+        pilotSearch: "John",
+        takeoffSearch: "Bunloc",
+        dateFrom: "2022-01-01",
+        dateTo: "2022-12-31",
+        distMin: 50,
+        distMax: 200,
+        flightType: "free",
+        gliderCategory: "D",
+      };
+
+      const result = await getFlightsChartData(filters);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+      expect(result.distHistogram).toHaveLength(1);
+      expect(result.timeline).toHaveLength(1);
+      expect(result.categoryBreakdown).toHaveLength(1);
+    });
+
+    it("returns empty arrays when no rows match", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+
+      const result = await getFlightsChartData({ gliderCategory: "Z" });
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+      expect(result.distHistogram).toEqual([]);
+      expect(result.timeline).toEqual([]);
+      expect(result.categoryBreakdown).toEqual([]);
     });
   });
 });

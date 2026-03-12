@@ -39,12 +39,7 @@ export async function getFlightById(id: number) {
   return rows[0] || null;
 }
 
-export async function getFlightsList(filters: FlightFilters) {
-  const page = filters.page || 1;
-  const pageSize = filters.pageSize || 50;
-  const offset = (page - 1) * pageSize;
-
-  // Build WHERE conditions using sql tagged templates
+function buildFlightWhereClause(filters: FlightFilters) {
   const conditions: ReturnType<typeof sql>[] = [];
 
   if (filters.pilotSearch) {
@@ -78,9 +73,105 @@ export async function getFlightsList(filters: FlightFilters) {
     conditions.push(sql`g.category = ${filters.gliderCategory}`);
   }
 
-  const whereClause = conditions.length > 0
+  return conditions.length > 0
     ? sql.join(conditions, sql` AND `)
     : sql`1=1`;
+}
+
+export interface DistHistogramRow {
+  bucket: string;
+  cnt: number;
+}
+
+export interface TimelineRow {
+  year: number;
+  month: number;
+  cnt: number;
+}
+
+export interface CategoryRow {
+  category: string;
+  cnt: number;
+}
+
+export interface FlightsChartData {
+  distHistogram: DistHistogramRow[];
+  timeline: TimelineRow[];
+  categoryBreakdown: CategoryRow[];
+}
+
+export async function getFlightsChartData(filters: FlightFilters): Promise<FlightsChartData> {
+  const whereClause = buildFlightWhereClause(filters);
+
+  const rows = await db.execute(sql`
+    WITH filtered AS (
+      SELECT f.distance_km, f.start_time, g.category
+      FROM flights_pg f
+      JOIN pilots p ON f.pilot_id = p.id
+      LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+      JOIN gliders g ON f.glider_id = g.id
+      WHERE ${whereClause}
+    ),
+    dist AS (
+      SELECT
+        CASE
+          WHEN distance_km < 1 THEN '0-1'
+          WHEN distance_km < 5 THEN '1-5'
+          WHEN distance_km < 20 THEN '5-20'
+          WHEN distance_km < 50 THEN '20-50'
+          WHEN distance_km < 100 THEN '50-100'
+          ELSE '100+'
+        END as bucket,
+        count(*)::int as cnt
+      FROM filtered
+      GROUP BY bucket
+      ORDER BY min(distance_km)
+    ),
+    timeline AS (
+      SELECT
+        EXTRACT(YEAR FROM start_time)::int as year,
+        EXTRACT(MONTH FROM start_time)::int as month,
+        count(*)::int as cnt
+      FROM filtered
+      GROUP BY year, month
+      ORDER BY year, month
+    ),
+    cat AS (
+      SELECT category, count(*)::int as cnt
+      FROM filtered
+      GROUP BY category
+      ORDER BY cnt DESC
+    )
+    SELECT 'dist' as _type, bucket, cnt, null::int as year, null::int as month, null as category FROM dist
+    UNION ALL
+    SELECT 'timeline', null, cnt, year, month, null FROM timeline
+    UNION ALL
+    SELECT 'cat', null, cnt, null, null, category FROM cat
+  `);
+
+  const distHistogram: DistHistogramRow[] = [];
+  const timeline: TimelineRow[] = [];
+  const categoryBreakdown: CategoryRow[] = [];
+
+  for (const row of rows as unknown as { _type: string; bucket: string; cnt: number; year: number; month: number; category: string }[]) {
+    if (row._type === "dist") {
+      distHistogram.push({ bucket: row.bucket, cnt: row.cnt });
+    } else if (row._type === "timeline") {
+      timeline.push({ year: row.year, month: row.month, cnt: row.cnt });
+    } else {
+      categoryBreakdown.push({ category: row.category, cnt: row.cnt });
+    }
+  }
+
+  return { distHistogram, timeline, categoryBreakdown };
+}
+
+export async function getFlightsList(filters: FlightFilters) {
+  const page = filters.page || 1;
+  const pageSize = filters.pageSize || 50;
+  const offset = (page - 1) * pageSize;
+
+  const whereClause = buildFlightWhereClause(filters);
 
   // Sort column (whitelist to prevent SQL injection)
   const sortMapping: Record<string, ReturnType<typeof sql>> = {
