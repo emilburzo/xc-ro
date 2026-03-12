@@ -3,6 +3,7 @@ import {
   getCategoryRecords,
   getAnnualRecords,
   getFunStats,
+  getYearOverYearGrowth,
 } from "../records";
 
 const mockExecute = jest.fn();
@@ -103,6 +104,21 @@ describe("records queries", () => {
         mostConsistent,
       });
       expect(mockExecute).toHaveBeenCalledTimes(4);
+    });
+  });
+
+  describe("getYearOverYearGrowth", () => {
+    it("returns yearly growth data", async () => {
+      const rows = [
+        { year: 2020, flights: 500, pilots: 120, total_km: 12000 },
+        { year: 2021, flights: 600, pilots: 150, total_km: 15000 },
+        { year: 2022, flights: 750, pilots: 180, total_km: 20000 },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getYearOverYearGrowth();
+      expect(result).toEqual(rows);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
     });
   });
 });
