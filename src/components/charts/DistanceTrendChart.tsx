@@ -19,7 +19,7 @@ export default function DistanceTrendChart({ data }: { data: DistanceTrendData[]
         <XAxis dataKey="year" tick={{ fontSize: 11 }} />
         <YAxis tick={{ fontSize: 11 }} unit=" km" />
         <Tooltip formatter={(val: any, _name: any, _props: any) => [`${val} km`, "Avg distance"]} />
-        <Line type="monotone" dataKey="avgKm" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} name="Avg km" />
+        <Line type="monotone" dataKey="avgKm" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} name="Avg km" isAnimationActive={false} />
       </LineChart>
     </ResponsiveContainer>
   );

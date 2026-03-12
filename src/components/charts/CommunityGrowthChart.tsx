@@ -37,9 +37,9 @@ export default function CommunityGrowthChart({
         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
         <Tooltip />
         <Legend />
-        <Bar yAxisId="left" dataKey="newPilots" fill="#22c55e" radius={[2, 2, 0, 0]} name={newPilotsLabel} />
-        <Line yAxisId="left" type="monotone" dataKey="cumulativePilots" stroke="#f59e0b" strokeWidth={2} dot={false} name={cumulativePilotsLabel} />
-        <Line yAxisId="right" type="monotone" dataKey="flights" stroke="#3b82f6" strokeWidth={2} dot={false} name={flightsLabel} />
+        <Bar yAxisId="left" dataKey="newPilots" fill="#22c55e" radius={[2, 2, 0, 0]} name={newPilotsLabel} isAnimationActive={false} />
+        <Line yAxisId="left" type="monotone" dataKey="cumulativePilots" stroke="#f59e0b" strokeWidth={2} dot={false} name={cumulativePilotsLabel} isAnimationActive={false} />
+        <Line yAxisId="right" type="monotone" dataKey="flights" stroke="#3b82f6" strokeWidth={2} dot={false} name={flightsLabel} isAnimationActive={false} />
       </ComposedChart>
     </ResponsiveContainer>
   );

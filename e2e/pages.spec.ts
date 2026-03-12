@@ -63,11 +63,18 @@ test.describe("Takeoff detail page", () => {
     await page.goto("/takeoffs/1-bunloc");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
-    // Wait for the dynamically-imported Recharts charts to render
+    // Wait for the last dynamically-imported Recharts chart to render
     await expect(
-      page.locator(".recharts-responsive-container svg").first(),
-    ).toBeVisible({ timeout: 10_000 });
-    await expect(page).toHaveScreenshot("takeoff-detail.png", { fullPage: true });
+      page.locator(".recharts-responsive-container svg").last(),
+    ).toBeVisible({ timeout: 15_000 });
+    // Move mouse away from charts to avoid tooltip rendering differences
+    await page.mouse.move(0, 0);
+    // Use a longer timeout so Playwright has enough time to capture a stable
+    // full-page screenshot in CI, after all dynamic content has rendered
+    await expect(page).toHaveScreenshot("takeoff-detail.png", {
+      fullPage: true,
+      timeout: 15_000,
+    });
   });
 });
 

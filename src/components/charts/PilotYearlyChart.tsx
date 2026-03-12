@@ -26,10 +26,10 @@ export default function PilotYearlyChart({ data }: { data: YearlyData[] }) {
         <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
         <Tooltip />
-        <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Flights" />
-        <Line yAxisId="right" type="monotone" dataKey="avgDist" stroke="#f59e0b" strokeWidth={2} dot={{ r: 2 }} name="Avg km" />
-        <Line yAxisId="right" type="monotone" dataKey="maxDist" stroke="#ef4444" strokeWidth={2} dot={{ r: 2 }} name="Max km" />
-        <Line yAxisId="left" type="monotone" dataKey="hours" stroke="#10b981" strokeWidth={2} dot={{ r: 2 }} name="Hours" />
+        <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Flights" isAnimationActive={false} />
+        <Line yAxisId="right" type="monotone" dataKey="avgDist" stroke="#f59e0b" strokeWidth={2} dot={{ r: 2 }} name="Avg km" isAnimationActive={false} />
+        <Line yAxisId="right" type="monotone" dataKey="maxDist" stroke="#ef4444" strokeWidth={2} dot={{ r: 2 }} name="Max km" isAnimationActive={false} />
+        <Line yAxisId="left" type="monotone" dataKey="hours" stroke="#10b981" strokeWidth={2} dot={{ r: 2 }} name="Hours" isAnimationActive={false} />
       </ComposedChart>
     </ResponsiveContainer>
   );

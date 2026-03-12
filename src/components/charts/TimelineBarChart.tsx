@@ -19,7 +19,7 @@ export default function TimelineBarChart({ data, barLabel = "Flights" }: Props) 
         <XAxis dataKey="label" tick={{ fontSize: 10 }} interval="preserveStartEnd" />
         <YAxis tick={{ fontSize: 11 }} />
         <Tooltip />
-        <Bar dataKey="cnt" fill="#3b82f6" radius={[2, 2, 0, 0]} name={barLabel} />
+        <Bar dataKey="cnt" fill="#3b82f6" radius={[2, 2, 0, 0]} name={barLabel} isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
   );

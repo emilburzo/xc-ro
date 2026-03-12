@@ -48,7 +48,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
   const hasCoords = f.start_lat != null && f.start_lng != null;
 
   const similarFlights = f.takeoff_id != null
-    ? await getSimilarFlights(id, f.takeoff_id, Number(f.distance_km))
+    ? await getSimilarFlights(id, Number(f.takeoff_id), Number(f.distance_km))
     : [];
 
   return (

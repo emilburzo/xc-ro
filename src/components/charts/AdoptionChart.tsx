@@ -19,7 +19,7 @@ export default function AdoptionChart({ data }: { data: AdoptionData[] }) {
         <XAxis dataKey="year" tick={{ fontSize: 11 }} />
         <YAxis tick={{ fontSize: 11 }} />
         <Tooltip />
-        <Line type="monotone" dataKey="pilots" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} name="Pilots" />
+        <Line type="monotone" dataKey="pilots" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} name="Pilots" isAnimationActive={false} />
       </LineChart>
     </ResponsiveContainer>
   );

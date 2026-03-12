@@ -24,7 +24,7 @@ export default function DowChart({ data }: { data: DowData[] }) {
         <XAxis dataKey="day" tick={{ fontSize: 11 }} />
         <YAxis tick={{ fontSize: 11 }} />
         <Tooltip />
-        <Bar dataKey="flights" fill="#06b6d4" radius={[2, 2, 0, 0]} />
+        <Bar dataKey="flights" fill="#06b6d4" radius={[2, 2, 0, 0]} isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
   );
