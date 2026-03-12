@@ -37,6 +37,7 @@ export default function WingDonut({ data }: { data: WingData[] }) {
           outerRadius={80}
           paddingAngle={2}
           dataKey="value"
+          isAnimationActive={false}
         >
           {chartData.map((d, i) => (
             <Cell key={i} fill={CAT_COLORS[d.name] || "#6b7280"} />

@@ -37,9 +37,9 @@ export default function PilotsGrowthChart({
         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
         <Tooltip />
         <Legend />
-        <Bar yAxisId="left" dataKey="activePilots" fill="#3b82f6" radius={[2, 2, 0, 0]} name={activePilotsLabel} />
-        <Bar yAxisId="left" dataKey="newPilots" fill="#22c55e" radius={[2, 2, 0, 0]} name={newPilotsLabel} />
-        <Line yAxisId="right" type="monotone" dataKey="cumulativePilots" stroke="#f59e0b" strokeWidth={2} dot={false} name={cumulativePilotsLabel} />
+        <Bar yAxisId="left" dataKey="activePilots" fill="#3b82f6" radius={[2, 2, 0, 0]} name={activePilotsLabel} isAnimationActive={false} />
+        <Bar yAxisId="left" dataKey="newPilots" fill="#22c55e" radius={[2, 2, 0, 0]} name={newPilotsLabel} isAnimationActive={false} />
+        <Line yAxisId="right" type="monotone" dataKey="cumulativePilots" stroke="#f59e0b" strokeWidth={2} dot={false} name={cumulativePilotsLabel} isAnimationActive={false} />
       </ComposedChart>
     </ResponsiveContainer>
   );

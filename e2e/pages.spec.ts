@@ -63,17 +63,17 @@ test.describe("Takeoff detail page", () => {
     await page.goto("/takeoffs/1-bunloc");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
-    // Wait for ALL dynamically-imported Recharts charts to render (7 charts in TakeoffDetailCharts)
+    // Wait for the last dynamically-imported Recharts chart to render
     await expect(
-      page.locator(".recharts-responsive-container"),
-    ).toHaveCount(7, { timeout: 15_000 });
-    // Allow Recharts SVG animations to complete (charts oscillate for ~5s after rendering)
-    await page.waitForTimeout(5000);
+      page.locator(".recharts-responsive-container svg").nth(6),
+    ).toBeVisible({ timeout: 15_000 });
     // Move mouse away from charts to avoid tooltip rendering differences
     await page.mouse.move(0, 0);
+    // Use longer timeout so Playwright can capture two consecutive stable screenshots
+    // after Recharts JS-driven entrance animations settle (~5s)
     await expect(page).toHaveScreenshot("takeoff-detail.png", {
       fullPage: true,
-      maxDiffPixelRatio: 0.05,
+      timeout: 15_000,
     });
   });
 });

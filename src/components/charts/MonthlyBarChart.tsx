@@ -27,8 +27,8 @@ export default function MonthlyBarChart({ data }: { data: MonthlyData[] }) {
         <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
         <Tooltip />
-        <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Flights" />
-        <Line yAxisId="right" type="monotone" dataKey="avgDist" stroke="#f59e0b" strokeWidth={2} dot={false} name="Avg km" />
+        <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Flights" isAnimationActive={false} />
+        <Line yAxisId="right" type="monotone" dataKey="avgDist" stroke="#f59e0b" strokeWidth={2} dot={false} name="Avg km" isAnimationActive={false} />
       </ComposedChart>
     </ResponsiveContainer>
   );

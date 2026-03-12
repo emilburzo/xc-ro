@@ -31,7 +31,7 @@ export default function DistanceHistogram({ data }: { data: HistogramData[] }) {
         <XAxis dataKey="bucket" tick={{ fontSize: 10 }} />
         <YAxis tick={{ fontSize: 11 }} />
         <Tooltip formatter={(val: any, _name: any, props: any) => [`${val} (${props.payload.pct}%)`, "Flights"]} />
-        <Bar dataKey="count" radius={[2, 2, 0, 0]}>
+        <Bar dataKey="count" radius={[2, 2, 0, 0]} isAnimationActive={false}>
           {chartData.map((d, i) => (
             <Cell key={i} fill={BUCKET_COLORS[d.rawBucket] || "#3b82f6"} />
           ))}

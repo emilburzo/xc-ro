@@ -62,6 +62,7 @@ export default function PilotDnaChart({ data, labels }: { data: DnaData; labels:
           stroke="#3b82f6"
           fill="#3b82f6"
           fillOpacity={0.25}
+          isAnimationActive={false}
         />
         <Tooltip
           formatter={(val: any, _name: any, props: any) => {

@@ -20,7 +20,7 @@ export default function HourlyChart({ data }: { data: HourlyData[] }) {
         <XAxis dataKey="hour" tick={{ fontSize: 10 }} interval={2} />
         <YAxis tick={{ fontSize: 11 }} />
         <Tooltip />
-        <Bar dataKey="flights" fill="#8b5cf6" radius={[2, 2, 0, 0]} />
+        <Bar dataKey="flights" fill="#8b5cf6" radius={[2, 2, 0, 0]} isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
   );

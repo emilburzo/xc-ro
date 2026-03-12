@@ -68,6 +68,7 @@ export default function RecordProgressionChart({ data }: { data: AnnualRecord[] 
           strokeWidth={2}
           dot={<CustomDot />}
           activeDot={false}
+          isAnimationActive={false}
         />
       </AreaChart>
     </ResponsiveContainer>

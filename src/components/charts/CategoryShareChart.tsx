@@ -74,6 +74,7 @@ export default function CategoryShareChart({ data }: Props) {
             fill={CAT_COLORS[cat] || "#6b7280"}
             stroke={CAT_COLORS[cat] || "#6b7280"}
             name={cat}
+            isAnimationActive={false}
           />
         ))}
       </AreaChart>

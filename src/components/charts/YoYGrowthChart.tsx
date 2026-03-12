@@ -31,9 +31,9 @@ export default function YoYGrowthChart({ data, labels }: { data: GrowthData[]; l
         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
         <Tooltip />
         <Legend />
-        <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name={labels.flights} />
-        <Bar yAxisId="left" dataKey="pilots" fill="#10b981" radius={[2, 2, 0, 0]} name={labels.pilots} />
-        <Line yAxisId="right" type="monotone" dataKey="totalKm" stroke="#f59e0b" strokeWidth={2} dot={false} name={labels.totalKm} />
+        <Bar yAxisId="left" dataKey="flights" fill="#3b82f6" radius={[2, 2, 0, 0]} name={labels.flights} isAnimationActive={false} />
+        <Bar yAxisId="left" dataKey="pilots" fill="#10b981" radius={[2, 2, 0, 0]} name={labels.pilots} isAnimationActive={false} />
+        <Line yAxisId="right" type="monotone" dataKey="totalKm" stroke="#f59e0b" strokeWidth={2} dot={false} name={labels.totalKm} isAnimationActive={false} />
       </ComposedChart>
     </ResponsiveContainer>
   );
