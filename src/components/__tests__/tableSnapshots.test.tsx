@@ -5,6 +5,7 @@ import PilotsTable from "../PilotsTable";
 import FlightsExplorer from "../FlightsExplorer";
 import WingsTable from "../WingsTable";
 import PilotFlightsTable from "../PilotFlightsTable";
+import TakeoffFlightsTable from "../TakeoffFlightsTable";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
@@ -360,6 +361,52 @@ describe("Snapshot: PilotFlightsTable", () => {
         labels={{
           date: "Date",
           takeoff: "Takeoff",
+          glider: "Glider",
+          distance: "Distance",
+          score: "Score",
+          airtime: "Airtime",
+        }}
+      />
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+});
+
+const mockTakeoffFlights = [
+  {
+    id: 1001,
+    start_time: "2025-07-08T10:00:00Z",
+    distance_km: 312.5,
+    score: 420.5,
+    airtime: 480,
+    pilot_name: "Ion Popescu",
+    pilot_username: "ion.popescu",
+    glider_name: "Advance Omega X-Alps 4",
+    glider_category: "D",
+  },
+  {
+    id: 1002,
+    start_time: "2025-07-08T09:30:00Z",
+    distance_km: 45.3,
+    score: 52.1,
+    airtime: 180,
+    pilot_name: "Maria Ionescu",
+    pilot_username: "maria.ionescu",
+    glider_name: "Nova Mentor 7",
+    glider_category: "B",
+  },
+];
+
+describe("Snapshot: TakeoffFlightsTable", () => {
+  it("matches snapshot", () => {
+    const { container } = render(
+      <TakeoffFlightsTable
+        title="Top 10 Flights"
+        flights={mockTakeoffFlights}
+        locale="ro"
+        labels={{
+          date: "Date",
+          pilot: "Pilot",
           glider: "Glider",
           distance: "Distance",
           score: "Score",

@@ -831,6 +831,181 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
 </div>
 `;
 
+exports[`Snapshot: TakeoffFlightsTable matches snapshot 1`] = `
+<div
+  class="bg-white rounded-lg border border-gray-200 p-4"
+>
+  <h3
+    class="font-semibold text-gray-900 mb-3"
+  >
+    Top 10 Flights
+  </h3>
+  <div
+    class="overflow-x-auto"
+  >
+    <table
+      class="w-full text-sm"
+    >
+      <thead
+        class="border-b border-gray-200"
+      >
+        <tr>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            #
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Date
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Pilot
+          </th>
+          <th
+            class="px-2 py-2 text-left text-xs font-medium text-gray-500"
+          >
+            Glider
+          </th>
+          <th
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500"
+          >
+            Distance
+          </th>
+          <th
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500"
+          >
+            Score
+          </th>
+          <th
+            class="px-2 py-2 text-right text-xs font-medium text-gray-500"
+          >
+            Airtime
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-gray-100"
+      >
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2 text-gray-500"
+          >
+            1
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 whitespace-nowrap"
+          >
+            <a
+              class="hover:underline"
+              href="/flights/1001"
+            >
+              08.07.2025
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/pilots/ion.popescu"
+            >
+              Ion Popescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            Advance Omega X-Alps 4
+            <span
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+            >
+              D
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 font-medium text-right"
+          >
+            312.5
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            420.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-right"
+          >
+            8h 0m
+          </td>
+        </tr>
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2 text-gray-500"
+          >
+            2
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 whitespace-nowrap"
+          >
+            <a
+              class="hover:underline"
+              href="/flights/1002"
+            >
+              08.07.2025
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/pilots/maria.ionescu"
+            >
+              Maria Ionescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            Nova Mentor 7
+            <span
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+            >
+              B
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 font-medium text-right"
+          >
+            45.3
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            52.1
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-right"
+          >
+            3h 0m
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
 exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
 <div>
   <div

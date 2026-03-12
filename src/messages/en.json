@@ -81,6 +81,7 @@
     "distanceTrend": "Avg distance per year",
     "xcScore": "XC Potential Score",
     "top10": "Top 10 Flights",
+    "recentFlights": "Recent 10 Flights",
     "flights100k": "100km+ Flights",
     "wingClasses": "Wing Classes",
     "topGliders": "Top 5 Gliders",

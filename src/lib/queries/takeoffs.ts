@@ -165,7 +165,7 @@ export async function getTakeoffDistanceHistogram(takeoffId: number) {
   `);
 }
 
-export async function getTakeoffTop10(takeoffId: number) {
+function getTakeoffFlightsSorted(takeoffId: number, orderBy: ReturnType<typeof sql>) {
   return db.execute(sql`
     SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            p.name as pilot_name, p.username as pilot_username,
@@ -174,9 +174,17 @@ export async function getTakeoffTop10(takeoffId: number) {
     JOIN pilots p ON f.pilot_id = p.id
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.takeoff_id = ${takeoffId}
-    ORDER BY f.distance_km DESC
+    ORDER BY ${orderBy}
     LIMIT 10
   `);
+}
+
+export async function getTakeoffTop10(takeoffId: number) {
+  return getTakeoffFlightsSorted(takeoffId, sql`f.distance_km DESC`);
+}
+
+export async function getTakeoffRecentFlights(takeoffId: number) {
+  return getTakeoffFlightsSorted(takeoffId, sql`f.start_time DESC`);
 }
 
 export async function getTakeoffWingClasses(takeoffId: number) {

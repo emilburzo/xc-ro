@@ -7,6 +7,7 @@ import {
   getTakeoffDayOfWeek,
   getTakeoffDistanceHistogram,
   getTakeoffTop10,
+  getTakeoffRecentFlights,
   getTakeoffWingClasses,
   getTakeoffTopGliders,
   getTakeoffYearlyTrend,
@@ -154,6 +155,30 @@ describe("takeoff queries", () => {
       mockExecute.mockResolvedValueOnce(rows);
 
       const result = await getTakeoffTop10(42);
+      expect(result).toEqual(rows);
+    });
+  });
+
+  describe("getTakeoffRecentFlights", () => {
+    it("returns most recent 10 flights", async () => {
+      const rows = [
+        {
+          id: 101,
+          start_time: "2025-06-15",
+          distance_km: 45.2,
+          score: 38.5,
+          airtime: 180,
+          url: "https://example.com/101",
+          type: "free flight",
+          pilot_name: "Jane",
+          pilot_username: "jane",
+          glider_name: "Sigma 11",
+          glider_category: "B",
+        },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getTakeoffRecentFlights(42);
       expect(result).toEqual(rows);
     });
   });
