@@ -65,12 +65,12 @@ test.describe("Takeoff detail page", () => {
     await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
     // Wait for the last dynamically-imported Recharts chart to render
     await expect(
-      page.locator(".recharts-responsive-container svg").nth(6),
+      page.locator(".recharts-responsive-container svg").last(),
     ).toBeVisible({ timeout: 15_000 });
     // Move mouse away from charts to avoid tooltip rendering differences
     await page.mouse.move(0, 0);
-    // Use longer timeout so Playwright can capture two consecutive stable screenshots
-    // after Recharts JS-driven entrance animations settle (~5s)
+    // Use a longer timeout so Playwright has enough time to capture a stable
+    // full-page screenshot in CI, after all dynamic content has rendered
     await expect(page).toHaveScreenshot("takeoff-detail.png", {
       fullPage: true,
       timeout: 15_000,
