@@ -150,11 +150,11 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
         </div>
       )}
       {/* Similar Flights */}
-      {(similarFlights as any[]).length > 0 && (
+      {similarFlights.length > 0 && (
         <div>
           <TakeoffFlightsTable
             title={t("similarFlightsTitle")}
-            flights={similarFlights as any}
+            flights={similarFlights}
             locale={locale}
             labels={{
               date: t("date"),
@@ -165,14 +165,16 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
               airtime: t("airtime"),
             }}
           />
-          <div className="mt-2 text-right">
-            <Link
-              href={similarFlightsPath(f.takeoff_name, Number(f.distance_km))}
-              className="text-sm text-blue-600 hover:underline"
-            >
-              {t("viewMoreSimilar")} &rarr;
-            </Link>
-          </div>
+          {f.takeoff_name && (
+            <div className="mt-2 text-right">
+              <Link
+                href={similarFlightsPath(f.takeoff_name, Number(f.distance_km))}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {t("viewMoreSimilar")} &rarr;
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>

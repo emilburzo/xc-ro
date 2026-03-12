@@ -102,3 +102,30 @@ test.describe("Wing detail page", () => {
     await expect(page).toHaveScreenshot("wing-detail.png", { fullPage: true });
   });
 });
+
+test.describe("Flight detail page", () => {
+  test("renders similar flights table and link", async ({ page }) => {
+    // Flight 15 is Maria Ionescu from Bunloc, 42.5km — has 4 similar flights in seed data
+    await page.goto("/flights/15");
+    await expect(page.locator("h1")).toBeVisible();
+
+    // Similar flights section should appear
+    const similarSection = page.getByText(/Zboruri similare|Similar Flights/i);
+    await expect(similarSection).toBeVisible();
+
+    // Table should have rows for the similar flights
+    const similarTable = page.locator("table").last();
+    await expect(similarTable.locator("tbody tr")).not.toHaveCount(0);
+
+    // "View more comparable flights" link should be present
+    const viewMoreLink = page.getByText(/Vezi mai multe zboruri comparabile|View more comparable flights/i);
+    await expect(viewMoreLink).toBeVisible();
+
+    // The link should point to /flights with appropriate filters
+    const href = await viewMoreLink.getAttribute("href");
+    expect(href).toContain("/flights?");
+    expect(href).toContain("takeoff=Bunloc");
+    expect(href).toContain("distMin=");
+    expect(href).toContain("distMax=");
+  });
+});

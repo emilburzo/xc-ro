@@ -166,11 +166,23 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
   return { distHistogram, timeline, categoryBreakdown };
 }
 
-export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number) {
+export interface SimilarFlightRow {
+  id: number;
+  start_time: string;
+  distance_km: number;
+  score: number;
+  airtime: number;
+  pilot_name: string;
+  pilot_username: string;
+  glider_name: string;
+  glider_category: string;
+}
+
+export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number): Promise<SimilarFlightRow[]> {
   if (distanceKm <= 0) return [];
   const distMin = distanceKm * 0.8;
   const distMax = distanceKm * 1.2;
-  return db.execute(sql`
+  const rows = await db.execute(sql`
     SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime,
            p.name as pilot_name, p.username as pilot_username,
            g.name as glider_name, g.category as glider_category
@@ -184,6 +196,7 @@ export async function getSimilarFlights(flightId: number, takeoffId: number, dis
     ORDER BY f.start_time DESC
     LIMIT 10
   `);
+  return rows as unknown as SimilarFlightRow[];
 }
 
 export async function getFlightsList(filters: FlightFilters) {

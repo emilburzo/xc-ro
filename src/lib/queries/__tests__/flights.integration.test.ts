@@ -14,7 +14,7 @@ jest.mock("../../db", () => {
   return { db: helpers.testDb };
 });
 
-import { getFlightsList } from "../flights";
+import { getFlightsList, getSimilarFlights } from "../flights";
 
 const describeIf = canRunIntegrationTests ? describe : describe.skip;
 
@@ -151,6 +151,51 @@ describeIf("flights queries (integration)", () => {
       const result = await getFlightsList({ pilotSearch: "nonexistent" });
       expect(result.total).toBe(0);
       expect(result.flights.length).toBe(0);
+    });
+  });
+
+  describe("getSimilarFlights", () => {
+    it("returns flights within ±20% distance from same takeoff", async () => {
+      // Flight 102 is 80.5km from Bunloc (takeoff 1). ±20% = 64.4–96.6
+      // Flight 104 is 65.0km from Bunloc → within range
+      const result = await getSimilarFlights(102, 1, 80.5);
+      expect(result.length).toBe(1);
+      expect(Number((result[0] as Record<string, unknown>).id)).toBe(104);
+    });
+
+    it("excludes the current flight from results", async () => {
+      // Flight 102 is 80.5km from Bunloc. ±20% = 64.4–96.6
+      // Flight 102 itself is within range but must be excluded
+      const result = await getSimilarFlights(102, 1, 80.5);
+      const ids = result.map((f: Record<string, unknown>) => Number(f.id));
+      expect(ids).not.toContain(102);
+    });
+
+    it("returns empty when no flights match the distance range", async () => {
+      // Flight 101 is 120.0km from Bunloc. ±20% = 96–144
+      // No other Bunloc PG flights in that range
+      const result = await getSimilarFlights(101, 1, 120.0);
+      expect(result.length).toBe(0);
+    });
+
+    it("returns empty for zero distance", async () => {
+      const result = await getSimilarFlights(101, 1, 0);
+      expect(result.length).toBe(0);
+    });
+
+    it("returns results with expected columns", async () => {
+      const result = await getSimilarFlights(102, 1, 80.5);
+      expect(result.length).toBe(1);
+      const row = result[0] as Record<string, unknown>;
+      expect(row).toHaveProperty("id");
+      expect(row).toHaveProperty("start_time");
+      expect(row).toHaveProperty("distance_km");
+      expect(row).toHaveProperty("score");
+      expect(row).toHaveProperty("airtime");
+      expect(row).toHaveProperty("pilot_name");
+      expect(row).toHaveProperty("pilot_username");
+      expect(row).toHaveProperty("glider_name");
+      expect(row).toHaveProperty("glider_category");
     });
   });
 });
