@@ -1,5 +1,6 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import type { FlightRow } from "../types";
 
 const FLIGHT_TYPE_MAPPING: Record<string, string[]> = {
   free: ["free flight", "zbor liber"],
@@ -164,6 +165,44 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
   }
 
   return { distHistogram, timeline, categoryBreakdown };
+}
+
+export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number): Promise<FlightRow[]> {
+  if (
+    !Number.isFinite(distanceKm) ||
+    !Number.isFinite(flightId) ||
+    !Number.isFinite(takeoffId) ||
+    distanceKm <= 0
+  ) {
+    return [];
+  }
+  const distMin = distanceKm * 0.8;
+  const distMax = distanceKm * 1.2;
+  const rows = await db.execute(sql`
+    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime,
+           p.name as pilot_name, p.username as pilot_username,
+           g.name as glider_name, g.category as glider_category
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE f.takeoff_id = ${takeoffId}
+      AND f.distance_km >= ${distMin}
+      AND f.distance_km <= ${distMax}
+      AND f.id != ${flightId}
+    ORDER BY f.start_time DESC
+    LIMIT 10
+  `);
+  return (rows as unknown as Record<string, unknown>[]).map((r) => ({
+    id: Number(r.id),
+    start_time: String(r.start_time),
+    distance_km: Number(r.distance_km),
+    score: Number(r.score),
+    airtime: Number(r.airtime),
+    pilot_name: String(r.pilot_name),
+    pilot_username: String(r.pilot_username),
+    glider_name: String(r.glider_name),
+    glider_category: String(r.glider_category),
+  }));
 }
 
 export async function getFlightsList(filters: FlightFilters) {

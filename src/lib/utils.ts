@@ -41,6 +41,18 @@ export function flightPath(id: number, pilotName: string, takeoffName?: string |
   return slug ? `/flights/${id}-${slug}` : `/flights/${id}`;
 }
 
+export function similarFlightsPath(takeoffName: string, distanceKm: number): string {
+  const distMin = distanceKm * 0.8;
+  const distMax = distanceKm * 1.2;
+  const params = new URLSearchParams({
+    takeoff: takeoffName,
+    distMin: String(distMin),
+    distMax: String(distMax),
+    sort: "distance",
+  });
+  return `/flights?${params.toString()}`;
+}
+
 export function formatDuration(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;

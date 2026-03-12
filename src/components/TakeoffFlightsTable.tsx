@@ -1,21 +1,10 @@
 import Link from "next/link";
 import { pilotPath, flightPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
-
-interface TakeoffFlightRow {
-  id: number;
-  start_time: string;
-  distance_km: number;
-  score: number;
-  airtime: number;
-  pilot_name: string;
-  pilot_username: string;
-  glider_name: string;
-  glider_category: string;
-}
+import type { FlightRow } from "@/lib/types";
 
 interface TakeoffFlightsTableProps {
   title: string;
-  flights: TakeoffFlightRow[];
+  flights: FlightRow[];
   locale: string;
   takeoffName: string;
   labels: {
