@@ -168,7 +168,14 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
 }
 
 export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number): Promise<FlightRow[]> {
-  if (distanceKm <= 0) return [];
+  if (
+    !Number.isFinite(distanceKm) ||
+    !Number.isFinite(flightId) ||
+    !Number.isFinite(takeoffId) ||
+    distanceKm <= 0
+  ) {
+    return [];
+  }
   const distMin = distanceKm * 0.8;
   const distMax = distanceKm * 1.2;
   const rows = await db.execute(sql`
@@ -185,7 +192,17 @@ export async function getSimilarFlights(flightId: number, takeoffId: number, dis
     ORDER BY f.start_time DESC
     LIMIT 10
   `);
-  return rows as unknown as FlightRow[];
+  return (rows as unknown as Record<string, unknown>[]).map((r) => ({
+    id: Number(r.id),
+    start_time: String(r.start_time),
+    distance_km: Number(r.distance_km),
+    score: Number(r.score),
+    airtime: Number(r.airtime),
+    pilot_name: String(r.pilot_name),
+    pilot_username: String(r.pilot_username),
+    glider_name: String(r.glider_name),
+    glider_category: String(r.glider_category),
+  }));
 }
 
 export async function getFlightsList(filters: FlightFilters) {

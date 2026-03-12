@@ -110,11 +110,14 @@ test.describe("Flight detail page", () => {
     await expect(page.locator("h1")).toBeVisible();
 
     // Similar flights section should appear
-    const similarSection = page.getByText(/Zboruri similare|Similar Flights/i);
-    await expect(similarSection).toBeVisible();
+    const similarSectionHeading = page.getByText(/Zboruri similare|Similar Flights/i);
+    await expect(similarSectionHeading).toBeVisible();
+
+    // Scope table lookup to the container that holds the similar flights heading
+    const similarSection = similarSectionHeading.locator("xpath=ancestor::div[1]");
 
     // Table should have rows for the similar flights
-    const similarTable = page.locator("table").last();
+    const similarTable = similarSection.locator("table");
     await expect(similarTable.locator("tbody tr")).not.toHaveCount(0);
 
     // "View more comparable flights" link should be present
