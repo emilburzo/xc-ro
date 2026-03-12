@@ -4,6 +4,7 @@ import TakeoffsTable from "../TakeoffsTable";
 import PilotsTable from "../PilotsTable";
 import FlightsExplorer from "../FlightsExplorer";
 import WingsTable from "../WingsTable";
+import PilotFlightsTable from "../PilotFlightsTable";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
@@ -320,6 +321,52 @@ const mockWings = [
 describe("Snapshot: WingsTable", () => {
   it("matches snapshot", () => {
     const { container } = render(<WingsTable wings={mockWings} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+});
+
+const mockPilotFlights = [
+  {
+    id: 1001,
+    start_time: "2025-07-08T10:00:00Z",
+    takeoff_id: 2,
+    takeoff_name: "Sticlaria",
+    glider_name: "Advance Omega X-Alps 4",
+    glider_category: "D",
+    distance_km: 312.5,
+    score: 420.5,
+    airtime: 480,
+  },
+  {
+    id: 1002,
+    start_time: "2025-07-08T09:30:00Z",
+    takeoff_id: null,
+    takeoff_name: null,
+    glider_name: "Nova Mentor 7",
+    glider_category: "B",
+    distance_km: 45.3,
+    score: 52.1,
+    airtime: 180,
+  },
+];
+
+describe("Snapshot: PilotFlightsTable", () => {
+  it("matches snapshot", () => {
+    const { container } = render(
+      <PilotFlightsTable
+        title="Top Flights"
+        flights={mockPilotFlights}
+        locale="ro"
+        labels={{
+          date: "Date",
+          takeoff: "Takeoff",
+          glider: "Glider",
+          distance: "Distance",
+          score: "Score",
+          airtime: "Airtime",
+        }}
+      />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });
