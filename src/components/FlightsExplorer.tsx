@@ -203,6 +203,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
         <div className="flex border border-gray-300 rounded-lg overflow-hidden">
           <button
             onClick={() => setViewMode("table")}
+            aria-pressed={viewMode === "table"}
             className={`px-3 py-1.5 text-sm transition-colors ${
               viewMode === "table"
                 ? "bg-blue-50 text-blue-700"
@@ -213,6 +214,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
           </button>
           <button
             onClick={() => setViewMode("map")}
+            aria-pressed={viewMode === "map"}
             className={`px-3 py-1.5 text-sm transition-colors border-l border-gray-300 ${
               viewMode === "map"
                 ? "bg-blue-50 text-blue-700"

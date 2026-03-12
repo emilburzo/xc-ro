@@ -46,7 +46,10 @@ export default function FlightsMap({ flights }: { flights: FlightMarker[] }) {
         shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       });
 
-      const validFlights = flights.filter((f) => f.start_lat && f.start_lng);
+      const validFlights = flights.filter(
+        (f) => f.start_lat != null && f.start_lng != null &&
+               Number.isFinite(f.start_lat) && Number.isFinite(f.start_lng)
+      );
 
       let map: any;
       if (validFlights.length > 0) {
@@ -76,17 +79,35 @@ export default function FlightsMap({ flights }: { flights: FlightMarker[] }) {
           fillOpacity: 0.85,
         }).addTo(map);
 
-        const takeoffHtml = f.takeoff_id
-          ? `<a href="${takeoffPath(f.takeoff_id, f.takeoff_name || "")}">${f.takeoff_name}</a>`
-          : "-";
+        const popupContent = document.createElement("div");
+        popupContent.style.minWidth = "150px";
 
-        marker.bindPopup(
-          `<div style="min-width:150px">
-            <strong><a href="${pilotPath(f.pilot_username)}">${f.pilot_name}</a></strong><br/>
-            <small>${formatDate(f.start_time, locale)} · ${formatDistance(f.distance_km)} km</small><br/>
-            <small>${takeoffHtml} · ${f.glider_name}</small>
-          </div>`
-        );
+        const pilotStrong = document.createElement("strong");
+        const pilotLink = document.createElement("a");
+        pilotLink.href = pilotPath(f.pilot_username);
+        pilotLink.textContent = f.pilot_name;
+        pilotStrong.appendChild(pilotLink);
+        popupContent.appendChild(pilotStrong);
+        popupContent.appendChild(document.createElement("br"));
+
+        const infoSmall = document.createElement("small");
+        infoSmall.textContent = `${formatDate(f.start_time, locale)} · ${formatDistance(f.distance_km)} km`;
+        popupContent.appendChild(infoSmall);
+        popupContent.appendChild(document.createElement("br"));
+
+        const detailsSmall = document.createElement("small");
+        if (f.takeoff_id) {
+          const takeoffLink = document.createElement("a");
+          takeoffLink.href = takeoffPath(f.takeoff_id, f.takeoff_name || "");
+          takeoffLink.textContent = f.takeoff_name || "";
+          detailsSmall.appendChild(takeoffLink);
+        } else {
+          detailsSmall.textContent = "-";
+        }
+        detailsSmall.appendChild(document.createTextNode(` · ${f.glider_name}`));
+        popupContent.appendChild(detailsSmall);
+
+        marker.bindPopup(popupContent);
       });
 
       mapInstanceRef.current = map;

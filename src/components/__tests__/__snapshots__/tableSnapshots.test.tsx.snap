@@ -213,11 +213,13 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
       class="flex border border-gray-300 rounded-lg overflow-hidden"
     >
       <button
+        aria-pressed="true"
         class="px-3 py-1.5 text-sm transition-colors bg-blue-50 text-blue-700"
       >
         Table
       </button>
       <button
+        aria-pressed="false"
         class="px-3 py-1.5 text-sm transition-colors border-l border-gray-300 text-gray-600 hover:bg-gray-50"
       >
         Map
