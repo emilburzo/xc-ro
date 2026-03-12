@@ -29,7 +29,12 @@
     "totalHours": "Flight Hours",
     "flyabilityCalendar": "Flyability Calendar",
     "flyabilityDesc": "Average flyable days per month (days with ≥1 flight)",
-    "flyabilityDays": "days"
+    "flyabilityDays": "days",
+    "communityGrowth": "Community Growth",
+    "communityGrowthDesc": "New pilots per year, cumulative pilot count, and flights per year",
+    "newPilots": "New Pilots",
+    "cumulativePilots": "Total Pilots",
+    "flights": "Flights"
   },
   "takeoffs": {
     "title": "Takeoffs",

@@ -31,7 +31,7 @@ export default function FlyabilityChart({ data, daysLabel = "days" }: Flyability
         <Tooltip
           formatter={(val: any) => [`${val} ${daysLabel}`]}
         />
-        <Bar dataKey="avg" fill="#3b82f6" radius={[2, 2, 0, 0]} />
+        <Bar dataKey="avg" fill="#3b82f6" radius={[2, 2, 0, 0]} isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
   );

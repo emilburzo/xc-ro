@@ -91,6 +91,43 @@ export async function getTopWings(limit = 10) {
   `);
 }
 
+export async function getCommunityGrowth() {
+  return db.execute(sql`
+    WITH flights_by_pilot_year AS (
+      SELECT
+        pilot_id,
+        EXTRACT(YEAR FROM start_time)::int as year
+      FROM flights_pg
+    ),
+    pilot_debut AS (
+      SELECT
+        pilot_id,
+        MIN(year)::int as debut_year
+      FROM flights_by_pilot_year
+      GROUP BY pilot_id
+    ),
+    yearly AS (
+      SELECT
+        year,
+        count(*)::int as flight_count
+      FROM flights_by_pilot_year
+      GROUP BY year
+    )
+    SELECT
+      y.year,
+      COALESCE(d.new_pilots, 0)::int as new_pilots,
+      SUM(COALESCE(d.new_pilots, 0)) OVER (ORDER BY y.year)::int as cumulative_pilots,
+      y.flight_count
+    FROM yearly y
+    LEFT JOIN (
+      SELECT debut_year, count(*)::int as new_pilots
+      FROM pilot_debut
+      GROUP BY debut_year
+    ) d ON d.debut_year = y.year
+    ORDER BY y.year
+  `);
+}
+
 export async function getFlyabilityCalendar() {
   return db.execute(sql`
     SELECT

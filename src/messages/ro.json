@@ -29,7 +29,12 @@
     "totalHours": "Ore de zbor",
     "flyabilityCalendar": "Calendar de zburabilitate",
     "flyabilityDesc": "Zile medii zburabile pe lună (zile cu ≥1 zbor)",
-    "flyabilityDays": "zile"
+    "flyabilityDays": "zile",
+    "communityGrowth": "Creșterea comunității",
+    "communityGrowthDesc": "Piloți noi pe an, total piloți cumulat și zboruri pe an",
+    "newPilots": "Piloți noi",
+    "cumulativePilots": "Total piloți",
+    "flights": "Zboruri"
   },
   "takeoffs": {
     "title": "Decolări",
