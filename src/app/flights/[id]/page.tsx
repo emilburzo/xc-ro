@@ -4,7 +4,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getFlightById } from "@/lib/queries/flights";
-import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate, formatTime } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
 
 const getCachedFlight = cache((id: number) => getFlightById(id));
@@ -66,7 +66,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
           &larr; {t("backToFlights")}
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">
-          {formatDate(f.start_time, locale)} &mdash; {f.pilot_name}
+          {formatDate(f.start_time, locale)} {formatTime(f.start_time, locale)} &mdash; {f.pilot_name}
         </h1>
         <p className="text-sm text-gray-500 mt-1">{f.type}</p>
       </div>
@@ -87,6 +87,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-3">
           <div className="text-2xl font-bold text-blue-600">{formatDate(f.start_time, locale)}</div>
+          <div className="text-sm text-blue-500">{formatTime(f.start_time, locale)}</div>
           <div className="text-xs text-gray-500">{t("date")}</div>
         </div>
       </div>
