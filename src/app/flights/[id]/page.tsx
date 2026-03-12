@@ -4,7 +4,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getFlightById, getSimilarFlights } from "@/lib/queries/flights";
-import { pilotPath, takeoffPath, wingPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, flightPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
 import TakeoffFlightsTable from "@/components/TakeoffFlightsTable";
 
