@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import Nav from "@/components/Nav";
 import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
@@ -13,27 +13,32 @@ function getSafeMetadataBase(): URL | undefined {
   }
 }
 
-export const metadata: Metadata = {
-  metadataBase: getSafeMetadataBase(),
-  title: {
-    template: "%s | XC-RO",
-    default: "XC-RO - Paragliding Flight Analytics Romania",
-  },
-  description:
-    "Explore paragliding flight data from Romania. Takeoff sites, pilot statistics, wing performance, flight records, and XC analytics since 2007.",
-  openGraph: {
-    type: "website",
-    siteName: "XC-RO",
-    locale: "ro_RO",
-    alternateLocale: "en_US",
-  },
-  twitter: {
-    card: "summary",
-  },
-  alternates: {
-    canonical: "/",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("seo");
+  const locale = await getLocale();
+  const ogLocale = locale === "en" ? "en_US" : "ro_RO";
+  const ogAlternateLocale = locale === "en" ? "ro_RO" : "en_US";
+  return {
+    metadataBase: getSafeMetadataBase(),
+    title: {
+      template: "%s | XC-RO",
+      default: t("homeTitle"),
+    },
+    description: t("homeDescription"),
+    openGraph: {
+      type: "website",
+      siteName: "XC-RO",
+      locale: ogLocale,
+      alternateLocale: ogAlternateLocale,
+    },
+    twitter: {
+      card: "summary",
+    },
+    alternates: {
+      canonical: "/",
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
