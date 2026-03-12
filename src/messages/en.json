@@ -194,6 +194,7 @@
     "takeoff": "Takeoff",
     "glider": "Glider",
     "date": "Date",
+    "time": "Time",
     "type": "Type",
     "distance": "Distance",
     "score": "Score",
