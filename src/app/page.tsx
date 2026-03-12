@@ -104,15 +104,11 @@ export default async function HomePage() {
               <div key={f.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <Link href={pilotPath(f.pilot_username)} className="font-medium text-blue-600 hover:underline text-sm">
+                    <Link href={flightPath(f.id)} className="font-medium text-blue-600 hover:underline text-sm">
                       {f.pilot_name}
                     </Link>
                     <span className="text-gray-400 text-xs">
-                      {f.takeoff_name && (
-                        <Link href={takeoffPath(f.takeoff_id, f.takeoff_name)} className="hover:underline">
-                          {f.takeoff_name}
-                        </Link>
-                      )}
+                      {f.takeoff_name ?? ""}
                     </span>
                   </div>
                   <div className="text-xs text-gray-400">
@@ -120,10 +116,10 @@ export default async function HomePage() {
                     <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
                   </div>
                 </div>
-                <Link href={flightPath(f.id)} className="text-right shrink-0 ml-3 hover:underline">
+                <div className="text-right shrink-0 ml-3">
                   <div className="font-bold text-sm">{formatDistance(f.distance_km)} km</div>
                   <div className="text-xs text-gray-400">{formatDuration(f.airtime)}</div>
-                </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -199,16 +195,16 @@ export default async function HomePage() {
             {topFlights.map((f: any, i: number) => (
               <div key={f.id} className="flex items-center justify-between">
                 <div className="truncate">
-                  <Link href={pilotPath(f.pilot_username)} className="text-sm text-blue-600 hover:underline">
+                  <Link href={flightPath(f.id)} className="text-sm text-blue-600 hover:underline">
                     {i + 1}. {f.pilot_name}
                   </Link>
                   {f.takeoff_name && (
                     <span className="text-xs text-gray-400 ml-1">
-                      <Link href={takeoffPath(f.takeoff_id, f.takeoff_name)} className="hover:underline">{f.takeoff_name}</Link>
+                      {f.takeoff_name}
                     </span>
                   )}
                 </div>
-                <Link href={flightPath(f.id)} className="text-sm text-gray-500 shrink-0 ml-2 hover:underline">{formatDistance(f.distance_km)} km</Link>
+                <span className="text-sm text-gray-500 shrink-0 ml-2">{formatDistance(f.distance_km)} km</span>
               </div>
             ))}
           </div>
