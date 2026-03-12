@@ -271,6 +271,9 @@ describe("Chart snapshots", () => {
 
   it("DistanceTrendChart matches snapshot with empty data", () => {
     const { container } = render(<DistanceTrendChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   it("YoYGrowthChart matches snapshot", () => {
     const growthData = [
       { year: 2020, flights: 500, pilots: 120, total_km: 12000 },
