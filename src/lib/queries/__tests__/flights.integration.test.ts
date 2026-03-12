@@ -160,14 +160,14 @@ describeIf("flights queries (integration)", () => {
       // Flight 104 is 65.0km from Bunloc → within range
       const result = await getSimilarFlights(102, 1, 80.5);
       expect(result.length).toBe(1);
-      expect(Number((result[0] as Record<string, unknown>).id)).toBe(104);
+      expect(Number(result[0].id)).toBe(104);
     });
 
     it("excludes the current flight from results", async () => {
       // Flight 102 is 80.5km from Bunloc. ±20% = 64.4–96.6
       // Flight 102 itself is within range but must be excluded
       const result = await getSimilarFlights(102, 1, 80.5);
-      const ids = result.map((f: Record<string, unknown>) => Number(f.id));
+      const ids = result.map(f => Number(f.id));
       expect(ids).not.toContain(102);
     });
 
@@ -186,7 +186,7 @@ describeIf("flights queries (integration)", () => {
     it("returns results with expected columns", async () => {
       const result = await getSimilarFlights(102, 1, 80.5);
       expect(result.length).toBe(1);
-      const row = result[0] as Record<string, unknown>;
+      const row = result[0];
       expect(row).toHaveProperty("id");
       expect(row).toHaveProperty("start_time");
       expect(row).toHaveProperty("distance_km");
