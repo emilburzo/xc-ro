@@ -7,6 +7,7 @@ import {
   getTopFlights,
   getTopWings,
   getFlyabilityCalendar,
+  getCommunityGrowth,
 } from "../home";
 
 const mockExecute = jest.fn();
@@ -177,6 +178,20 @@ describe("home queries", () => {
       mockExecute.mockResolvedValueOnce(rows);
 
       const result = await getFlyabilityCalendar();
+      expect(result).toEqual(rows);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getCommunityGrowth", () => {
+    it("returns yearly community growth data", async () => {
+      const rows = [
+        { year: 2020, new_pilots: 30, cumulative_pilots: 200, flight_count: 3000 },
+        { year: 2021, new_pilots: 45, cumulative_pilots: 245, flight_count: 4000 },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getCommunityGrowth();
       expect(result).toEqual(rows);
       expect(mockExecute).toHaveBeenCalledTimes(1);
     });
