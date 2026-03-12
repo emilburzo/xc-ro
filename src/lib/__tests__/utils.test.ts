@@ -105,6 +105,14 @@ describe("flightPath", () => {
   it("generates correct path with large flight id", () => {
     expect(flightPath(9876543, "Maria Ionescu", "Sticlaria")).toBe("/flights/9876543-maria-ionescu-sticlaria");
   });
+
+  it("falls back to id-only when pilot name slugifies to empty", () => {
+    expect(flightPath(123, "!!!")).toBe("/flights/123");
+  });
+
+  it("avoids leading hyphen when pilot name is empty but takeoff is valid", () => {
+    expect(flightPath(123, "!!!", "Bunloc")).toBe("/flights/123-bunloc");
+  });
 });
 
 describe("similarFlightsPath", () => {
