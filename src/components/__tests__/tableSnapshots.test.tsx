@@ -358,6 +358,7 @@ describe("Snapshot: PilotFlightsTable", () => {
         title="Top Flights"
         flights={mockPilotFlights}
         locale="ro"
+        pilotName="Ion Popescu"
         labels={{
           date: "Date",
           takeoff: "Takeoff",
@@ -404,6 +405,7 @@ describe("Snapshot: TakeoffFlightsTable", () => {
         title="Top 10 Flights"
         flights={mockTakeoffFlights}
         locale="ro"
+        takeoffName="Bunloc"
         labels={{
           date: "Date",
           pilot: "Pilot",

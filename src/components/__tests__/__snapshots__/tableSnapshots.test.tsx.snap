@@ -293,7 +293,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           >
             <a
               class="text-blue-600 hover:underline"
-              href="/flights/1001"
+              href="/flights/1001-ion-popescu-sticlaria"
             >
               08.07.2025
             </a>
@@ -358,7 +358,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           >
             <a
               class="text-blue-600 hover:underline"
-              href="/flights/1002"
+              href="/flights/1002-maria-ionescu-bunloc"
             >
               08.07.2025
             </a>
@@ -493,7 +493,7 @@ exports[`Snapshot: PilotFlightsTable matches snapshot 1`] = `
           >
             <a
               class="hover:underline"
-              href="/flights/1001"
+              href="/flights/1001-ion-popescu-sticlaria"
             >
               08.07.2025
             </a>
@@ -548,7 +548,7 @@ exports[`Snapshot: PilotFlightsTable matches snapshot 1`] = `
           >
             <a
               class="hover:underline"
-              href="/flights/1002"
+              href="/flights/1002-ion-popescu"
             >
               08.07.2025
             </a>
@@ -903,7 +903,7 @@ exports[`Snapshot: TakeoffFlightsTable matches snapshot 1`] = `
           >
             <a
               class="hover:underline"
-              href="/flights/1001"
+              href="/flights/1001-ion-popescu-bunloc"
             >
               08.07.2025
             </a>
@@ -958,7 +958,7 @@ exports[`Snapshot: TakeoffFlightsTable matches snapshot 1`] = `
           >
             <a
               class="hover:underline"
-              href="/flights/1002"
+              href="/flights/1002-maria-ionescu-bunloc"
             >
               08.07.2025
             </a>

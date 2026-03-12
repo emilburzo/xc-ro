@@ -127,6 +127,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
         title={t("top10")}
         flights={top10 as any}
         locale={locale}
+        takeoffName={(takeoff as any).name}
         labels={{
           date: t("date"),
           pilot: t("pilot"),
@@ -142,6 +143,7 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
         title={t("recentFlights")}
         flights={recentFlights as any}
         locale={locale}
+        takeoffName={(takeoff as any).name}
         labels={{
           date: t("date"),
           pilot: t("pilot"),

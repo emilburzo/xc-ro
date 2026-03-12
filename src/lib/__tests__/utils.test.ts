@@ -85,12 +85,24 @@ describe("pilotPath", () => {
 });
 
 describe("flightPath", () => {
-  it("generates correct path with numeric id", () => {
-    expect(flightPath(12345)).toBe("/flights/12345");
+  it("generates correct path with id and pilot name", () => {
+    expect(flightPath(12345, "Ion Popescu")).toBe("/flights/12345-ion-popescu");
+  });
+
+  it("generates correct path with pilot and takeoff name", () => {
+    expect(flightPath(12345, "Ion Popescu", "Bunloc")).toBe("/flights/12345-ion-popescu-bunloc");
+  });
+
+  it("handles null takeoff name", () => {
+    expect(flightPath(12345, "Ion Popescu", null)).toBe("/flights/12345-ion-popescu");
+  });
+
+  it("handles diacritics in names", () => {
+    expect(flightPath(42, "Mărișescu Ionuț", "Brașov Nord")).toBe("/flights/42-marisescu-ionut-brasov-nord");
   });
 
   it("generates correct path with large flight id", () => {
-    expect(flightPath(9876543)).toBe("/flights/9876543");
+    expect(flightPath(9876543, "Maria Ionescu", "Sticlaria")).toBe("/flights/9876543-maria-ionescu-sticlaria");
   });
 });
 
