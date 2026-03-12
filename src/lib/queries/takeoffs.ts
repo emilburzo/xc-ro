@@ -13,9 +13,9 @@ export async function getTakeoffsList() {
         round(avg(CASE WHEN rn <= 10 THEN distance_km END)::numeric, 1) as xc_potential,
         round(100.0 * count(*) FILTER (WHERE EXTRACT(DOW FROM f.start_time) IN (0, 6)) / NULLIF(count(*), 0))::int as weekend_pct,
         count(*) FILTER (WHERE f.distance_km >= 100)::int as flights_100k,
-        round(avg(f.distance_km)::numeric, 1) as avg_distance,
+        round((avg(f.distance_km) FILTER (WHERE f.distance_km >= 20))::numeric, 1) as avg_distance,
         round(100.0 * count(*) FILTER (WHERE f.type IN ('triunghi FAI', 'triunghi plat', 'FAI triangle', 'flat triangle')) / NULLIF(count(*), 0))::int as triangle_pct,
-        round(avg(f.airtime)::numeric)::int as avg_airtime
+        round((avg(f.airtime) FILTER (WHERE f.distance_km >= 20))::numeric)::int as avg_airtime
       FROM (
         SELECT *, row_number() OVER (PARTITION BY takeoff_id ORDER BY distance_km DESC) as rn
         FROM flights_pg
@@ -114,7 +114,7 @@ export async function getTakeoffMonthlyStats(takeoffId: number) {
     SELECT
       EXTRACT(MONTH FROM start_time)::int as month,
       count(*)::int as flight_count,
-      round(avg(distance_km)::numeric, 1) as avg_distance
+      round((avg(distance_km) FILTER (WHERE distance_km >= 20))::numeric, 1) as avg_distance
     FROM flights_pg
     WHERE takeoff_id = ${takeoffId}
     GROUP BY month
