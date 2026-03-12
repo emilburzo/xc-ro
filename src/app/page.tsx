@@ -12,7 +12,7 @@ import {
   getFlyabilityCalendar,
   getCommunityGrowth,
 } from "@/lib/queries/home";
-import {takeoffPath, pilotPath, wingPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
+import {takeoffPath, pilotPath, wingPath, flightPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
 import FlyabilityChartWrapper from "@/components/FlyabilityChartWrapper";
 import CommunityGrowthWrapper from "@/components/CommunityGrowthWrapper";
@@ -120,10 +120,10 @@ export default async function HomePage() {
                     <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
                   </div>
                 </div>
-                <div className="text-right shrink-0 ml-3">
+                <Link href={flightPath(f.id)} className="text-right shrink-0 ml-3 hover:underline">
                   <div className="font-bold text-sm">{formatDistance(f.distance_km)} km</div>
                   <div className="text-xs text-gray-400">{formatDuration(f.airtime)}</div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>
@@ -208,7 +208,7 @@ export default async function HomePage() {
                     </span>
                   )}
                 </div>
-                <span className="text-sm text-gray-500 shrink-0 ml-2">{formatDistance(f.distance_km)} km</span>
+                <Link href={flightPath(f.id)} className="text-sm text-gray-500 shrink-0 ml-2 hover:underline">{formatDistance(f.distance_km)} km</Link>
               </div>
             ))}
           </div>
