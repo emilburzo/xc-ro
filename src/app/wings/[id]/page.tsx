@@ -12,7 +12,7 @@ import {
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
 } from "@/lib/queries/wings";
-import { pilotPath, takeoffPath, slugify, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, slugify, flightPath, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
 import { JsonLd } from "@/components/JsonLd";
 import { getBaseUrl } from "@/lib/seo";
@@ -170,9 +170,9 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
                 <tr key={i} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                    <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    <Link href={flightPath(f.id)} className="hover:underline">
                       {formatDate(f.start_time, locale)}
-                    </a>
+                    </Link>
                   </td>
                   <td className="px-2 py-2">
                     <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">

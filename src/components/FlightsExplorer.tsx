@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useTranslations, useLocale } from "next-intl";
-import { pilotPath, takeoffPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, flightPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import SortHeader from "@/components/SortHeader";
 
 const FlightsMap = dynamic(() => import("@/components/FlightsMap"), { ssr: false });
@@ -257,9 +257,9 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
                 {flights.map((f) => (
                   <tr key={f.id} className="hover:bg-gray-50">
                     <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                      <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      <Link href={flightPath(f.id)} className="hover:underline">
                         {formatDate(f.start_time, locale)}
-                      </a>
+                      </Link>
                     </td>
                     <td className="px-2 py-2">
                       <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">

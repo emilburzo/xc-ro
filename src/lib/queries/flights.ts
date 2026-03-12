@@ -22,6 +22,23 @@ export interface FlightFilters {
   pageSize?: number;
 }
 
+export async function getFlightById(id: number) {
+  const rows = await db.execute(sql`
+    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.type, f.url,
+           p.name as pilot_name, p.username as pilot_username,
+           t.name as takeoff_name, t.id as takeoff_id,
+           g.id as glider_id, g.name as glider_name, g.category as glider_category,
+           ST_Y(f.start_point::geometry) as start_lat,
+           ST_X(f.start_point::geometry) as start_lng
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE f.id = ${id}
+  `);
+  return rows[0] || null;
+}
+
 export async function getFlightsList(filters: FlightFilters) {
   const page = filters.page || 1;
   const pageSize = filters.pageSize || 50;

@@ -182,6 +182,20 @@
     "viewTable": "Table",
     "viewMap": "Map"
   },
+  "flightDetail": {
+    "pageType": "Flight",
+    "backToFlights": "Back to Flights",
+    "pilot": "Pilot",
+    "takeoff": "Takeoff",
+    "glider": "Glider",
+    "date": "Date",
+    "type": "Type",
+    "distance": "Distance",
+    "score": "Score",
+    "airtime": "Airtime",
+    "viewOnXContest": "View on XContest",
+    "startLocation": "Start Location"
+  },
   "records": {
     "title": "Records & Stats",
     "allTime": "All-Time Records",
@@ -284,6 +298,7 @@
     "recordsDescription": "Paragliding records in Romania. All-time records, annual records by year, category records, and fun statistics.",
     "takeoffDetailDescription": "{name} — paragliding takeoff site in Romania. Flight statistics, seasonality charts, top flights, wing classes, and activity trends.",
     "pilotDetailDescription": "{name} — paragliding pilot profile. Flight statistics, career evolution, equipment history, site map, and pilot DNA analysis.",
-    "wingDetailDescription": "{name} (category {category}) — paragliding wing statistics. Flight data, pilot adoption, XC performance, distance distribution, and top flights."
+    "wingDetailDescription": "{name} (category {category}) — paragliding wing statistics. Flight data, pilot adoption, XC performance, distance distribution, and top flights.",
+    "flightDetailDescription": "Paragliding flight on {date} by {pilot}. {distance} km, {duration} airtime. Flight details, takeoff map, and XContest link."
   }
 }
