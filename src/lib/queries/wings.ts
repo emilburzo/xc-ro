@@ -9,7 +9,7 @@ export async function getWingsList() {
         count(*)::int as flight_count,
         count(DISTINCT f.pilot_id)::int as pilot_count,
         round(sum(f.distance_km)::numeric) as total_km,
-        round(avg(f.distance_km)::numeric, 1) as avg_distance,
+        round((avg(f.distance_km) FILTER (WHERE f.distance_km >= 20))::numeric, 1) as avg_distance,
         max(f.distance_km) as max_distance,
         CASE WHEN count(CASE WHEN f.airtime > 0 AND f.distance_km >= 30 THEN 1 END) >= 5
               AND count(CASE WHEN f.airtime > 0 AND f.distance_km >= 30 THEN 1 END)::float / count(*) >= 0.25
