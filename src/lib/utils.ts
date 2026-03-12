@@ -38,12 +38,12 @@ export function flightPath(id: number): string {
 }
 
 export function similarFlightsPath(takeoffName: string, distanceKm: number): string {
-  const distMin = (distanceKm * 0.8).toFixed(1);
-  const distMax = (distanceKm * 1.2).toFixed(1);
+  const distMin = distanceKm * 0.8;
+  const distMax = distanceKm * 1.2;
   const params = new URLSearchParams({
     takeoff: takeoffName,
-    distMin,
-    distMax,
+    distMin: String(distMin),
+    distMax: String(distMax),
     sort: "distance",
   });
   return `/flights?${params.toString()}`;

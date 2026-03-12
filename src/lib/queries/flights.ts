@@ -1,5 +1,6 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import type { FlightRow } from "../types";
 
 const FLIGHT_TYPE_MAPPING: Record<string, string[]> = {
   free: ["free flight", "zbor liber"],
@@ -166,19 +167,7 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
   return { distHistogram, timeline, categoryBreakdown };
 }
 
-export interface SimilarFlightRow {
-  id: number;
-  start_time: string;
-  distance_km: number;
-  score: number;
-  airtime: number;
-  pilot_name: string;
-  pilot_username: string;
-  glider_name: string;
-  glider_category: string;
-}
-
-export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number): Promise<SimilarFlightRow[]> {
+export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number): Promise<FlightRow[]> {
   if (distanceKm <= 0) return [];
   const distMin = distanceKm * 0.8;
   const distMax = distanceKm * 1.2;
@@ -196,7 +185,7 @@ export async function getSimilarFlights(flightId: number, takeoffId: number, dis
     ORDER BY f.start_time DESC
     LIMIT 10
   `);
-  return rows as unknown as SimilarFlightRow[];
+  return rows as unknown as FlightRow[];
 }
 
 export async function getFlightsList(filters: FlightFilters) {

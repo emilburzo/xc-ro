@@ -104,29 +104,29 @@ describe("similarFlightsPath", () => {
   it("generates path with takeoff name and ±20% distance range", () => {
     const params = parseParams(similarFlightsPath("Bunloc", 100));
     expect(params.takeoff).toBe("Bunloc");
-    expect(params.distMin).toBe("80.0");
-    expect(params.distMax).toBe("120.0");
+    expect(Number(params.distMin)).toBe(80);
+    expect(Number(params.distMax)).toBe(120);
     expect(params.sort).toBe("distance");
   });
 
-  it("rounds distance values to one decimal place", () => {
+  it("preserves full precision in distance values", () => {
     const params = parseParams(similarFlightsPath("Bunloc", 33.3));
-    expect(params.distMin).toBe("26.6");
-    expect(params.distMax).toBe("40.0");
+    expect(Number(params.distMin)).toBeCloseTo(26.64, 5);
+    expect(Number(params.distMax)).toBeCloseTo(39.96, 5);
   });
 
   it("encodes takeoff names with special characters", () => {
     const params = parseParams(similarFlightsPath("Brașov Nord", 50));
     expect(params.takeoff).toBe("Brașov Nord");
-    expect(params.distMin).toBe("40.0");
-    expect(params.distMax).toBe("60.0");
+    expect(Number(params.distMin)).toBe(40);
+    expect(Number(params.distMax)).toBe(60);
   });
 
   it("handles small distances", () => {
     const params = parseParams(similarFlightsPath("Test", 2.5));
     expect(params.takeoff).toBe("Test");
-    expect(params.distMin).toBe("2.0");
-    expect(params.distMax).toBe("3.0");
+    expect(Number(params.distMin)).toBe(2);
+    expect(Number(params.distMax)).toBe(3);
   });
 
   it("always sorts by distance", () => {
