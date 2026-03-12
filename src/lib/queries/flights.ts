@@ -167,6 +167,7 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
 }
 
 export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number) {
+  if (distanceKm <= 0) return [];
   const distMin = distanceKm * 0.8;
   const distMax = distanceKm * 1.2;
   return db.execute(sql`

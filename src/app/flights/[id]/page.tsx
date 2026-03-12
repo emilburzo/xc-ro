@@ -150,7 +150,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
         </div>
       )}
       {/* Similar Flights */}
-      {f.takeoff_id && (similarFlights as any[]).length > 0 && (
+      {(similarFlights as any[]).length > 0 && (
         <div>
           <TakeoffFlightsTable
             title={t("similarFlightsTitle")}

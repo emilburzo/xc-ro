@@ -254,5 +254,17 @@ describe("flights queries", () => {
       expect(mockExecute).toHaveBeenCalledTimes(1);
       expect(result).toHaveLength(2);
     });
+
+    it("returns empty array for zero distance", async () => {
+      const result = await getSimilarFlights(1, 42, 0);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
+
+    it("returns empty array for negative distance", async () => {
+      const result = await getSimilarFlights(1, 42, -10);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
   });
 });
