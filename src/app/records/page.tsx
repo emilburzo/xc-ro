@@ -50,7 +50,7 @@ function RecordCard({ title, record, locale, t }: { title: string; record: any; 
           {record.glider_name}
         </Link>
         {" "}&middot; {formatDuration(record.airtime)} &middot;{" "}
-        <Link href={flightPath(record.id)} className="text-blue-500 hover:underline">
+        <Link href={flightPath(record.id, record.pilot_name, record.takeoff_name)} className="text-blue-500 hover:underline">
           {t("view")}
         </Link>
       </div>
@@ -126,7 +126,7 @@ export default async function RecordsPage() {
                   {r.glider_name}
                 </Link>
                 {" "}&middot; {formatDuration(r.airtime)} &middot;{" "}
-                <Link href={flightPath(r.id)} className="text-blue-500 hover:underline">
+                <Link href={flightPath(r.id, r.pilot_name, r.takeoff_name)} className="text-blue-500 hover:underline">
                   {t("view")}
                 </Link>
               </div>
@@ -155,7 +155,7 @@ export default async function RecordsPage() {
                 <tr key={r.year} className="hover:bg-gray-50">
                   <td className="px-3 py-2 font-medium">{r.year}</td>
                   <td className="px-3 py-2 font-bold text-blue-600 text-right">
-                    <Link href={flightPath(r.id)} className="hover:underline">
+                    <Link href={flightPath(r.id, r.pilot_name, r.takeoff_name)} className="hover:underline">
                       {formatDistance(r.distance_km)} km
                     </Link>
                   </td>

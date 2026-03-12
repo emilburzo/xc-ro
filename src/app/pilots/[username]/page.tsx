@@ -128,6 +128,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
         title={t("topFlights")}
         flights={topFlights as any[]}
         locale={locale}
+        pilotName={(pilot as any).name}
         labels={{
           date: t("date"),
           takeoff: t("takeoff"),
@@ -143,6 +144,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
         title={t("latestFlights")}
         flights={latestFlights as any[]}
         locale={locale}
+        pilotName={(pilot as any).name}
         labels={{
           date: t("date"),
           takeoff: t("takeoff"),

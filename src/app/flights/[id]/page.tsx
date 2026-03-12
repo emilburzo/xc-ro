@@ -4,7 +4,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getFlightById, getSimilarFlights } from "@/lib/queries/flights";
-import { pilotPath, takeoffPath, wingPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, flightPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
 import TakeoffFlightsTable from "@/components/TakeoffFlightsTable";
 
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id: rawId } = await params;
-  const id = parseInt(rawId);
+  const id = parseInt(rawId.split("-")[0]);
   if (isNaN(id)) return {};
   const flight = await getCachedFlight(id);
   if (!flight) return {};
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       distance: formatDistance(f.distance_km),
       duration: formatDuration(f.airtime),
     }),
-    alternates: { canonical: `/flights/${id}` },
+    alternates: { canonical: flightPath(id, f.pilot_name, f.takeoff_name) },
   };
 }
 
@@ -38,7 +38,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
   const locale = await getLocale();
   const t = await getTranslations("flightDetail");
   const { id: rawId } = await params;
-  const id = parseInt(rawId);
+  const id = parseInt(rawId.split("-")[0]);
   if (isNaN(id)) notFound();
 
   const flight = await getCachedFlight(id);
@@ -156,6 +156,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             title={t("similarFlightsTitle")}
             flights={similarFlights}
             locale={locale}
+            takeoffName={f.takeoff_name || ""}
             labels={{
               date: t("date"),
               pilot: t("pilot"),

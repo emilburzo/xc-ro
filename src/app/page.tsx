@@ -104,7 +104,7 @@ export default async function HomePage() {
               <div key={f.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <Link href={flightPath(f.id)} className="font-medium text-blue-600 hover:underline text-sm">
+                    <Link href={flightPath(f.id, f.pilot_name, f.takeoff_name)} className="font-medium text-blue-600 hover:underline text-sm">
                       {f.pilot_name}
                     </Link>
                     <span className="text-gray-400 text-xs">
@@ -195,7 +195,7 @@ export default async function HomePage() {
             {topFlights.map((f: any, i: number) => (
               <div key={f.id} className="flex items-center justify-between">
                 <div className="truncate">
-                  <Link href={flightPath(f.id)} className="text-sm text-blue-600 hover:underline">
+                  <Link href={flightPath(f.id, f.pilot_name, f.takeoff_name)} className="text-sm text-blue-600 hover:underline">
                     {i + 1}. {f.pilot_name}
                   </Link>
                   {f.takeoff_name && (

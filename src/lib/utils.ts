@@ -33,8 +33,11 @@ export function pilotPath(username: string): string {
   return `/pilots/${username}`;
 }
 
-export function flightPath(id: number): string {
-  return `/flights/${id}`;
+export function flightPath(id: number, pilotName: string, takeoffName?: string | null): string {
+  const parts = [slugify(pilotName)];
+  if (takeoffName) parts.push(slugify(takeoffName));
+  const slug = parts.filter(Boolean).join("-");
+  return slug ? `/flights/${id}-${slug}` : `/flights/${id}`;
 }
 
 export function similarFlightsPath(takeoffName: string, distanceKm: number): string {

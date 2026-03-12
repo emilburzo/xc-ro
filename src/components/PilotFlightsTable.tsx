@@ -17,6 +17,7 @@ interface PilotFlightsTableProps {
   title: string;
   flights: PilotFlightRow[];
   locale: string;
+  pilotName: string;
   labels: {
     date: string;
     takeoff: string;
@@ -27,7 +28,7 @@ interface PilotFlightsTableProps {
   };
 }
 
-export default function PilotFlightsTable({ title, flights, locale, labels }: PilotFlightsTableProps) {
+export default function PilotFlightsTable({ title, flights, locale, pilotName, labels }: PilotFlightsTableProps) {
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <h3 className="font-semibold text-gray-900 mb-3">{title}</h3>
@@ -49,7 +50,7 @@ export default function PilotFlightsTable({ title, flights, locale, labels }: Pi
               <tr key={f.id} className="hover:bg-gray-50">
                 <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                 <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                  <Link href={flightPath(f.id)} className="hover:underline">
+                  <Link href={flightPath(f.id, pilotName, f.takeoff_name)} className="hover:underline">
                     {formatDate(f.start_time, locale)}
                   </Link>
                 </td>
