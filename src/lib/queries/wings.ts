@@ -40,7 +40,7 @@ export async function getWingById(id: number) {
   return rows[0] || null;
 }
 
-export async function getWingTopFlights(wingId: number) {
+function getWingFlightsSorted(wingId: number, orderBy: ReturnType<typeof sql>) {
   return db.execute(sql`
     SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            p.name as pilot_name, p.username as pilot_username,
@@ -51,9 +51,13 @@ export async function getWingTopFlights(wingId: number) {
     LEFT JOIN takeoffs t ON f.takeoff_id = t.id
     JOIN gliders g ON f.glider_id = g.id
     WHERE f.glider_id = ${wingId}
-    ORDER BY f.distance_km DESC
+    ORDER BY ${orderBy}
     LIMIT 10
   `);
+}
+
+export async function getWingTopFlights(wingId: number) {
+  return getWingFlightsSorted(wingId, sql`f.distance_km DESC`);
 }
 
 export async function getWingDistanceHistogram(wingId: number) {
@@ -126,19 +130,7 @@ export async function getCategoryMarketShare() {
 }
 
 export async function getWingRecentFlights(wingId: number) {
-  return db.execute(sql`
-    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
-           p.name as pilot_name, p.username as pilot_username,
-           t.name as takeoff_name, t.id as takeoff_id,
-           g.name as glider_name, g.category as glider_category
-    FROM flights_pg f
-    JOIN pilots p ON f.pilot_id = p.id
-    LEFT JOIN takeoffs t ON f.takeoff_id = t.id
-    JOIN gliders g ON f.glider_id = g.id
-    WHERE f.glider_id = ${wingId}
-    ORDER BY f.start_time DESC
-    LIMIT 10
-  `);
+  return getWingFlightsSorted(wingId, sql`f.start_time DESC`);
 }
 
 export async function getWingCalendarHeatmap(wingId: number) {
