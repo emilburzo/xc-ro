@@ -57,6 +57,8 @@ describe("layout generateMetadata", () => {
       expect.objectContaining({
         type: "website",
         siteName: "XC-RO",
+        locale: "ro_RO",
+        alternateLocale: "en_US",
       })
     );
     expect(metadata.twitter).toEqual(

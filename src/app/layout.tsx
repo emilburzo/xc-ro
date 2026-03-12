@@ -15,6 +15,9 @@ function getSafeMetadataBase(): URL | undefined {
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("seo");
+  const locale = await getLocale();
+  const ogLocale = locale === "en" ? "en_US" : "ro_RO";
+  const ogAlternateLocale = locale === "en" ? "ro_RO" : "en_US";
   return {
     metadataBase: getSafeMetadataBase(),
     title: {
@@ -25,8 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       siteName: "XC-RO",
-      locale: "ro_RO",
-      alternateLocale: "en_US",
+      locale: ogLocale,
+      alternateLocale: ogAlternateLocale,
     },
     twitter: {
       card: "summary",
