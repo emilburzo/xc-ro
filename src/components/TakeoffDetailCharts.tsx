@@ -10,6 +10,7 @@ const DowChart = dynamic(() => import("./charts/DowChart"), { ssr: false });
 const DistanceHistogram = dynamic(() => import("./charts/DistanceHistogram"), { ssr: false });
 const WingDonut = dynamic(() => import("./charts/WingDonut"), { ssr: false });
 const YearlyTrendChart = dynamic(() => import("./charts/YearlyTrendChart"), { ssr: false });
+const DistanceTrendChart = dynamic(() => import("./charts/DistanceTrendChart"), { ssr: false });
 
 interface Props {
   calendar: any[];
@@ -68,6 +69,9 @@ export default function TakeoffDetailCharts({
 
         <h4 className="text-sm font-medium text-gray-700 mb-2">{t("distHistogram")}</h4>
         <DistanceHistogram data={distHist} />
+
+        <h4 className="text-sm font-medium text-gray-700 mb-2 mt-4">{t("distanceTrend")}</h4>
+        <DistanceTrendChart data={yearly} />
       </div>
 
       {/* Section C: Difficulty */}

@@ -10,6 +10,7 @@ import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
 import RecordProgressionChart from "../charts/RecordProgressionChart";
 import PilotDnaChart from "../charts/PilotDnaChart";
+import DistanceTrendChart from "../charts/DistanceTrendChart";
 import YoYGrowthChart from "../charts/YoYGrowthChart";
 import CategoryShareChart from "../charts/CategoryShareChart";
 import CommunityGrowthChart from "../charts/CommunityGrowthChart";
@@ -80,8 +81,8 @@ const monthlyData = [
 ];
 
 const yearlyData = [
-  { year: 2020, flight_count: 500, total_km: 12000 },
-  { year: 2021, flight_count: 600, total_km: 15000 },
+  { year: 2020, flight_count: 500, total_km: 12000, avg_distance: 24.0 },
+  { year: 2021, flight_count: 600, total_km: 15000, avg_distance: 25.0 },
 ];
 
 const hourlyData = [
@@ -255,6 +256,21 @@ describe("Chart snapshots", () => {
 
   it("FlyabilityChart matches snapshot with empty data", () => {
     const { container } = render(<FlyabilityChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("DistanceTrendChart matches snapshot", () => {
+    const distanceTrendData = [
+      { year: 2020, flight_count: 500, total_km: 12000, avg_distance: 12.5 },
+      { year: 2021, flight_count: 600, total_km: 15000, avg_distance: 18.3 },
+      { year: 2022, flight_count: 700, total_km: 18000, avg_distance: 22.7 },
+    ];
+    const { container } = render(<DistanceTrendChart data={distanceTrendData} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("DistanceTrendChart matches snapshot with empty data", () => {
+    const { container } = render(<DistanceTrendChart data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

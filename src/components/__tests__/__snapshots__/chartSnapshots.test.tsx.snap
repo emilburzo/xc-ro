@@ -339,6 +339,62 @@ exports[`Chart snapshots DistanceHistogram matches snapshot 1`] = `
 </div>
 `;
 
+exports[`Chart snapshots DistanceTrendChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="3"
+    data-testid="line-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="avgKm"
+      data-name="Avg km"
+      data-stroke="#10b981"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots DistanceTrendChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="0"
+    data-testid="line-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-datakey="avgKm"
+      data-name="Avg km"
+      data-stroke="#10b981"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots DowChart matches snapshot 1`] = `
 <div
   data-testid="responsive-container"

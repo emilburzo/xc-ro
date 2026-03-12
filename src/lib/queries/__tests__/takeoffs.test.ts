@@ -186,10 +186,10 @@ describe("takeoff queries", () => {
   });
 
   describe("getTakeoffYearlyTrend", () => {
-    it("returns yearly flight counts and total km", async () => {
+    it("returns yearly flight counts, total km, and avg distance", async () => {
       const rows = [
-        { year: 2020, flight_count: 800, total_km: 12000 },
-        { year: 2021, flight_count: 900, total_km: 15000 },
+        { year: 2020, flight_count: 800, total_km: 12000, avg_distance: 15.0 },
+        { year: 2021, flight_count: 900, total_km: 15000, avg_distance: 16.7 },
       ];
       mockExecute.mockResolvedValueOnce(rows);
 
