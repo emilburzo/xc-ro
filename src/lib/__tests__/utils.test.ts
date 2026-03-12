@@ -3,6 +3,7 @@ import {
   slugify,
   takeoffPath,
   pilotPath,
+  flightPath,
   formatDuration,
   formatDistance,
   formatNumber,
@@ -79,6 +80,16 @@ describe("takeoffPath", () => {
 describe("pilotPath", () => {
   it("generates correct path", () => {
     expect(pilotPath("john.doe")).toBe("/pilots/john.doe");
+  });
+});
+
+describe("flightPath", () => {
+  it("generates correct path with numeric id", () => {
+    expect(flightPath(12345)).toBe("/flights/12345");
+  });
+
+  it("generates correct path with large flight id", () => {
+    expect(flightPath(9876543)).toBe("/flights/9876543");
   });
 });
 

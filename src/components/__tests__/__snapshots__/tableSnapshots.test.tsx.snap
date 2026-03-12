@@ -293,9 +293,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           >
             <a
               class="hover:underline"
-              href="https://xcontest.org/flight/1001"
-              rel="noopener noreferrer"
-              target="_blank"
+              href="/flights/1001"
             >
               08.07.2025
             </a>
@@ -360,9 +358,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           >
             <a
               class="hover:underline"
-              href="https://xcontest.org/flight/1002"
-              rel="noopener noreferrer"
-              target="_blank"
+              href="/flights/1002"
             >
               08.07.2025
             </a>
