@@ -4,7 +4,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getFlightById, getSimilarFlights } from "@/lib/queries/flights";
-import { pilotPath, takeoffPath, wingPath, similarFlightsUrl, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
 import TakeoffFlightsTable from "@/components/TakeoffFlightsTable";
 
@@ -167,7 +167,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
           />
           <div className="mt-2 text-right">
             <Link
-              href={similarFlightsUrl(f.takeoff_name, Number(f.distance_km))}
+              href={similarFlightsPath(f.takeoff_name, Number(f.distance_km))}
               className="text-sm text-blue-600 hover:underline"
             >
               {t("viewMoreSimilar")} &rarr;

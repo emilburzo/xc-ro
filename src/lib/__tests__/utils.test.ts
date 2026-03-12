@@ -4,7 +4,7 @@ import {
   takeoffPath,
   pilotPath,
   flightPath,
-  similarFlightsUrl,
+  similarFlightsPath,
   formatDuration,
   formatDistance,
   formatNumber,
@@ -95,32 +95,43 @@ describe("flightPath", () => {
   });
 });
 
-describe("similarFlightsUrl", () => {
-  it("generates URL with takeoff name and ±20% distance range", () => {
-    const url = similarFlightsUrl("Bunloc", 100);
-    expect(url).toBe("/flights?takeoff=Bunloc&distMin=80.0&distMax=120.0&sort=distance");
+describe("similarFlightsPath", () => {
+  function parseParams(path: string) {
+    const url = new URL(path, "http://x");
+    return Object.fromEntries(url.searchParams.entries());
+  }
+
+  it("generates path with takeoff name and ±20% distance range", () => {
+    const params = parseParams(similarFlightsPath("Bunloc", 100));
+    expect(params.takeoff).toBe("Bunloc");
+    expect(params.distMin).toBe("80.0");
+    expect(params.distMax).toBe("120.0");
+    expect(params.sort).toBe("distance");
   });
 
   it("rounds distance values to one decimal place", () => {
-    const url = similarFlightsUrl("Bunloc", 33.3);
-    expect(url).toBe("/flights?takeoff=Bunloc&distMin=26.6&distMax=40.0&sort=distance");
+    const params = parseParams(similarFlightsPath("Bunloc", 33.3));
+    expect(params.distMin).toBe("26.6");
+    expect(params.distMax).toBe("40.0");
   });
 
   it("encodes takeoff names with special characters", () => {
-    const url = similarFlightsUrl("Brașov Nord", 50);
-    expect(url).toContain("takeoff=Bra%C8%99ov+Nord");
-    expect(url).toContain("distMin=40.0");
-    expect(url).toContain("distMax=60.0");
+    const params = parseParams(similarFlightsPath("Brașov Nord", 50));
+    expect(params.takeoff).toBe("Brașov Nord");
+    expect(params.distMin).toBe("40.0");
+    expect(params.distMax).toBe("60.0");
   });
 
   it("handles small distances", () => {
-    const url = similarFlightsUrl("Test", 2.5);
-    expect(url).toBe("/flights?takeoff=Test&distMin=2.0&distMax=3.0&sort=distance");
+    const params = parseParams(similarFlightsPath("Test", 2.5));
+    expect(params.takeoff).toBe("Test");
+    expect(params.distMin).toBe("2.0");
+    expect(params.distMax).toBe("3.0");
   });
 
   it("always sorts by distance", () => {
-    const url = similarFlightsUrl("Site", 10);
-    expect(url).toContain("sort=distance");
+    const params = parseParams(similarFlightsPath("Site", 10));
+    expect(params.sort).toBe("distance");
   });
 });
 
