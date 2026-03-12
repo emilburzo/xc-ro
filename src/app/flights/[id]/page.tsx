@@ -4,7 +4,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getFlightById } from "@/lib/queries/flights";
-import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
+import { pilotPath, takeoffPath, wingPath, similarFlightsUrl, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
 
 const getCachedFlight = cache((id: number) => getFlightById(id));
@@ -121,7 +121,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             <span className="font-medium">{f.type}</span>
           </div>
         </div>
-        <div className="pt-2 border-t border-gray-100">
+        <div className="pt-2 border-t border-gray-100 flex flex-wrap gap-x-6 gap-y-2">
           <a
             href={f.url}
             target="_blank"
@@ -130,6 +130,14 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
           >
             {t("viewOnXContest")} &rarr;
           </a>
+          {f.takeoff_id && (
+            <Link
+              href={similarFlightsUrl(f.takeoff_name, Number(f.distance_km))}
+              className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
+            >
+              {t("similarFlights")} &rarr;
+            </Link>
+          )}
         </div>
       </div>
 
