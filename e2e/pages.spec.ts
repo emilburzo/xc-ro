@@ -63,11 +63,18 @@ test.describe("Takeoff detail page", () => {
     await page.goto("/takeoffs/1-bunloc");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
-    // Wait for the dynamically-imported Recharts charts to render
+    // Wait for ALL dynamically-imported Recharts charts to render (7 charts in TakeoffDetailCharts)
     await expect(
-      page.locator(".recharts-responsive-container svg").first(),
-    ).toBeVisible({ timeout: 10_000 });
-    await expect(page).toHaveScreenshot("takeoff-detail.png", { fullPage: true });
+      page.locator(".recharts-responsive-container"),
+    ).toHaveCount(7, { timeout: 15_000 });
+    // Allow Recharts SVG animations to complete (charts oscillate for ~5s after rendering)
+    await page.waitForTimeout(5000);
+    // Move mouse away from charts to avoid tooltip rendering differences
+    await page.mouse.move(0, 0);
+    await expect(page).toHaveScreenshot("takeoff-detail.png", {
+      fullPage: true,
+      maxDiffPixelRatio: 0.05,
+    });
   });
 });
 

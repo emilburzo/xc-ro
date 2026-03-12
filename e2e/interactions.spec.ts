@@ -72,7 +72,11 @@ test.describe("Flights explorer interactions", () => {
     const top100 = page.getByRole("button", { name: /top 100/i });
     await expect(top100).toBeVisible();
     await top100.click();
+    // Wait for navigation to complete (URL changes to include preset param)
+    await page.waitForURL(/preset=top100/, { timeout: 10_000 });
     await expect(page.locator("table")).toBeVisible();
+    // Wait for table rows to fully render after server-side data fetch
+    await expect(page.locator("tbody tr").first()).toBeVisible({ timeout: 10_000 });
     await expect(page).toHaveScreenshot("flights-top100.png", {
       fullPage: true,
     });
