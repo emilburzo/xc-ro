@@ -145,9 +145,9 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
   ]);
 
   return {
-    distHistogram: distResult as DistHistogramRow[],
-    timeline: timelineResult as TimelineRow[],
-    categoryBreakdown: categoryResult as CategoryRow[],
+    distHistogram: distResult as unknown as DistHistogramRow[],
+    timeline: timelineResult as unknown as TimelineRow[],
+    categoryBreakdown: categoryResult as unknown as CategoryRow[],
   };
 }
 
