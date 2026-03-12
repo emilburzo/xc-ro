@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getFlightById } from "@/lib/queries/flights";
-import { pilotPath, takeoffPath, wingPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
+import { getFlightById, getSimilarFlights } from "@/lib/queries/flights";
+import { pilotPath, takeoffPath, wingPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
+import TakeoffFlightsTable from "@/components/TakeoffFlightsTable";
 
 const getCachedFlight = cache((id: number) => getFlightById(id));
 
@@ -45,6 +46,10 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
 
   const f = flight as any;
   const hasCoords = f.start_lat != null && f.start_lng != null;
+
+  const similarFlights = f.takeoff_id != null
+    ? await getSimilarFlights(id, f.takeoff_id, Number(f.distance_km))
+    : [];
 
   return (
     <div className="space-y-6">
@@ -142,6 +147,34 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             lng={Number(f.start_lng)}
             label={f.takeoff_name || undefined}
           />
+        </div>
+      )}
+      {/* Similar Flights */}
+      {similarFlights.length > 0 && (
+        <div>
+          <TakeoffFlightsTable
+            title={t("similarFlightsTitle")}
+            flights={similarFlights}
+            locale={locale}
+            labels={{
+              date: t("date"),
+              pilot: t("pilot"),
+              glider: t("glider"),
+              distance: t("distance"),
+              score: t("score"),
+              airtime: t("airtime"),
+            }}
+          />
+          {f.takeoff_name && (
+            <div className="mt-2 text-right">
+              <Link
+                href={similarFlightsPath(f.takeoff_name, Number(f.distance_km))}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {t("viewMoreSimilar")} &rarr;
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>

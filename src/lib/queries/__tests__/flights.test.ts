@@ -1,4 +1,4 @@
-import { getFlightsList, getFlightsChartData, type FlightFilters } from "../flights";
+import { getFlightsList, getFlightsChartData, getSimilarFlights, type FlightFilters } from "../flights";
 
 const mockExecute = jest.fn();
 
@@ -227,6 +227,80 @@ describe("flights queries", () => {
       expect(result.distHistogram).toEqual([]);
       expect(result.timeline).toEqual([]);
       expect(result.categoryBreakdown).toEqual([]);
+    });
+  });
+
+  describe("getSimilarFlights", () => {
+    const expectedFlightRow = {
+      id: 1,
+      start_time: "2022-07-08",
+      distance_km: 120,
+      score: 100,
+      airtime: 180,
+      pilot_name: "John",
+      pilot_username: "john",
+      glider_name: "Enzo 3",
+      glider_category: "D",
+    };
+
+    it("returns similar flights from same takeoff within ±20% distance", async () => {
+      mockExecute.mockResolvedValueOnce([sampleFlight]);
+
+      const result = await getSimilarFlights(999, 42, 100);
+      expect(result).toEqual([expectedFlightRow]);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+
+    it("returns empty array when no similar flights found", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+
+      const result = await getSimilarFlights(1, 42, 100);
+      expect(result).toEqual([]);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+
+    it("executes a single query", async () => {
+      mockExecute.mockResolvedValueOnce([sampleFlight, { ...sampleFlight, id: 2 }]);
+
+      const result = await getSimilarFlights(999, 42, 50);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+      expect(result).toHaveLength(2);
+    });
+
+    it("returns empty array for zero distance", async () => {
+      const result = await getSimilarFlights(1, 42, 0);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
+
+    it("returns empty array for negative distance", async () => {
+      const result = await getSimilarFlights(1, 42, -10);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
+
+    it("returns empty array for NaN distance", async () => {
+      const result = await getSimilarFlights(1, 42, NaN);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
+
+    it("returns empty array for Infinity distance", async () => {
+      const result = await getSimilarFlights(1, 42, Infinity);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
+
+    it("returns empty array for NaN flightId", async () => {
+      const result = await getSimilarFlights(NaN, 42, 100);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
+    });
+
+    it("returns empty array for NaN takeoffId", async () => {
+      const result = await getSimilarFlights(1, NaN, 100);
+      expect(result).toEqual([]);
+      expect(mockExecute).not.toHaveBeenCalled();
     });
   });
 });

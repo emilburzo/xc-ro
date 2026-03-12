@@ -4,6 +4,7 @@ import {
   takeoffPath,
   pilotPath,
   flightPath,
+  similarFlightsPath,
   formatDuration,
   formatDistance,
   formatNumber,
@@ -91,6 +92,46 @@ describe("flightPath", () => {
 
   it("generates correct path with large flight id", () => {
     expect(flightPath(9876543)).toBe("/flights/9876543");
+  });
+});
+
+describe("similarFlightsPath", () => {
+  function parseParams(path: string) {
+    const url = new URL(path, "http://x");
+    return Object.fromEntries(url.searchParams.entries());
+  }
+
+  it("generates path with takeoff name and ±20% distance range", () => {
+    const params = parseParams(similarFlightsPath("Bunloc", 100));
+    expect(params.takeoff).toBe("Bunloc");
+    expect(Number(params.distMin)).toBe(80);
+    expect(Number(params.distMax)).toBe(120);
+    expect(params.sort).toBe("distance");
+  });
+
+  it("preserves full precision in distance values", () => {
+    const params = parseParams(similarFlightsPath("Bunloc", 33.3));
+    expect(Number(params.distMin)).toBeCloseTo(26.64, 5);
+    expect(Number(params.distMax)).toBeCloseTo(39.96, 5);
+  });
+
+  it("encodes takeoff names with special characters", () => {
+    const params = parseParams(similarFlightsPath("Brașov Nord", 50));
+    expect(params.takeoff).toBe("Brașov Nord");
+    expect(Number(params.distMin)).toBe(40);
+    expect(Number(params.distMax)).toBe(60);
+  });
+
+  it("handles small distances", () => {
+    const params = parseParams(similarFlightsPath("Test", 2.5));
+    expect(params.takeoff).toBe("Test");
+    expect(Number(params.distMin)).toBe(2);
+    expect(Number(params.distMax)).toBe(3);
+  });
+
+  it("always sorts by distance", () => {
+    const params = parseParams(similarFlightsPath("Site", 10));
+    expect(params.sort).toBe("distance");
   });
 });
 
