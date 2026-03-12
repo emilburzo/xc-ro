@@ -12,7 +12,7 @@ import {
   getWingFavoriteTakeoffs,
   getWingCalendarHeatmap,
 } from "@/lib/queries/wings";
-import { pilotPath, takeoffPath, slugify, formatDuration, formatDistance, formatNumber, formatDate } from "@/lib/utils";
+import { pilotPath, takeoffPath, slugify, flightPath, formatDuration, formatDistance, formatNumber, formatDate, CAT_COLORS } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
 import { JsonLd } from "@/components/JsonLd";
 import { getBaseUrl } from "@/lib/seo";
@@ -37,18 +37,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     alternates: { canonical: `/wings/${id}-${slugify(name)}` },
   };
 }
-
-const CAT_COLORS: Record<string, string> = {
-  A: "bg-green-100 text-green-800",
-  B: "bg-blue-100 text-blue-800",
-  C: "bg-yellow-100 text-yellow-800",
-  D: "bg-red-100 text-red-800",
-  Z: "bg-purple-100 text-purple-800",
-  T: "bg-pink-100 text-pink-800",
-  HG: "bg-orange-100 text-orange-800",
-  RW2: "bg-gray-100 text-gray-800",
-  RW5: "bg-gray-100 text-gray-800",
-};
 
 export default async function WingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const locale = await getLocale();
@@ -170,9 +158,9 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
                 <tr key={i} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                    <a href={f.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    <Link href={flightPath(f.id)} className="hover:underline">
                       {formatDate(f.start_time, locale)}
-                    </a>
+                    </Link>
                   </td>
                   <td className="px-2 py-2">
                     <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">

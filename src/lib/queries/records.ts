@@ -4,7 +4,7 @@ import { sql } from "drizzle-orm";
 export async function getAllTimeRecords() {
   const [longest, longestAirtime, highestScore] = await Promise.all([
     db.execute(sql`
-      SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
+      SELECT f.id, f.distance_km, f.score, f.airtime, f.start_time, f.url,
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
              g.id as glider_id, g.name as glider_name, g.category as glider_category
@@ -15,7 +15,7 @@ export async function getAllTimeRecords() {
       ORDER BY f.distance_km DESC LIMIT 1
     `),
     db.execute(sql`
-      SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
+      SELECT f.id, f.distance_km, f.score, f.airtime, f.start_time, f.url,
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
              g.id as glider_id, g.name as glider_name, g.category as glider_category
@@ -27,7 +27,7 @@ export async function getAllTimeRecords() {
       ORDER BY f.airtime DESC LIMIT 1
     `),
     db.execute(sql`
-      SELECT f.distance_km, f.score, f.airtime, f.start_time, f.url,
+      SELECT f.id, f.distance_km, f.score, f.airtime, f.start_time, f.url,
              p.name as pilot_name, p.username as pilot_username,
              t.name as takeoff_name, t.id as takeoff_id,
              g.id as glider_id, g.name as glider_name, g.category as glider_category
@@ -49,7 +49,7 @@ export async function getAllTimeRecords() {
 export async function getCategoryRecords() {
   return db.execute(sql`
     SELECT DISTINCT ON (g.category)
-      g.category, f.distance_km, f.score, f.start_time, f.airtime, f.url,
+      g.category, f.id, f.distance_km, f.score, f.start_time, f.airtime, f.url,
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
       g.id as glider_id, g.name as glider_name
@@ -66,7 +66,7 @@ export async function getAnnualRecords() {
   return db.execute(sql`
     SELECT DISTINCT ON (year)
       EXTRACT(YEAR FROM f.start_time)::int as year,
-      f.distance_km, f.score, f.airtime, f.start_time, f.url,
+      f.id, f.distance_km, f.score, f.airtime, f.start_time, f.url,
       p.name as pilot_name, p.username as pilot_username,
       t.name as takeoff_name, t.id as takeoff_id,
       g.id as glider_id, g.name as glider_name

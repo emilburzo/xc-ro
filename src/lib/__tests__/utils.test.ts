@@ -3,10 +3,12 @@ import {
   slugify,
   takeoffPath,
   pilotPath,
+  flightPath,
   formatDuration,
   formatDistance,
   formatNumber,
   formatDate,
+  formatTime,
   relativeTime,
 } from "../utils";
 
@@ -82,6 +84,16 @@ describe("pilotPath", () => {
   });
 });
 
+describe("flightPath", () => {
+  it("generates correct path with numeric id", () => {
+    expect(flightPath(12345)).toBe("/flights/12345");
+  });
+
+  it("generates correct path with large flight id", () => {
+    expect(flightPath(9876543)).toBe("/flights/9876543");
+  });
+});
+
 describe("formatDuration", () => {
   it("formats minutes-only duration", () => {
     expect(formatDuration(45)).toBe("45m");
@@ -152,6 +164,26 @@ describe("formatDate", () => {
   it("defaults to en-US for unknown locales", () => {
     const result = formatDate("2022-07-08", "fr");
     expect(result).toBe(new Date("2022-07-08").toLocaleDateString("en-US"));
+  });
+});
+
+describe("formatTime", () => {
+  it("formats a date string to time with Romanian locale", () => {
+    const d = new Date("2025-01-15T10:30:00Z");
+    const result = formatTime(d, "ro");
+    expect(result).toBe(d.toLocaleTimeString("ro-RO", { hour: "2-digit", minute: "2-digit" }));
+  });
+
+  it("formats a date string to time with English locale", () => {
+    const d = new Date("2025-01-15T10:30:00Z");
+    const result = formatTime(d, "en");
+    expect(result).toBe(d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }));
+  });
+
+  it("formats a string date to time", () => {
+    const result = formatTime("2025-01-15T14:45:00Z", "ro");
+    const expected = new Date("2025-01-15T14:45:00Z").toLocaleTimeString("ro-RO", { hour: "2-digit", minute: "2-digit" });
+    expect(result).toBe(expected);
   });
 });
 

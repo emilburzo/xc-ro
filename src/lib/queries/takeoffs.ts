@@ -167,7 +167,7 @@ export async function getTakeoffDistanceHistogram(takeoffId: number) {
 
 export async function getTakeoffTop10(takeoffId: number) {
   return db.execute(sql`
-    SELECT f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
+    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            p.name as pilot_name, p.username as pilot_username,
            g.name as glider_name, g.category as glider_category
     FROM flights_pg f

@@ -187,6 +187,20 @@
     "viewTable": "Tabel",
     "viewMap": "Hartă"
   },
+  "flightDetail": {
+    "pageType": "Zbor",
+    "backToFlights": "Înapoi la Zboruri",
+    "pilot": "Pilot",
+    "takeoff": "Decolare",
+    "glider": "Aripă",
+    "date": "Data",
+    "type": "Tip",
+    "distance": "Distanță",
+    "score": "Scor",
+    "airtime": "Durată",
+    "viewOnXContest": "Vezi pe XContest",
+    "startLocation": "Locația de start"
+  },
   "records": {
     "title": "Recorduri & Statistici",
     "allTime": "Recorduri All-Time",
@@ -289,6 +303,7 @@
     "recordsDescription": "Recorduri de parapantă în România. Recorduri all-time, recorduri anuale pe an, recorduri pe categorie și statistici distractive.",
     "takeoffDetailDescription": "{name} — decolare de parapantă din România. Statistici de zbor, grafice de sezonalitate, topul zborurilor, clase de aripi și tendințe de activitate.",
     "pilotDetailDescription": "{name} — profil pilot de parapantă. Statistici de zbor, evoluția carierei, istoricul echipamentului, harta site-urilor și analiza ADN-ului de pilot.",
-    "wingDetailDescription": "{name} (categoria {category}) — statistici aripă de parapantă. Date de zbor, adopție piloți, performanță XC, distribuție distanțe și topul zborurilor."
+    "wingDetailDescription": "{name} (categoria {category}) — statistici aripă de parapantă. Date de zbor, adopție piloți, performanță XC, distribuție distanțe și topul zborurilor.",
+    "flightDetailDescription": "Zbor de parapantă pe {date} de {pilot}. {distance} km, {duration} durată. Detalii zbor, hartă decolare și link XContest."
   }
 }

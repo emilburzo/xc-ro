@@ -138,7 +138,7 @@ export async function getPilotActivityHeatmap(pilotId: number) {
 
 export async function getPilotTopFlights(pilotId: number) {
   return db.execute(sql`
-    SELECT f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
+    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
            t.name as takeoff_name, t.id as takeoff_id,
            g.name as glider_name, g.category as glider_category
     FROM flights_pg f
