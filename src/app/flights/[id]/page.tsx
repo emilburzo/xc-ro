@@ -54,13 +54,18 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
           &larr; {t("backToFlights")}
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">
-          {formatDate(f.start_time, locale)} {formatTime(f.start_time, locale)} &mdash; {f.pilot_name}
+          {f.pilot_name}
+          {f.takeoff_name ? ` · ${f.takeoff_name}` : ""}
+          {" · "}{formatDistance(f.distance_km)} km
+          {" · "}{formatDuration(f.airtime)}
         </h1>
-        <p className="text-sm text-gray-500 mt-1">{f.type}</p>
+        <p className="text-sm text-gray-500 mt-1">
+          {formatDate(f.start_time, locale)} {formatTime(f.start_time, locale)} · {f.type}
+        </p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
         <div className="bg-white rounded-lg border border-gray-200 p-3">
           <div className="text-2xl font-bold text-blue-600">{formatDistance(f.distance_km)} km</div>
           <div className="text-xs text-gray-500">{t("distance")}</div>
@@ -75,8 +80,11 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-3">
           <div className="text-2xl font-bold text-blue-600">{formatDate(f.start_time, locale)}</div>
-          <div className="text-sm text-blue-500">{formatTime(f.start_time, locale)}</div>
           <div className="text-xs text-gray-500">{t("date")}</div>
+        </div>
+        <div className="bg-white rounded-lg border border-gray-200 p-3">
+          <div className="text-2xl font-bold text-blue-600">{formatTime(f.start_time, locale)}</div>
+          <div className="text-xs text-gray-500">{t("time")}</div>
         </div>
       </div>
 
