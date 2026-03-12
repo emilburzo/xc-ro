@@ -1,6 +1,5 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import Nav from "../Nav";
 
 // Mock next-intl
@@ -10,6 +9,7 @@ jest.mock("next-intl", () => ({
       home: "Home",
       takeoffs: "Takeoffs",
       pilots: "Pilots",
+      wings: "Wings",
       flights: "Flights",
       records: "Records",
     };
@@ -45,12 +45,12 @@ describe("Nav", () => {
 
   it("renders all desktop navigation links", () => {
     render(<Nav />);
-    // Mobile menu is hidden by default, only desktop links show
-    expect(screen.getByText("Home")).toBeInTheDocument();
-    expect(screen.getByText("Takeoffs")).toBeInTheDocument();
-    expect(screen.getByText("Pilots")).toBeInTheDocument();
-    expect(screen.getByText("Flights")).toBeInTheDocument();
-    expect(screen.getByText("Records")).toBeInTheDocument();
+    expect(screen.getAllByText("Home").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Takeoffs").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Pilots").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Wings").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Flights").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Records").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders correct href for each link", () => {
@@ -60,6 +60,7 @@ describe("Nav", () => {
     expect(hrefs).toContain("/");
     expect(hrefs).toContain("/takeoffs");
     expect(hrefs).toContain("/pilots");
+    expect(hrefs).toContain("/wings");
     expect(hrefs).toContain("/flights");
     expect(hrefs).toContain("/records");
   });
@@ -73,23 +74,25 @@ describe("Nav", () => {
     expect(desktopLink).toHaveClass("bg-blue-50", "text-blue-700");
   });
 
-  it("toggles mobile menu on hamburger click", async () => {
-    const user = userEvent.setup();
+  it("renders a mobile bottom navigation bar", () => {
     render(<Nav />);
+    const bottomNav = screen.getByRole("navigation", {
+      name: "Mobile navigation",
+    });
+    expect(bottomNav).toBeInTheDocument();
+    // Bottom nav should have all 6 links
+    const links = bottomNav.querySelectorAll("a");
+    expect(links).toHaveLength(6);
+  });
 
-    const hamburger = screen.getByRole("button", { name: "Menu" });
-    expect(hamburger).toBeInTheDocument();
-
-    // Mobile menu initially hidden (links only in desktop nav, 5 each)
-    const linksBefore = screen.getAllByRole("link");
-    // Count links: brand (1) + desktop nav (5) = 6 (mobile menu hidden)
-    const desktopLinksCount = linksBefore.length;
-
-    await user.click(hamburger);
-
-    // After click, mobile menu should show additional links
-    const linksAfter = screen.getAllByRole("link");
-    expect(linksAfter.length).toBeGreaterThan(desktopLinksCount);
+  it("highlights active link in the bottom bar", () => {
+    mockPathname.mockReturnValue("/flights");
+    render(<Nav />);
+    const bottomNav = screen.getByRole("navigation", {
+      name: "Mobile navigation",
+    });
+    const flightsLink = bottomNav.querySelector('a[href="/flights"]');
+    expect(flightsLink).toHaveClass("text-blue-600");
   });
 
   it("renders the language toggle", () => {

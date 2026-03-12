@@ -33,20 +33,17 @@ test.describe("Language toggle", () => {
 test.describe("Mobile navigation", () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
-  test("hamburger menu matches visual snapshot", async ({ page }) => {
+  test("bottom nav bar is visible", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("nav")).toBeVisible();
-    await expect(page.locator("nav")).toHaveScreenshot("nav-mobile-closed.png");
+    const bottomNav = page.locator('[role="navigation"][aria-label="Mobile navigation"]');
+    await expect(bottomNav).toBeVisible();
+    await expect(bottomNav).toHaveScreenshot("nav-mobile-bottom.png");
   });
 
-  test("open hamburger menu matches visual snapshot", async ({ page }) => {
-    await page.goto("/");
-    await expect(page.locator("nav")).toBeVisible();
-
-    const hamburger = page.getByRole("button", { name: /menu/i });
-    await expect(hamburger).toBeVisible();
-    await hamburger.click();
-
-    await expect(page.locator("nav")).toHaveScreenshot("nav-mobile-open.png");
+  test("bottom nav highlights active page", async ({ page }) => {
+    await page.goto("/pilots");
+    const bottomNav = page.locator('[role="navigation"][aria-label="Mobile navigation"]');
+    await expect(bottomNav).toBeVisible();
+    await expect(bottomNav).toHaveScreenshot("nav-mobile-bottom-active.png");
   });
 });

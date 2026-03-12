@@ -53,7 +53,7 @@ export default async function RootLayout({
       <body className="antialiased min-h-screen bg-gray-50">
         <NextIntlClientProvider messages={messages}>
           <Nav />
-          <main className="max-w-7xl mx-auto px-4 py-6">
+          <main className="max-w-7xl mx-auto px-4 py-6 pb-20 md:pb-6">
             {children}
           </main>
         </NextIntlClientProvider>
