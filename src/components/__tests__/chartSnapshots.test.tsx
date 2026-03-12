@@ -10,6 +10,7 @@ import PilotYearlyChart from "../charts/PilotYearlyChart";
 import AdoptionChart from "../charts/AdoptionChart";
 import RecordProgressionChart from "../charts/RecordProgressionChart";
 import PilotDnaChart from "../charts/PilotDnaChart";
+import YoYGrowthChart from "../charts/YoYGrowthChart";
 import CategoryShareChart from "../charts/CategoryShareChart";
 import CommunityGrowthChart from "../charts/CommunityGrowthChart";
 import FlyabilityChart from "../charts/FlyabilityChart";
@@ -254,6 +255,23 @@ describe("Chart snapshots", () => {
 
   it("FlyabilityChart matches snapshot with empty data", () => {
     const { container } = render(<FlyabilityChart data={[]} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("YoYGrowthChart matches snapshot", () => {
+    const growthData = [
+      { year: 2020, flights: 500, pilots: 120, total_km: 12000 },
+      { year: 2021, flights: 600, pilots: 150, total_km: 15000 },
+      { year: 2022, flights: 750, pilots: 180, total_km: 20000 },
+    ];
+    const labels = { flights: "Flights", pilots: "Pilots", totalKm: "Total km" };
+    const { container } = render(<YoYGrowthChart data={growthData} labels={labels} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("YoYGrowthChart matches snapshot with empty data", () => {
+    const labels = { flights: "Flights", pilots: "Pilots", totalKm: "Total km" };
+    const { container } = render(<YoYGrowthChart data={[]} labels={labels} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

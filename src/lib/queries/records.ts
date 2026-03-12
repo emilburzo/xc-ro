@@ -78,6 +78,19 @@ export async function getAnnualRecords() {
   `);
 }
 
+export async function getYearOverYearGrowth() {
+  return db.execute(sql`
+    SELECT
+      EXTRACT(YEAR FROM f.start_time)::int AS year,
+      count(*)::int AS flights,
+      count(DISTINCT f.pilot_id)::int AS pilots,
+      round(sum(f.distance_km))::int AS total_km
+    FROM flights_pg f
+    GROUP BY year
+    ORDER BY year
+  `);
+}
+
 export async function getFunStats() {
   const [epicDay, mostFlightsDay, mostSitesPilot, mostConsistent] = await Promise.all([
     db.execute(sql`
