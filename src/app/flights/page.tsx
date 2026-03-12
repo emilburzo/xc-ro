@@ -65,9 +65,9 @@ export default async function FlightsPage({
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
       <FlightsChartStrip
-        distHistogram={chartData.distHistogram as any}
-        timeline={chartData.timeline as any}
-        categoryBreakdown={chartData.categoryBreakdown as any}
+        distHistogram={chartData.distHistogram}
+        timeline={chartData.timeline}
+        categoryBreakdown={chartData.categoryBreakdown}
       />
       <FlightsExplorer
         flights={result.flights as any}

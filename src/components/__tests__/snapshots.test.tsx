@@ -31,6 +31,7 @@ jest.mock("next-intl", () => ({
         distanceDistribution: "Distance Distribution",
         timeline: "Timeline",
         categoryBreakdown: "Category Breakdown",
+        title: "Flights Explorer",
       },
     };
     const map = maps[namespace] || {};
@@ -57,6 +58,13 @@ jest.mock("@/app/actions", () => ({
   setLocale: jest.fn().mockResolvedValue(undefined),
 }));
 
+// Mock next/dynamic for components that use dynamic imports (e.g. FlightsChartStrip)
+jest.mock("next/dynamic", () => () => {
+  return function MockDynamicComponent(props: any) {
+    return <div data-testid="dynamic-chart" data-props={JSON.stringify(props)} />;
+  };
+});
+
 describe("Snapshot: Nav", () => {
   it("matches snapshot on home page", () => {
     const { container } = render(<Nav />);
@@ -82,13 +90,6 @@ describe("Snapshot: SeasonHeatmap", () => {
     const { container } = render(<SeasonHeatmap data={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
-});
-
-// Mock next/dynamic to render children directly
-jest.mock("next/dynamic", () => () => {
-  return function MockDynamicComponent(props: any) {
-    return <div data-testid="dynamic-chart" data-props={JSON.stringify(props)} />;
-  };
 });
 
 describe("Snapshot: FlightsChartStrip", () => {

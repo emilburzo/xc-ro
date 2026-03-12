@@ -78,7 +78,29 @@ function buildFlightWhereClause(filters: FlightFilters) {
     : sql`1=1`;
 }
 
-export async function getFlightsChartData(filters: FlightFilters) {
+export interface DistHistogramRow {
+  bucket: string;
+  cnt: number;
+}
+
+export interface TimelineRow {
+  year: number;
+  month: number;
+  cnt: number;
+}
+
+export interface CategoryRow {
+  category: string;
+  cnt: number;
+}
+
+export interface FlightsChartData {
+  distHistogram: DistHistogramRow[];
+  timeline: TimelineRow[];
+  categoryBreakdown: CategoryRow[];
+}
+
+export async function getFlightsChartData(filters: FlightFilters): Promise<FlightsChartData> {
   const whereClause = buildFlightWhereClause(filters);
 
   const fromClause = sql`
@@ -123,9 +145,9 @@ export async function getFlightsChartData(filters: FlightFilters) {
   ]);
 
   return {
-    distHistogram: distResult,
-    timeline: timelineResult,
-    categoryBreakdown: categoryResult,
+    distHistogram: distResult as DistHistogramRow[],
+    timeline: timelineResult as TimelineRow[],
+    categoryBreakdown: categoryResult as CategoryRow[],
   };
 }
 
