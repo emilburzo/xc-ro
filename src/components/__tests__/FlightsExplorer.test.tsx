@@ -387,15 +387,15 @@ describe("FlightsExplorer", () => {
     expect(tableBtn).not.toHaveClass("bg-blue-50");
   });
 
-  it("hides pagination in map view", async () => {
+  it("shows pagination in map view", async () => {
     const user = userEvent.setup();
     render(<FlightsExplorer {...defaultProps} total={120} pageSize={50} />);
 
     // Pagination visible in table view
     expect(screen.getByText("«")).toBeInTheDocument();
 
-    // Switch to map — pagination hidden
+    // Switch to map — pagination still visible
     await user.click(screen.getByText("Map"));
-    expect(screen.queryByText("«")).not.toBeInTheDocument();
+    expect(screen.getByText("«")).toBeInTheDocument();
   });
 });

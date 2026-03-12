@@ -287,41 +287,42 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             </table>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex gap-1 justify-center">
-              <button
-                onClick={() => goToPage(page - 1)}
-                disabled={page <= 1}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50"
-              >
-                &laquo;
-              </button>
-              {Array.from({ length: Math.min(totalPages, 10) }, (_, i) => {
-                const p = page <= 5 ? i + 1 : page - 4 + i;
-                if (p > totalPages || p < 1) return null;
-                return (
-                  <button
-                    key={p}
-                    onClick={() => goToPage(p)}
-                    className={`px-3 py-1.5 text-sm border rounded ${
-                      p === page ? "bg-blue-50 border-blue-300 text-blue-700" : "border-gray-300"
-                    }`}
-                  >
-                    {p}
-                  </button>
-                );
-              })}
-              <button
-                onClick={() => goToPage(page + 1)}
-                disabled={page >= totalPages}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50"
-              >
-                &raquo;
-              </button>
-            </div>
-          )}
         </>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex gap-1 justify-center">
+          <button
+            onClick={() => goToPage(page - 1)}
+            disabled={page <= 1}
+            className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50"
+          >
+            &laquo;
+          </button>
+          {Array.from({ length: Math.min(totalPages, 10) }, (_, i) => {
+            const p = page <= 5 ? i + 1 : page - 4 + i;
+            if (p > totalPages || p < 1) return null;
+            return (
+              <button
+                key={p}
+                onClick={() => goToPage(p)}
+                className={`px-3 py-1.5 text-sm border rounded ${
+                  p === page ? "bg-blue-50 border-blue-300 text-blue-700" : "border-gray-300"
+                }`}
+              >
+                {p}
+              </button>
+            );
+          })}
+          <button
+            onClick={() => goToPage(page + 1)}
+            disabled={page >= totalPages}
+            className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50"
+          >
+            &raquo;
+          </button>
+        </div>
       )}
     </div>
   );
