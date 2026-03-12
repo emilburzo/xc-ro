@@ -59,7 +59,7 @@ export async function getPilotStats(pilotId: number) {
       max(start_time) as last_flight,
       sum(airtime)::int as total_airtime,
       max(airtime)::int as max_airtime,
-      round(avg(airtime))::int as avg_airtime
+      round(avg(airtime) FILTER (WHERE distance_km >= 20))::int as avg_airtime
     FROM flights_pg WHERE pilot_id = ${pilotId}
   `);
   return rows[0];
