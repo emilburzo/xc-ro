@@ -46,7 +46,7 @@ export default async function PilotsPage() {
         <h3 className="font-semibold text-gray-900 mb-1">{t("communityGrowth")}</h3>
         <p className="text-xs text-gray-500 mb-3">{t("communityGrowthDesc")}</p>
         <PilotsGrowthWrapper
-          data={growthData as any[]}
+          data={growthData as any}
           activePilotsLabel={t("activePilots")}
           newPilotsLabel={t("newPilots")}
           cumulativePilotsLabel={t("cumulativePilots")}
