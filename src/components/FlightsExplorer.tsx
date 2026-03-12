@@ -257,7 +257,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
                 {flights.map((f) => (
                   <tr key={f.id} className="hover:bg-gray-50">
                     <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
-                      <Link href={flightPath(f.id)} className="hover:underline">
+                      <Link href={flightPath(f.id)} className="text-blue-600 hover:underline">
                         {formatDate(f.start_time, locale)}
                       </Link>
                     </td>
