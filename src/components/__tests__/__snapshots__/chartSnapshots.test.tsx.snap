@@ -190,6 +190,104 @@ exports[`Chart snapshots CategoryShareChart matches snapshot with empty data 1`]
 </div>
 `;
 
+exports[`Chart snapshots CommunityGrowthChart matches snapshot 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="4"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-testid="legend"
+    />
+    <div
+      data-datakey="newPilots"
+      data-fill="#22c55e"
+      data-name="New Pilots"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="cumulativePilots"
+      data-name="Total Pilots"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+    <div
+      data-datakey="flights"
+      data-name="Flights"
+      data-stroke="#3b82f6"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
+exports[`Chart snapshots CommunityGrowthChart matches snapshot with empty data 1`] = `
+<div
+  data-testid="responsive-container"
+>
+  <div
+    data-length="0"
+    data-testid="composed-chart"
+  >
+    <div
+      data-datakey="year"
+      data-testid="xaxis"
+    />
+    <div
+      data-testid="yaxis"
+      data-yaxisid="left"
+    />
+    <div
+      data-orientation="right"
+      data-testid="yaxis"
+      data-yaxisid="right"
+    />
+    <div
+      data-testid="tooltip"
+    />
+    <div
+      data-testid="legend"
+    />
+    <div
+      data-datakey="newPilots"
+      data-fill="#22c55e"
+      data-name="New Pilots"
+      data-testid="bar"
+    />
+    <div
+      data-datakey="cumulativePilots"
+      data-name="Total Pilots"
+      data-stroke="#f59e0b"
+      data-testid="line"
+    />
+    <div
+      data-datakey="flights"
+      data-name="Flights"
+      data-stroke="#3b82f6"
+      data-testid="line"
+    />
+  </div>
+</div>
+`;
+
 exports[`Chart snapshots DistanceHistogram matches snapshot 1`] = `
 <div
   data-testid="responsive-container"

@@ -4,6 +4,10 @@ test.describe("Home page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("nav")).toBeVisible();
+    // Wait for the dynamically-imported FlyabilityChart to render
+    await expect(
+      page.locator(".recharts-responsive-container svg").first(),
+    ).toBeVisible({ timeout: 10_000 });
     await expect(page).toHaveScreenshot("home.png", { fullPage: true });
   });
 });
