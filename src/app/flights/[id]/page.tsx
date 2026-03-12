@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const f = flight as any;
   const locale = await getLocale();
   return {
-    title: `${formatDate(f.start_time, locale)} — ${f.pilot_name} | ${t("pageType")}`,
+    title: `${f.pilot_name}${f.takeoff_name ? ` · ${f.takeoff_name}` : ""} · ${formatDistance(f.distance_km)} km · ${formatDuration(f.airtime)} | ${t("pageType")}`,
     description: ts("flightDetailDescription", {
       date: formatDate(f.start_time, locale),
       pilot: f.pilot_name,
