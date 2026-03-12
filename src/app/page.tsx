@@ -11,6 +11,7 @@ import {
   getTopWings,
   getFlyabilityCalendar,
   getCommunityGrowth,
+  getSeasonLeaderboard,
 } from "@/lib/queries/home";
 import {takeoffPath, pilotPath, wingPath, flightPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
@@ -35,7 +36,7 @@ export default async function HomePage() {
   const tc = await getTranslations("common");
   const ts = await getTranslations("seo");
 
-  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData, communityGrowthData] = await Promise.all([
+  const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData, communityGrowthData, seasonLeaderboard] = await Promise.all([
     getHomeStats(),
     getRecentNotableFlights(),
     getSeasonHeatmap(),
@@ -45,6 +46,7 @@ export default async function HomePage() {
     getTopWings(10),
     getFlyabilityCalendar(),
     getCommunityGrowth(),
+    getSeasonLeaderboard(10),
   ]);
 
   return (
@@ -119,6 +121,37 @@ export default async function HomePage() {
                 <div className="text-right shrink-0 ml-3">
                   <div className="font-bold text-sm">{formatDistance(f.distance_km)} km</div>
                   <div className="text-xs text-gray-400">{formatDuration(f.airtime)}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Season Leaderboard */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="font-semibold text-gray-900">{t("seasonLeaderboard", { year: new Date().getFullYear() })}</h3>
+          <Link href="/pilots" className="text-sm text-blue-600 hover:underline">{t("viewAll")}</Link>
+        </div>
+        <p className="text-xs text-gray-500 mb-3">{t("seasonLeaderboardDesc")}</p>
+        {seasonLeaderboard.length === 0 ? (
+          <p className="text-gray-400 text-sm">{tc("noData")}</p>
+        ) : (
+          <div className="space-y-2">
+            {seasonLeaderboard.map((p: any, i: number) => (
+              <div key={p.id} className="flex items-center justify-between py-1">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className={`text-sm font-bold w-6 text-center shrink-0 ${i === 0 ? "text-yellow-500" : i === 1 ? "text-gray-400" : i === 2 ? "text-amber-600" : "text-gray-300"}`}>
+                    {i + 1}
+                  </span>
+                  <Link href={pilotPath(p.username)} className="text-sm text-blue-600 hover:underline truncate">
+                    {p.name}
+                  </Link>
+                </div>
+                <div className="text-right shrink-0 ml-3">
+                  <span className="font-bold text-sm">{Number(p.total_km).toLocaleString()} km</span>
+                  <span className="text-xs text-gray-400 ml-2">{formatNumber(p.flight_count)} {tc("flights")}</span>
                 </div>
               </div>
             ))}

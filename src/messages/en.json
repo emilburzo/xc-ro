@@ -34,7 +34,9 @@
     "communityGrowthDesc": "New pilots per year, cumulative pilot count, and flights per year",
     "newPilots": "New Pilots",
     "cumulativePilots": "Total Pilots",
-    "flights": "Flights"
+    "flights": "Flights",
+    "seasonLeaderboard": "Season Leaderboard {year}",
+    "seasonLeaderboardDesc": "Top pilots by total distance this year"
   },
   "takeoffs": {
     "title": "Takeoffs",

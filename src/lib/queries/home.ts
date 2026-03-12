@@ -128,6 +128,19 @@ export async function getCommunityGrowth() {
   `);
 }
 
+export async function getSeasonLeaderboard(limit = 10) {
+  return db.execute(sql`
+    SELECT p.id, p.name, p.username, count(*)::int as flight_count,
+           round(sum(f.distance_km)::numeric) as total_km
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    WHERE EXTRACT(YEAR FROM f.start_time) = EXTRACT(YEAR FROM now())
+    GROUP BY p.id, p.name, p.username
+    ORDER BY total_km DESC
+    LIMIT ${limit}
+  `);
+}
+
 export async function getFlyabilityCalendar() {
   return db.execute(sql`
     SELECT

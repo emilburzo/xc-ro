@@ -8,6 +8,7 @@ import {
   getTopWings,
   getFlyabilityCalendar,
   getCommunityGrowth,
+  getSeasonLeaderboard,
 } from "../home";
 
 const mockExecute = jest.fn();
@@ -194,6 +195,44 @@ describe("home queries", () => {
       const result = await getCommunityGrowth();
       expect(result).toEqual(rows);
       expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getSeasonLeaderboard", () => {
+    it("returns pilot rankings by total_km for current year", async () => {
+      const rows = [
+        {
+          id: 1,
+          name: "Top Pilot",
+          username: "top.pilot",
+          flight_count: 50,
+          total_km: 3000,
+        },
+        {
+          id: 2,
+          name: "Second Pilot",
+          username: "second.pilot",
+          flight_count: 30,
+          total_km: 1500,
+        },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getSeasonLeaderboard();
+      expect(result).toEqual(rows);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+
+    it("accepts a custom limit parameter", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+      await getSeasonLeaderboard(5);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+
+    it("returns empty array when no flights in current year", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+      const result = await getSeasonLeaderboard();
+      expect(result).toEqual([]);
     });
   });
 });

@@ -34,7 +34,9 @@
     "communityGrowthDesc": "Piloți noi pe an, total piloți cumulat și zboruri pe an",
     "newPilots": "Piloți noi",
     "cumulativePilots": "Total piloți",
-    "flights": "Zboruri"
+    "flights": "Zboruri",
+    "seasonLeaderboard": "Clasament Sezon {year}",
+    "seasonLeaderboardDesc": "Top piloți după distanță totală în acest an"
   },
   "takeoffs": {
     "title": "Decolări",

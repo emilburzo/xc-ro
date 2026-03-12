@@ -27,6 +27,7 @@ import {
   getTopFlights,
   getTopWings,
   getFlyabilityCalendar,
+  getSeasonLeaderboard,
 } from "../home";
 
 const describeIf = canRunIntegrationTests ? describe : describe.skip;
@@ -206,6 +207,19 @@ describeIf("home queries (integration)", () => {
       const aug = rows.find((r: Record<string, unknown>) => Number(r.month) === 8);
       expect(aug).toBeDefined();
       expect(Number(aug!.avg_flyable_days)).toBe(1);
+    });
+  });
+
+  describe("getSeasonLeaderboard", () => {
+    it("returns empty when no flights exist in the current year", async () => {
+      // Seed data only has flights from 2022-2024, so current year should be empty
+      const rows = await getSeasonLeaderboard(10);
+      expect(rows.length).toBe(0);
+    });
+
+    it("respects the limit parameter", async () => {
+      const rows = await getSeasonLeaderboard(1);
+      expect(rows.length).toBeLessThanOrEqual(1);
     });
   });
 });
