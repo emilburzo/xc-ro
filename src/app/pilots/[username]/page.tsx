@@ -12,6 +12,7 @@ import {
   getPilotEquipmentTimeline,
   getPilotActivityHeatmap,
   getPilotTopFlights,
+  getPilotLatestFlights,
   getPilotDistanceHistogram,
   getPilotDna,
 } from "@/lib/queries/pilots";
@@ -47,7 +48,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
 
   const pilotId = (pilot as any).id;
 
-  const [stats, favTakeoff, yearly, sites, equipment, heatmap, topFlights, distHist, dna] =
+  const [stats, favTakeoff, yearly, sites, equipment, heatmap, topFlights, latestFlights, distHist, dna] =
     await Promise.all([
       getPilotStats(pilotId),
       getPilotFavoriteTakeoff(pilotId),
@@ -56,6 +57,7 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
       getPilotEquipmentTimeline(pilotId),
       getPilotActivityHeatmap(pilotId),
       getPilotTopFlights(pilotId),
+      getPilotLatestFlights(pilotId),
       getPilotDistanceHistogram(pilotId),
       getPilotDna(pilotId),
     ]);
@@ -138,6 +140,52 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
             </thead>
             <tbody className="divide-y divide-gray-100">
               {(topFlights as any[]).map((f, i) => (
+                <tr key={i} className="hover:bg-gray-50">
+                  <td className="px-2 py-2 text-gray-500">{i + 1}</td>
+                  <td className="px-2 py-2 text-gray-700 whitespace-nowrap">
+                    <Link href={flightPath(f.id)} className="hover:underline">
+                      {formatDate(f.start_time, locale)}
+                    </Link>
+                  </td>
+                  <td className="px-2 py-2">
+                    {f.takeoff_id ? (
+                      <Link href={takeoffPath(f.takeoff_id, f.takeoff_name)} className="text-blue-600 hover:underline">
+                        {f.takeoff_name}
+                      </Link>
+                    ) : "-"}
+                  </td>
+                  <td className="px-2 py-2 text-gray-700">
+                    {f.glider_name}
+                    <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
+                  </td>
+                  <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
+                  <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>
+                  <td className="px-2 py-2 text-gray-500 text-right">{formatDuration(f.airtime)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Latest Flights Table */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <h3 className="font-semibold text-gray-900 mb-3">{t("latestFlights")}</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-gray-200">
+              <tr>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">#</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("date")}</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("takeoff")}</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{t("glider")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("distance")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("score")}</th>
+                <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">{t("airtime")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {(latestFlights as any[]).map((f, i) => (
                 <tr key={i} className="hover:bg-gray-50">
                   <td className="px-2 py-2 text-gray-500">{i + 1}</td>
                   <td className="px-2 py-2 text-gray-700 whitespace-nowrap">

@@ -8,6 +8,7 @@ import {
   getPilotEquipmentTimeline,
   getPilotActivityHeatmap,
   getPilotTopFlights,
+  getPilotLatestFlights,
   getPilotDistanceHistogram,
   getPilotDna,
   getPilotsYearlyGrowth,
@@ -181,6 +182,29 @@ describe("pilot queries", () => {
       mockExecute.mockResolvedValueOnce(rows);
 
       const result = await getPilotTopFlights(1);
+      expect(result).toEqual(rows);
+    });
+  });
+
+  describe("getPilotLatestFlights", () => {
+    it("returns latest 10 flights by date", async () => {
+      const rows = [
+        {
+          start_time: "2024-03-20",
+          distance_km: 45,
+          score: 35,
+          airtime: 120,
+          url: "https://example.com/2",
+          type: "flat triangle",
+          takeoff_name: "Sticlaria",
+          takeoff_id: 20,
+          glider_name: "Mentor 7",
+          glider_category: "B",
+        },
+      ];
+      mockExecute.mockResolvedValueOnce(rows);
+
+      const result = await getPilotLatestFlights(1);
       expect(result).toEqual(rows);
     });
   });

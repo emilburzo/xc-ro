@@ -29,6 +29,7 @@ import {
   getPilotEquipmentTimeline,
   getPilotActivityHeatmap,
   getPilotTopFlights,
+  getPilotLatestFlights,
   getPilotDistanceHistogram,
   getPilotDna,
 } from "../pilots";
@@ -178,6 +179,17 @@ describeIf("pilot queries (integration)", () => {
       expect(Number(rows[0].distance_km)).toBe(310);
       expect(Number(rows[1].distance_km)).toBe(250);
       expect(Number(rows[2].distance_km)).toBe(45);
+    });
+  });
+
+  describe("getPilotLatestFlights", () => {
+    it("returns Bob's flights ordered by start_time DESC", async () => {
+      const rows = await getPilotLatestFlights(2);
+      expect(rows.length).toBe(3);
+      // 2024-03-20 (45km), 2022-07-08 (310km), 2022-06-10 (250km)
+      expect(Number(rows[0].distance_km)).toBe(45);
+      expect(Number(rows[1].distance_km)).toBe(310);
+      expect(Number(rows[2].distance_km)).toBe(250);
     });
   });
 

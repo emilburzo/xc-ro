@@ -150,6 +150,20 @@ export async function getPilotTopFlights(pilotId: number) {
   `);
 }
 
+export async function getPilotLatestFlights(pilotId: number) {
+  return db.execute(sql`
+    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.url, f.type,
+           t.name as takeoff_name, t.id as takeoff_id,
+           g.name as glider_name, g.category as glider_category
+    FROM flights_pg f
+    LEFT JOIN takeoffs t ON f.takeoff_id = t.id
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE f.pilot_id = ${pilotId}
+    ORDER BY f.start_time DESC
+    LIMIT 10
+  `);
+}
+
 export async function getPilotDna(pilotId: number) {
   const rows = await db.execute(sql`
     SELECT max_distance, active_years, flight_count, unique_sites, triangle_pct,
