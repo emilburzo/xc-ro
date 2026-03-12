@@ -166,6 +166,25 @@ export async function getFlightsChartData(filters: FlightFilters): Promise<Fligh
   return { distHistogram, timeline, categoryBreakdown };
 }
 
+export async function getSimilarFlights(flightId: number, takeoffId: number, distanceKm: number) {
+  const distMin = distanceKm * 0.8;
+  const distMax = distanceKm * 1.2;
+  return db.execute(sql`
+    SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime,
+           p.name as pilot_name, p.username as pilot_username,
+           g.name as glider_name, g.category as glider_category
+    FROM flights_pg f
+    JOIN pilots p ON f.pilot_id = p.id
+    JOIN gliders g ON f.glider_id = g.id
+    WHERE f.takeoff_id = ${takeoffId}
+      AND f.distance_km >= ${distMin}
+      AND f.distance_km <= ${distMax}
+      AND f.id != ${flightId}
+    ORDER BY f.start_time DESC
+    LIMIT 10
+  `);
+}
+
 export async function getFlightsList(filters: FlightFilters) {
   const page = filters.page || 1;
   const pageSize = filters.pageSize || 50;

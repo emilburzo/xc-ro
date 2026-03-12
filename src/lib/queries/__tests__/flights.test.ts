@@ -1,4 +1,4 @@
-import { getFlightsList, getFlightsChartData, type FlightFilters } from "../flights";
+import { getFlightsList, getFlightsChartData, getSimilarFlights, type FlightFilters } from "../flights";
 
 const mockExecute = jest.fn();
 
@@ -227,6 +227,32 @@ describe("flights queries", () => {
       expect(result.distHistogram).toEqual([]);
       expect(result.timeline).toEqual([]);
       expect(result.categoryBreakdown).toEqual([]);
+    });
+  });
+
+  describe("getSimilarFlights", () => {
+    it("returns similar flights from same takeoff within ±20% distance", async () => {
+      mockExecute.mockResolvedValueOnce([sampleFlight]);
+
+      const result = await getSimilarFlights(999, 42, 100);
+      expect(result).toEqual([sampleFlight]);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+
+    it("returns empty array when no similar flights found", async () => {
+      mockExecute.mockResolvedValueOnce([]);
+
+      const result = await getSimilarFlights(1, 42, 100);
+      expect(result).toEqual([]);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+    });
+
+    it("executes a single query", async () => {
+      mockExecute.mockResolvedValueOnce([sampleFlight, { ...sampleFlight, id: 2 }]);
+
+      const result = await getSimilarFlights(999, 42, 50);
+      expect(mockExecute).toHaveBeenCalledTimes(1);
+      expect(result).toHaveLength(2);
     });
   });
 });

@@ -208,6 +208,8 @@
     "airtime": "Durată",
     "viewOnXContest": "Vezi pe XContest",
     "similarFlights": "Vezi zboruri comparabile",
+    "similarFlightsTitle": "Zboruri similare",
+    "viewMoreSimilar": "Vezi mai multe zboruri comparabile",
     "startLocation": "Locația de start"
   },
   "records": {

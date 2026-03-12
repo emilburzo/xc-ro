@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getFlightById } from "@/lib/queries/flights";
+import { getFlightById, getSimilarFlights } from "@/lib/queries/flights";
 import { pilotPath, takeoffPath, wingPath, similarFlightsUrl, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
+import TakeoffFlightsTable from "@/components/TakeoffFlightsTable";
 
 const getCachedFlight = cache((id: number) => getFlightById(id));
 
@@ -45,6 +46,10 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
 
   const f = flight as any;
   const hasCoords = f.start_lat != null && f.start_lng != null;
+
+  const similarFlights = f.takeoff_id
+    ? await getSimilarFlights(id, f.takeoff_id, Number(f.distance_km))
+    : [];
 
   return (
     <div className="space-y-6">
@@ -121,7 +126,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             <span className="font-medium">{f.type}</span>
           </div>
         </div>
-        <div className="pt-2 border-t border-gray-100 flex flex-wrap gap-x-6 gap-y-2">
+        <div className="pt-2 border-t border-gray-100">
           <a
             href={f.url}
             target="_blank"
@@ -130,14 +135,6 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
           >
             {t("viewOnXContest")} &rarr;
           </a>
-          {f.takeoff_id && (
-            <Link
-              href={similarFlightsUrl(f.takeoff_name, Number(f.distance_km))}
-              className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
-            >
-              {t("similarFlights")} &rarr;
-            </Link>
-          )}
         </div>
       </div>
 
@@ -150,6 +147,32 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             lng={Number(f.start_lng)}
             label={f.takeoff_name || undefined}
           />
+        </div>
+      )}
+      {/* Similar Flights */}
+      {f.takeoff_id && (similarFlights as any[]).length > 0 && (
+        <div>
+          <TakeoffFlightsTable
+            title={t("similarFlightsTitle")}
+            flights={similarFlights as any}
+            locale={locale}
+            labels={{
+              date: t("date"),
+              pilot: t("pilot"),
+              glider: t("glider"),
+              distance: t("distance"),
+              score: t("score"),
+              airtime: t("airtime"),
+            }}
+          />
+          <div className="mt-2 text-right">
+            <Link
+              href={similarFlightsUrl(f.takeoff_name, Number(f.distance_km))}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              {t("viewMoreSimilar")} &rarr;
+            </Link>
+          </div>
         </div>
       )}
     </div>
