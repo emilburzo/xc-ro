@@ -1,5 +1,7 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { SIX_HOURS, TWELVE_HOURS } from "../cache-ttl";
 
 export async function getAllTimeRecords() {
   const [longest, longestAirtime, highestScore] = await Promise.all([
@@ -137,3 +139,35 @@ export async function getFunStats() {
     mostConsistent: mostConsistent[0],
   };
 }
+
+// --- Cached versions ---
+
+export const getCachedAllTimeRecords = unstable_cache(
+  getAllTimeRecords,
+  ["all-time-records"],
+  { revalidate: TWELVE_HOURS, tags: ["records"] }
+);
+
+export const getCachedCategoryRecords = unstable_cache(
+  getCategoryRecords,
+  ["category-records"],
+  { revalidate: TWELVE_HOURS, tags: ["records"] }
+);
+
+export const getCachedAnnualRecords = unstable_cache(
+  getAnnualRecords,
+  ["annual-records"],
+  { revalidate: TWELVE_HOURS, tags: ["records"] }
+);
+
+export const getCachedYearOverYearGrowth = unstable_cache(
+  getYearOverYearGrowth,
+  ["year-over-year-growth"],
+  { revalidate: SIX_HOURS, tags: ["records"] }
+);
+
+export const getCachedFunStats = unstable_cache(
+  getFunStats,
+  ["fun-stats"],
+  { revalidate: SIX_HOURS, tags: ["records"] }
+);

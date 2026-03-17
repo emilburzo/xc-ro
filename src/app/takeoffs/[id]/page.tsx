@@ -5,17 +5,17 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   getTakeoffById,
-  getTakeoffCalendarHeatmap,
-  getTakeoffMonthlyStats,
-  getTakeoffHourlyDistribution,
-  getTakeoffDayOfWeek,
-  getTakeoffDistanceHistogram,
-  getTakeoffTop10,
-  getTakeoffRecentFlights,
-  getTakeoffWingClasses,
-  getTakeoffTopGliders,
-  getTakeoffYearlyTrend,
-  getTakeoffBusiestDays,
+  getCachedTakeoffCalendarHeatmap,
+  getCachedTakeoffMonthlyStats,
+  getCachedTakeoffHourlyDistribution,
+  getCachedTakeoffDayOfWeek,
+  getCachedTakeoffDistanceHistogram,
+  getCachedTakeoffTop10,
+  getCachedTakeoffRecentFlights,
+  getCachedTakeoffWingClasses,
+  getCachedTakeoffTopGliders,
+  getCachedTakeoffYearlyTrend,
+  getCachedTakeoffBusiestDays,
 } from "@/lib/queries/takeoffs";
 import { slugify, formatDate } from "@/lib/utils";
 import TakeoffDetailCharts from "@/components/TakeoffDetailCharts";
@@ -55,17 +55,17 @@ export default async function TakeoffDetailPage({ params }: { params: Promise<{ 
 
   const [calendar, monthly, hourly, dow, distHist, top10, recentFlights, wingClasses, topGliders, yearly, busiest] =
     await Promise.all([
-      getTakeoffCalendarHeatmap(id),
-      getTakeoffMonthlyStats(id),
-      getTakeoffHourlyDistribution(id),
-      getTakeoffDayOfWeek(id),
-      getTakeoffDistanceHistogram(id),
-      getTakeoffTop10(id),
-      getTakeoffRecentFlights(id),
-      getTakeoffWingClasses(id),
-      getTakeoffTopGliders(id),
-      getTakeoffYearlyTrend(id),
-      getTakeoffBusiestDays(id),
+      getCachedTakeoffCalendarHeatmap(id),
+      getCachedTakeoffMonthlyStats(id),
+      getCachedTakeoffHourlyDistribution(id),
+      getCachedTakeoffDayOfWeek(id),
+      getCachedTakeoffDistanceHistogram(id),
+      getCachedTakeoffTop10(id),
+      getCachedTakeoffRecentFlights(id),
+      getCachedTakeoffWingClasses(id),
+      getCachedTakeoffTopGliders(id),
+      getCachedTakeoffYearlyTrend(id),
+      getCachedTakeoffBusiestDays(id),
     ]);
 
   const totalFlights = (yearly as any[]).reduce((s: number, y: any) => s + y.flight_count, 0);

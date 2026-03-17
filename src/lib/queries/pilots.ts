@@ -1,5 +1,7 @@
 import { db } from "../db";
 import { sql, SQL } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { TWO_HOURS, THIRTY_MINUTES, FOUR_HOURS, SIX_HOURS } from "../cache-ttl";
 
 export async function getPilotsList() {
   return db.execute(sql`
@@ -220,3 +222,77 @@ export async function getPilotDistanceHistogram(pilotId: number) {
     ORDER BY min(distance_km)
   `);
 }
+
+// --- Cached versions ---
+
+export const getCachedPilotsList = unstable_cache(
+  getPilotsList,
+  ["pilots-list"],
+  { revalidate: TWO_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotsYearlyGrowth = unstable_cache(
+  getPilotsYearlyGrowth,
+  ["pilots-yearly-growth"],
+  { revalidate: SIX_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotStats = unstable_cache(
+  getPilotStats,
+  ["pilot-stats"],
+  { revalidate: TWO_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotFavoriteTakeoff = unstable_cache(
+  getPilotFavoriteTakeoff,
+  ["pilot-favorite-takeoff"],
+  { revalidate: FOUR_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotYearlyStats = unstable_cache(
+  getPilotYearlyStats,
+  ["pilot-yearly-stats"],
+  { revalidate: FOUR_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotSiteMap = unstable_cache(
+  getPilotSiteMap,
+  ["pilot-site-map"],
+  { revalidate: TWO_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotEquipmentTimeline = unstable_cache(
+  getPilotEquipmentTimeline,
+  ["pilot-equipment-timeline"],
+  { revalidate: FOUR_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotActivityHeatmap = unstable_cache(
+  getPilotActivityHeatmap,
+  ["pilot-activity-heatmap"],
+  { revalidate: TWO_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotTopFlights = unstable_cache(
+  getPilotTopFlights,
+  ["pilot-top-flights"],
+  { revalidate: FOUR_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotLatestFlights = unstable_cache(
+  getPilotLatestFlights,
+  ["pilot-latest-flights"],
+  { revalidate: THIRTY_MINUTES, tags: ["pilots"] }
+);
+
+export const getCachedPilotDistanceHistogram = unstable_cache(
+  getPilotDistanceHistogram,
+  ["pilot-distance-histogram"],
+  { revalidate: TWO_HOURS, tags: ["pilots"] }
+);
+
+export const getCachedPilotDna = unstable_cache(
+  getPilotDna,
+  ["pilot-dna"],
+  { revalidate: TWO_HOURS, tags: ["pilots"] }
+);

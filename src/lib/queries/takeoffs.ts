@@ -1,5 +1,7 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { TWO_HOURS, THIRTY_MINUTES, FOUR_HOURS, SIX_HOURS } from "../cache-ttl";
 
 export async function getTakeoffsList() {
   return db.execute(sql`
@@ -238,3 +240,77 @@ export async function getTakeoffBusiestDays(takeoffId: number) {
     LIMIT 5
   `);
 }
+
+// --- Cached versions ---
+
+export const getCachedTakeoffsList = unstable_cache(
+  getTakeoffsList,
+  ["takeoffs-list"],
+  { revalidate: TWO_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffCalendarHeatmap = unstable_cache(
+  getTakeoffCalendarHeatmap,
+  ["takeoff-calendar-heatmap"],
+  { revalidate: TWO_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffMonthlyStats = unstable_cache(
+  getTakeoffMonthlyStats,
+  ["takeoff-monthly-stats"],
+  { revalidate: TWO_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffHourlyDistribution = unstable_cache(
+  getTakeoffHourlyDistribution,
+  ["takeoff-hourly-distribution"],
+  { revalidate: TWO_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffDayOfWeek = unstable_cache(
+  getTakeoffDayOfWeek,
+  ["takeoff-day-of-week"],
+  { revalidate: TWO_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffDistanceHistogram = unstable_cache(
+  getTakeoffDistanceHistogram,
+  ["takeoff-distance-histogram"],
+  { revalidate: TWO_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffTop10 = unstable_cache(
+  getTakeoffTop10,
+  ["takeoff-top10"],
+  { revalidate: FOUR_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffRecentFlights = unstable_cache(
+  getTakeoffRecentFlights,
+  ["takeoff-recent-flights"],
+  { revalidate: THIRTY_MINUTES, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffWingClasses = unstable_cache(
+  getTakeoffWingClasses,
+  ["takeoff-wing-classes"],
+  { revalidate: FOUR_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffTopGliders = unstable_cache(
+  getTakeoffTopGliders,
+  ["takeoff-top-gliders"],
+  { revalidate: FOUR_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffYearlyTrend = unstable_cache(
+  getTakeoffYearlyTrend,
+  ["takeoff-yearly-trend"],
+  { revalidate: SIX_HOURS, tags: ["takeoffs"] }
+);
+
+export const getCachedTakeoffBusiestDays = unstable_cache(
+  getTakeoffBusiestDays,
+  ["takeoff-busiest-days"],
+  { revalidate: SIX_HOURS, tags: ["takeoffs"] }
+);

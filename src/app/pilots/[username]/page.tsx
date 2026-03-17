@@ -5,16 +5,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   getPilotByUsername,
-  getPilotStats,
-  getPilotFavoriteTakeoff,
-  getPilotYearlyStats,
-  getPilotSiteMap,
-  getPilotEquipmentTimeline,
-  getPilotActivityHeatmap,
-  getPilotTopFlights,
-  getPilotLatestFlights,
-  getPilotDistanceHistogram,
-  getPilotDna,
+  getCachedPilotStats,
+  getCachedPilotFavoriteTakeoff,
+  getCachedPilotYearlyStats,
+  getCachedPilotSiteMap,
+  getCachedPilotEquipmentTimeline,
+  getCachedPilotActivityHeatmap,
+  getCachedPilotTopFlights,
+  getCachedPilotLatestFlights,
+  getCachedPilotDistanceHistogram,
+  getCachedPilotDna,
 } from "@/lib/queries/pilots";
 import { takeoffPath, formatDuration } from "@/lib/utils";
 import PilotDetailCharts from "@/components/PilotDetailCharts";
@@ -51,16 +51,16 @@ export default async function PilotDetailPage({ params }: { params: Promise<{ us
 
   const [stats, favTakeoff, yearly, sites, equipment, heatmap, topFlights, latestFlights, distHist, dna] =
     await Promise.all([
-      getPilotStats(pilotId),
-      getPilotFavoriteTakeoff(pilotId),
-      getPilotYearlyStats(pilotId),
-      getPilotSiteMap(pilotId),
-      getPilotEquipmentTimeline(pilotId),
-      getPilotActivityHeatmap(pilotId),
-      getPilotTopFlights(pilotId),
-      getPilotLatestFlights(pilotId),
-      getPilotDistanceHistogram(pilotId),
-      getPilotDna(pilotId),
+      getCachedPilotStats(pilotId),
+      getCachedPilotFavoriteTakeoff(pilotId),
+      getCachedPilotYearlyStats(pilotId),
+      getCachedPilotSiteMap(pilotId),
+      getCachedPilotEquipmentTimeline(pilotId),
+      getCachedPilotActivityHeatmap(pilotId),
+      getCachedPilotTopFlights(pilotId),
+      getCachedPilotLatestFlights(pilotId),
+      getCachedPilotDistanceHistogram(pilotId),
+      getCachedPilotDna(pilotId),
     ]);
 
   const s = stats as any;
