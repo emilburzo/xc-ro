@@ -1,6 +1,8 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
 import type { FlightRow } from "../types";
+import { TWO_HOURS } from "../cache-ttl";
 
 const FLIGHT_TYPE_MAPPING: Record<string, string[]> = {
   free: ["free flight", "zbor liber"],
@@ -271,3 +273,11 @@ export async function getFlightsList(filters: FlightFilters) {
     pageSize,
   };
 }
+
+// --- Cached versions ---
+
+export const getCachedSimilarFlights = unstable_cache(
+  getSimilarFlights,
+  ["similar-flights"],
+  { revalidate: TWO_HOURS, tags: ["flights"] }
+);

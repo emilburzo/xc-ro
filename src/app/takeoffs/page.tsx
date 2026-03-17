@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getTakeoffsList } from "@/lib/queries/takeoffs";
+import { getCachedTakeoffsList } from "@/lib/queries/takeoffs";
 import TakeoffsTable from "@/components/TakeoffsTable";
 
 export const revalidate = 0;
@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TakeoffsPage() {
   const t = await getTranslations("takeoffs");
-  const takeoffs = await getTakeoffsList();
+  const takeoffs = await getCachedTakeoffsList();
 
   const mapData = (takeoffs as any[]).map((tk) => ({
     id: tk.id,

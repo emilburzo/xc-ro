@@ -5,13 +5,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   getWingById,
-  getWingTopFlights,
-  getWingRecentFlights,
-  getWingDistanceHistogram,
-  getWingAdoptionCurve,
-  getWingYearlyStats,
-  getWingFavoriteTakeoffs,
-  getWingCalendarHeatmap,
+  getCachedWingTopFlights,
+  getCachedWingRecentFlights,
+  getCachedWingDistanceHistogram,
+  getCachedWingAdoptionCurve,
+  getCachedWingYearlyStats,
+  getCachedWingFavoriteTakeoffs,
+  getCachedWingCalendarHeatmap,
 } from "@/lib/queries/wings";
 import { slugify, formatDuration, formatDistance, formatNumber, CAT_COLORS } from "@/lib/utils";
 import WingDetailCharts from "@/components/WingDetailCharts";
@@ -52,13 +52,13 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
 
   const [topFlights, recentFlights, distHist, adoption, yearly, favoriteTakeoffs, calendar] =
     await Promise.all([
-      getWingTopFlights(id),
-      getWingRecentFlights(id),
-      getWingDistanceHistogram(id),
-      getWingAdoptionCurve(id),
-      getWingYearlyStats(id),
-      getWingFavoriteTakeoffs(id),
-      getWingCalendarHeatmap(id),
+      getCachedWingTopFlights(id),
+      getCachedWingRecentFlights(id),
+      getCachedWingDistanceHistogram(id),
+      getCachedWingAdoptionCurve(id),
+      getCachedWingYearlyStats(id),
+      getCachedWingFavoriteTakeoffs(id),
+      getCachedWingCalendarHeatmap(id),
     ]);
 
   const totalFlights = (yearly as any[]).reduce((s: number, y: any) => s + y.flight_count, 0);

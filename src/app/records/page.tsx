@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import {
-  getAllTimeRecords,
-  getCategoryRecords,
-  getAnnualRecords,
-  getFunStats,
-  getYearOverYearGrowth,
+  getCachedAllTimeRecords,
+  getCachedCategoryRecords,
+  getCachedAnnualRecords,
+  getCachedFunStats,
+  getCachedYearOverYearGrowth,
 } from "@/lib/queries/records";
 import { pilotPath, takeoffPath, wingPath, flightPath, formatDuration, formatDistance, formatDate } from "@/lib/utils";
 import RecordProgressionWrapper from "@/components/RecordProgressionWrapper";
@@ -63,11 +63,11 @@ export default async function RecordsPage() {
   const t = await getTranslations("records");
 
   const [allTime, categoryRecords, annualRecords, funStats, growthData] = await Promise.all([
-    getAllTimeRecords(),
-    getCategoryRecords(),
-    getAnnualRecords(),
-    getFunStats(),
-    getYearOverYearGrowth(),
+    getCachedAllTimeRecords(),
+    getCachedCategoryRecords(),
+    getCachedAnnualRecords(),
+    getCachedFunStats(),
+    getCachedYearOverYearGrowth(),
   ]);
 
   return (

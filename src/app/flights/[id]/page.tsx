@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getFlightById, getSimilarFlights } from "@/lib/queries/flights";
+import { getFlightById, getCachedSimilarFlights } from "@/lib/queries/flights";
 import { pilotPath, takeoffPath, wingPath, flightPath, similarFlightsPath, formatDuration, formatDistance, formatDate, formatTime, CAT_COLORS } from "@/lib/utils";
 import FlightDetailMapWrapper from "@/components/FlightDetailMapWrapper";
 import TakeoffFlightsTable from "@/components/TakeoffFlightsTable";
@@ -48,7 +48,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
   const hasCoords = f.start_lat != null && f.start_lng != null;
 
   const similarFlights = f.takeoff_id != null
-    ? await getSimilarFlights(id, Number(f.takeoff_id), Number(f.distance_km))
+    ? await getCachedSimilarFlights(id, Number(f.takeoff_id), Number(f.distance_km))
     : [];
 
   return (

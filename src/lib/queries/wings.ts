@@ -1,5 +1,7 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { TWO_HOURS, THIRTY_MINUTES, FOUR_HOURS, SIX_HOURS } from "../cache-ttl";
 
 export async function getWingsList() {
   return db.execute(sql`
@@ -146,3 +148,59 @@ export async function getWingCalendarHeatmap(wingId: number) {
     ORDER BY year, month
   `);
 }
+
+// --- Cached versions ---
+
+export const getCachedWingsList = unstable_cache(
+  getWingsList,
+  ["wings-list"],
+  { revalidate: TWO_HOURS, tags: ["wings"] }
+);
+
+export const getCachedCategoryMarketShare = unstable_cache(
+  getCategoryMarketShare,
+  ["category-market-share"],
+  { revalidate: TWO_HOURS, tags: ["wings"] }
+);
+
+export const getCachedWingTopFlights = unstable_cache(
+  getWingTopFlights,
+  ["wing-top-flights"],
+  { revalidate: FOUR_HOURS, tags: ["wings"] }
+);
+
+export const getCachedWingRecentFlights = unstable_cache(
+  getWingRecentFlights,
+  ["wing-recent-flights"],
+  { revalidate: THIRTY_MINUTES, tags: ["wings"] }
+);
+
+export const getCachedWingDistanceHistogram = unstable_cache(
+  getWingDistanceHistogram,
+  ["wing-distance-histogram"],
+  { revalidate: TWO_HOURS, tags: ["wings"] }
+);
+
+export const getCachedWingAdoptionCurve = unstable_cache(
+  getWingAdoptionCurve,
+  ["wing-adoption-curve"],
+  { revalidate: SIX_HOURS, tags: ["wings"] }
+);
+
+export const getCachedWingYearlyStats = unstable_cache(
+  getWingYearlyStats,
+  ["wing-yearly-stats"],
+  { revalidate: SIX_HOURS, tags: ["wings"] }
+);
+
+export const getCachedWingFavoriteTakeoffs = unstable_cache(
+  getWingFavoriteTakeoffs,
+  ["wing-favorite-takeoffs"],
+  { revalidate: FOUR_HOURS, tags: ["wings"] }
+);
+
+export const getCachedWingCalendarHeatmap = unstable_cache(
+  getWingCalendarHeatmap,
+  ["wing-calendar-heatmap"],
+  { revalidate: TWO_HOURS, tags: ["wings"] }
+);

@@ -1,5 +1,7 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { ONE_HOUR, SIX_HOURS, THIRTY_MINUTES } from "../cache-ttl";
 
 export async function getHomeStats() {
   const result = await db.execute(sql`
@@ -145,3 +147,59 @@ export async function getFlyabilityCalendar() {
     ORDER BY month
   `);
 }
+
+// --- Cached versions ---
+
+export const getCachedHomeStats = unstable_cache(
+  getHomeStats,
+  ["home-stats"],
+  { revalidate: ONE_HOUR, tags: ["home"] }
+);
+
+export const getCachedRecentNotableFlights = unstable_cache(
+  getRecentNotableFlights,
+  ["recent-notable-flights"],
+  { revalidate: THIRTY_MINUTES, tags: ["home"] }
+);
+
+export const getCachedSeasonHeatmap = unstable_cache(
+  getSeasonHeatmap,
+  ["season-heatmap"],
+  { revalidate: ONE_HOUR, tags: ["home"] }
+);
+
+export const getCachedTopTakeoffs = unstable_cache(
+  getTopTakeoffs,
+  ["top-takeoffs"],
+  { revalidate: SIX_HOURS, tags: ["home", "takeoffs"] }
+);
+
+export const getCachedTopPilots = unstable_cache(
+  getTopPilots,
+  ["top-pilots"],
+  { revalidate: SIX_HOURS, tags: ["home", "pilots"] }
+);
+
+export const getCachedTopFlights = unstable_cache(
+  getTopFlights,
+  ["top-flights"],
+  { revalidate: SIX_HOURS, tags: ["home"] }
+);
+
+export const getCachedTopWings = unstable_cache(
+  getTopWings,
+  ["top-wings"],
+  { revalidate: SIX_HOURS, tags: ["home", "wings"] }
+);
+
+export const getCachedCommunityGrowth = unstable_cache(
+  getCommunityGrowth,
+  ["community-growth"],
+  { revalidate: SIX_HOURS, tags: ["home"] }
+);
+
+export const getCachedFlyabilityCalendar = unstable_cache(
+  getFlyabilityCalendar,
+  ["flyability-calendar"],
+  { revalidate: ONE_HOUR, tags: ["home"] }
+);

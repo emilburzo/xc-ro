@@ -164,10 +164,22 @@ src/
 │       ├── PilotYearlyChart.tsx
 │       └── PilotDnaChart.tsx
 ├── instrumentation.ts       # Next.js register() hook — refreshes materialized views on startup
+├── __mocks__/
+│   └── next-cache.ts       # Jest mock for next/cache (pass-through unstable_cache)
 ├── lib/
 │   ├── db.ts               # Drizzle + postgres client singleton
+│   ├── cache-ttl.ts        # Shared cache TTL constants (THIRTY_MINUTES, ONE_HOUR, etc.)
 │   ├── schema.ts           # Drizzle table definitions (no geography columns)
-│   ├── queries.ts           # SQL queries (all use drizzle sql`` tagged templates)
+│   ├── queries/             # SQL queries (all use drizzle sql`` tagged templates)
+│   │   ├── index.ts         # Re-exports all query modules
+│   │   ├── home.ts          # Home page queries + cached wrappers
+│   │   ├── takeoffs.ts      # Takeoff queries + cached wrappers
+│   │   ├── pilots.ts        # Pilot queries + cached wrappers
+│   │   ├── wings.ts         # Wing queries + cached wrappers
+│   │   ├── records.ts       # Records queries + cached wrappers
+│   │   ├── flights.ts       # Flights queries + cached wrappers
+│   │   ├── health.ts        # Health check query
+│   │   └── sitemap.ts       # Sitemap queries
 │   ├── utils.ts             # slugify, takeoffPath, wingPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate, relativeTime, removeDiacritics
 │   └── __tests__/           # Jest unit tests (e.g. utils.test.ts)
 ├── i18n/
@@ -200,9 +212,10 @@ playwright.config.ts         # Playwright configuration
 
 ### Data fetching
 - All pages use Server Components with `export const dynamic = "force-dynamic"` (or `revalidate = 0`)
-- Heavy queries in `src/lib/queries.ts` — all use Drizzle's `sql` tagged template for parameterization
+- Heavy queries in `src/lib/queries/` — all use Drizzle's `sql` tagged template for parameterization
 - For dynamic WHERE clauses (flights explorer), build an array of `sql` fragments and join with `sql.join(conditions, sql' AND ')`
 - **Never use `sql.raw()`** — it doesn't parameterize and is vulnerable to SQL injection
+- **Pages use cached query wrappers** (`getCachedFoo`) — see [Query Caching](#query-caching) below
 
 ### Client components
 - Charts: all wrapped in `dynamic(() => import(...), { ssr: false })` — Recharts and Leaflet don't work with SSR
@@ -216,6 +229,47 @@ playwright.config.ts         # Playwright configuration
 
 ### Recharts typing
 - Recharts 3 Tooltip `formatter` prop has strict typing — use `(val: any, _name: any, props: any)` to avoid build errors
+
+### Query Caching
+
+Database query results are cached using Next.js `unstable_cache` from `next/cache`. This avoids re-running expensive aggregation queries (multi-CTE joins over ~73k flights) on every page load while the underlying data only changes when the scraper runs.
+
+**How it works:**
+- Each query file (`src/lib/queries/*.ts`) exports both the raw function (`getFoo`) and a cached wrapper (`getCachedFoo`)
+- Pages import and call the `getCachedFoo` versions; tests use the raw `getFoo` versions
+- `unstable_cache` serializes function arguments into the cache key automatically, so `getCachedTakeoffTop10(42)` and `getCachedTakeoffTop10(43)` have separate cache entries
+
+**TTL constants** are defined once in `src/lib/cache-ttl.ts`:
+
+| Constant | Value | Used for |
+|----------|-------|----------|
+| `THIRTY_MINUTES` | 1800s | Recent/latest flights |
+| `ONE_HOUR` | 3600s | Home stats, heatmaps, flyability calendar |
+| `TWO_HOURS` | 7200s | List pages, detail page charts, histograms |
+| `FOUR_HOURS` | 14400s | Top flights, favorites, equipment timelines |
+| `SIX_HOURS` | 21600s | Yearly trends, community growth, fun stats |
+| `TWELVE_HOURS` | 43200s | All-time/category/annual records |
+
+**Revalidation tags** — each domain has a tag (`home`, `takeoffs`, `pilots`, `wings`, `records`, `flights`) for future on-demand invalidation via `revalidateTag()`.
+
+**What is NOT cached** (by design):
+- `getFlightsList()` / `getFlightsChartData()` — dynamic filters + pagination make the cache key space too large
+- `getById()` functions (`getTakeoffById`, `getPilotByUsername`, `getWingById`, `getFlightById`) — already request-deduplicated via React `cache()`, simple SELECTs
+- Health check and sitemap queries — trivial
+
+**Adding caching to a new query:**
+1. Import `unstable_cache` from `next/cache` and the appropriate TTL from `../cache-ttl`
+2. Add a `getCachedFoo` export at the bottom of the query file:
+   ```ts
+   export const getCachedFoo = unstable_cache(
+     getFoo,
+     ["foo-cache-key"],
+     { revalidate: TWO_HOURS, tags: ["domain-tag"] }
+   );
+   ```
+3. Use `getCachedFoo` in page files; keep `getFoo` for tests
+
+**Jest compatibility:** `unstable_cache` pulls in Next.js server internals that break in jsdom. The mock at `src/__mocks__/next-cache.ts` (mapped via `moduleNameMapper` in `jest.config.ts`) makes `unstable_cache` a pass-through so the cached wrappers behave identically to the raw functions in tests.
 
 ## Testing Requirements
 

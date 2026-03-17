@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getPilotsList, getPilotsYearlyGrowth } from "@/lib/queries/pilots";
+import { getCachedPilotsList, getCachedPilotsYearlyGrowth } from "@/lib/queries/pilots";
 import PilotsTable from "@/components/PilotsTable";
 import PilotsGrowthWrapper from "@/components/PilotsGrowthWrapper";
 
@@ -19,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PilotsPage() {
   const t = await getTranslations("pilots");
   const [pilots, growthData] = await Promise.all([
-    getPilotsList(),
-    getPilotsYearlyGrowth(),
+    getCachedPilotsList(),
+    getCachedPilotsYearlyGrowth(),
   ]);
 
   const tableData = (pilots as any[]).map((p) => ({

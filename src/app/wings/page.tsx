@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getWingsList, getCategoryMarketShare } from "@/lib/queries/wings";
+import { getCachedWingsList, getCachedCategoryMarketShare } from "@/lib/queries/wings";
 import WingsTable from "@/components/WingsTable";
 import CategoryShareWrapper from "@/components/CategoryShareWrapper";
 
@@ -19,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function WingsPage() {
   const t = await getTranslations("wings");
   const [wings, marketShare] = await Promise.all([
-    getWingsList(),
-    getCategoryMarketShare(),
+    getCachedWingsList(),
+    getCachedCategoryMarketShare(),
   ]);
 
   const tableData = (wings as any[]).map((w) => ({

@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import {
-  getHomeStats,
-  getRecentNotableFlights,
-  getSeasonHeatmap,
-  getTopTakeoffs,
-  getTopPilots,
-  getTopFlights,
-  getTopWings,
-  getFlyabilityCalendar,
-  getCommunityGrowth,
+  getCachedHomeStats,
+  getCachedRecentNotableFlights,
+  getCachedSeasonHeatmap,
+  getCachedTopTakeoffs,
+  getCachedTopPilots,
+  getCachedTopFlights,
+  getCachedTopWings,
+  getCachedFlyabilityCalendar,
+  getCachedCommunityGrowth,
 } from "@/lib/queries/home";
 import {takeoffPath, pilotPath, wingPath, flightPath, formatDuration, formatDistance, formatNumber, formatDate} from "@/lib/utils";
 import SeasonHeatmap from "@/components/SeasonHeatmap";
@@ -36,15 +36,15 @@ export default async function HomePage() {
   const ts = await getTranslations("seo");
 
   const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData, communityGrowthData] = await Promise.all([
-    getHomeStats(),
-    getRecentNotableFlights(),
-    getSeasonHeatmap(),
-    getTopTakeoffs(10),
-    getTopPilots(10),
-    getTopFlights(10),
-    getTopWings(10),
-    getFlyabilityCalendar(),
-    getCommunityGrowth(),
+    getCachedHomeStats(),
+    getCachedRecentNotableFlights(),
+    getCachedSeasonHeatmap(),
+    getCachedTopTakeoffs(10),
+    getCachedTopPilots(10),
+    getCachedTopFlights(10),
+    getCachedTopWings(10),
+    getCachedFlyabilityCalendar(),
+    getCachedCommunityGrowth(),
   ]);
 
   return (
