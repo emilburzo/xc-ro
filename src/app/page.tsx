@@ -37,7 +37,7 @@ export default async function HomePage() {
 
   const [stats, recentFlights, heatmapData, topTakeoffs, topPilots, topFlights, topWings, flyabilityData, communityGrowthData] = await Promise.all([
     getCachedHomeStats(),
-    getCachedRecentNotableFlights(),
+    getCachedRecentNotableFlights(10),
     getCachedSeasonHeatmap(),
     getCachedTopTakeoffs(10),
     getCachedTopPilots(10),
