@@ -15,7 +15,7 @@ export async function getHomeStats() {
   return result[0];
 }
 
-export async function getRecentNotableFlights(limit = 20) {
+export async function getRecentNotableFlights(limit = 10) {
   return db.execute(sql`
     SELECT f.id, f.start_time, f.distance_km, f.score, f.airtime, f.type, f.url,
            p.name as pilot_name, p.username as pilot_username,
