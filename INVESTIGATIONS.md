@@ -45,9 +45,9 @@ Empirically bisected:
 
 Both regressions were still open at time of investigation.
 
-### Fix
+### First-attempt fix (BROKE the Docker build — superseded)
 
-`acc288c` — added `overrides` to `package.json`:
+`4adeb1f` — added a nested-scope override:
 
 ```json
 "overrides": {
@@ -57,19 +57,51 @@ Both regressions were still open at time of investigation.
 }
 ```
 
-This hoists `@swc/helpers@0.5.21` to top-level `node_modules/@swc/helpers`, which satisfies the optional peer dep of nested `@swc/core@^1.15` directly — so the nested `next-intl/node_modules/@swc/helpers` entry is no longer needed in the lockfile. **Both npm 10 and npm 11 produce the same structural shape for this part of the lockfile**, so they converge.
+This hoisted `@swc/helpers@0.5.21` to top-level (its `>=0.5.17` satisfied `@swc/core`'s optional peer directly, no nested entry needed). Local build, tests, and `npm ci` on either npm-version's lockfile all passed.
 
-Side-effect: top-level `@swc/helpers` went 0.5.15 → 0.5.21. `next` declares `0.5.15` (pinned exact), but is now using the hoisted 0.5.21 — a six-patch bump within 0.5.x, no API change. Build and tests pass.
+**Then the production Docker container crashed on startup:**
 
-The cosmetic `fsevents dev:true` drift still happens between npm 10 and npm 11, but it does not break `npm ci` (verified in isolation).
+```
+Error: Cannot find module '/app/node_modules/@swc/helpers/esm/_interop_require_default.js'
+    at /app/node_modules/next/dist/server/require-hook.js:57:36
+```
+
+Reproducible locally with `cd .next/standalone && node server.js`.
+
+Cause: `@swc/helpers@0.5.17+` added a `"module-sync"` condition to its `package.json` exports field that points at `./esm/*.js`. In Node 20 (with `--experimental-require-module` defaulted on), `require("@swc/helpers/_/_interop_require_default")` resolves through the `"module-sync"` condition to the **ESM** `.js` file instead of the `.cjs` one — verified with `require.resolve` returning `.../esm/_interop_require_default.js`.
+
+Next.js's standalone tracer (`nft`) does not handle the `"module-sync"` condition: it only copies the CJS resolutions of `@swc/helpers` into `.next/standalone/node_modules/@swc/helpers/cjs/` (3 files of the 438-file package). At runtime, the resolver looks for the ESM file and crashes.
+
+With the pre-`acc288c` lockfile, top-level `@swc/helpers` was `0.5.15` (pinned by `next`), which has **no `"module-sync"` condition**, so `require()` correctly resolved to the CJS file the tracer had copied.
+
+### Real fix
+
+Change the override to pin `@swc/helpers` globally to `0.5.15`:
+
+```json
+"overrides": {
+  "@swc/helpers": "0.5.15"
+}
+```
+
+This:
+
+- Forces every `@swc/helpers` in the tree to be `0.5.15`, the version `next` already pinned.
+- Eliminates the nested `next-intl/node_modules/@swc/helpers` entry from the lockfile (npm doesn't add an entry for the optional peer when an override forbids any other version — the optional peer is simply unsatisfied, which is allowed).
+- Both npm 10 and npm 11 produce the same lockfile shape — `npm ci` succeeds on either.
+- Top-level `@swc/helpers` stays at `0.5.15`, which has no `"module-sync"` condition, so the standalone tracer's CJS-only copy is enough.
+
+The version pin is deliberately exact (`"0.5.15"` not `"^0.5.15"`) so a patch-range bump to `0.5.17+` doesn't silently re-introduce the `"module-sync"` regression.
+
+Cosmetic drift: npm 11 still strips `"dev": true` from `playwright/node_modules/fsevents` ([npm/cli#9249](https://github.com/npm/cli/issues/9249)). Verified in isolation — doesn't break `npm ci`.
 
 ### Verification
 
-- `npm run build` succeeds with the new lockfile.
+- `npm run build` succeeds on the new lockfile.
 - `npm test` — 428 tests pass, 38 snapshots match.
-- `npm ci` succeeds on both npm-10-generated and npm-11-generated lockfiles produced with the override in place.
-- Re-running `npm install` produces zero lockfile drift (md5 stable).
-- Simulated dependabot full flow: `npm 11 install --package-lock-only` after `next` version bump → resulting lockfile passes `npm ci` with npm 10.
+- `cd .next/standalone && node server.js` boots Next.js cleanly (`✓ Starting...`).
+- `npm ci` succeeds on both an npm-10-generated and an npm-11-bump-simulated lockfile.
+- Simulated dependabot flow (bump `next` to `16.2.6` via npm 11) produces a lockfile with identical `@swc/helpers` shape; `npm ci` against it on npm 10 succeeds.
 
 ### Alternative fix considered (not taken)
 
