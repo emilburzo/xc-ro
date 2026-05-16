@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@types/leaflet": "^1.9.21",
-    "drizzle-orm": "^0.45.1",
+    "drizzle-orm": "^0.45.2",
     "leaflet": "^1.9.4",
     "lru-cache": "^11.3.6",
     "next": "^16.1.6",
