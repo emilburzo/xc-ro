@@ -271,6 +271,18 @@ Database query results are cached using Next.js `unstable_cache` from `next/cach
 
 **Jest compatibility:** `unstable_cache` pulls in Next.js server internals that break in jsdom. The mock at `src/__mocks__/next-cache.ts` (mapped via `moduleNameMapper` in `jest.config.ts`) makes `unstable_cache` a pass-through so the cached wrappers behave identically to the raw functions in tests.
 
+**Cache backend — in-memory only:** Next.js's default cache handler writes each cache entry to a file under `.next/cache/fetch-cache/`. With ~52 cached wrappers, many of them keyed by entity ID, that directory can accumulate tens of thousands of tiny files in the container's writable overlayfs layer. On Kubernetes nodes (kubelet + containerd) this triggers an aggressive `newfstatat` loop when kubelet recomputes ephemeral-storage usage — pinning containerd at >100% CPU.
+
+The app uses a custom in-memory `CacheHandler` at `src/lib/cache-handler.cjs`, wired via the `cacheHandler` option in `next.config.mjs`. `cacheMaxMemorySize: 0` disables Next.js's default in-memory LRU wrapper so we don't double-cache.
+
+- Backed by `lru-cache` v11 with a byte-size cap (default 256MB, overridable via `CACHE_HANDLER_MAX_SIZE_BYTES` env var)
+- Tag→key reverse index so `revalidateTag(t)` is O(keys-for-t), not O(all-entries)
+- Module-level singleton — one cache per Node.js process. Cold on process restart, which is acceptable because the underlying Postgres queries are <100ms and TTLs are 30 min – 12 h
+- No filesystem writes at all; safe for Pi SD card endurance
+- Standalone build trace pulls in both `cache-handler.cjs` and `lru-cache` automatically
+
+Tests for the handler live at `src/lib/__tests__/cache-handler.test.ts`. They `require()` the handler directly and exercise it under `@jest-environment node`. The existing `next/cache` Jest mock is unchanged — query tests still bypass the handler entirely via the pass-through `unstable_cache`.
+
 ## Testing Requirements
 
 Every new feature, improvement, or bug fix **must** include tests unless the change is already covered by existing tests. Follow these guidelines:
