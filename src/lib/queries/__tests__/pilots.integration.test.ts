@@ -157,6 +157,33 @@ describeIf("pilot queries (integration)", () => {
       expect(names).toContain("Ozone Enzo 3");
       expect(names).toContain("Gin Atlas 2");
     });
+
+    it("returns total_airtime per glider for Alice", async () => {
+      const rows = await getPilotEquipmentTimeline(1);
+      const byName = Object.fromEntries(
+        rows.map((r: Record<string, unknown>) => [r.name, r])
+      );
+
+      // Enzo 3: flights 101 (300 min) + 104 (200 min) = 500
+      expect(Number(byName["Ozone Enzo 3"].total_airtime)).toBe(500);
+      expect(Number(byName["Ozone Enzo 3"].flight_count)).toBe(2);
+
+      // Sigma 11: flights 102 (240 min) + 105 (45 min) = 285
+      expect(Number(byName["Advance Sigma 11"].total_airtime)).toBe(285);
+      expect(Number(byName["Advance Sigma 11"].flight_count)).toBe(2);
+
+      // Atlas 2: flight 103 (30 min)
+      expect(Number(byName["Gin Atlas 2"].total_airtime)).toBe(30);
+      expect(Number(byName["Gin Atlas 2"].flight_count)).toBe(1);
+    });
+
+    it("excludes HG flights from total_airtime", async () => {
+      // Charlie's only PG flight is 301 (Sigma 11, 60 min); 302 is HG (90 min)
+      const rows = await getPilotEquipmentTimeline(3);
+      expect(rows.length).toBe(1);
+      expect(rows[0].name).toBe("Advance Sigma 11");
+      expect(Number(rows[0].total_airtime)).toBe(60);
+    });
   });
 
   describe("getPilotActivityHeatmap", () => {

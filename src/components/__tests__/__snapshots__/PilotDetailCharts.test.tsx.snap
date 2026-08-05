@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PilotDetailCharts — equipment progression matches snapshot 1`] = `
+<div
+  class="space-y-4"
+>
+  <div
+    class="bg-white rounded-lg border border-gray-200 p-4"
+  >
+    <h2
+      class="text-lg font-semibold text-gray-900 mb-1"
+    >
+      Evolution
+    </h2>
+    <p
+      class="text-sm text-gray-500 mb-4"
+    >
+      Career Timeline
+    </p>
+    <div
+      data-testid="dynamic-chart"
+    />
+  </div>
+  <div
+    class="bg-white rounded-lg border border-gray-200 p-4"
+  >
+    <h2
+      class="text-lg font-semibold text-gray-900 mb-3"
+    >
+      Site Map
+    </h2>
+    <div
+      data-testid="dynamic-chart"
+    />
+  </div>
+  <div
+    class="bg-white rounded-lg border border-gray-200 p-4"
+  >
+    <h2
+      class="text-lg font-semibold text-gray-900 mb-3"
+    >
+      Equipment Progression
+    </h2>
+    <div
+      class="space-y-3 sm:space-y-2"
+    >
+      <div
+        class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm sm:flex-nowrap sm:justify-between"
+      >
+        <div
+          class="flex min-w-0 items-center gap-2"
+        >
+          <span
+            class="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800"
+          >
+            B
+          </span>
+          <span
+            class="text-gray-700 sm:truncate"
+            title="Advance Sigma 11"
+          >
+            Advance Sigma 11
+          </span>
+        </div>
+        <div
+          class="flex w-full shrink-0 items-center gap-x-1.5 text-xs text-gray-500 tabular-nums sm:w-auto"
+        >
+          <span>
+            42
+             
+            flights
+          </span>
+          <span
+            class="text-gray-300"
+          >
+            ·
+          </span>
+          <span>
+            42h 10m
+          </span>
+          <span
+            class="text-gray-300"
+          >
+            ·
+          </span>
+          <span>
+            2019-2021
+          </span>
+        </div>
+      </div>
+      <div
+        class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm sm:flex-nowrap sm:justify-between"
+      >
+        <div
+          class="flex min-w-0 items-center gap-2"
+        >
+          <span
+            class="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800"
+          >
+            D
+          </span>
+          <span
+            class="text-gray-700 sm:truncate"
+            title="Ozone Enzo 3"
+          >
+            Ozone Enzo 3
+          </span>
+        </div>
+        <div
+          class="flex w-full shrink-0 items-center gap-x-1.5 text-xs text-gray-500 tabular-nums sm:w-auto"
+        >
+          <span>
+            7
+             
+            flights
+          </span>
+          <span
+            class="text-gray-300"
+          >
+            ·
+          </span>
+          <span>
+            45m
+          </span>
+          <span
+            class="text-gray-300"
+          >
+            ·
+          </span>
+          <span>
+            2022
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bg-white rounded-lg border border-gray-200 p-4"
+  >
+    <h2
+      class="text-lg font-semibold text-gray-900 mb-3"
+    >
+      Activity Heatmap
+    </h2>
+    <div>
+      <div
+        class="flex items-center justify-between mb-3"
+      >
+        <h3
+          class="font-semibold text-gray-900"
+        >
+          seasonOverview
+        </h3>
+        <div
+          class="flex gap-1"
+        >
+          <button
+            class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700"
+          >
+            flightCount
+          </button>
+          <button
+            class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-600"
+          >
+            avgScore
+          </button>
+        </div>
+      </div>
+      <div
+        class="overflow-x-auto"
+      >
+        <div
+          class="inline-block min-w-full"
+        >
+          <div
+            class="flex gap-0.5 mb-1 ml-12"
+          >
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              I
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              II
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              III
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              IV
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              V
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              VI
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              VII
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              VIII
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              IX
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              X
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              XI
+            </div>
+            <div
+              class="w-8 text-center text-xs text-gray-500"
+            >
+              XII
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bg-white rounded-lg border border-gray-200 p-4"
+  >
+    <h2
+      class="text-lg font-semibold text-gray-900 mb-3"
+    >
+      Distance Distribution
+    </h2>
+    <div
+      data-testid="dynamic-chart"
+    />
+  </div>
+</div>
+`;

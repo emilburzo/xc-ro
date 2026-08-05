@@ -114,6 +114,7 @@ export async function getPilotEquipmentTimeline(pilotId: number) {
     SELECT
       g.name, g.category,
       count(*)::int as flight_count,
+      coalesce(sum(f.airtime), 0)::int as total_airtime,
       min(f.start_time) as first_used,
       max(f.start_time) as last_used
     FROM flights_pg f
