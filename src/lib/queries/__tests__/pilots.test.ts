@@ -139,6 +139,7 @@ describe("pilot queries", () => {
           name: "Enzo 3",
           category: "D",
           flight_count: 50,
+          total_airtime: 9000,
           first_used: "2020-03-01",
           last_used: "2023-09-15",
         },
