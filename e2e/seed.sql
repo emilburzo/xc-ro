@@ -1,6 +1,11 @@
 -- Seed data for visual regression tests.
 -- Provides enough mock data for all pages to render meaningfully.
 -- Sources schema.sql for DDL, then inserts test data.
+--
+-- Flight dates here are fixed, and parts of the UI are relative to "now"
+-- (inactive-site tags, map marker colours). The visual tests therefore pin the
+-- browser clock to FIXED_NOW in e2e/fixtures.ts — keep the two in sync when
+-- adding flights more recent than 2025-07-10.
 
 \ir ../sql/schema.sql
 
