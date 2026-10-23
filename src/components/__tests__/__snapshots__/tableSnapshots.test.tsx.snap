@@ -38,7 +38,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         Pilot
       </label>
       <input
-        class="px-2 py-1.5 text-sm border border-gray-300 rounded w-32"
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-32"
         placeholder="..."
         type="text"
         value=""
@@ -51,7 +51,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         Takeoff
       </label>
       <input
-        class="px-2 py-1.5 text-sm border border-gray-300 rounded w-32"
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-32"
         placeholder="..."
         type="text"
         value=""
@@ -67,12 +67,12 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         class="flex gap-1"
       >
         <input
-          class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm"
           type="date"
           value=""
         />
         <input
-          class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm"
           type="date"
           value=""
         />
@@ -88,7 +88,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         class="flex gap-1 items-center"
       >
         <input
-          class="px-2 py-1.5 text-sm border border-gray-300 rounded w-20"
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-20"
           placeholder="Min"
           type="number"
           value=""
@@ -99,7 +99,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           -
         </span>
         <input
-          class="px-2 py-1.5 text-sm border border-gray-300 rounded w-20"
+          class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-20"
           placeholder="Max"
           type="number"
           value=""
@@ -114,7 +114,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         Glider category
       </label>
       <select
-        class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm"
         id="glider-category"
       >
         <option
@@ -162,7 +162,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
         Flight type
       </label>
       <select
-        class="px-2 py-1.5 text-sm border border-gray-300 rounded"
+        class="px-2 py-1.5 text-sm border border-gray-300 rounded-sm"
         id="flight-type"
       >
         <option
@@ -323,7 +323,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           >
             Advance Omega X-Alps 4
             <span
-              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
             >
               D
             </span>
@@ -388,7 +388,7 @@ exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
           >
             Nova Mentor 7
             <span
-              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
             >
               B
             </span>
@@ -513,7 +513,7 @@ exports[`Snapshot: PilotFlightsTable matches snapshot 1`] = `
           >
             Advance Omega X-Alps 4
             <span
-              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
             >
               D
             </span>
@@ -563,7 +563,7 @@ exports[`Snapshot: PilotFlightsTable matches snapshot 1`] = `
           >
             Nova Mentor 7
             <span
-              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
             >
               B
             </span>
@@ -608,7 +608,7 @@ exports[`Snapshot: PilotsTable matches snapshot 1`] = `
       Min flights
       :
       <input
-        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded-sm"
         min="0"
         type="number"
         value=""
@@ -923,7 +923,7 @@ exports[`Snapshot: TakeoffFlightsTable matches snapshot 1`] = `
           >
             Advance Omega X-Alps 4
             <span
-              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
             >
               D
             </span>
@@ -978,7 +978,7 @@ exports[`Snapshot: TakeoffFlightsTable matches snapshot 1`] = `
           >
             Nova Mentor 7
             <span
-              class="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]"
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
             >
               B
             </span>
@@ -1042,7 +1042,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
       Min flights
       :
       <input
-        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded-sm"
         min="0"
         type="number"
         value="10"
@@ -1133,17 +1133,17 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
               class="flex flex-wrap gap-1 mt-0.5"
             >
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-yellow-100 text-yellow-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-yellow-100 text-yellow-800"
               >
                 100k Club
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-purple-100 text-purple-800"
               >
                 XC Engine
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-orange-100 text-orange-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-orange-100 text-orange-800"
               >
                 Triangle Factory
               </span>
@@ -1168,7 +1168,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             class="px-2 py-2"
           >
             <div
-              class="flex items-end gap-[1px] h-4"
+              class="flex items-end gap-px h-4"
             >
               <div
                 class="w-1.5 bg-blue-400 rounded-t-sm"
@@ -1252,32 +1252,32 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
               class="flex flex-wrap gap-1 mt-0.5"
             >
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-yellow-100 text-yellow-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-yellow-100 text-yellow-800"
               >
                 100k Club
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-purple-100 text-purple-800"
               >
                 XC Engine
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-blue-100 text-blue-800"
               >
                 Weekend Site
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-orange-100 text-orange-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-orange-100 text-orange-800"
               >
                 Triangle Factory
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-red-100 text-red-800"
               >
                 Afternoon Thermal
               </span>
               <span
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-indigo-100 text-indigo-800"
+                class="inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-indigo-100 text-indigo-800"
               >
                 Marathon Site
               </span>
@@ -1302,7 +1302,7 @@ exports[`Snapshot: TakeoffsTable matches snapshot 1`] = `
             class="px-2 py-2"
           >
             <div
-              class="flex items-end gap-[1px] h-4"
+              class="flex items-end gap-px h-4"
             >
               <div
                 class="w-1.5 bg-blue-400 rounded-t-sm"
@@ -1412,7 +1412,7 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
       Min flights
       :
       <input
-        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+        class="w-16 px-2 py-1 text-sm border border-gray-300 rounded-sm"
         min="0"
         type="number"
         value=""
@@ -1501,7 +1501,7 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
               Nova Mentor 7
             </a>
             <span
-              class="ml-1.5 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800"
+              class="ml-1.5 inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-blue-100 text-blue-800"
             >
               B
             </span>
@@ -1555,7 +1555,7 @@ exports[`Snapshot: WingsTable matches snapshot 1`] = `
               Ozone Mantra 8
             </a>
             <span
-              class="ml-1.5 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-yellow-100 text-yellow-800"
+              class="ml-1.5 inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-yellow-100 text-yellow-800"
             >
               C
             </span>

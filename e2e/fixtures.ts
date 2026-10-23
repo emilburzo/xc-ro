@@ -79,4 +79,20 @@ export async function waitForMapTiles(page: import("@playwright/test").Page) {
   );
 }
 
+/**
+ * Wait until `count` Recharts charts have drawn their SVG. The charts are
+ * client-only dynamic imports that take no space until their chunk loads, so
+ * screenshotting (or clicking) before then races the layout shift they cause.
+ */
+export async function waitForCharts(
+  page: import("@playwright/test").Page,
+  count: number,
+) {
+  await expect(
+    page
+      .locator(".recharts-responsive-container")
+      .filter({ has: page.locator("svg") }),
+  ).toHaveCount(count, { timeout: 15_000 });
+}
+
 export { expect };

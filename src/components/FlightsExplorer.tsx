@@ -130,7 +130,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             type="text"
             value={pilotSearch}
             onChange={(e) => setPilotSearch(e.target.value)}
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded w-32"
+            className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-32"
             placeholder="..."
           />
         </div>
@@ -140,23 +140,23 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             type="text"
             value={takeoffSearch}
             onChange={(e) => setTakeoffSearch(e.target.value)}
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded w-32"
+            className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-32"
             placeholder="..."
           />
         </div>
         <div>
           <label className="block text-xs text-gray-500 mb-1">{t("dateRange")}</label>
           <div className="flex gap-1">
-            <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded" />
-            <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded" />
+            <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm" />
+            <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm" />
           </div>
         </div>
         <div>
           <label className="block text-xs text-gray-500 mb-1">{t("distanceRange")}</label>
           <div className="flex gap-1 items-center">
-            <input type="number" value={distMin} onChange={(e) => setDistMin(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded w-20" placeholder={t("min")} />
+            <input type="number" value={distMin} onChange={(e) => setDistMin(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-20" placeholder={t("min")} />
             <span className="text-gray-400">-</span>
-            <input type="number" value={distMax} onChange={(e) => setDistMax(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded w-20" placeholder={t("max")} />
+            <input type="number" value={distMax} onChange={(e) => setDistMax(e.target.value)} className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm w-20" placeholder={t("max")} />
           </div>
         </div>
         <div>
@@ -165,7 +165,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             id="glider-category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded"
+            className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm"
           >
             <option value="">{t("all")}</option>
             {["A", "B", "C", "D", "Z", "T"].map((c) => (
@@ -179,7 +179,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
             id="flight-type"
             value={flightType}
             onChange={(e) => setFlightType(e.target.value)}
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded"
+            className="px-2 py-1.5 text-sm border border-gray-300 rounded-sm"
           >
             <option value="">{t("all")}</option>
             <option value="free">{t("freeFlightLabel")}</option>
@@ -275,7 +275,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
                     </td>
                     <td className="px-2 py-2 text-gray-700">
                       {f.glider_name}
-                      <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
+                      <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]">{f.glider_category}</span>
                     </td>
                     <td className="px-2 py-2 text-gray-500 text-xs">{f.type}</td>
                     <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
@@ -296,7 +296,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
           <button
             onClick={() => goToPage(page - 1)}
             disabled={page <= 1}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50"
+            className="px-3 py-1.5 text-sm border border-gray-300 rounded-sm disabled:opacity-50"
           >
             &laquo;
           </button>
@@ -318,7 +318,7 @@ export default function FlightsExplorer({ flights, total, page, pageSize, curren
           <button
             onClick={() => goToPage(page + 1)}
             disabled={page >= totalPages}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded disabled:opacity-50"
+            className="px-3 py-1.5 text-sm border border-gray-300 rounded-sm disabled:opacity-50"
           >
             &raquo;
           </button>

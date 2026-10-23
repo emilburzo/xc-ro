@@ -13,7 +13,7 @@ Mobile-first webapp exploring paragliding and hang-gliding flights scraped from 
 ## Tech Stack
 
 - **Framework**: Next.js (App Router, Server Components)
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS v4 — CSS-first config in `src/app/globals.css` (no `tailwind.config.ts`), PostCSS plugin `@tailwindcss/postcss`
 - **Charts**: Recharts (bar, line, composed, pie)
 - **Maps**: Leaflet (dynamic import, no SSR) — markers loaded via raw `leaflet` API, not `react-leaflet` components
 - **Database**: PostgreSQL with PostGIS — accessed via `postgres` (postgres.js) + Drizzle ORM
@@ -124,7 +124,7 @@ src/
 │   ├── layout.tsx          # Root layout (NextIntlClientProvider, Nav)
 │   ├── page.tsx            # Home dashboard
 │   ├── actions.ts          # Server action: setLocale cookie
-│   ├── globals.css         # Tailwind + leaflet fix
+│   ├── globals.css         # Tailwind import + @theme, v3-compat base styles, leaflet fix
 │   ├── api/
 │   │   └── health/route.ts # Health check endpoint (GET /api/health)
 │   ├── takeoffs/
@@ -304,7 +304,7 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 
 4. **next-intl v4 with Next.js 15**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
 
-5. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) sets `.leaflet-container { height: 100% }`. Because this `<link>` is loaded in the component body (after Tailwind CSS in `<head>`), it overrides Tailwind height classes like `h-[300px]` at equal specificity. The fix is to use Tailwind's `!important` modifier: `!h-[300px]`. **All Leaflet map container divs must use `!h-[...]` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
+5. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) and `globals.css` both set `.leaflet-container { height: 100% }`. These rules are unlayered, and unlayered CSS beats Tailwind v4's utilities (which live in `@layer utilities`) regardless of specificity or order, so a plain `h-[300px]` loses. The fix is Tailwind's important modifier: `h-[300px]!` (v4 syntax; v3's leading `!h-[300px]` is deprecated). **All Leaflet map container divs must use `h-[...]!` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
 
 6. **Leaflet default marker icons**: Broken in bundlers by default. Must call `delete (L.Icon.Default.prototype as any)._getIconUrl` and then `L.Icon.Default.mergeOptions(...)` with unpkg URLs.
 
@@ -312,9 +312,11 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 
 8. **`ssr: false` not allowed in Server Components**: `next/dynamic` with `ssr: false` cannot be used directly in Server Component pages. The `dynamic()` call must live inside a `"use client"` component. For Recharts charts, use a thin client wrapper component (e.g. `RecordProgressionWrapper.tsx`) or an orchestrator component (e.g. `TakeoffDetailCharts.tsx`) that does the `dynamic(() => import(...), { ssr: false })` internally.
 
-9. **Always run `npm run build` after changes**: `npm run lint` and `npm run test` do not compile Next.js pages. Only `npm run build` catches naming collisions, Server Component constraint violations, and other compile-time errors in pages.
+9. **Always run `npm run build` after changes**: `npm run lint` and `npm run test` do not compile Next.js pages. Only `npm run build` catches naming collisions, Server Component constraint violations, and other compile-time errors in pages. Since Next.js 16.3 it type-checks the whole project with `tsc`, test files included (e.g. assigning the read-only `process.env.NODE_ENV` in a test fails the build).
 
 10. **Chart wrapper components must use typed interfaces, not `any[]`**: When creating a `"use client"` wrapper that bridges server data to a chart component, define a typed row interface for the `data` prop (matching the SQL query's output columns). The `as any` cast at the page level (server→client boundary) is acceptable because Drizzle's `db.execute` returns `Record<string, unknown>[]`, but the wrapper's Props interface must be strongly typed so the chart component receives correct types.
+
+11. **Tailwind v4 keeps v3's look via `globals.css`**: the `@theme` block pins v3's `system-ui` font stack and absolute `rem` line-heights, and the `@layer base` block restores v3's gray-200 default border color, gray-400 placeholders and pointer cursor on buttons. Removing any of them visibly changes the UI (and the visual snapshots). One v3 behavior was deliberately *not* kept: `space-y-*` now puts margins below every child but the last, so an invisible first child (e.g. `<JsonLd>`) no longer adds a phantom gap above the next one.
 
 ## Git Hygiene
 

@@ -51,7 +51,7 @@ describe("PilotSiteMap", () => {
     // Leaflet CSS sets .leaflet-container { height: 100% } which overrides
     // regular Tailwind height classes. The !important modifier is required
     // to prevent the map from collapsing to 0px height.
-    expect(mapDiv).toHaveClass("!h-[300px]");
+    expect(mapDiv).toHaveClass("h-[300px]!");
   });
 
   it("loads leaflet CSS stylesheet", () => {

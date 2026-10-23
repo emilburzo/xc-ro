@@ -44,7 +44,7 @@ function MiniSparkline({ data }: { data: { month: number; count: number }[] | nu
   const maxCount = Math.max(...data.map((d) => d.count));
   const lookup = new Map(data.map((d) => [d.month, d.count]));
   return (
-    <div className="flex items-end gap-[1px] h-4">
+    <div className="flex items-end gap-px h-4">
       {Array.from({ length: 12 }, (_, i) => {
         const count = lookup.get(i + 1) || 0;
         const height = maxCount > 0 ? Math.max((count / maxCount) * 16, 1) : 1;
@@ -62,7 +62,7 @@ function MiniSparkline({ data }: { data: { month: number; count: number }[] | nu
 
 function Badge({ label, color }: { label: string; color: string }) {
   return (
-    <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${color}`}>
+    <span className={`inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium ${color}`}>
       {label}
     </span>
   );
@@ -178,7 +178,7 @@ export default function TakeoffsTable({ takeoffs, mapData }: { takeoffs: Takeoff
             min={0}
             value={minFlights || ""}
             onChange={(e) => setMinFlights(Number(e.target.value) || 0)}
-            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded-sm"
           />
         </label>
       </div>

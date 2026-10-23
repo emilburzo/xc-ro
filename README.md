@@ -17,7 +17,7 @@ Mobile-first web application exploring ~73 000 paragliding flights scraped from 
 | Layer | Technology |
 |-------|-----------|
 | Framework | Next.js 15 — App Router, Server Components |
-| Styling | Tailwind CSS 3 |
+| Styling | Tailwind CSS 4 |
 | Charts | Recharts 3 |
 | Maps | Leaflet 1.9 |
 | Database | PostgreSQL 16 + PostGIS |

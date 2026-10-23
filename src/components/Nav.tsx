@@ -53,7 +53,7 @@ export default function Nav() {
             <LanguageToggle />
             <button
               onClick={() => setOpen(!open)}
-              className="p-2 rounded text-gray-600 hover:bg-gray-100"
+              className="p-2 rounded-sm text-gray-600 hover:bg-gray-100"
               aria-label="Menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

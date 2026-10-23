@@ -41,7 +41,7 @@ describe("FlightDetailMap", () => {
     );
     const mapDiv = container.querySelector(".w-full");
     expect(mapDiv).toBeInTheDocument();
-    expect(mapDiv).toHaveClass("!h-[300px]");
+    expect(mapDiv).toHaveClass("h-[300px]!");
   });
 
   it("loads leaflet CSS stylesheet", () => {

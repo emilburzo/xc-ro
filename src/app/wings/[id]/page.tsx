@@ -90,7 +90,7 @@ export default async function WingDetailPage({ params }: { params: Promise<{ id:
         </Link>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-gray-900">{(wing as any).name}</h1>
-          <span className={`px-2 py-0.5 rounded text-xs font-medium ${CAT_COLORS[(wing as any).category] || "bg-gray-100 text-gray-800"}`}>
+          <span className={`px-2 py-0.5 rounded-sm text-xs font-medium ${CAT_COLORS[(wing as any).category] || "bg-gray-100 text-gray-800"}`}>
             {(wing as any).category}
           </span>
         </div>
