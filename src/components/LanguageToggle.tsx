@@ -17,7 +17,7 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggle}
-      className="px-2 py-1 text-sm font-medium rounded border border-gray-300 hover:bg-gray-100 transition-colors"
+      className="px-2 py-1 text-sm font-medium rounded-sm border border-gray-300 hover:bg-gray-100 transition-colors"
       title={locale === "ro" ? "Switch to English" : "Schimbă în Română"}
     >
       {locale === "ro" ? "EN" : "RO"}

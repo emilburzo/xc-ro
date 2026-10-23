@@ -80,7 +80,7 @@ export default function PilotDetailCharts({ dna, yearly, sites, equipment, heatm
           {equipment.map((g: any, i: number) => (
             <div key={i} className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm sm:flex-nowrap sm:justify-between">
               <div className="flex min-w-0 items-center gap-2">
-                <span className={`shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium ${CAT_COLORS[g.category] || "bg-gray-100 text-gray-600"}`}>
+                <span className={`shrink-0 px-1.5 py-0.5 rounded-sm text-[10px] font-medium ${CAT_COLORS[g.category] || "bg-gray-100 text-gray-600"}`}>
                   {g.category}
                 </span>
                 {/* Wraps on phones (long wing names stay readable), truncates on

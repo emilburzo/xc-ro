@@ -1,4 +1,4 @@
-import { test, expect, waitForMapTiles } from "./fixtures";
+import { test, expect, waitForMapTiles, waitForCharts } from "./fixtures";
 
 test.describe("Takeoffs table interactions", () => {
   test.beforeEach(async ({ page }) => {
@@ -42,6 +42,7 @@ test.describe("Pilots table interactions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/pilots");
     await expect(page.locator("table")).toBeVisible();
+    await waitForCharts(page, 1);
   });
 
   test("search filters pilots visually", async ({ page }) => {
@@ -66,6 +67,7 @@ test.describe("Flights explorer interactions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/flights");
     await expect(page.locator("table")).toBeVisible();
+    await waitForCharts(page, 3);
   });
 
   test("preset filter applies visually", async ({ page }) => {
@@ -75,6 +77,7 @@ test.describe("Flights explorer interactions", () => {
     // Wait for navigation to complete and new data to render
     await page.waitForURL(/preset=top100/, { timeout: 15_000, waitUntil: "domcontentloaded" });
     await expect(page.locator("tbody tr").first()).toBeVisible({ timeout: 10_000 });
+    await waitForCharts(page, 3);
     await expect(page).toHaveScreenshot("flights-top100.png", {
       fullPage: true,
     });
@@ -85,6 +88,7 @@ test.describe("Wings table interactions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/wings");
     await expect(page.locator("table")).toBeVisible();
+    await waitForCharts(page, 1);
   });
 
   test("search filters wings table visually", async ({ page }) => {
@@ -143,10 +147,7 @@ test.describe("Responsive layouts", () => {
       await page.setViewportSize({ width: vp.width, height: vp.height });
       await page.goto("/");
       await expect(page.locator("nav")).toBeVisible();
-      // Wait for the dynamically-imported FlyabilityChart to render
-      await expect(
-        page.locator(".recharts-responsive-container svg").first(),
-      ).toBeVisible({ timeout: 10_000 });
+      await waitForCharts(page, 2);
       await expect(page).toHaveScreenshot(`home-${vp.name}.png`, {
         fullPage: true,
       });

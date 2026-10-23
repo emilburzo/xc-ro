@@ -117,7 +117,7 @@ export default async function FlightDetailPage({ params }: { params: Promise<{ i
             <Link href={wingPath(f.glider_id, f.glider_name)} className="text-blue-600 hover:underline font-medium">
               {f.glider_name}
             </Link>
-            <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${CAT_COLORS[f.glider_category] || "bg-gray-100 text-gray-800"}`}>
+            <span className={`ml-1 px-1.5 py-0.5 rounded-sm text-[10px] font-medium ${CAT_COLORS[f.glider_category] || "bg-gray-100 text-gray-800"}`}>
               {f.glider_category}
             </span>
           </div>

@@ -41,13 +41,13 @@ export default function SeasonHeatmap({ data }: { data: HeatmapData[] }) {
         <div className="flex gap-1">
           <button
             onClick={() => setMode("flights")}
-            className={`px-2 py-1 text-xs rounded ${mode === "flights" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}`}
+            className={`px-2 py-1 text-xs rounded-sm ${mode === "flights" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}`}
           >
             {t("flightCount")}
           </button>
           <button
             onClick={() => setMode("score")}
-            className={`px-2 py-1 text-xs rounded ${mode === "score" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}`}
+            className={`px-2 py-1 text-xs rounded-sm ${mode === "score" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}`}
           >
             {t("avgScore")}
           </button>
@@ -71,7 +71,7 @@ export default function SeasonHeatmap({ data }: { data: HeatmapData[] }) {
                 return (
                   <div
                     key={month}
-                    className="w-8 h-6 rounded-sm cursor-default"
+                    className="w-8 h-6 rounded-xs cursor-default"
                     style={{ backgroundColor: getColor(value, maxVal) }}
                     title={`${year}/${String(month).padStart(2, "0")}: ${value} ${mode === "flights" ? tc("flights") : tc("avgScore")}`}
                   />

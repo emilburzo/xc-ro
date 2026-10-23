@@ -41,7 +41,7 @@ function CustomTooltip({ active, payload }: any) {
   if (!active || !payload?.[0]) return null;
   const d = payload[0].payload as ChartPoint;
   return (
-    <div className="bg-white border border-gray-200 rounded px-3 py-2 shadow text-sm">
+    <div className="bg-white border border-gray-200 rounded-sm px-3 py-2 shadow-sm text-sm">
       <div className="font-semibold">{d.year}</div>
       <div className="text-blue-600">{d.record.toFixed(1)} km</div>
       {d.isNewRecord && <div className="text-gray-500">{d.pilot_name}</div>}

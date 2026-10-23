@@ -63,7 +63,7 @@ export default function PilotFlightsTable({ title, flights, locale, pilotName, l
                 </td>
                 <td className="px-2 py-2 text-gray-700">
                   {f.glider_name}
-                  <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
+                  <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]">{f.glider_category}</span>
                 </td>
                 <td className="px-2 py-2 font-medium text-right">{formatDistance(f.distance_km)} km</td>
                 <td className="px-2 py-2 text-gray-700 text-right">{Number(f.score).toFixed(1)}</td>

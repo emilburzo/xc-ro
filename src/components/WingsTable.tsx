@@ -97,7 +97,7 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
             min={0}
             value={minFlights || ""}
             onChange={(e) => setMinFlights(Number(e.target.value) || 0)}
-            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded-sm"
           />
         </label>
       </div>
@@ -126,7 +126,7 @@ export default function WingsTable({ wings }: { wings: Wing[] }) {
                   <Link href={wingPath(w.id, w.name)} className="text-blue-600 hover:underline font-medium">
                     {w.name}
                   </Link>
-                  <span className={`ml-1.5 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${CAT_COLORS[w.category] || "bg-gray-100 text-gray-800"}`}>
+                  <span className={`ml-1.5 inline-block px-1.5 py-0.5 rounded-sm text-[10px] font-medium ${CAT_COLORS[w.category] || "bg-gray-100 text-gray-800"}`}>
                     {w.category}
                   </span>
                 </td>

@@ -7,7 +7,9 @@ on:
 
 jobs:
   visual:
-    runs-on: ubuntu-latest
+    # Pinned: the screenshot baselines are rendered on 24.04, and ubuntu-latest is moving
+    # to 26.04, where Playwright 1.58 can't install its browsers
+    runs-on: ubuntu-24.04
     services:
       postgres:
         image: postgis/postgis:16-3.4

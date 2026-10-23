@@ -81,7 +81,7 @@ export default async function HomePage() {
             </>
           );
           return s.href ? (
-            <Link key={s.label} href={s.href} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all">
+            <Link key={s.label} href={s.href} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-blue-300 hover:shadow-xs transition-all">
               {content}
             </Link>
           ) : (
@@ -113,7 +113,7 @@ export default async function HomePage() {
                   </div>
                   <div className="text-xs text-gray-400">
                     {formatDate(f.start_time, locale)} &middot; {f.glider_name}
-                    <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{f.glider_category}</span>
+                    <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]">{f.glider_category}</span>
                   </div>
                 </div>
                 <div className="text-right shrink-0 ml-3">
@@ -222,7 +222,7 @@ export default async function HomePage() {
                   <Link href={wingPath(w.id, w.name)} className="text-sm text-blue-600 hover:underline">
                     {i + 1}. {w.name}
                   </Link>
-                  <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px] text-gray-500">{w.category}</span>
+                  <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px] text-gray-500">{w.category}</span>
                 </div>
                 <span className="text-sm text-gray-500 shrink-0 ml-2">{Number(w.total_km).toLocaleString()} km</span>
               </div>

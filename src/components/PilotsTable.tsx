@@ -75,7 +75,7 @@ export default function PilotsTable({ pilots }: { pilots: Pilot[] }) {
             min={0}
             value={minFlights || ""}
             onChange={(e) => setMinFlights(Number(e.target.value) || 0)}
-            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded"
+            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded-sm"
           />
         </label>
       </div>

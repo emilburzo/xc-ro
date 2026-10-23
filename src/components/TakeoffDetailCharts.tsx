@@ -91,7 +91,7 @@ export default function TakeoffDetailCharts({
                 <div key={i} className="flex items-center justify-between text-sm">
                   <span className="text-gray-700">
                     {g.name}
-                    <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded text-[10px]">{g.category}</span>
+                    <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]">{g.category}</span>
                   </span>
                   <span className="text-gray-500">{g.cnt}</span>
                 </div>

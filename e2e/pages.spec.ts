@@ -1,13 +1,10 @@
-import { test, expect, waitForMapTiles } from "./fixtures";
+import { test, expect, waitForMapTiles, waitForCharts } from "./fixtures";
 
 test.describe("Home page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("nav")).toBeVisible();
-    // Wait for the dynamically-imported FlyabilityChart to render
-    await expect(
-      page.locator(".recharts-responsive-container svg").first(),
-    ).toBeVisible({ timeout: 10_000 });
+    await waitForCharts(page, 2);
     await expect(page).toHaveScreenshot("home.png", { fullPage: true });
   });
 });
@@ -25,6 +22,7 @@ test.describe("Pilots page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/pilots");
     await expect(page.locator("table")).toBeVisible();
+    await waitForCharts(page, 1);
     await expect(page).toHaveScreenshot("pilots.png", { fullPage: true });
   });
 });
@@ -33,6 +31,7 @@ test.describe("Flights page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/flights");
     await expect(page.locator("table")).toBeVisible();
+    await waitForCharts(page, 3);
     await expect(page).toHaveScreenshot("flights.png", { fullPage: true });
   });
 });
@@ -41,10 +40,7 @@ test.describe("Records page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/records");
     await expect(page.locator("nav")).toBeVisible();
-    // Wait for the dynamically-imported Recharts charts to render
-    await expect(
-      page.locator(".recharts-responsive-container svg").first(),
-    ).toBeVisible({ timeout: 10_000 });
+    await waitForCharts(page, 2);
     await expect(page).toHaveScreenshot("records.png", { fullPage: true });
   });
 });
@@ -53,6 +49,7 @@ test.describe("Wings page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/wings");
     await expect(page.locator("table")).toBeVisible();
+    await waitForCharts(page, 1);
     await expect(page).toHaveScreenshot("wings.png", { fullPage: true });
   });
 });
@@ -63,10 +60,7 @@ test.describe("Takeoff detail page", () => {
     await page.goto("/takeoffs/1-bunloc");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Bunloc | Decolare | XC-RO");
-    // Wait for the last dynamically-imported Recharts chart to render
-    await expect(
-      page.locator(".recharts-responsive-container svg").last(),
-    ).toBeVisible({ timeout: 15_000 });
+    await waitForCharts(page, 7);
     // Move mouse away from charts to avoid tooltip rendering differences
     await page.mouse.move(0, 0);
     // Use a longer timeout so Playwright has enough time to capture a stable
@@ -89,6 +83,7 @@ test.describe("Pilot detail page", () => {
         .locator('div:has(> h2:text-matches("ADN-ul Pilotului|Pilot DNA")) svg')
         .first(),
     ).toBeVisible({ timeout: 10_000 });
+    await waitForCharts(page, 3);
     // Wait for the pilot site map tiles to fully load
     await waitForMapTiles(page);
     await expect(page).toHaveTitle("Ion Popescu | Pilot | XC-RO");
@@ -102,10 +97,7 @@ test.describe("Wing detail page", () => {
     await page.goto("/wings/3-nova-mentor-7");
     await expect(page.locator("h1")).toBeVisible();
     await expect(page).toHaveTitle("Nova Mentor 7 | Aripă | XC-RO");
-    // Wait for the dynamically-imported Recharts charts to render
-    await expect(
-      page.locator(".recharts-responsive-container svg").first(),
-    ).toBeVisible({ timeout: 10_000 });
+    await waitForCharts(page, 3);
     await expect(page).toHaveScreenshot("wing-detail.png", { fullPage: true });
   });
 });
