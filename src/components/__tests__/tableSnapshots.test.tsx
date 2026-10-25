@@ -459,10 +459,8 @@ describe("Snapshot: DailyFlightsList", () => {
     const { container } = render(
       <DailyFlightsList
         flights={mockDailyFlights}
-        locale="ro"
         emptyText="No flights on this day."
         labels={{
-          time: "Time",
           pilot: "Pilot",
           takeoff: "Takeoff",
           glider: "Glider",

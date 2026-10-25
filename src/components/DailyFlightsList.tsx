@@ -1,12 +1,10 @@
 import Link from "next/link";
 import {
-  pilotPath,
   takeoffPath,
   flightPath,
   flightTypeKey,
   formatDuration,
   formatDistance,
-  formatTime,
   type FlightTypeKey,
 } from "@/lib/utils";
 import type { DailyFlightRow } from "@/lib/types";
@@ -14,10 +12,8 @@ import FlightTypeIcon from "@/components/FlightTypeIcon";
 
 interface DailyFlightsListProps {
   flights: DailyFlightRow[];
-  locale: string;
   emptyText: string;
   labels: {
-    time: string;
     pilot: string;
     takeoff: string;
     glider: string;
@@ -67,7 +63,7 @@ function XContestLink({ url, label, className }: { url: string; label: string; c
 }
 
 /** The day's flights, ranked: a compact list on phones, a full table from `sm` up. */
-export default function DailyFlightsList({ flights, locale, emptyText, labels }: DailyFlightsListProps) {
+export default function DailyFlightsList({ flights, emptyText, labels }: DailyFlightsListProps) {
   if (flights.length === 0) {
     return (
       <div className="bg-white rounded-lg border border-gray-200 px-4 py-8 text-center text-sm text-gray-400">
@@ -80,7 +76,6 @@ export default function DailyFlightsList({ flights, locale, emptyText, labels }:
     ...f,
     rank: i + 1,
     href: flightPath(f.id, f.pilot_name, f.takeoff_name),
-    time: formatTime(f.start_time, locale),
   }));
 
   return (
@@ -97,8 +92,7 @@ export default function DailyFlightsList({ flights, locale, emptyText, labels }:
                 {f.takeoff_name && <span className="text-xs text-gray-500">{f.takeoff_name}</span>}
               </div>
               <div className="text-xs text-gray-500">
-                {f.time} &middot; <FlightType type={f.type} labels={labels.types} className="w-3.5 h-3.5" /> &middot;{" "}
-                {f.glider_name}
+                <FlightType type={f.type} labels={labels.types} className="w-3.5 h-3.5" /> &middot; {f.glider_name}
                 <CategoryBadge category={f.glider_category} />
               </div>
             </div>
@@ -118,7 +112,6 @@ export default function DailyFlightsList({ flights, locale, emptyText, labels }:
           <thead className="border-b border-gray-200">
             <tr>
               <th className={`${TH} text-left`}>#</th>
-              <th className={`${TH} text-left`}>{labels.time}</th>
               <th className={`${TH} text-left`}>{labels.pilot}</th>
               <th className={`${TH} text-left`}>{labels.takeoff}</th>
               <th className={`${TH} text-left`}>{labels.glider}</th>
@@ -133,13 +126,8 @@ export default function DailyFlightsList({ flights, locale, emptyText, labels }:
             {rows.map((f) => (
               <tr key={f.id} className="hover:bg-gray-50">
                 <td className="px-2 py-2 text-gray-500">{f.rank}</td>
-                <td className="px-2 py-2 whitespace-nowrap">
-                  <Link href={f.href} className="text-blue-600 hover:underline">
-                    {f.time}
-                  </Link>
-                </td>
                 <td className="px-2 py-2">
-                  <Link href={pilotPath(f.pilot_username)} className="text-blue-600 hover:underline">
+                  <Link href={f.href} className="text-blue-600 hover:underline">
                     {f.pilot_name}
                   </Link>
                 </td>

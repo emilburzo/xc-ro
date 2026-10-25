@@ -36,8 +36,6 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
         <div
           class="text-xs text-gray-500"
         >
-          10:00
-           · 
           <span
             aria-label="FAI triangle"
             class="inline-flex align-middle"
@@ -58,8 +56,7 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
               />
             </svg>
           </span>
-           ·
-           
+           · 
           Advance Omega X-Alps 4
           <span
             class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
@@ -135,8 +132,6 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
         <div
           class="text-xs text-gray-500"
         >
-          09:30
-           · 
           <span
             aria-label="free flight"
             class="inline-flex align-middle"
@@ -157,8 +152,7 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
               />
             </svg>
           </span>
-           ·
-           
+           · 
           Nova Mentor 7
           <span
             class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
@@ -229,11 +223,6 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
           <th
             class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
           >
-            Time
-          </th>
-          <th
-            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
-          >
             Pilot
           </th>
           <th
@@ -285,21 +274,11 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
             1
           </td>
           <td
-            class="px-2 py-2 whitespace-nowrap"
-          >
-            <a
-              class="text-blue-600 hover:underline"
-              href="/flights/1001-ion-popescu-sticlaria"
-            >
-              10:00
-            </a>
-          </td>
-          <td
             class="px-2 py-2"
           >
             <a
               class="text-blue-600 hover:underline"
-              href="/pilots/ion.popescu"
+              href="/flights/1001-ion-popescu-sticlaria"
             >
               Ion Popescu
             </a>
@@ -401,21 +380,11 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
             2
           </td>
           <td
-            class="px-2 py-2 whitespace-nowrap"
-          >
-            <a
-              class="text-blue-600 hover:underline"
-              href="/flights/1002-maria-ionescu"
-            >
-              09:30
-            </a>
-          </td>
-          <td
             class="px-2 py-2"
           >
             <a
               class="text-blue-600 hover:underline"
-              href="/pilots/maria.ionescu"
+              href="/flights/1002-maria-ionescu"
             >
               Maria Ionescu
             </a>
