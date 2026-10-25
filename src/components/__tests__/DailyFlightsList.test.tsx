@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import DailyFlightsList from "../DailyFlightsList";
 import type { DailyFlightRow } from "@/lib/types";
 
@@ -123,6 +124,64 @@ describe("DailyFlightsList", () => {
       expect(icon).toHaveAttribute("title", "flat triangle");
       expect(first).not.toHaveTextContent("triunghi plat");
       expect(within(second).getByRole("img", { name: "free flight" })).toBeInTheDocument();
+    });
+
+    describe("sorting", () => {
+      function pilots() {
+        return rows().map((r) => within(r).getAllByRole("cell")[1].textContent);
+      }
+
+      async function sortBy(name: RegExp) {
+        await userEvent.setup().click(screen.getByRole("columnheader", { name }));
+      }
+
+      it("starts with the best score", () => {
+        renderList();
+        expect(screen.getByRole("columnheader", { name: /Score/ })).toHaveTextContent("Score ↓");
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+      });
+
+      it("sorts number columns highest first, and reverses on a second click", async () => {
+        renderList();
+        await sortBy(/Distance/);
+        expect(pilots()).toEqual(["Dragos Jarca", "Emil Burzo"]);
+        expect(screen.getByRole("columnheader", { name: /Distance/ })).toHaveTextContent("Distance ↓");
+
+        await sortBy(/Distance/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+        expect(screen.getByRole("columnheader", { name: /Distance/ })).toHaveTextContent("Distance ↑");
+      });
+
+      it("sorts text columns A to Z first", async () => {
+        renderList();
+        await sortBy(/Pilot/);
+        expect(pilots()).toEqual(["Dragos Jarca", "Emil Burzo"]);
+      });
+
+      it("keeps flights without a takeoff last in both directions", async () => {
+        renderList([flights[1], flights[0]]);
+        await sortBy(/Takeoff/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+        await sortBy(/Takeoff/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+      });
+
+      it("puts triangles before free flights", async () => {
+        renderList([flights[1], flights[0]]);
+        await sortBy(/Type/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+      });
+
+      it("numbers the rows in the new order, and sorts the phone list the same way", async () => {
+        renderList();
+        await sortBy(/Duration/);
+        await sortBy(/Duration/);
+        const [first] = rows();
+        expect(within(first).getAllByRole("cell")[0]).toHaveTextContent("1");
+        expect(first).toHaveTextContent("Dragos Jarca");
+        const [firstEntry] = within(screen.getByRole("list")).getAllByRole("listitem");
+        expect(firstEntry).toHaveTextContent(/^1Dragos Jarca/);
+      });
     });
 
     it("shows unknown flight types as they are", () => {

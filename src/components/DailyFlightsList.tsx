@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   takeoffPath,
@@ -9,6 +12,7 @@ import {
 } from "@/lib/utils";
 import type { DailyFlightRow } from "@/lib/types";
 import FlightTypeIcon from "@/components/FlightTypeIcon";
+import SortHeader from "@/components/SortHeader";
 
 interface DailyFlightsListProps {
   flights: DailyFlightRow[];
@@ -28,8 +32,35 @@ interface DailyFlightsListProps {
   };
 }
 
-const TH = "px-2 py-2 text-xs font-medium text-gray-500";
+const TH = "px-2 py-2 text-xs font-medium text-gray-500 sticky top-0 bg-white z-10 border-b border-gray-200";
 const LEGEND: FlightTypeKey[] = ["free", "flat", "fai"];
+
+type SortKey = "pilot" | "takeoff" | "glider" | "type" | "distance" | "score" | "duration";
+
+// Text columns start A to Z, number columns with the highest
+const TEXT_KEYS: SortKey[] = ["pilot", "takeoff", "glider"];
+const TYPE_ORDER: Record<FlightTypeKey, number> = { free: 0, flat: 1, fai: 2 };
+
+function sortValue(f: DailyFlightRow, key: SortKey): string | number | null {
+  switch (key) {
+    case "pilot":
+      return f.pilot_name;
+    case "takeoff":
+      return f.takeoff_name;
+    case "glider":
+      return f.glider_name;
+    case "type": {
+      const typeKey = flightTypeKey(f.type);
+      return typeKey ? TYPE_ORDER[typeKey] : -1;
+    }
+    case "distance":
+      return f.distance_km;
+    case "score":
+      return f.score;
+    case "duration":
+      return f.airtime;
+  }
+}
 
 function CategoryBadge({ category }: { category: string }) {
   return <span className="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]">{category}</span>;
@@ -62,8 +93,33 @@ function XContestLink({ url, label, className }: { url: string; label: string; c
   );
 }
 
-/** The day's flights, ranked: a compact list on phones, a full table from `sm` up. */
+/** The day's flights, best score first: a compact list on phones, a sortable table from `sm` up. */
 export default function DailyFlightsList({ flights, emptyText, labels }: DailyFlightsListProps) {
+  const [sortKey, setSortKey] = useState<SortKey>("score");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  // Stable, so ties keep the score order the flights arrive in; missing values go last either way
+  const sorted = useMemo(() => {
+    const factor = sortDir === "asc" ? 1 : -1;
+    return [...flights].sort((a, b) => {
+      const av = sortValue(a, sortKey);
+      const bv = sortValue(b, sortKey);
+      if (av === null || bv === null) return av === bv ? 0 : av === null ? 1 : -1;
+      const cmp = typeof av === "string" ? av.localeCompare(String(bv), "ro") : av - Number(bv);
+      return cmp * factor;
+    });
+  }, [flights, sortKey, sortDir]);
+
+  const toggleSort = (col: string) => {
+    const key = col as SortKey;
+    if (key === sortKey) {
+      setSortDir(sortDir === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortDir(TEXT_KEYS.includes(key) ? "asc" : "desc");
+    }
+  };
+
   if (flights.length === 0) {
     return (
       <div className="bg-white rounded-lg border border-gray-200 px-4 py-8 text-center text-sm text-gray-400">
@@ -72,7 +128,7 @@ export default function DailyFlightsList({ flights, emptyText, labels }: DailyFl
     );
   }
 
-  const rows = flights.map((f, i) => ({
+  const rows = sorted.map((f, i) => ({
     ...f,
     rank: i + 1,
     href: flightPath(f.id, f.pilot_name, f.takeoff_name),
@@ -112,16 +168,16 @@ export default function DailyFlightsList({ flights, emptyText, labels }: DailyFl
 
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="border-b border-gray-200">
+          <thead>
             <tr>
               <th className={`${TH} text-left`}>#</th>
-              <th className={`${TH} text-left`}>{labels.pilot}</th>
-              <th className={`${TH} text-left`}>{labels.takeoff}</th>
-              <th className={`${TH} text-left`}>{labels.glider}</th>
-              <th className={`${TH} text-center`}>{labels.type}</th>
-              <th className={`${TH} text-right`}>{labels.distance}</th>
-              <th className={`${TH} text-right`}>{labels.score}</th>
-              <th className={`${TH} text-right`}>{labels.duration}</th>
+              <SortHeader col="pilot" label={labels.pilot} activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
+              <SortHeader col="takeoff" label={labels.takeoff} activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
+              <SortHeader col="glider" label={labels.glider} activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
+              <SortHeader col="type" label={labels.type} align="center" activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
+              <SortHeader col="distance" label={labels.distance} align="right" activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
+              <SortHeader col="score" label={labels.score} align="right" activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
+              <SortHeader col="duration" label={labels.duration} align="right" activeSort={sortKey} activeDir={sortDir} onSort={toggleSort} />
               <th className={`${TH} text-center`}>{labels.xcontest}</th>
             </tr>
           </thead>
