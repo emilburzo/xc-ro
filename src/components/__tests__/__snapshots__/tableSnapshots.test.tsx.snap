@@ -36,27 +36,6 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
         <div
           class="text-xs text-gray-500"
         >
-          <span
-            aria-label="FAI triangle"
-            class="inline-flex align-middle"
-            role="img"
-            title="FAI triangle"
-          >
-            <svg
-              class="w-3.5 h-3.5"
-              fill="currentColor"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 4.5 20.5 19h-17Z"
-              />
-            </svg>
-          </span>
-           · 
           Advance Omega X-Alps 4
           <span
             class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
@@ -71,6 +50,27 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
         <div
           class="font-bold text-sm"
         >
+          <span
+            aria-label="FAI triangle"
+            class="inline-flex align-middle"
+            role="img"
+            title="FAI triangle"
+          >
+            <svg
+              class="w-3.5 h-3.5 text-gray-500"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 4.5 20.5 19h-17Z"
+              />
+            </svg>
+          </span>
+           
           312.5
            km
         </div>
@@ -132,27 +132,6 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
         <div
           class="text-xs text-gray-500"
         >
-          <span
-            aria-label="free flight"
-            class="inline-flex align-middle"
-            role="img"
-            title="free flight"
-          >
-            <svg
-              class="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M2 12c1.7-5 3.3-5 5 0s3.3 5 5 0 3.3-5 5 0h4m-3-3 3 3-3 3"
-              />
-            </svg>
-          </span>
-           · 
           Nova Mentor 7
           <span
             class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
@@ -167,6 +146,27 @@ exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
         <div
           class="font-bold text-sm"
         >
+          <span
+            aria-label="free flight"
+            class="inline-flex align-middle"
+            role="img"
+            title="free flight"
+          >
+            <svg
+              class="w-3.5 h-3.5 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M2 12c1.7-5 3.3-5 5 0s3.3 5 5 0 3.3-5 5 0h4m-3-3 3 3-3 3"
+              />
+            </svg>
+          </span>
+           
           45.3
            km
         </div>

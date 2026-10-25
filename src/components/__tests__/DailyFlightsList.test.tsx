@@ -169,15 +169,19 @@ describe("DailyFlightsList", () => {
       expect(entry.getAllByRole("link")).toHaveLength(2);
     });
 
-    it("puts the takeoff next to the pilot, type and wing on the line below", () => {
+    it("puts the takeoff next to the pilot and the wing on the line below", () => {
       renderList();
-      const first = items()[0];
-      const [pilotLine, detailLine] = first.querySelectorAll(".flex-1 > div");
+      const [pilotLine, wingLine] = items()[0].querySelectorAll(".flex-1 > div");
       expect(pilotLine).toHaveTextContent(/^Emil BurzoIgnis$/);
-      expect(detailLine).toHaveTextContent(/^· Ozone Swift 6Z$/);
-      expect(within(detailLine as HTMLElement).getByRole("img", { name: "flat triangle" })).toBeInTheDocument();
-      expect(first).toHaveTextContent("11.0 km");
-      expect(first).toHaveTextContent("15.4 pts · 1h 29m");
+      expect(wingLine).toHaveTextContent(/^Ozone Swift 6Z$/);
+    });
+
+    it("shows the flight type next to the distance, then points and duration", () => {
+      renderList();
+      const [distanceLine, scoreLine] = items()[0].querySelectorAll(".text-right > div");
+      expect(distanceLine).toHaveTextContent(/^11.0 km$/);
+      expect(within(distanceLine as HTMLElement).getByRole("img", { name: "flat triangle" })).toBeInTheDocument();
+      expect(scoreLine).toHaveTextContent(/^15.4 pts · 1h 29m$/);
     });
 
     it("shows just the pilot when there is no takeoff", () => {

@@ -92,12 +92,15 @@ export default function DailyFlightsList({ flights, emptyText, labels }: DailyFl
                 {f.takeoff_name && <span className="text-xs text-gray-500">{f.takeoff_name}</span>}
               </div>
               <div className="text-xs text-gray-500">
-                <FlightType type={f.type} labels={labels.types} className="w-3.5 h-3.5" /> &middot; {f.glider_name}
+                {f.glider_name}
                 <CategoryBadge category={f.glider_category} />
               </div>
             </div>
             <div className="shrink-0 text-right">
-              <div className="font-bold text-sm">{formatDistance(f.distance_km)} km</div>
+              <div className="font-bold text-sm">
+                <FlightType type={f.type} labels={labels.types} className="w-3.5 h-3.5 text-gray-500" />{" "}
+                {formatDistance(f.distance_km)} km
+              </div>
               <div className="text-xs text-gray-500 whitespace-nowrap">
                 {f.score.toFixed(1)} {labels.points} &middot; {formatDuration(f.airtime)}
               </div>
