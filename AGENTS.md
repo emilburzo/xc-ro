@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-Mobile-first webapp exploring paragliding and hang-gliding flights scraped from xcontest.org (Romania only). Data spans from 2007 to the present. UI is Romanian by default with an English toggle. The app is branded as **XC-RO** (not "XContest" — that's a third-party trademark).
+Mobile-first webapp exploring paragliding flights scraped from xcontest.org (Romania only; hang-gliding flights are stored too but filtered out, see `flights_pg`). Data spans from 2007 to the present. UI is Romanian by default with an English toggle. The app is branded as **XC-RO** (not "XContest" — that's a third-party trademark).
 
 **Approximate scale** (these numbers grow continuously as the scraper adds new data):
-- ~73k flights
-- ~1,100 pilots
-- ~1,200 takeoffs
-- ~1,400 glider models
+- ~91k flights (~90k paragliding)
+- ~1,600 pilots
+- ~1,400 takeoffs
+- ~1,700 glider models
 
 ## Tech Stack
 
@@ -33,7 +33,14 @@ npm run test:watch       # Jest in watch mode
 npm run test:visual      # Playwright visual/e2e tests
 npm run test:visual:update   # Update Playwright snapshots
 npm run test:visual:seed     # Seed DB for visual tests
+npm run test:integration     # Only the *.integration.test.ts suites (needs TEST_DATABASE_URL)
+
+npx jest src/lib/__tests__/utils.test.ts    # One test file
+npx jest -t "getDailyFlights"               # Tests whose name matches
+npx playwright test e2e/pages.spec.ts -g "Daily page" --project=chromium   # One e2e test
 ```
+
+**Integration tests** (`src/lib/queries/__tests__/*.integration.test.ts`) only run when `TEST_DATABASE_URL` points at a schema-only database (`psql "$TEST_DATABASE_URL" -f sql/schema.sql`); otherwise they are skipped, so a plain `npm run test` passes without executing any SQL. CI (`test.yml`) runs `npm test -- --runInBand --forceExit` against such a database.
 
 Dev server runs on port 3000 by default. Use `--port 8000` to match Vagrantfile forwarding.
 
@@ -45,7 +52,7 @@ Dev server runs on port 3000 by default. Use `--port 8000` to match Vagrantfile 
 - **Driver**: `postgres` (postgres.js) — NOT `pg` (node-postgres). This matters for Drizzle config.
 
 ### Data lifecycle
-- The database is **continuously updated by an external scraper** that writes to the four application tables. This is a working copy of that dataset.
+- The database is **continuously updated by an external scraper** (the separate `xcontest2db` repo) that writes to the four application tables. This is a working copy of that dataset.
 - The scraper polls both the **XContest Romania league** and the **World league** (filtered to Romanian takeoffs) every few minutes. Many pilots now only register in the World league, so both matter. A flight is stored once, keyed by its XContest id; `flights.url` points at whichever league it was scraped from (`/romania/zboruri/...` or `/world/en/flights/...`).
 - **Do NOT rename or drop existing tables** — the scraper depends on them.
 - Creating new tables, views, indexes, etc. is fine.
@@ -63,7 +70,7 @@ Four application tables plus PostGIS `spatial_ref_sys`:
 **App view:**
 | View | Description |
 |------|-------------|
-| `flights_pg` | Paragliding-only flights — excludes HG (hang gliding) category. **All app queries should use this view**, not the `flights` table directly. Defined in `sql/001_create_flights_pg_view.sql`. |
+| `flights_pg` | Paragliding-only flights — excludes the `HG`, `RW2` and `RW5` glider categories. **All app queries should use this view**, not the `flights` table directly. Defined in `sql/schema.sql` (incremental: `sql/001_create_flights_pg_view.sql`). |
 
 **Materialized view:**
 | View | Description |
@@ -99,6 +106,7 @@ When adding new database objects (tables, views, indexes, materialized views):
 - All FKs use `ON UPDATE RESTRICT ON DELETE RESTRICT`
 - Flight types include both Romanian and English: `zbor liber`, `triunghi FAI`, `triunghi plat`, `free flight`, `FAI triangle`, `flat triangle` (the Romania league names them in Romanian, the World league in English). `FLIGHT_TYPE_MAPPING` / `flightTypeKey()` in `utils.ts` normalize them
 - `flights.start_time` is a `timestamp` (no time zone) holding **Romanian wall-clock time**, so `start_time::date` is the flight's day in Romania. Use `todayInRomania()` from `utils.ts` for "today", not the server's UTC date
+- `db.execute` returns raw driver values: `timestamp` columns as strings (`"2026-10-24 17:35:00"`), `bigint` ids as strings, `double precision` as numbers. Convert explicitly when returning typed rows (see `getDailyFlights()`)
 
 ### Key data characteristics
 - 60% of flights from just 10 takeoffs (Bunloc alone = 20%)
@@ -138,7 +146,9 @@ src/
 │   ├── wings/
 │   │   ├── page.tsx        # Wings list
 │   │   └── [id]/page.tsx   # Wing detail
-│   ├── flights/page.tsx    # Flights explorer
+│   ├── flights/
+│   │   ├── page.tsx        # Flights explorer
+│   │   └── [id]/page.tsx   # Flight detail
 │   ├── daily/page.tsx      # Today's flights (or ?date=YYYY-MM-DD), ranked by score
 │   └── records/page.tsx    # Records & fun stats
 ├── components/
@@ -211,7 +221,7 @@ playwright.config.ts         # Playwright configuration
 - **Takeoffs**: `/takeoffs/[id]-[slug]` — ID prefix because 144 slug collisions exist
 - **Wings**: `/wings/[id]-[slug]` — same ID-prefix pattern as takeoffs
 - **Pilots**: `/pilots/[username]` — usernames are unique and URL-safe
-- **Flights**: `/flights` with query params for filters/presets/pagination
+- **Flights**: `/flights` with query params for filters/presets/pagination; a single flight is `/flights/[id]-[slug]` (`flightPath()`)
 - **Daily**: `/daily` for today, `/daily?date=YYYY-MM-DD` for another day (Romanian calendar days; malformed or future dates fall back to today)
 - **All paths in English** regardless of UI language
 
@@ -229,6 +239,13 @@ playwright.config.ts         # Playwright configuration
 - Leaflet maps: use raw `import("leaflet")` inside `useEffect`, fix default icons with `L.Icon.Default.mergeOptions`
 - Tables: client-side sorting/filtering with `useState`/`useMemo`, server-side data fetched in parent
 
+### Adding a top-level page
+Besides `src/app/<route>/page.tsx` (with `generateMetadata` and a canonical URL), a new page touches:
+- `src/messages/ro.json` and `en.json`: the page's namespace, `nav.<key>`, `seo.<route>Description`
+- `links` in `src/components/Nav.tsx` (plus `Nav.test.tsx` and the Nav snapshot)
+- `staticPages` in `src/app/sitemap.ts` (the count is asserted in `src/lib/__tests__/sitemap-route.test.ts`)
+- `e2e/`: a page test, and a new nav item changes every desktop screenshot that shows the nav (see [Visual tests](#visual-tests))
+
 ### i18n
 - Locale stored in cookie named `locale`, toggled via server action in `src/app/actions.ts`
 - `next-intl/server` for server components (`getTranslations`), `next-intl` for client (`useTranslations`)
@@ -239,7 +256,7 @@ playwright.config.ts         # Playwright configuration
 
 ### Query Caching
 
-Database query results are cached using Next.js `unstable_cache` from `next/cache`. This avoids re-running expensive aggregation queries (multi-CTE joins over ~73k flights) on every page load while the underlying data only changes when the scraper runs.
+Database query results are cached using Next.js `unstable_cache` from `next/cache`. This avoids re-running expensive aggregation queries (multi-CTE joins over ~90k flights) on every page load while the underlying data only changes when the scraper runs.
 
 **How it works:**
 - Each query file (`src/lib/queries/*.ts`) exports both the raw function (`getFoo`) and a cached wrapper (`getCachedFoo`)
@@ -302,6 +319,14 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 - **Run tests before submitting**: Always run `npm run test` (unit) and verify nothing is broken. Run `npm run lint` to check for lint errors.
 - **Don't remove or weaken existing tests** unless the underlying behavior has intentionally changed.
 
+### Visual tests
+- Two Playwright projects: `chromium` (Desktop Chrome, `ro-RO`, Europe/Bucharest) and `mobile` (iPhone 13, i.e. WebKit, `en-US`, UTC). The UI language comes from the `locale` cookie, so both render Romanian.
+- They need a database seeded with `e2e/seed.sql` (fixed ids — never seed a real dataset). Playwright starts `npm run dev` itself, or reuses one already on port 3000 outside CI.
+- `e2e/fixtures.ts` pins the **browser** clock to `FIXED_NOW` so relative dates don't rot; server-side "now" stays real, so test pages that depend on today's date with explicit dates (e.g. `/daily?date=2022-07-08`).
+- Baselines are rendered on ubuntu-24.04 (CI's visual job is pinned to it) with DejaVu Sans as `sans-serif`; a different default font makes every screenshot differ.
+- `maxDiffPixelRatio: 0.01` lets small UI changes pass against stale baselines, and `--update-snapshots` (mode `changed`) only rewrites failing ones. After a visible change, regenerate the affected tests with `--update-snapshots=all -g "<test>"` and keep only the files that really changed.
+- A click or keystroke on a client component can land before hydration; wrap it in `expect(async () => { ... }).toPass()` like the existing interaction tests.
+
 ## Gotchas & Lessons Learned
 
 1. **Set iteration in strict TS**: `[...new Set(arr)]` fails with `"can only be iterated with --downlevelIteration"`. Use `Array.from(new Set(arr))` instead.
@@ -310,7 +335,7 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 
 3. **PostgreSQL local auth**: The VM's pg_hba.conf defaults to `scram-sha-256` for TCP (127.0.0.1). Changed to `trust` for local dev. For production, use a proper `DATABASE_URL` with credentials.
 
-4. **next-intl v4 with Next.js 15**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
+4. **next-intl v4 with Next.js 15+**: Uses `createNextIntlPlugin` in `next.config.mjs`. The plugin path must point to the request config file (`./src/i18n/request.ts`).
 
 5. **Leaflet CSS height conflict**: The Leaflet CSS (`leaflet.css` from unpkg) and `globals.css` both set `.leaflet-container { height: 100% }`. These rules are unlayered, and unlayered CSS beats Tailwind v4's utilities (which live in `@layer utilities`) regardless of specificity or order, so a plain `h-[300px]` loses. The fix is Tailwind's important modifier: `h-[300px]!` (v4 syntax; v3's leading `!h-[300px]` is deprecated). **All Leaflet map container divs must use `h-[...]!` for their height.** Without `!important`, the map renders as 0px tall (invisible) because `height: 100%` of an unsized parent collapses to 0.
 
@@ -325,6 +350,10 @@ Every new feature, improvement, or bug fix **must** include tests unless the cha
 10. **Chart wrapper components must use typed interfaces, not `any[]`**: When creating a `"use client"` wrapper that bridges server data to a chart component, define a typed row interface for the `data` prop (matching the SQL query's output columns). The `as any` cast at the page level (server→client boundary) is acceptable because Drizzle's `db.execute` returns `Record<string, unknown>[]`, but the wrapper's Props interface must be strongly typed so the chart component receives correct types.
 
 11. **Tailwind v4 keeps v3's look via `globals.css`**: the `@theme` block pins v3's `system-ui` font stack and absolute `rem` line-heights, and the `@layer base` block restores v3's gray-200 default border color, gray-400 placeholders and pointer cursor on buttons. Removing any of them visibly changes the UI (and the visual snapshots). One v3 behavior was deliberately *not* kept: `space-y-*` now puts margins below every child but the last, so an invisible first child (e.g. `<JsonLd>`) no longer adds a phantom gap above the next one.
+
+12. **`next dev` edits AGENTS.md**: since Next.js 16.3, `next dev` appends a `nextjs-agent-rules` block to `AGENTS.md` when it detects an AI agent. Don't commit it (`git checkout AGENTS.md`); `agentRules: false` in `next.config.mjs` turns it off.
+
+13. **Locale-dependent formatting in client components breaks hydration**: the server formats with its own locale and time zone (UTC in production), the browser with the user's, so `toLocaleString()` and friends without an explicit locale and time zone render differently on each side. `PilotsTable` does this (`1,615` vs `1.615`), which is a known hydration error on `/pilots`. Format on the server, or pass a fixed locale/time zone.
 
 ## Git Hygiene
 
