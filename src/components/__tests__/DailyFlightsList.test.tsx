@@ -1,10 +1,10 @@
 import React from "react";
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import DailyFlightsList from "../DailyFlightsList";
 import type { DailyFlightRow } from "@/lib/types";
 
 const labels = {
-  time: "Time",
   pilot: "Pilot",
   takeoff: "Takeoff",
   glider: "Glider",
@@ -52,7 +52,7 @@ const flights: DailyFlightRow[] = [
 ];
 
 function renderList(rows: DailyFlightRow[] = flights) {
-  return render(<DailyFlightsList flights={rows} locale="ro" emptyText="No flights yet" labels={labels} />);
+  return render(<DailyFlightsList flights={rows} emptyText="No flights yet" labels={labels} />);
 }
 
 describe("DailyFlightsList", () => {
@@ -60,6 +60,21 @@ describe("DailyFlightsList", () => {
     renderList([]);
     expect(screen.getByText("No flights yet")).toBeInTheDocument();
     expect(screen.queryByRole("table")).not.toBeInTheDocument();
+    expect(screen.queryByText("FAI triangle")).not.toBeInTheDocument();
+  });
+
+  it("leaves out the start time", () => {
+    renderList();
+    expect(screen.queryByText(/12:53|17:08/)).not.toBeInTheDocument();
+  });
+
+  it("explains the flight type icons in a legend", () => {
+    renderList();
+    for (const name of ["free flight", "flat triangle", "FAI triangle"]) {
+      expect(screen.getByText(name)).toBeInTheDocument();
+    }
+    // The legend's icons are decorative, their names are written next to them
+    expect(screen.queryAllByRole("img", { name: "FAI triangle" })).toHaveLength(0);
   });
 
   describe("table (sm and up)", () => {
@@ -76,11 +91,10 @@ describe("DailyFlightsList", () => {
       expect(second).toHaveTextContent("Dragos Jarca");
     });
 
-    it("links the start time to the flight and the names to their pages", () => {
+    it("links the pilot name to the flight and the takeoff to its page", () => {
       renderList();
       const row = within(rows()[0]);
-      expect(row.getByRole("link", { name: "12:53" })).toHaveAttribute("href", "/flights/7013523-emil-burzo-ignis");
-      expect(row.getByRole("link", { name: "Emil Burzo" })).toHaveAttribute("href", "/pilots/emilburzo");
+      expect(row.getByRole("link", { name: "Emil Burzo" })).toHaveAttribute("href", "/flights/7013523-emil-burzo-ignis");
       expect(row.getByRole("link", { name: "Ignis" })).toHaveAttribute("href", "/takeoffs/77-ignis");
     });
 
@@ -100,15 +114,74 @@ describe("DailyFlightsList", () => {
     it("shows a dash for flights without a takeoff", () => {
       renderList();
       const cells = within(rows()[1]).getAllByRole("cell");
-      expect(cells[3]).toHaveTextContent(/^-$/);
+      expect(cells[2]).toHaveTextContent(/^-$/);
     });
 
-    it("shows the flight type in the UI language whichever league named it", () => {
+    it("shows the flight type as an icon named in the UI language, whichever league named it", () => {
       renderList();
       const [first, second] = rows();
-      expect(first).toHaveTextContent("flat triangle");
+      const icon = within(first).getByRole("img", { name: "flat triangle" });
+      expect(icon).toHaveAttribute("title", "flat triangle");
       expect(first).not.toHaveTextContent("triunghi plat");
-      expect(second).toHaveTextContent("free flight");
+      expect(within(second).getByRole("img", { name: "free flight" })).toBeInTheDocument();
+    });
+
+    describe("sorting", () => {
+      function pilots() {
+        return rows().map((r) => within(r).getAllByRole("cell")[1].textContent);
+      }
+
+      async function sortBy(name: RegExp) {
+        await userEvent.setup().click(screen.getByRole("columnheader", { name }));
+      }
+
+      it("starts with the best score", () => {
+        renderList();
+        expect(screen.getByRole("columnheader", { name: /Score/ })).toHaveTextContent("Score ↓");
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+      });
+
+      it("sorts number columns highest first, and reverses on a second click", async () => {
+        renderList();
+        await sortBy(/Distance/);
+        expect(pilots()).toEqual(["Dragos Jarca", "Emil Burzo"]);
+        expect(screen.getByRole("columnheader", { name: /Distance/ })).toHaveTextContent("Distance ↓");
+
+        await sortBy(/Distance/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+        expect(screen.getByRole("columnheader", { name: /Distance/ })).toHaveTextContent("Distance ↑");
+      });
+
+      it("sorts text columns A to Z first", async () => {
+        renderList();
+        await sortBy(/Pilot/);
+        expect(pilots()).toEqual(["Dragos Jarca", "Emil Burzo"]);
+      });
+
+      it("keeps flights without a takeoff last in both directions", async () => {
+        renderList([flights[1], flights[0]]);
+        await sortBy(/Takeoff/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+        await sortBy(/Takeoff/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+      });
+
+      it("puts triangles before free flights", async () => {
+        renderList([flights[1], flights[0]]);
+        await sortBy(/Type/);
+        expect(pilots()).toEqual(["Emil Burzo", "Dragos Jarca"]);
+      });
+
+      it("numbers the rows in the new order, and sorts the phone list the same way", async () => {
+        renderList();
+        await sortBy(/Duration/);
+        await sortBy(/Duration/);
+        const [first] = rows();
+        expect(within(first).getAllByRole("cell")[0]).toHaveTextContent("1");
+        expect(first).toHaveTextContent("Dragos Jarca");
+        const [firstEntry] = within(screen.getByRole("list")).getAllByRole("listitem");
+        expect(firstEntry).toHaveTextContent(/^1Dragos Jarca/);
+      });
     });
 
     it("shows unknown flight types as they are", () => {
@@ -155,18 +228,25 @@ describe("DailyFlightsList", () => {
       expect(entry.getAllByRole("link")).toHaveLength(2);
     });
 
-    it("summarizes takeoff, time, type, glider, score and duration", () => {
+    it("puts the takeoff next to the pilot and the wing on the line below", () => {
       renderList();
-      const first = items()[0];
-      expect(first).toHaveTextContent("Ignis");
-      expect(first).toHaveTextContent("12:53 · flat triangle · Ozone Swift 6Z");
-      expect(first).toHaveTextContent("11.0 km");
-      expect(first).toHaveTextContent("15.4 pts · 1h 29m");
+      const [pilotLine, wingLine] = items()[0].querySelectorAll(".flex-1 > div");
+      expect(pilotLine).toHaveTextContent(/^Emil BurzoIgnis$/);
+      expect(wingLine).toHaveTextContent(/^Ozone Swift 6Z$/);
     });
 
-    it("leaves the takeoff out when there is none", () => {
+    it("shows the flight type next to the distance, then points and duration", () => {
       renderList();
-      expect(items()[1]).not.toHaveTextContent("-");
+      const [distanceLine, scoreLine] = items()[0].querySelectorAll(".text-right > div");
+      expect(distanceLine).toHaveTextContent(/^11.0 km$/);
+      expect(within(distanceLine as HTMLElement).getByRole("img", { name: "flat triangle" })).toBeInTheDocument();
+      expect(scoreLine).toHaveTextContent(/^15.4 pts · 1h 29m$/);
+    });
+
+    it("shows just the pilot when there is no takeoff", () => {
+      renderList();
+      const pilotLine = items()[1].querySelector(".flex-1 > div");
+      expect(pilotLine).toHaveTextContent(/^Dragos Jarca$/);
     });
   });
 });

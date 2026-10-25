@@ -89,10 +89,8 @@ export default async function DailyPage({ searchParams }: { searchParams: Search
 
       <DailyFlightsList
         flights={flights}
-        locale={locale}
         emptyText={isToday ? t("noFlightsToday") : t("noFlights")}
         labels={{
-          time: t("time"),
           pilot: t("pilot"),
           takeoff: t("takeoff"),
           glider: t("glider"),

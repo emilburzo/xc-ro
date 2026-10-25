@@ -22,6 +22,18 @@ test.describe("Daily page", () => {
     await expect(page).toHaveScreenshot("daily.png", { fullPage: true });
   });
 
+  test("sorts the table by a column", async ({ page, isMobile }) => {
+    test.skip(isMobile, "phones get a list without column headers");
+    await page.goto("/daily?date=2022-07-08");
+    const pilots = page.locator("tbody tr td:nth-child(2)");
+    await expect(pilots).toHaveText(["Ion Popescu", "Elena Dragomir"]);
+    // Retry the click in case it lands before hydration
+    await expect(async () => {
+      await page.getByRole("columnheader", { name: /^Pilot/ }).click();
+      await expect(pilots).toHaveText(["Elena Dragomir", "Ion Popescu"], { timeout: 1_000 });
+    }).toPass({ timeout: 15_000 });
+  });
+
   test("today without flights points to the latest flying day", async ({ page }) => {
     // The server's "today" is the real date, past the newest seed flight (2025-07-10)
     await page.goto("/daily");

@@ -156,6 +156,7 @@ src/
 │   ├── WingDetailCharts.tsx # Orchestrator for wing detail charts
 │   ├── FlightsExplorer.tsx # Client-side filters/pagination/sorting
 │   ├── DailyFlightsList.tsx # Day's flights: compact list on phones, table from `sm` up
+│   ├── FlightTypeIcon.tsx  # Route type icon: wavy arrow (free), △ (flat), ▲ (FAI); tooltip = localized name
 │   ├── __tests__/          # Jest unit tests for components
 │   └── charts/
 │       ├── MonthlyBarChart.tsx
