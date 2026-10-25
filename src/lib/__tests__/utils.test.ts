@@ -4,6 +4,7 @@ import {
   takeoffPath,
   pilotPath,
   flightPath,
+  dailyPath,
   similarFlightsPath,
   formatDuration,
   formatDistance,
@@ -11,6 +12,10 @@ import {
   formatDate,
   formatTime,
   relativeTime,
+  todayInRomania,
+  parseDay,
+  formatDay,
+  flightTypeKey,
 } from "../utils";
 
 describe("removeDiacritics", () => {
@@ -112,6 +117,16 @@ describe("flightPath", () => {
 
   it("avoids leading hyphen when pilot name is empty but takeoff is valid", () => {
     expect(flightPath(123, "!!!", "Bunloc")).toBe("/flights/123-bunloc");
+  });
+});
+
+describe("dailyPath", () => {
+  it("links to today without a date", () => {
+    expect(dailyPath()).toBe("/daily");
+  });
+
+  it("links to a specific day", () => {
+    expect(dailyPath("2022-07-08")).toBe("/daily?date=2022-07-08");
   });
 });
 
@@ -302,5 +317,96 @@ describe("relativeTime", () => {
   it("returns Romanian years", () => {
     const twoYearsAgo = new Date(FIXED_NOW - 730 * 24 * 60 * 60 * 1000);
     expect(relativeTime(twoYearsAgo, "ro")).toBe("acum 2 ani");
+  });
+});
+
+describe("todayInRomania", () => {
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("is already the next day in Romania late in the UTC evening (summer, UTC+3)", () => {
+    expect(todayInRomania(new Date("2026-10-24T20:59:59Z"))).toBe("2026-10-24");
+    expect(todayInRomania(new Date("2026-10-24T21:00:00Z"))).toBe("2026-10-25");
+  });
+
+  it("uses UTC+2 in winter", () => {
+    expect(todayInRomania(new Date("2026-01-15T21:59:59Z"))).toBe("2026-01-15");
+    expect(todayInRomania(new Date("2026-01-15T22:00:00Z"))).toBe("2026-01-16");
+  });
+
+  it("zero-pads month and day", () => {
+    expect(todayInRomania(new Date("2026-03-05T12:00:00Z"))).toBe("2026-03-05");
+  });
+
+  it("defaults to the current time", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2025-07-10T22:30:00Z"));
+    expect(todayInRomania()).toBe("2025-07-11");
+  });
+});
+
+describe("parseDay", () => {
+  it("accepts a valid YYYY-MM-DD date", () => {
+    expect(parseDay("2022-07-08")).toBe("2022-07-08");
+  });
+
+  it("accepts Feb 29 in a leap year", () => {
+    expect(parseDay("2024-02-29")).toBe("2024-02-29");
+  });
+
+  it.each([
+    ["missing", undefined],
+    ["empty", ""],
+    ["unpadded", "2022-7-8"],
+    ["with a time", "2022-07-08T10:00"],
+    ["not a date", "yesterday"],
+    ["impossible day", "2022-02-30"],
+    ["Feb 29 outside a leap year", "2023-02-29"],
+    ["month 13", "2022-13-01"],
+    ["day 0", "2022-07-00"],
+  ])("rejects %s", (_label, value) => {
+    expect(parseDay(value)).toBeNull();
+  });
+});
+
+describe("formatDay", () => {
+  const FULL: Intl.DateTimeFormatOptions = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+
+  it("formats a day in Romanian", () => {
+    expect(formatDay("2022-07-08", "ro", FULL)).toBe("vineri, 8 iulie 2022");
+  });
+
+  it("formats a day in English", () => {
+    expect(formatDay("2022-07-08", "en", FULL)).toBe("Friday, July 8, 2022");
+  });
+
+  it("supports short formats", () => {
+    const short: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short" };
+    expect(formatDay("2026-10-24", "ro", short)).toBe("sâm., 24 oct.");
+    expect(formatDay("2026-10-24", "en", short)).toBe("Sat, Oct 24");
+  });
+
+  it("keeps the first and last day of the year intact", () => {
+    const opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
+    expect(formatDay("2026-01-01", "en", opts)).toBe("January 1, 2026");
+    expect(formatDay("2025-12-31", "en", opts)).toBe("December 31, 2025");
+  });
+});
+
+describe("flightTypeKey", () => {
+  it.each([
+    ["zbor liber", "free"],
+    ["free flight", "free"],
+    ["triunghi FAI", "fai"],
+    ["FAI triangle", "fai"],
+    ["triunghi plat", "flat"],
+    ["flat triangle", "flat"],
+  ])("maps %s to %s", (type, key) => {
+    expect(flightTypeKey(type)).toBe(key);
+  });
+
+  it("returns null for unknown types", () => {
+    expect(flightTypeKey("out and return")).toBeNull();
   });
 });

@@ -50,6 +50,7 @@ WHERE glider_id NOT IN (SELECT id FROM gliders WHERE category IN ('HG', 'RW2', '
 CREATE INDEX IF NOT EXISTS flights_takeoff_id ON flights(takeoff_id);
 CREATE INDEX IF NOT EXISTS flights_pilot_id ON flights(pilot_id);
 CREATE INDEX IF NOT EXISTS flights_glider_id ON flights(glider_id);
+CREATE INDEX IF NOT EXISTS flights_start_time ON flights(start_time);
 
 -- ============ MATERIALIZED VIEWS ============
 CREATE MATERIALIZED VIEW IF NOT EXISTS pilot_dna_mv AS

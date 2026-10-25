@@ -5,6 +5,7 @@ Mobile-first web application exploring ~73 000 paragliding flights scraped from 
 ## Features
 
 - **Home dashboard** — aggregate stats, recent notable flights, season heatmap, top takeoffs & pilots
+- **Today's flights** — the day's flights in Romania ranked by score, from both the XContest Romania and World leagues, with day-by-day navigation
 - **Takeoffs** — sortable/filterable list with smart tags, interactive Leaflet map, per-takeoff detail pages with charts (monthly, hourly, day-of-week, distance histogram, wing donut, yearly trend)
 - **Pilots** — searchable list, per-pilot detail pages with career timeline, site map, equipment progression, and top flights
 - **Wings** — searchable/sortable wing database with category filters, per-wing detail pages with adoption curve, distance histogram, yearly stats, favorite takeoffs, and top flights
@@ -76,6 +77,7 @@ src/
 │   ├── pilots/         # Pilots list & detail
 │   ├── wings/          # Wings list & detail
 │   ├── flights/        # Flights explorer
+│   ├── daily/          # Today's flights
 │   └── records/        # Records & fun stats
 ├── components/         # React components (charts, maps, tables)
 │   └── __tests__/      # Jest unit tests for components

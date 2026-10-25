@@ -3,12 +3,7 @@ import { sql } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import type { FlightRow } from "../types";
 import { TWO_HOURS } from "../cache-ttl";
-
-const FLIGHT_TYPE_MAPPING: Record<string, string[]> = {
-  free: ["free flight", "zbor liber"],
-  fai: ["FAI triangle", "triunghi FAI"],
-  flat: ["flat triangle", "triunghi plat"],
-};
+import { FLIGHT_TYPE_MAPPING, type FlightTypeKey } from "../utils";
 
 export interface FlightFilters {
   pilotSearch?: string;
@@ -65,7 +60,7 @@ function buildFlightWhereClause(filters: FlightFilters) {
     conditions.push(sql`f.distance_km <= ${filters.distMax}`);
   }
   if (filters.flightType) {
-    const variants = FLIGHT_TYPE_MAPPING[filters.flightType];
+    const variants = FLIGHT_TYPE_MAPPING[filters.flightType as FlightTypeKey];
     if (variants) {
       conditions.push(sql`(f.type = ${variants[0]} OR f.type = ${variants[1]})`);
     } else {

@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "daily": "Today",
     "takeoffs": "Takeoffs",
     "pilots": "Pilots",
     "flights": "Flights",
@@ -211,6 +212,30 @@
     "viewMoreSimilar": "View more comparable flights",
     "startLocation": "Start Location"
   },
+  "daily": {
+    "titleToday": "Today's flights",
+    "title": "Flights on {date}",
+    "today": "Today",
+    "flightCount": "{count, plural, one {# flight} other {# flights}}",
+    "pilotCount": "{count, plural, one {# pilot} other {# pilots}}",
+    "noFlightsToday": "No flights uploaded yet today.",
+    "noFlights": "No flights on this day.",
+    "sourcesNote": "Flights in Romania registered in either XContest Romania or XContest World. New flights show up a few minutes after they are uploaded.",
+    "time": "Time",
+    "pilot": "Pilot",
+    "takeoff": "Takeoff",
+    "glider": "Glider",
+    "type": "Type",
+    "distance": "Distance",
+    "score": "Score",
+    "duration": "Duration",
+    "points": "pts",
+    "xcontest": "XContest",
+    "viewOnXContest": "View flight on XContest",
+    "freeFlight": "free flight",
+    "faiTriangle": "FAI triangle",
+    "flatTriangle": "flat triangle"
+  },
   "records": {
     "title": "Records & Stats",
     "allTime": "All-Time Records",
@@ -312,6 +337,7 @@
     "pilotsDescription": "Discover paragliding pilots from Romania. View flight statistics, personal records, career timelines, and rankings.",
     "wingsDescription": "Compare paragliding wings used in Romania. Flight counts, distance records, average speed, and performance by category.",
     "flightsDescription": "Search and filter paragliding flights from Romania. Sort by date, distance, score, or duration. View today's flights, top 100, and more.",
+    "dailyDescription": "Today's paragliding flights in Romania, ranked by score. Includes flights from both XContest Romania and XContest World.",
     "recordsDescription": "Paragliding records in Romania. All-time records, annual records by year, category records, and fun statistics.",
     "takeoffDetailDescription": "{name} — paragliding takeoff site in Romania. Flight statistics, seasonality charts, top flights, wing classes, and activity trends.",
     "pilotDetailDescription": "{name} — paragliding pilot profile. Flight statistics, career evolution, equipment history, site map, and pilot DNA analysis.",

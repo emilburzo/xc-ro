@@ -9,6 +9,42 @@ test.describe("Home page", () => {
   });
 });
 
+test.describe("Daily page", () => {
+  test("matches visual snapshot", async ({ page }) => {
+    // 2022-07-08: Ion Popescu (Bunloc) and Elena Dragomir (Sticlaria) both flew 300 km+
+    await page.goto("/daily?date=2022-07-08");
+    await expect(page.locator("h1")).toHaveText("Zborurile din 8 iulie 2022");
+    await expect(page).toHaveTitle("Zborurile din 8 iulie 2022 | XC-RO");
+    await expect(page.getByRole("link", { name: "Vezi zborul pe XContest" }).first()).toHaveAttribute(
+      "href",
+      "https://xcontest.org/flight/1",
+    );
+    await expect(page).toHaveScreenshot("daily.png", { fullPage: true });
+  });
+
+  test("today without flights points to the latest flying day", async ({ page }) => {
+    // The server's "today" is the real date, past the newest seed flight (2025-07-10)
+    await page.goto("/daily");
+    await expect(page.locator("h1")).toHaveText("Zborurile de azi");
+    await expect(page.getByText("Încă niciun zbor încărcat azi.")).toBeVisible();
+    await expect(page.getByRole("link", { name: /10 iul\./ })).toHaveAttribute("href", "/daily?date=2025-07-10");
+  });
+
+  test("steps between days with flights", async ({ page }) => {
+    await page.goto("/daily?date=2022-07-08");
+    await page.getByRole("link", { name: /15 iul\./ }).click();
+    await expect(page).toHaveURL(/\/daily\?date=2022-07-15$/);
+    await expect(page.locator("h1")).toHaveText("Zborurile din 15 iulie 2022");
+
+    await page.getByRole("link", { name: /8 iul\./ }).click();
+    await expect(page).toHaveURL(/\/daily\?date=2022-07-08$/);
+
+    await page.getByRole("link", { name: "Azi", exact: true }).last().click();
+    await expect(page).toHaveURL(/\/daily$/);
+    await expect(page.locator("h1")).toHaveText("Zborurile de azi");
+  });
+});
+
 test.describe("Takeoffs page", () => {
   test("matches visual snapshot", async ({ page }) => {
     await page.goto("/takeoffs");

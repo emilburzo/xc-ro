@@ -17,6 +17,16 @@ test.describe("Navigation", () => {
   });
 });
 
+test.describe("Today link", () => {
+  test("opens today's flights", async ({ page, isMobile }) => {
+    await page.goto("/");
+    if (isMobile) await page.getByRole("button", { name: /menu/i }).click();
+    await page.getByRole("navigation").getByRole("link", { name: "Azi", exact: true }).click();
+    await expect(page).toHaveURL(/\/daily$/);
+    await expect(page.locator("h1")).toHaveText("Zborurile de azi");
+  });
+});
+
 test.describe("Language toggle", () => {
   test("switches to English", async ({ page }) => {
     await page.goto("/");

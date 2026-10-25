@@ -8,6 +8,7 @@ jest.mock("next-intl", () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       home: "Home",
+      daily: "Today",
       takeoffs: "Takeoffs",
       pilots: "Pilots",
       flights: "Flights",
@@ -47,6 +48,7 @@ describe("Nav", () => {
     render(<Nav />);
     // Mobile menu is hidden by default, only desktop links show
     expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("Today")).toBeInTheDocument();
     expect(screen.getByText("Takeoffs")).toBeInTheDocument();
     expect(screen.getByText("Pilots")).toBeInTheDocument();
     expect(screen.getByText("Flights")).toBeInTheDocument();
@@ -58,6 +60,7 @@ describe("Nav", () => {
     const links = screen.getAllByRole("link");
     const hrefs = links.map((l) => l.getAttribute("href"));
     expect(hrefs).toContain("/");
+    expect(hrefs).toContain("/daily");
     expect(hrefs).toContain("/takeoffs");
     expect(hrefs).toContain("/pilots");
     expect(hrefs).toContain("/flights");

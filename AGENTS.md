@@ -46,6 +46,7 @@ Dev server runs on port 3000 by default. Use `--port 8000` to match Vagrantfile 
 
 ### Data lifecycle
 - The database is **continuously updated by an external scraper** that writes to the four application tables. This is a working copy of that dataset.
+- The scraper polls both the **XContest Romania league** and the **World league** (filtered to Romanian takeoffs) every few minutes. Many pilots now only register in the World league, so both matter. A flight is stored once, keyed by its XContest id; `flights.url` points at whichever league it was scraped from (`/romania/zboruri/...` or `/world/en/flights/...`).
 - **Do NOT rename or drop existing tables** — the scraper depends on them.
 - Creating new tables, views, indexes, etc. is fine.
 
@@ -96,7 +97,8 @@ When adding new database objects (tables, views, indexes, materialized views):
 - `flights.takeoff_id` is the only nullable FK
 - Geography columns (`centroid`, `start_point`) are NOT in the Drizzle schema — read with `ST_X(centroid::geometry)` / `ST_Y(centroid::geometry)` in raw SQL
 - All FKs use `ON UPDATE RESTRICT ON DELETE RESTRICT`
-- Flight types include both Romanian and English: `zbor liber`, `triunghi FAI`, `triunghi plat`, `free flight`, `FAI triangle`, `flat triangle`
+- Flight types include both Romanian and English: `zbor liber`, `triunghi FAI`, `triunghi plat`, `free flight`, `FAI triangle`, `flat triangle` (the Romania league names them in Romanian, the World league in English). `FLIGHT_TYPE_MAPPING` / `flightTypeKey()` in `utils.ts` normalize them
+- `flights.start_time` is a `timestamp` (no time zone) holding **Romanian wall-clock time**, so `start_time::date` is the flight's day in Romania. Use `todayInRomania()` from `utils.ts` for "today", not the server's UTC date
 
 ### Key data characteristics
 - 60% of flights from just 10 takeoffs (Bunloc alone = 20%)
@@ -137,6 +139,7 @@ src/
 │   │   ├── page.tsx        # Wings list
 │   │   └── [id]/page.tsx   # Wing detail
 │   ├── flights/page.tsx    # Flights explorer
+│   ├── daily/page.tsx      # Today's flights (or ?date=YYYY-MM-DD), ranked by score
 │   └── records/page.tsx    # Records & fun stats
 ├── components/
 │   ├── Nav.tsx             # Responsive nav with mobile hamburger
@@ -152,6 +155,7 @@ src/
 │   ├── WingsTable.tsx      # Client-side sortable/filterable wings table
 │   ├── WingDetailCharts.tsx # Orchestrator for wing detail charts
 │   ├── FlightsExplorer.tsx # Client-side filters/pagination/sorting
+│   ├── DailyFlightsList.tsx # Day's flights: compact list on phones, table from `sm` up
 │   ├── __tests__/          # Jest unit tests for components
 │   └── charts/
 │       ├── MonthlyBarChart.tsx
@@ -178,9 +182,10 @@ src/
 │   │   ├── wings.ts         # Wing queries + cached wrappers
 │   │   ├── records.ts       # Records queries + cached wrappers
 │   │   ├── flights.ts       # Flights queries + cached wrappers
+│   │   ├── daily.ts         # Daily flights + adjacent flying days (uncached)
 │   │   ├── health.ts        # Health check query
 │   │   └── sitemap.ts       # Sitemap queries
-│   ├── utils.ts             # slugify, takeoffPath, wingPath, pilotPath, formatDuration, formatDistance, formatNumber, formatDate, relativeTime, removeDiacritics
+│   ├── utils.ts             # slugify, takeoffPath, wingPath, pilotPath, dailyPath, formatDuration, formatDistance, formatNumber, formatDate, formatDay, relativeTime, removeDiacritics, todayInRomania, parseDay, flightTypeKey
 │   └── __tests__/           # Jest unit tests (e.g. utils.test.ts)
 ├── i18n/
 │   └── request.ts          # next-intl config (cookie-based locale)
@@ -206,6 +211,7 @@ playwright.config.ts         # Playwright configuration
 - **Wings**: `/wings/[id]-[slug]` — same ID-prefix pattern as takeoffs
 - **Pilots**: `/pilots/[username]` — usernames are unique and URL-safe
 - **Flights**: `/flights` with query params for filters/presets/pagination
+- **Daily**: `/daily` for today, `/daily?date=YYYY-MM-DD` for another day (Romanian calendar days; malformed or future dates fall back to today)
 - **All paths in English** regardless of UI language
 
 ## Patterns & Conventions
@@ -256,6 +262,7 @@ Database query results are cached using Next.js `unstable_cache` from `next/cach
 - `getFlightsList()` / `getFlightsChartData()` — dynamic filters + pagination make the cache key space too large
 - `getById()` functions (`getTakeoffById`, `getPilotByUsername`, `getWingById`, `getFlightById`) — already request-deduplicated via React `cache()`, simple SELECTs
 - Health check and sitemap queries — trivial
+- `getDailyFlights()` / `getAdjacentFlightDays()` — the daily page should show flights minutes after the scraper stores them, and `unstable_cache` keeps serving an expired entry until a request revalidates it in the background, so on a quiet site "today" could be hours old. Both are cheap lookups on the `start_time` index
 
 **Adding caching to a new query:**
 1. Import `unstable_cache` from `next/cache` and the appropriate TTL from `../cache-ttl`

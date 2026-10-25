@@ -1,5 +1,436 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`Snapshot: DailyFlightsList matches snapshot 1`] = `
+<div
+  class="bg-white rounded-lg border border-gray-200 p-4"
+>
+  <ol
+    class="sm:hidden divide-y divide-gray-100"
+  >
+    <li
+      class="flex gap-2 py-2"
+    >
+      <span
+        class="w-6 shrink-0 text-sm text-gray-500"
+      >
+        1
+      </span>
+      <div
+        class="min-w-0 flex-1"
+      >
+        <div
+          class="flex flex-wrap items-baseline gap-x-2"
+        >
+          <a
+            class="font-medium text-sm text-blue-600 hover:underline"
+            href="/flights/1001-ion-popescu-sticlaria"
+          >
+            Ion Popescu
+          </a>
+          <span
+            class="text-xs text-gray-500"
+          >
+            Sticlaria
+          </span>
+        </div>
+        <div
+          class="text-xs text-gray-500"
+        >
+          10:00
+           · 
+          FAI triangle
+           · 
+          Advance Omega X-Alps 4
+          <span
+            class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
+          >
+            D
+          </span>
+        </div>
+      </div>
+      <div
+        class="shrink-0 text-right"
+      >
+        <div
+          class="font-bold text-sm"
+        >
+          312.5
+           km
+        </div>
+        <div
+          class="text-xs text-gray-500 whitespace-nowrap"
+        >
+          420.5
+           
+          pts
+           · 
+          8h 0m
+        </div>
+      </div>
+      <a
+        aria-label="View flight on XContest"
+        class="inline-flex rounded text-gray-500 hover:text-blue-600 hover:bg-gray-100 shrink-0 self-center p-2 -mr-2"
+        href="https://xcontest.org/flight/1001"
+        rel="noopener noreferrer"
+        target="_blank"
+        title="View flight on XContest"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </li>
+    <li
+      class="flex gap-2 py-2"
+    >
+      <span
+        class="w-6 shrink-0 text-sm text-gray-500"
+      >
+        2
+      </span>
+      <div
+        class="min-w-0 flex-1"
+      >
+        <div
+          class="flex flex-wrap items-baseline gap-x-2"
+        >
+          <a
+            class="font-medium text-sm text-blue-600 hover:underline"
+            href="/flights/1002-maria-ionescu"
+          >
+            Maria Ionescu
+          </a>
+        </div>
+        <div
+          class="text-xs text-gray-500"
+        >
+          09:30
+           · 
+          free flight
+           · 
+          Nova Mentor 7
+          <span
+            class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
+          >
+            B
+          </span>
+        </div>
+      </div>
+      <div
+        class="shrink-0 text-right"
+      >
+        <div
+          class="font-bold text-sm"
+        >
+          45.3
+           km
+        </div>
+        <div
+          class="text-xs text-gray-500 whitespace-nowrap"
+        >
+          52.1
+           
+          pts
+           · 
+          3h 0m
+        </div>
+      </div>
+      <a
+        aria-label="View flight on XContest"
+        class="inline-flex rounded text-gray-500 hover:text-blue-600 hover:bg-gray-100 shrink-0 self-center p-2 -mr-2"
+        href="https://xcontest.org/flight/1002"
+        rel="noopener noreferrer"
+        target="_blank"
+        title="View flight on XContest"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </li>
+  </ol>
+  <div
+    class="hidden sm:block overflow-x-auto"
+  >
+    <table
+      class="w-full text-sm"
+    >
+      <thead
+        class="border-b border-gray-200"
+      >
+        <tr>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
+          >
+            #
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
+          >
+            Time
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
+          >
+            Pilot
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
+          >
+            Takeoff
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
+          >
+            Glider
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-left"
+          >
+            Type
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-right"
+          >
+            Distance
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-right"
+          >
+            Score
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-right"
+          >
+            Duration
+          </th>
+          <th
+            class="px-2 py-2 text-xs font-medium text-gray-500 text-center"
+          >
+            XContest
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-gray-100"
+      >
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2 text-gray-500"
+          >
+            1
+          </td>
+          <td
+            class="px-2 py-2 whitespace-nowrap"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/flights/1001-ion-popescu-sticlaria"
+            >
+              10:00
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/pilots/ion.popescu"
+            >
+              Ion Popescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/takeoffs/2-sticlaria"
+            >
+              Sticlaria
+            </a>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            Advance Omega X-Alps 4
+            <span
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
+            >
+              D
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            FAI triangle
+          </td>
+          <td
+            class="px-2 py-2 font-medium text-right whitespace-nowrap"
+          >
+            312.5
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            420.5
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-right whitespace-nowrap"
+          >
+            8h 0m
+          </td>
+          <td
+            class="px-2 py-1 text-center"
+          >
+            <a
+              aria-label="View flight on XContest"
+              class="inline-flex rounded text-gray-500 hover:text-blue-600 hover:bg-gray-100 p-1 align-middle"
+              href="https://xcontest.org/flight/1001"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="View flight on XContest"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </td>
+        </tr>
+        <tr
+          class="hover:bg-gray-50"
+        >
+          <td
+            class="px-2 py-2 text-gray-500"
+          >
+            2
+          </td>
+          <td
+            class="px-2 py-2 whitespace-nowrap"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/flights/1002-maria-ionescu"
+            >
+              09:30
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            <a
+              class="text-blue-600 hover:underline"
+              href="/pilots/maria.ionescu"
+            >
+              Maria Ionescu
+            </a>
+          </td>
+          <td
+            class="px-2 py-2"
+          >
+            -
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700"
+          >
+            Nova Mentor 7
+            <span
+              class="ml-1 px-1 py-0.5 bg-gray-100 rounded-sm text-[10px]"
+            >
+              B
+            </span>
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-xs"
+          >
+            free flight
+          </td>
+          <td
+            class="px-2 py-2 font-medium text-right whitespace-nowrap"
+          >
+            45.3
+             km
+          </td>
+          <td
+            class="px-2 py-2 text-gray-700 text-right"
+          >
+            52.1
+          </td>
+          <td
+            class="px-2 py-2 text-gray-500 text-right whitespace-nowrap"
+          >
+            3h 0m
+          </td>
+          <td
+            class="px-2 py-1 text-center"
+          >
+            <a
+              aria-label="View flight on XContest"
+              class="inline-flex rounded text-gray-500 hover:text-blue-600 hover:bg-gray-100 p-1 align-middle"
+              href="https://xcontest.org/flight/1002"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="View flight on XContest"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
 exports[`Snapshot: FlightsExplorer matches snapshot 1`] = `
 <div
   class="bg-white rounded-lg border border-gray-200 p-4 space-y-4"

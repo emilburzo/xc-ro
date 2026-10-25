@@ -6,6 +6,7 @@ import FlightsExplorer from "../FlightsExplorer";
 import WingsTable from "../WingsTable";
 import PilotFlightsTable from "../PilotFlightsTable";
 import TakeoffFlightsTable from "../TakeoffFlightsTable";
+import DailyFlightsList from "../DailyFlightsList";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
@@ -413,6 +414,66 @@ describe("Snapshot: TakeoffFlightsTable", () => {
           distance: "Distance",
           score: "Score",
           airtime: "Airtime",
+        }}
+      />
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+});
+
+const mockDailyFlights = [
+  {
+    id: 1001,
+    start_time: "2025-07-08 10:00:00",
+    distance_km: 312.5,
+    score: 420.5,
+    airtime: 480,
+    type: "triunghi FAI",
+    url: "https://xcontest.org/flight/1001",
+    pilot_name: "Ion Popescu",
+    pilot_username: "ion.popescu",
+    takeoff_id: 2,
+    takeoff_name: "Sticlaria",
+    glider_name: "Advance Omega X-Alps 4",
+    glider_category: "D",
+  },
+  {
+    id: 1002,
+    start_time: "2025-07-08 09:30:00",
+    distance_km: 45.3,
+    score: 52.1,
+    airtime: 180,
+    type: "free flight",
+    url: "https://xcontest.org/flight/1002",
+    pilot_name: "Maria Ionescu",
+    pilot_username: "maria.ionescu",
+    takeoff_id: null,
+    takeoff_name: null,
+    glider_name: "Nova Mentor 7",
+    glider_category: "B",
+  },
+];
+
+describe("Snapshot: DailyFlightsList", () => {
+  it("matches snapshot", () => {
+    const { container } = render(
+      <DailyFlightsList
+        flights={mockDailyFlights}
+        locale="ro"
+        emptyText="No flights on this day."
+        labels={{
+          time: "Time",
+          pilot: "Pilot",
+          takeoff: "Takeoff",
+          glider: "Glider",
+          type: "Type",
+          distance: "Distance",
+          score: "Score",
+          duration: "Duration",
+          points: "pts",
+          xcontest: "XContest",
+          viewOnXContest: "View flight on XContest",
+          types: { free: "free flight", fai: "FAI triangle", flat: "flat triangle" },
         }}
       />
     );
