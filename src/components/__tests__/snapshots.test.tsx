@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import Nav from "../Nav";
 import SeasonHeatmap from "../SeasonHeatmap";
 import FlightsChartStrip from "../FlightsChartStrip";
+import FlightTypeIcon from "../FlightTypeIcon";
 
 // Mock next-intl
 jest.mock("next-intl", () => ({
@@ -128,5 +129,12 @@ describe("Snapshot: FlightsChartStrip", () => {
       />
     );
     expect(container.firstChild).toBeNull();
+  });
+});
+
+describe("Snapshot: FlightTypeIcon", () => {
+  it.each(["free", "flat", "fai"] as const)("matches snapshot for %s", (type) => {
+    const { container } = render(<FlightTypeIcon type={type} label={type} />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

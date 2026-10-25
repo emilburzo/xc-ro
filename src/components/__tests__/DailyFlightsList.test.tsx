@@ -60,6 +60,16 @@ describe("DailyFlightsList", () => {
     renderList([]);
     expect(screen.getByText("No flights yet")).toBeInTheDocument();
     expect(screen.queryByRole("table")).not.toBeInTheDocument();
+    expect(screen.queryByText("FAI triangle")).not.toBeInTheDocument();
+  });
+
+  it("explains the flight type icons in a legend", () => {
+    renderList();
+    for (const name of ["free flight", "flat triangle", "FAI triangle"]) {
+      expect(screen.getByText(name)).toBeInTheDocument();
+    }
+    // The legend's icons are decorative, their names are written next to them
+    expect(screen.queryAllByRole("img", { name: "FAI triangle" })).toHaveLength(0);
   });
 
   describe("table (sm and up)", () => {
@@ -103,12 +113,13 @@ describe("DailyFlightsList", () => {
       expect(cells[3]).toHaveTextContent(/^-$/);
     });
 
-    it("shows the flight type in the UI language whichever league named it", () => {
+    it("shows the flight type as an icon named in the UI language, whichever league named it", () => {
       renderList();
       const [first, second] = rows();
-      expect(first).toHaveTextContent("flat triangle");
+      const icon = within(first).getByRole("img", { name: "flat triangle" });
+      expect(icon).toHaveAttribute("title", "flat triangle");
       expect(first).not.toHaveTextContent("triunghi plat");
-      expect(second).toHaveTextContent("free flight");
+      expect(within(second).getByRole("img", { name: "free flight" })).toBeInTheDocument();
     });
 
     it("shows unknown flight types as they are", () => {
@@ -159,7 +170,8 @@ describe("DailyFlightsList", () => {
       renderList();
       const first = items()[0];
       expect(first).toHaveTextContent("Ignis");
-      expect(first).toHaveTextContent("12:53 · flat triangle · Ozone Swift 6Z");
+      expect(first).toHaveTextContent("12:53 · · Ozone Swift 6Z");
+      expect(within(first).getByRole("img", { name: "flat triangle" })).toBeInTheDocument();
       expect(first).toHaveTextContent("11.0 km");
       expect(first).toHaveTextContent("15.4 pts · 1h 29m");
     });

@@ -1,5 +1,74 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`Snapshot: FlightTypeIcon matches snapshot for fai 1`] = `
+<span
+  aria-label="fai"
+  class="inline-flex align-middle"
+  role="img"
+  title="fai"
+>
+  <svg
+    class="w-4 h-4"
+    fill="currentColor"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M12 4.5 20.5 19h-17Z"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Snapshot: FlightTypeIcon matches snapshot for flat 1`] = `
+<span
+  aria-label="flat"
+  class="inline-flex align-middle"
+  role="img"
+  title="flat"
+>
+  <svg
+    class="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M12 4.5 20.5 19h-17Z"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Snapshot: FlightTypeIcon matches snapshot for free 1`] = `
+<span
+  aria-label="free"
+  class="inline-flex align-middle"
+  role="img"
+  title="free"
+>
+  <svg
+    class="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M2 12c1.7-5 3.3-5 5 0s3.3 5 5 0 3.3-5 5 0h4m-3-3 3 3-3 3"
+    />
+  </svg>
+</span>
+`;
+
 exports[`Snapshot: FlightsChartStrip matches snapshot with data 1`] = `
 <div
   class="bg-white rounded-lg border border-gray-200 p-4"
