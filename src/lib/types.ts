@@ -10,3 +10,11 @@ export interface FlightRow {
   glider_name: string;
   glider_category: string;
 }
+
+/** Row shape returned by getDailyFlights and consumed by DailyFlightsList. */
+export interface DailyFlightRow extends FlightRow {
+  type: string;
+  url: string;
+  takeoff_id: number | null;
+  takeoff_name: string | null;
+}

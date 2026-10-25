@@ -33,13 +33,14 @@ describe("sitemap route", () => {
 
     const result = await sitemap();
 
-    // 6 static pages + 1 takeoff + 1 pilot + 1 wing = 9
-    expect(result).toHaveLength(9);
+    // 7 static pages + 1 takeoff + 1 pilot + 1 wing = 10
+    expect(result).toHaveLength(10);
 
     const urls = result.map((entry) => entry.url);
 
     // Static pages
     expect(urls).toContain("https://xc-ro.emilburzo.com");
+    expect(urls).toContain("https://xc-ro.emilburzo.com/daily");
     expect(urls).toContain("https://xc-ro.emilburzo.com/takeoffs");
     expect(urls).toContain("https://xc-ro.emilburzo.com/pilots");
     expect(urls).toContain("https://xc-ro.emilburzo.com/wings");
@@ -65,8 +66,8 @@ describe("sitemap route", () => {
 
     const result = await sitemap();
 
-    // Only the 6 static pages
-    expect(result).toHaveLength(6);
+    // Only the 7 static pages
+    expect(result).toHaveLength(7);
 
     const urls = result.map((entry) => entry.url);
     expect(urls).toContain("https://xc-ro.emilburzo.com");

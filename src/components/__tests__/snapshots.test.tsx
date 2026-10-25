@@ -10,6 +10,7 @@ jest.mock("next-intl", () => ({
     const maps: Record<string, Record<string, string>> = {
       nav: {
         home: "Home",
+        daily: "Today",
         takeoffs: "Takeoffs",
         pilots: "Pilots",
         flights: "Flights",

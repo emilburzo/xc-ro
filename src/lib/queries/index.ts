@@ -5,3 +5,4 @@ export * from "./wings";
 export * from "./flights";
 export * from "./records";
 export * from "./health";
+export * from "./daily";

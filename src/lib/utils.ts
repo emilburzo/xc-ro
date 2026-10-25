@@ -40,6 +40,10 @@ export function flightPath(id: number, pilotName: string, takeoffName?: string |
   return slug ? `/flights/${id}-${slug}` : `/flights/${id}`;
 }
 
+export function dailyPath(day?: string): string {
+  return day ? `/daily?date=${day}` : "/daily";
+}
+
 export function similarFlightsPath(takeoffName: string, distanceKm: number): string {
   const distMin = distanceKm * 0.8;
   const distMax = distanceKm * 1.2;
@@ -78,6 +82,53 @@ export function formatTime(date: string | Date, locale: string): string {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+// The scraper stores `start_time` as Romanian wall-clock time, so a flight's
+// calendar day is its day in Bucharest
+const RO_TIME_ZONE = "Europe/Bucharest";
+
+/** Today's date in Romania, as `YYYY-MM-DD`. */
+export function todayInRomania(now: Date = new Date()): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: RO_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const { year, month, day } = Object.fromEntries(parts.map((p) => [p.type, p.value]));
+  return `${year}-${month}-${day}`;
+}
+
+/** Returns `value` if it is a real `YYYY-MM-DD` calendar date, otherwise null. */
+export function parseDay(value: string | undefined): string | null {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const [y, m, d] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d));
+  const valid = date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
+  return valid ? value : null;
+}
+
+/** Formats a `YYYY-MM-DD` calendar day without shifting it through the runtime's time zone. */
+export function formatDay(day: string, locale: string, options: Intl.DateTimeFormatOptions): string {
+  const [y, m, d] = day.split("-").map(Number);
+  return new Intl.DateTimeFormat(locale === "ro" ? "ro-RO" : "en-US", { ...options, timeZone: "UTC" })
+    .format(new Date(Date.UTC(y, m - 1, d)));
+}
+
+export type FlightTypeKey = "free" | "fai" | "flat";
+
+// The Romania league names flight types in Romanian, the world league in English
+export const FLIGHT_TYPE_MAPPING: Record<FlightTypeKey, string[]> = {
+  free: ["free flight", "zbor liber"],
+  fai: ["FAI triangle", "triunghi FAI"],
+  flat: ["flat triangle", "triunghi plat"],
+};
+
+export function flightTypeKey(type: string): FlightTypeKey | null {
+  const match = (Object.entries(FLIGHT_TYPE_MAPPING) as [FlightTypeKey, string[]][])
+    .find(([, variants]) => variants.includes(type));
+  return match ? match[0] : null;
 }
 
 export function relativeTime(date: Date, locale: string): string {
