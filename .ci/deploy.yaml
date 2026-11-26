@@ -26,9 +26,16 @@ spec:
                   optional: false
           ports:
             - containerPort: 3000
+          # Keep serving until the ingress has dropped this pod's endpoint; without
+          # it, a rollout answers some requests with a 502 or a 504.
+          lifecycle:
+            preStop:
+              sleep:
+                seconds: 5
+          # /api/health queries the database: readiness only, as a restart can't fix the database
           livenessProbe:
             httpGet:
-              path: /api/health
+              path: /api/live
               port: 3000
             initialDelaySeconds: 10
             periodSeconds: 30
